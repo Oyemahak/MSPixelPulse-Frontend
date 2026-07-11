@@ -82,7 +82,19 @@ export default function ProjectDetail() {
           </div>
 
           <div className={isDark ? "overflow-hidden rounded-2xl border border-white/10 bg-white/[0.045]" : "overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm"}>
-            <img src={project.thumb} alt={`${project.title} website screenshot`} className="aspect-[16/10] w-full object-cover" />
+            <img
+              src={project.thumb}
+              alt={project.imageAlt || `${project.title} website screenshot`}
+              className="aspect-[16/10] w-full object-cover"
+              width="1440"
+              height="900"
+              onError={(event) => {
+                if (!event.currentTarget.dataset.fallback) {
+                  event.currentTarget.dataset.fallback = "true";
+                  event.currentTarget.src = "/projects/project-fallback.svg";
+                }
+              }}
+            />
           </div>
         </div>
 

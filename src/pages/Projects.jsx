@@ -1,6 +1,5 @@
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import Container from "../components/layout/Container.jsx";
 import Meta from "../components/Meta.jsx";
 import { publishedProjects } from "../data/projects.js";
 import { useTheme } from "@/lib/theme.js";
@@ -40,9 +39,17 @@ function ProjectCard({ project, isDark }) {
         <div className="aspect-[16/10] overflow-hidden bg-black/20">
           <img
             src={project.thumb}
-            alt={`${project.title} website preview`}
+            alt={project.imageAlt || `${project.title} website preview`}
             className="h-full w-full object-cover transition duration-300 group-hover:scale-105"
             loading="lazy"
+            width="1440"
+            height="900"
+            onError={(event) => {
+              if (!event.currentTarget.dataset.fallback) {
+                event.currentTarget.dataset.fallback = "true";
+                event.currentTarget.src = "/projects/project-fallback.svg";
+              }
+            }}
           />
         </div>
       </Link>
@@ -166,44 +173,44 @@ export default function Projects() {
   }
 
   return (
-    <section className="section">
+    <section className="section overflow-x-hidden">
       <Meta
         title="Portfolio Projects — MSPixelPulse"
         description="Explore live MSPixelPulse website work and clearly labeled agency demo websites by industry, platform, and website type."
       />
 
-      <Container>
-        <div className="max-w-3xl">
+      <div className="mx-auto w-[calc(100vw-2rem)] max-w-7xl sm:w-auto sm:px-6 lg:px-8">
+        <div className="max-w-[20rem] min-w-0 sm:max-w-3xl">
           <div className={isDark ? "badge mb-4" : "mb-4 inline-flex rounded-full bg-blue-50 px-3 py-1 text-xs font-bold text-blue-700"}>
             <LuSparkles className="h-4 w-4" /> Portfolio
           </div>
-          <h1 className={isDark ? "text-4xl font-black md:text-5xl" : "text-4xl font-black text-slate-950 md:text-5xl"}>
+          <h1 className={isDark ? "max-w-full break-words text-3xl font-black leading-tight sm:text-4xl md:text-5xl" : "max-w-full break-words text-3xl font-black leading-tight text-slate-950 sm:text-4xl md:text-5xl"}>
             Website work, organized by what is live and what is a demo.
           </h1>
-          <p className={isDark ? "mt-4 text-lg leading-8 text-textSub" : "mt-4 text-lg leading-8 text-slate-600"}>
+          <p className={isDark ? "mt-4 max-w-full break-words text-base leading-7 text-textSub sm:text-lg sm:leading-8" : "mt-4 max-w-full break-words text-base leading-7 text-slate-600 sm:text-lg sm:leading-8"}>
             Live work is separated from MSPixelPulse demo and concept projects, so every card is clear about what it represents.
           </p>
         </div>
 
-        <div className={isDark ? "mt-8 rounded-2xl border border-white/10 bg-white/[0.045] p-4" : "mt-8 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm"}>
-          <div className="grid gap-3 lg:grid-cols-[1.4fr_1fr_1fr_1fr_auto]">
-            <label className="relative">
+        <div className={isDark ? "mt-8 w-full max-w-[calc(100vw-2rem)] rounded-2xl border border-white/10 bg-white/[0.045] p-4" : "mt-8 w-full max-w-[calc(100vw-2rem)] rounded-2xl border border-slate-200 bg-white p-4 shadow-sm"}>
+          <div className="grid min-w-0 gap-3 lg:grid-cols-[1.4fr_1fr_1fr_1fr_auto]">
+            <label className="relative min-w-0">
               <span className="sr-only">Search projects</span>
               <LuSearch className="pointer-events-none absolute left-3 top-3.5 h-4 w-4 opacity-60" />
               <input
                 value={query}
                 onChange={(event) => setQuery(event.target.value)}
                 placeholder="Search by industry, platform, service..."
-                className="pl-10"
+                className="min-w-0 pl-10"
               />
             </label>
-            <select value={industry} onChange={(event) => setIndustry(event.target.value)} aria-label="Filter by industry">
+            <select className="min-w-0" value={industry} onChange={(event) => setIndustry(event.target.value)} aria-label="Filter by industry">
               {industries.map((item) => <option key={item}>{item}</option>)}
             </select>
-            <select value={type} onChange={(event) => setType(event.target.value)} aria-label="Filter by website type">
+            <select className="min-w-0" value={type} onChange={(event) => setType(event.target.value)} aria-label="Filter by website type">
               {websiteTypes.map((item) => <option key={item}>{item}</option>)}
             </select>
-            <select value={classification} onChange={(event) => setClassification(event.target.value)} aria-label="Filter by classification">
+            <select className="min-w-0" value={classification} onChange={(event) => setClassification(event.target.value)} aria-label="Filter by classification">
               <option>{allOption}</option>
               <option value="live">Live</option>
               <option value="demo">Demo</option>
@@ -250,7 +257,7 @@ export default function Projects() {
             </button>
           </div>
         )}
-      </Container>
+      </div>
     </section>
   );
 }

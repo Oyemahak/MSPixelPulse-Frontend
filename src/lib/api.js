@@ -5,10 +5,13 @@
 // 2) Else: in dev -> http://localhost:4000/api
 // 3) Else: in prod -> same-origin "/api" (works on Vercel if you ever proxy)
 const IS_DEV = import.meta.env?.DEV === true;
-export const API_BASE = (
-  import.meta.env?.VITE_API_BASE?.replace(/\/$/, "") ||
-  (IS_DEV ? "http://localhost:4000/api" : "/api")
-);
+const configuredBase = import.meta.env?.VITE_API_BASE?.trim().replace(/\/+$/, "");
+
+if (!IS_DEV && !configuredBase) {
+  throw new Error("VITE_API_BASE is required in production");
+}
+
+export const API_BASE = configuredBase || "http://localhost:4000/api";
 
 /** Resolve the API root (without /api) for /health pings */
 function apiRoot() {

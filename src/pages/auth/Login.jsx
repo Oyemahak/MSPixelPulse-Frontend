@@ -10,19 +10,19 @@ const TABS = [
     key: "client",
     label: "Client",
     email: "client@mspixel.pulse",
-    password: "client",
+    password: import.meta.env.DEV ? "client" : "",
   },
   {
     key: "developer",
     label: "Developer",
     email: "dev@mspixel.pulse",
-    password: "developer",
+    password: import.meta.env.DEV ? "developer" : "",
   },
   {
     key: "admin",
     label: "Admin",
     email: "admin@mspixel.pulse",
-    password: "admin",
+    password: import.meta.env.DEV ? "admin" : "",
   },
 ];
 
@@ -60,7 +60,7 @@ export default function Login() {
   }, []);
 
   function fillDemo() {
-    if (!active) return;
+    if (!active || !import.meta.env.DEV) return;
     setEmail(active.email);
     setPassword(active.password);
   }
@@ -224,17 +224,19 @@ export default function Login() {
               {loading ? "Logging in…" : "Login"}
             </button>
 
-            <button
-              type="button"
-              onClick={fillDemo}
-              className={
-                isDark
-                  ? "text-sm underline underline-offset-2 opacity-90 hover:opacity-100"
-                  : "text-sm text-slate-700 underline underline-offset-2 hover:text-slate-900"
-              }
-            >
-              Use test creds
-            </button>
+            {import.meta.env.DEV && (
+              <button
+                type="button"
+                onClick={fillDemo}
+                className={
+                  isDark
+                    ? "text-sm underline underline-offset-2 opacity-90 hover:opacity-100"
+                    : "text-sm text-slate-700 underline underline-offset-2 hover:text-slate-900"
+                }
+              >
+                Use test creds
+              </button>
+            )}
           </div>
 
           {/* Helper */}

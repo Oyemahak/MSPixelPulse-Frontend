@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { admin } from "@/lib/api.js";
 
-const SUPER_EMAIL = "admin@mspixel.plus"; // UI safety
+const SUPER_EMAIL = "admin@mspixel.pulse"; // UI safety
 
 export default function UserDetail() {
   const nav = useNavigate();

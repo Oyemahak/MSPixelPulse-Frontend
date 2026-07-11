@@ -1,79 +1,156 @@
-# Capstone Frontend – MSPixelPulse
+# Capstone Frontend - MSPixelPulse
 
-This repository contains the **frontend** for the Capstone project **MSPixelPulse**, a full-stack platform for project management and client communication. The frontend is designed as a professional marketing website combined with a secure portal for Admins, Developers, and Clients.
+React/Vite frontend for the MSPixelPulse capstone platform. It includes the public marketing site plus role-based portals for admins, clients, and developers.
 
----
+## Architecture
 
-## Overview
-The frontend was built using **React (with Vite)** and styled with **TailwindCSS**. It serves two main purposes:
+- Vercel hosts the React frontend.
+- Render hosts the Express backend.
+- MongoDB Atlas is the primary database for users, authentication data, and business data.
+- Supabase is file storage only.
+- Authentication is custom JWT auth through the backend.
 
-1. **Public Website**
-   - Home, Projects, Services, Pricing, Contact
-   - Pricing page with a “Get Started” button that redirects users to the Register page
-   - Contact form for inquiries
+Production API base:
 
-2. **Secure Portal**
-   - Registration with role selection (Client, Developer, Admin)
-   - Login and logout
-   - Admin dashboard to approve or reject new users
-   - Project management features with CRUD operations
-
----
-
-## Key Features
-- **Responsive design** – works on desktop and mobile
-- **Role-based access** – different experiences for clients, developers, and admins
-- **Registration workflow** – users register and remain in “pending” status until approved
-- **Admin tools** – manage users, approvals, and projects
-- **Projects module** – create and assign projects with status (draft, active, completed)
-
----
-
-## Tech Stack
-- **React + Vite**
-- **React Router**
-- **TailwindCSS**
-- **Axios** for API requests
-- **Vercel** for deployment
-
----
-
-## Getting Started
-
-### 1. Clone the repository
-```bash
-git clone https://github.com/Oyemahak/Capstone-Frontend.git
-cd Capstone-Frontend
+```text
+https://capstone-backend-o3o2.onrender.com/api
 ```
-### 2. Install dependencies
+
+## Stack
+
+- React
+- Vite
+- React Router
+- Tailwind CSS
+- Framer Motion
+- Lucide React
+
+## Folder Structure
+
+- `src/App.jsx` - route map and protected role routing
+- `src/context/AuthContext.jsx` - session state and login/logout helpers
+- `src/lib/api.js` - centralized backend API client
+- `src/pages/` - public pages and auth views
+- `src/portals/` - admin, client, and developer portal screens
+- `src/components/` - layout, UI, auth, and shared components
+- `api/` - Vercel serverless handlers for contact/feedback
+
+## Installation
+
 ```bash
 npm install
+cp .env.example .env
+npm run dev
 ```
-### 3. Configure environment variables
-Create a .env file in the root with:
-```bash
-# Local development
-VITE_API_BASE=http://localhost:4000/api
 
-# Production backend (Render)
+Local dev server:
+
+```text
+http://localhost:5173
+```
+
+## Environment Variables
+
+Development example:
+
+```text
+VITE_API_BASE=http://localhost:5000/api
+VITE_SUPABASE_URL=https://PROJECT_REF.supabase.co
+VITE_SUPABASE_ANON_KEY=replace-with-public-anon-key
+VITE_SUPABASE_BUCKET=uploads
+VITE_SUPPORT_EMAIL=admin@mspixel.pulse
+```
+
+Production Vercel variable:
+
+```text
 VITE_API_BASE=https://capstone-backend-o3o2.onrender.com/api
 ```
-### 4. Run locally
+
+Never add backend-only secrets to Vercel frontend variables:
+
+- `MONGO_URI`
+- `JWT_SECRET`
+- `SUPABASE_SERVICE_ROLE_KEY`
+- `SMTP_PASS`
+
+## Development
+
 ```bash
 npm run dev
 ```
-Runs the frontend at http://localhost:5173.
 
-### 5. Build for production
+The app uses `VITE_API_BASE` when provided. In development only, it falls back to `http://localhost:4000/api` for compatibility with older local backend setups.
+
+## Production Build
+
+```bash
 npm run build
+```
 
----
+Production builds require `VITE_API_BASE`. This prevents accidental same-origin `/api` calls when the backend is hosted separately on Render.
 
-## Deployment
-The frontend is deployed on Vercel:
-👉 https://mspixelpulse.vercel.app
+## Vercel Deployment
 
----
+Vercel project:
 
-### Author
-Developed & Designed by Mahak Patel (@Oyemahak)
+```text
+capstone-frontend
+```
+
+Build settings:
+
+```text
+Framework: Vite
+Install Command: npm install
+Build Command: npm run build
+Output Directory: dist
+Root Directory: ./
+```
+
+## Authentication and Roles
+
+Login posts to:
+
+```text
+POST /api/auth/login
+```
+
+The backend validates MongoDB users, checks bcrypt passwords, issues JWTs, and returns a user role. The frontend redirects:
+
+- `admin` -> `/admin`
+- `developer` -> `/dev`
+- `client` -> `/client`
+
+Local demo emails:
+
+```text
+admin@mspixel.pulse
+client@mspixel.pulse
+dev@mspixel.pulse
+```
+
+Production builds do not expose demo password autofill.
+
+## Major Pages
+
+- Public: Home, Projects, Services, Pricing, Contact
+- Auth: Login, Register
+- Admin: Dashboard, users, approvals, projects, direct messages, billing, requirements
+- Client: Dashboard, projects, discussions, support, billing, account
+- Developer: Dashboard, projects, requirements, discussions, direct messages, team, account
+
+## Troubleshooting
+
+- Login network error: verify `VITE_API_BASE` and Render `/health`.
+- CORS error: confirm backend `CORS_ORIGIN` includes the deployed Vercel origin.
+- Invalid credentials: verify the MongoDB user exists and status is `active`.
+- Upload failures: check backend Supabase storage variables and `SUPABASE_BUCKET=uploads`.
+- Render cold start: wait and retry after health endpoints respond.
+
+## Security Notes
+
+- Do not commit `.env`.
+- Do not ship Supabase service role keys to the frontend.
+- Do not expose real production passwords in UI or docs.
+- Debug tooling is development-only on the frontend.

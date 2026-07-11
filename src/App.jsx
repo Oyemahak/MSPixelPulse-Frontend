@@ -24,7 +24,9 @@ const ClientPortal = lazy(() => import("@/portals/client/index.jsx"));
 const DevPortal = lazy(() => import("@/portals/dev/index.jsx"));
 
 /** Optional utilities */
-const DebugConnection = lazy(() => import("./pages/DebugConnection.jsx"));
+const DebugConnection = import.meta.env.DEV
+  ? lazy(() => import("./pages/DebugConnection.jsx"))
+  : null;
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -85,7 +87,9 @@ export default function App() {
               <Route path="/contact" element={<Contact />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
-              <Route path="/debug" element={<DebugConnection />} />
+              {import.meta.env.DEV && DebugConnection && (
+                <Route path="/debug" element={<DebugConnection />} />
+              )}
 
               {/* Admin */}
               <Route

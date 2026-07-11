@@ -13,7 +13,18 @@ export default function Contact() {
   const { theme } = useTheme();
   const isDark = theme === "dark";
 
-  const [form, setForm] = useState({ name: "", email: "", message: "" });
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    industry: "",
+    service: "",
+    websiteType: "",
+    projectKind: "New website",
+    budget: "",
+    timeline: "",
+    currentUrl: "",
+    message: "",
+  });
   const [submitting, setSubmitting] = useState(false);
   const [note, setNote] = useState("");
 
@@ -31,23 +42,46 @@ export default function Contact() {
     const message = form.message.trim();
 
     if (!name || !email || !message) {
-      setNote("Please fill out all fields.");
+      setNote("Please fill out your name, email, and project details.");
       return;
     }
+
+    const enrichedMessage = [
+      `Industry: ${form.industry || "Not specified"}`,
+      `Service needed: ${form.service || "Not specified"}`,
+      `Website type: ${form.websiteType || "Not specified"}`,
+      `Project type: ${form.projectKind || "Not specified"}`,
+      `Budget range: ${form.budget || "Not specified"}`,
+      `Timeline: ${form.timeline || "Not specified"}`,
+      `Current URL: ${form.currentUrl || "Not provided"}`,
+      "",
+      message,
+    ].join("\n");
 
     try {
       setSubmitting(true);
       const res = await fetch(`${FORMS_BASE}/contact`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, message }),
+        body: JSON.stringify({ name, email, message: enrichedMessage }),
       });
 
       const data = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error(data?.error || data?.message || "Failed to send");
 
       setNote("Thanks! Your message was sent. Please check your inbox.");
-      setForm({ name: "", email: "", message: "" });
+      setForm({
+        name: "",
+        email: "",
+        industry: "",
+        service: "",
+        websiteType: "",
+        projectKind: "New website",
+        budget: "",
+        timeline: "",
+        currentUrl: "",
+        message: "",
+      });
     } catch (err) {
       setNote(err.message || "Something went wrong. Please try again.");
     } finally {
@@ -95,6 +129,89 @@ export default function Contact() {
               aria-label="Email"
               required
             />
+            <div className="grid gap-3 sm:grid-cols-2">
+              <input
+                type="text"
+                className={isDark ? "w-full h-12 rounded-xl bg-white/5 border border-white/10 px-4" : "w-full h-12 rounded-xl bg-white border border-slate-200 px-4 text-slate-900"}
+                placeholder="Industry"
+                value={form.industry}
+                onChange={(e) => setForm((s) => ({ ...s, industry: e.target.value }))}
+                aria-label="Industry"
+              />
+              <select
+                className={isDark ? "w-full h-12 rounded-xl bg-white/5 border border-white/10 px-4" : "w-full h-12 rounded-xl bg-white border border-slate-200 px-4 text-slate-900"}
+                value={form.service}
+                onChange={(e) => setForm((s) => ({ ...s, service: e.target.value }))}
+                aria-label="Service needed"
+              >
+                <option value="">Service needed</option>
+                <option>New website design</option>
+                <option>Website redesign</option>
+                <option>E-commerce</option>
+                <option>SEO and content</option>
+                <option>Maintenance and care</option>
+              </select>
+            </div>
+            <div className="grid gap-3 sm:grid-cols-2">
+              <select
+                className={isDark ? "w-full h-12 rounded-xl bg-white/5 border border-white/10 px-4" : "w-full h-12 rounded-xl bg-white border border-slate-200 px-4 text-slate-900"}
+                value={form.websiteType}
+                onChange={(e) => setForm((s) => ({ ...s, websiteType: e.target.value }))}
+                aria-label="Website type"
+              >
+                <option value="">Website type</option>
+                <option>Business Website</option>
+                <option>E-commerce</option>
+                <option>Landing Page</option>
+                <option>Portfolio</option>
+                <option>Booking Website</option>
+                <option>Web Application</option>
+              </select>
+              <select
+                className={isDark ? "w-full h-12 rounded-xl bg-white/5 border border-white/10 px-4" : "w-full h-12 rounded-xl bg-white border border-slate-200 px-4 text-slate-900"}
+                value={form.projectKind}
+                onChange={(e) => setForm((s) => ({ ...s, projectKind: e.target.value }))}
+                aria-label="New website or redesign"
+              >
+                <option>New website</option>
+                <option>Redesign existing website</option>
+                <option>Improve existing website</option>
+              </select>
+            </div>
+            <div className="grid gap-3 sm:grid-cols-2">
+              <select
+                className={isDark ? "w-full h-12 rounded-xl bg-white/5 border border-white/10 px-4" : "w-full h-12 rounded-xl bg-white border border-slate-200 px-4 text-slate-900"}
+                value={form.budget}
+                onChange={(e) => setForm((s) => ({ ...s, budget: e.target.value }))}
+                aria-label="Budget range"
+              >
+                <option value="">Budget range</option>
+                <option>Under $2,000</option>
+                <option>$2,000 - $4,000</option>
+                <option>$4,000 - $8,000</option>
+                <option>$8,000+</option>
+              </select>
+              <select
+                className={isDark ? "w-full h-12 rounded-xl bg-white/5 border border-white/10 px-4" : "w-full h-12 rounded-xl bg-white border border-slate-200 px-4 text-slate-900"}
+                value={form.timeline}
+                onChange={(e) => setForm((s) => ({ ...s, timeline: e.target.value }))}
+                aria-label="Timeline"
+              >
+                <option value="">Timeline</option>
+                <option>ASAP</option>
+                <option>2-4 weeks</option>
+                <option>1-2 months</option>
+                <option>Flexible</option>
+              </select>
+            </div>
+            <input
+              type="url"
+              className={isDark ? "w-full h-12 rounded-xl bg-white/5 border border-white/10 px-4" : "w-full h-12 rounded-xl bg-white border border-slate-200 px-4 text-slate-900"}
+              placeholder="Current website URL, if any"
+              value={form.currentUrl}
+              onChange={(e) => setForm((s) => ({ ...s, currentUrl: e.target.value }))}
+              aria-label="Current website URL"
+            />
             <textarea
               rows={6}
               className={
@@ -102,7 +219,7 @@ export default function Contact() {
                   ? "w-full rounded-xl bg-white/5 border border-white/10 px-4 py-3"
                   : "w-full rounded-xl bg-white border border-slate-200 px-4 py-3 text-slate-900"
               }
-              placeholder="Your message"
+              placeholder="Tell us what you want the website to do"
               value={form.message}
               onChange={(e) => setForm((s) => ({ ...s, message: e.target.value }))}
               aria-label="Your message"

@@ -15,8 +15,22 @@ export default function CookieBanner() {
     setVisible(window.localStorage.getItem(CONSENT_KEY) !== "accepted");
   }, []);
 
+  useEffect(() => {
+    if (!visible) return undefined;
+
+    const timer = window.setTimeout(() => {
+      setVisible(false);
+    }, 9000);
+
+    return () => window.clearTimeout(timer);
+  }, [visible]);
+
   const accept = () => {
     window.localStorage.setItem(CONSENT_KEY, "accepted");
+    setVisible(false);
+  };
+
+  const dismiss = () => {
     setVisible(false);
   };
 
@@ -45,7 +59,7 @@ export default function CookieBanner() {
           Got it
         </button>
       </div>
-      <button type="button" className="cookie-close" onClick={accept} aria-label="Close cookie notice">
+      <button type="button" className="cookie-close" onClick={dismiss} aria-label="Close cookie notice">
         <LuX className="h-4 w-4" />
       </button>
     </section>

@@ -1,4 +1,12 @@
-import { LuArrowUpRight, LuCircleCheck, LuMessageSquare, LuShieldCheck } from "react-icons/lu";
+import {
+  LuArrowUpRight,
+  LuBadgeCheck,
+  LuCircleCheck,
+  LuHeartHandshake,
+  LuMessagesSquare,
+  LuShieldCheck,
+  LuSparkles,
+} from "react-icons/lu";
 import { Link } from "react-router-dom";
 import Container from "@/components/layout/Container.jsx";
 import Meta from "@/components/Meta.jsx";
@@ -42,10 +50,10 @@ export default function About() {
               About MSPixelPulse
             </p>
             <h1 className={isDark ? "text-4xl font-black leading-tight md:text-5xl" : "text-4xl font-black leading-tight text-slate-950 md:text-5xl"}>
-              Practical website strategy, design, and delivery for local businesses.
+              Let’s shake hands and make your website part of your business growth.
             </h1>
             <p className={`mt-5 max-w-2xl text-lg leading-8 ${muted}`}>
-              MSPixelPulse helps business owners turn scattered service details into a clear website experience: what you offer, why it matters, how to trust you, and how to contact you.
+              MSPixelPulse helps business owners turn scattered service details into a clear website experience: what you offer, why it matters, how customers can trust you, and how they can contact you without friction.
             </p>
             <div className="mt-7 flex flex-wrap gap-3">
               <Link className="btn btn-primary" to="/contact">
@@ -63,27 +71,37 @@ export default function About() {
             </div>
           </div>
 
-          <div className={`rounded-2xl border p-6 ${surface}`}>
-            <div className="flex items-center gap-3">
-              <span className="inline-grid h-12 w-12 place-items-center rounded-2xl bg-blue-600 text-white">
-                MP
-              </span>
-              <div>
-                <h2 className="text-xl font-black">Mahak Patel</h2>
-                <p className={`text-sm ${muted}`}>Founder, MSPixelPulse</p>
-              </div>
+          <div className={`about-founder-card rounded-2xl border ${surface}`}>
+            <div className="about-founder-photo-wrap">
+              <img
+                className="about-founder-photo"
+                src="/about/mahak-patel.jpg"
+                alt="Mahak Patel, founder of MSPixelPulse"
+                loading="eager"
+              />
             </div>
-            <p className={`mt-5 leading-7 ${muted}`}>
-              Mahak leads MSPixelPulse with a focus on honest project scoping, clean UX, accessible interfaces, and websites that owners can actually understand after launch.
-            </p>
+            <div className="p-5 md:p-6">
+              <div className="flex items-center gap-3">
+                <span className="inline-grid h-12 w-12 place-items-center rounded-2xl bg-blue-600 text-white">
+                  MP
+                </span>
+                <div>
+                  <h2 className="text-xl font-black">Mahak Patel</h2>
+                  <p className={`text-sm ${muted}`}>Founder, MSPixelPulse</p>
+                </div>
+              </div>
+              <p className={`mt-5 leading-7 ${muted}`}>
+                Mahak leads MSPixelPulse with a focus on honest project scoping, clean UX, accessible interfaces, and websites that owners can actually understand after launch.
+              </p>
+            </div>
           </div>
         </section>
 
         <section className="mt-12 grid gap-5 lg:grid-cols-3">
           <InfoCard
             dark={isDark}
-            icon={<LuMessageSquare className="h-6 w-6 text-blue-500" aria-hidden="true" />}
-            title="Who it helps"
+            icon={<LuHeartHandshake className="h-6 w-6 text-blue-500" aria-hidden="true" />}
+            title="Friendly strategy"
             items={helps}
           />
           <InfoCard
@@ -94,15 +112,46 @@ export default function About() {
           />
           <InfoCard
             dark={isDark}
-            icon={<LuShieldCheck className="h-6 w-6 text-blue-500" aria-hidden="true" />}
-            title="After launch"
+            icon={<LuMessagesSquare className="h-6 w-6 text-blue-500" aria-hidden="true" />}
+            title="Portal-backed handoff"
             items={[
-              "Maintenance and content updates when needed",
-              "Portal-based project communication",
+              "Private portal access when the project needs it",
+              "Files, notes, messages, and approvals kept together",
               "SEO-ready structure and practical page planning",
-              "Ongoing improvements without inflated claims",
+              "Maintenance and content updates without inflated claims",
             ]}
           />
+        </section>
+
+        <section className={`mt-12 rounded-2xl border p-6 md:p-8 ${surface}`}>
+          <div className="grid gap-5 md:grid-cols-3">
+            {[
+              {
+                icon: LuBadgeCheck,
+                title: "Affordable first step",
+                body: "We keep the first version focused on useful pages, clear CTAs, and launch readiness.",
+              },
+              {
+                icon: LuSparkles,
+                title: "Clean but not plain",
+                body: "The design should feel premium, modern, and easy to scan without overwhelming your customers.",
+              },
+              {
+                icon: LuShieldCheck,
+                title: "Trusted by clarity",
+                body: "Trust comes from accurate copy, visible contact paths, working forms, and honest project labels.",
+              },
+            ].map((item) => {
+              const Icon = item.icon;
+              return (
+                <article key={item.title} className="about-value-card">
+                  <Icon className="h-6 w-6 text-blue-500" aria-hidden="true" />
+                  <h2>{item.title}</h2>
+                  <p>{item.body}</p>
+                </article>
+              );
+            })}
+          </div>
         </section>
 
         <section className={`mt-12 rounded-2xl border p-6 md:p-8 ${surface}`}>
@@ -110,7 +159,7 @@ export default function About() {
             <div>
               <h2 className="text-2xl font-black">Need a cleaner business website?</h2>
               <p className={`mt-2 max-w-2xl leading-7 ${muted}`}>
-                Send a short note about your service, current website, and what needs to work better on mobile.
+                Send a short note about your service, current website, and what needs to work better on mobile. Let’s make MSPixelPulse a useful part of your business.
               </p>
             </div>
             <ContactActions

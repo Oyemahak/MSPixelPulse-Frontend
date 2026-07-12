@@ -21,7 +21,7 @@ import {
   LuLogOut,
   LuSun,
   LuMoon,
-  LuInfo,
+  LuHandshake,
 } from "react-icons/lu";
 import { SiWhatsapp } from "react-icons/si";
 import { site, whatsappUrl } from "@/data/site.js";
@@ -140,7 +140,7 @@ export default function AppHeader() {
             <LuFolderOpen className="h-4 w-4" /> Projects
           </NavLink>
           <NavLink to="/about" className={linkClass}>
-            <LuInfo className="h-4 w-4" /> About
+            <LuHandshake className="h-4 w-4" /> About
           </NavLink>
           <NavLink to="/services" className={linkClass}>
             <LuWrench className="h-4 w-4" /> Services
@@ -343,10 +343,10 @@ export default function AppHeader() {
       <div
         className={[
           "xl:hidden pointer-events-auto overflow-hidden transition-[max-height,opacity] duration-300",
-          open ? "max-h-[480px] opacity-100" : "max-h-0 opacity-0",
+          open ? "max-h-[calc(100dvh-5.5rem)] opacity-100" : "max-h-0 opacity-0",
         ].join(" ")}
       >
-        <div className="container-edge pt-2 pb-4">
+        <div className="container-edge pt-2 pb-3">
           <div
             className={
               isDark
@@ -362,7 +362,7 @@ export default function AppHeader() {
                 <LuFolderOpen className="h-4 w-4 mr-2" /> Projects
               </MobileLink>
               <MobileLink to="/about" onClick={closeMobile} dark={isDark}>
-                <LuInfo className="h-4 w-4 mr-2" /> About
+                <LuHandshake className="h-4 w-4 mr-2" /> About
               </MobileLink>
               <MobileLink to="/services" onClick={closeMobile} dark={isDark}>
                 <LuWrench className="h-4 w-4 mr-2" /> Services
@@ -382,8 +382,8 @@ export default function AppHeader() {
                 onClick={toggleTheme}
                 className={
                   isDark
-                    ? "w-full mt-2 h-10 rounded-xl font-semibold inline-flex items-center justify-center gap-2 bg-white/5 hover:bg-white/10 text-white/85"
-                    : "w-full mt-2 h-10 rounded-xl font-semibold inline-flex items-center justify-center gap-2 bg-slate-100 hover:bg-slate-200 text-slate-800"
+                    ? "w-full mt-1.5 h-9 rounded-xl font-semibold inline-flex items-center justify-center gap-2 bg-white/5 hover:bg-white/10 text-white/85"
+                    : "w-full mt-1.5 h-9 rounded-xl font-semibold inline-flex items-center justify-center gap-2 bg-slate-100 hover:bg-slate-200 text-slate-800"
                 }
               >
                 {actualIsDark ? (
@@ -397,7 +397,7 @@ export default function AppHeader() {
                 )}
               </button>
 
-              <div className={isDark ? "h-px my-2 bg-white/10" : "h-px my-2 bg-slate-200"} />
+              <div className={isDark ? "h-px my-1.5 bg-white/10" : "h-px my-1.5 bg-slate-200"} />
 
               {!isAuthed ? (
                 <>
@@ -416,8 +416,8 @@ export default function AppHeader() {
                     onClick={closeMobile}
                     className={
                       isDark
-                        ? "mt-2 flex min-h-11 items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/[0.04] font-bold text-white/90"
-                        : "mt-2 flex min-h-11 items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white font-bold text-slate-800"
+                        ? "mt-1.5 flex min-h-10 items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/[0.04] font-bold text-white/90"
+                        : "mt-1.5 flex min-h-10 items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white font-bold text-slate-800"
                     }
                     aria-label={`Chat with MSPixelPulse on WhatsApp or call ${site.phoneDisplay}`}
                   >
@@ -460,8 +460,8 @@ export default function AppHeader() {
                     }}
                     className={
                       isDark
-                        ? "w-full mt-2 h-11 rounded-xl font-bold bg-primary hover:bg-primaryAccent text-white inline-flex items-center justify-center gap-2"
-                        : "w-full mt-2 h-11 rounded-xl font-bold bg-blue-600 hover:bg-blue-500 text-white inline-flex items-center justify-center gap-2"
+                        ? "w-full mt-1.5 h-10 rounded-xl font-bold bg-primary hover:bg-primaryAccent text-white inline-flex items-center justify-center gap-2"
+                        : "w-full mt-1.5 h-10 rounded-xl font-bold bg-blue-600 hover:bg-blue-500 text-white inline-flex items-center justify-center gap-2"
                     }
                   >
                     <LuLogOut className="h-4 w-4" /> Logout
@@ -503,7 +503,7 @@ function MobileLink({ to, end, onClick, children, dark }) {
       onClick={onClick}
       className={({ isActive }) =>
         [
-          "block w-full px-3 py-3 rounded-xl font-semibold transition-colors inline-flex items-center",
+          "block w-full px-3 py-2.5 rounded-xl font-semibold transition-colors inline-flex items-center",
           dark
             ? isActive
               ? "bg-white/10 text-white"
@@ -521,7 +521,7 @@ function MobileLink({ to, end, onClick, children, dark }) {
 
 function MobileCTA({ to, variant = "primary", onClick, children, dark }) {
   const base =
-    "w-full mt-2 h-11 rounded-xl font-bold inline-flex items-center justify-center gap-2 transition-colors";
+    "w-full mt-1.5 h-10 rounded-xl font-bold inline-flex items-center justify-center gap-2 transition-colors";
   let styles;
   if (variant === "primary") {
     styles = dark

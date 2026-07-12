@@ -1,14 +1,19 @@
 import { Link } from "react-router-dom";
 import {
   LuArrowRight,
+  LuBadgeCheck,
   LuBookOpen,
   LuBriefcaseBusiness,
   LuCircleCheck,
+  LuHandshake,
   LuLifeBuoy,
+  LuMessagesSquare,
+  LuMonitorSmartphone,
   LuRocket,
   LuSearch,
   LuShieldCheck,
   LuSmartphone,
+  LuSparkles,
 } from "react-icons/lu";
 import Container from "../components/layout/Container.jsx";
 import SectionTitle from "../components/SectionTitle.jsx";
@@ -57,10 +62,57 @@ export default function Home() {
   const isDark = theme === "dark";
   const liveProjects = projects.filter((project) => project.classification === "live").slice(0, 3);
   const conceptProjects = projects.filter((project) => project.classification !== "live").slice(0, 3);
+  const liveProjectCount = projects.filter((project) => project.classification === "live").length;
+  const conceptProjectCount = projects.filter((project) => project.classification !== "live").length;
+  const totalProjectCount = projects.length;
   const muted = isDark ? "text-textSub" : "text-slate-600";
   const surface = isDark
     ? "border-white/10 bg-white/[0.045] text-white"
     : "border-slate-200 bg-white text-slate-950 shadow-sm";
+  const proofStats = [
+    {
+      value: `${totalProjectCount}+`,
+      label: "portfolio examples",
+      note: "live work and concept builds listed for review",
+    },
+    {
+      value: `${liveProjectCount}`,
+      label: "live website entries",
+      note: "public business websites tracked in the portfolio",
+    },
+    {
+      value: `${conceptProjectCount}`,
+      label: "industry concepts",
+      note: "demo-safe sales assets for local business categories",
+    },
+    {
+      value: "1",
+      label: "portal workflow",
+      note: "project updates, files, messages, and handoff in one place",
+    },
+  ];
+  const differenceCards = [
+    {
+      icon: LuHandshake,
+      title: "Friendly, practical planning",
+      body: "Let’s shake hands, understand your business, and make the website feel useful from the first screen.",
+    },
+    {
+      icon: LuBadgeCheck,
+      title: "Affordable scope first",
+      body: "We start with the pages and contact paths your customers need most, then grow the site with clear priorities.",
+    },
+    {
+      icon: LuMessagesSquare,
+      title: "Portal-backed updates",
+      body: "Clients can use a private workspace for files, notes, approvals, and website update conversations.",
+    },
+    {
+      icon: LuMonitorSmartphone,
+      title: "Built for real phones",
+      body: "Navigation, spacing, buttons, forms, and content are reviewed on mobile because that is where trust often starts.",
+    },
+  ];
 
   return (
     <div className="relative">
@@ -81,7 +133,7 @@ export default function Home() {
                 Clean websites that make small businesses easier to trust.
               </h1>
               <p className={`mt-5 max-w-2xl text-lg leading-8 ${muted}`}>
-                We plan, design, build, and maintain practical websites for service businesses that need clear pages, strong mobile layouts, and direct contact paths.
+                We plan, design, build, and maintain practical websites for service businesses that need clear pages, strong mobile layouts, direct contact paths, and simple update workflows after launch.
               </p>
               <div className="mt-8 flex flex-wrap gap-3">
                 <Link className="btn btn-primary" to="/contact">
@@ -108,6 +160,7 @@ export default function Home() {
                   fetchPriority="high"
                 />
                 <div className="hero-photo-scrim" aria-hidden="true" />
+                <div className="hero-color-ribbon" aria-hidden="true" />
                 <div className="hero-photo-stack" aria-hidden="true">
                   <div className="hero-photo-stack-card">
                     <span className="hero-photo-line hero-photo-line-lg" />
@@ -118,6 +171,10 @@ export default function Home() {
                     <span className="hero-photo-line" />
                   </div>
                 </div>
+                <div className="hero-contact-bubble" aria-hidden="true">
+                  <span>New project note</span>
+                  <strong>Ready for contact</strong>
+                </div>
               </div>
               <div className="grid gap-3 p-4 sm:grid-cols-3 sm:p-5">
                 {["Website planning", "Responsive build", "Portal handoff"].map((item) => (
@@ -127,6 +184,22 @@ export default function Home() {
                 ))}
               </div>
             </figure>
+          </div>
+        </Container>
+      </section>
+
+      <section className="section py-8 md:py-10">
+        <Container>
+          <div className={isDark ? "home-proof-panel home-proof-panel-dark" : "home-proof-panel"}>
+            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+              {proofStats.map((stat) => (
+                <article key={stat.label} className="home-proof-stat">
+                  <strong>{stat.value}</strong>
+                  <span>{stat.label}</span>
+                  <p>{stat.note}</p>
+                </article>
+              ))}
+            </div>
           </div>
         </Container>
       </section>
@@ -144,6 +217,42 @@ export default function Home() {
                 </article>
               );
             })}
+          </div>
+        </Container>
+      </section>
+
+      <section className="section py-10 md:py-14">
+        <Container>
+          <div className="grid gap-8 lg:grid-cols-[0.88fr_1.12fr] lg:items-center">
+            <div>
+              <p className="mb-4 inline-flex rounded-full bg-amber-400/15 px-3 py-1 text-xs font-black uppercase tracking-wide text-amber-500">
+                Why we are different
+              </p>
+              <h2 className={isDark ? "text-3xl font-black leading-tight md:text-4xl" : "text-3xl font-black leading-tight text-slate-950 md:text-4xl"}>
+                Affordable website help that stays close to your business.
+              </h2>
+              <p className={`mt-4 max-w-xl leading-7 ${muted}`}>
+                You do not only get a few pages and a goodbye. We make MSPixelPulse a practical part of your business with clear planning, useful updates, mobile-first checks, and honest launch notes.
+              </p>
+              <Link className="mt-6 inline-flex items-center gap-2 font-black text-blue-500 hover:underline" to="/about">
+                Meet the agency
+                <LuArrowRight className="h-4 w-4" aria-hidden="true" />
+              </Link>
+            </div>
+            <div className="grid gap-4 sm:grid-cols-2">
+              {differenceCards.map((card) => {
+                const Icon = card.icon;
+                return (
+                  <article key={card.title} className={isDark ? "difference-card difference-card-dark" : "difference-card"}>
+                    <span className="difference-icon" aria-hidden="true">
+                      <Icon className="h-5 w-5" />
+                    </span>
+                    <h3>{card.title}</h3>
+                    <p>{card.body}</p>
+                  </article>
+                );
+              })}
+            </div>
           </div>
         </Container>
       </section>

@@ -5,43 +5,43 @@ import SectionTitle from "@/components/SectionTitle.jsx";
 import { FORMS_BASE } from "@/lib/forms.js";
 import { useTheme } from "@/lib/theme.js";
 
-/** Testimonials (you already had these) */
+/** Public proof notes, not invented testimonials. */
 const FALLBACK = [
   {
-    name: "Sukhdeep Brar",
-    business: "Owner, Aimze Studio (Salon & Spa)",
+    name: "Live website work",
+    business: "CanSTEM Education",
     message:
-      "Loved the clean booking experience and modern look — the site feels fast and easy for our clients.",
+      "A public school website entry listed for review with program-focused structure, admissions CTAs, and mobile-friendly content.",
   },
   {
-    name: "Sajjala Sankhe",
-    business: "Admin, CanSTEM Education",
+    name: "Live website work",
+    business: "Aimze Studio Salon & Spa",
     message:
-      "The site is clear, accessible, and simple for parents to navigate. Project delivery was smooth and on time.",
+      "A public salon website entry structured around services, appointment interest, and a clearer contact path.",
   },
   {
-    name: "Dazzling Smile Team",
-    business: "Dental Clinic",
+    name: "Website concept",
+    business: "Home Services",
     message:
-      "Professional and friendly from day one. Patients can find services quickly and contact us without friction.",
+      "A demo-safe local service concept built around quote CTAs, trust sections, and responsive customer flow.",
   },
   {
-    name: "Avery Thompson",
-    business: "Owner, Maple & Pine Studio (Canada)",
+    name: "Website concept",
+    business: "Flower Boutique",
     message:
-      "A polished build with great attention to detail. Performance and accessibility were genuinely impressive.",
+      "A polished storefront concept with product discovery, occasion landing pages, and order inquiry paths.",
   },
   {
-    name: "Rohit Sharma",
-    business: "Founder, PixelForge India",
+    name: "Website concept",
+    business: "Real Estate",
     message:
-      "Clear communication, quick iterations, and a premium UI. Exactly what our brand needed to stand out.",
+      "A premium real estate concept with buyer and seller CTAs, listing-style sections, and local trust signals.",
   },
   {
-    name: "Ananya Iyer",
-    business: "Marketing Lead, Trident Tech",
+    name: "Portal workflow",
+    business: "Client workspace",
     message:
-      "From kickoff to launch, everything was smooth. The CMS handoff made it simple for our team to manage.",
+      "Project rooms, files, approvals, messages, billing, and handoff notes can stay organized in one private workspace.",
   },
 ];
 
@@ -125,7 +125,7 @@ export default function Feedback() {
       <Container>
         <SectionTitle
           eyebrow="Feedback"
-          title={isDark ? "What clients say" : "What clients say"}
+          title="Project proof and review notes"
           centered
         />
 
@@ -198,30 +198,25 @@ export default function Feedback() {
                   </div>
                 </div>
 
-                {/* Stars */}
                 {isDark ? (
-                  <div className="stars" aria-hidden>
-                    ★★★★★
+                  <div className="inline-flex w-fit rounded-full border border-white/10 bg-white/10 px-3 py-1 text-xs font-bold text-white/70">
+                    Portfolio note
                   </div>
                 ) : (
-                  <div className="flex gap-1 text-amber-400 text-sm" aria-hidden>
-                    <span>★</span>
-                    <span>★</span>
-                    <span>★</span>
-                    <span>★</span>
-                    <span>★</span>
+                  <div className="inline-flex w-fit rounded-full border border-slate-200 bg-slate-100 px-3 py-1 text-xs font-bold text-slate-600">
+                    Portfolio note
                   </div>
                 )}
 
-                <blockquote
+                <p
                   className={
                     isDark
                       ? "review-quote mt-2"
                       : "mt-3 text-slate-600 text-sm leading-relaxed"
                   }
                 >
-                  “{t.message}”
-                </blockquote>
+                  {t.message}
+                </p>
               </figure>
             ))}
           </div>

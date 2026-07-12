@@ -33,10 +33,15 @@ export default function DevPortal() {
         {/* Direct messages */}
         <Route path="direct" element={<Direct />} />
         <Route path="direct/:peerId" element={<Direct />} />
+        <Route path="messages" element={<Direct />} />
+        <Route path="messages/:peerId" element={<Direct />} />
 
         {/* Team & Account */}
         <Route path="team" element={<Team />} />
         <Route path="my-account" element={<MyAccount />} />
+        <Route path="profile" element={<MyAccount />} />
+        <Route path="settings" element={<MyAccount />} />
+        <Route path="tasks" element={<Navigate to="projects" replace />} />
 
         {/* Fallback */}
         <Route path="*" element={<Navigate to="." replace />} />

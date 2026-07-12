@@ -43,8 +43,12 @@ export default function AdminPortal() {
 
         <Route path="direct" element={<DirectIndex />} />
         <Route path="direct/:peerId" element={<Direct />} />
+        <Route path="messages" element={<DirectIndex />} />
+        <Route path="messages/:peerId" element={<Direct />} />
 
         <Route path="my-account" element={<MyAccount />} />
+        <Route path="profile" element={<MyAccount />} />
+        <Route path="settings" element={<MyAccount />} />
 
         <Route path="*" element={<Navigate to="dashboard" replace />} />
       </Routes>

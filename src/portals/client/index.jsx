@@ -22,10 +22,14 @@ export default function ClientPortal() {
 
         <Route path="discussions" element={<Discussions />} />
         <Route path="discussions/:projectId" element={<Discussions />} />
+        <Route path="messages" element={<Discussions />} />
+        <Route path="messages/:projectId" element={<Discussions />} />
 
         <Route path="billing" element={<Billings />} />
         <Route path="support" element={<Support />} />
         <Route path="my-account" element={<MyAccount />} />
+        <Route path="profile" element={<MyAccount />} />
+        <Route path="settings" element={<MyAccount />} />
 
         <Route path="*" element={<Navigate to="." replace />} />
       </Routes>

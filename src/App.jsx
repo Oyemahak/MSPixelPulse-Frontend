@@ -71,12 +71,18 @@ function ProtectedLayout() {
 }
 
 export default function App() {
+  const { pathname } = useLocation();
+  const isPortalRoute =
+    pathname.startsWith("/admin") ||
+    pathname.startsWith("/client") ||
+    pathname.startsWith("/dev");
+
   return (
     <ThemeProvider>
       <div className="min-h-screen flex flex-col bg-transparent text-textMain">
-        <AppHeader />
+        {!isPortalRoute && <AppHeader />}
 
-        <main className="flex-1 pt-16">
+        <main className={isPortalRoute ? "flex-1" : "flex-1 pt-16"}>
           <ScrollToTop />
           <Suspense fallback={<PageFallback />}>
             <Routes>
@@ -134,7 +140,7 @@ export default function App() {
           </Suspense>
         </main>
 
-        <AppFooter />
+        {!isPortalRoute && <AppFooter />}
       </div>
     </ThemeProvider>
   );

@@ -158,9 +158,9 @@ export default function AdminProjectDetail() {
   }
 
   async function removeProject() {
-    if (!confirm("Delete this project?")) return;
+    if (!confirm("Archive this project? It will be hidden from the public portfolio but not deleted.")) return;
     try {
-      await api.remove(projectId);
+      await api.archive(projectId);
       window.location.assign("/admin/projects");
     } catch (e) {
       setErr(e.message);
@@ -203,7 +203,7 @@ export default function AdminProjectDetail() {
       <div className="page-header">
         <h2 className="page-title">Project · {project.title}</h2>
         <div className="flex items-center gap-2">
-          <button onClick={removeProject} className="btn btn-outline">Delete Project</button>
+          <button onClick={removeProject} className="btn btn-outline text-rose-300">Archive Project</button>
         </div>
       </div>
 

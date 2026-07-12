@@ -121,11 +121,16 @@ export const admin = {
 };
 
 export const projects = {
-  list: () => http("/projects"),
+  list: (params = {}) => http(`/projects${qs(params)}`),
   one: (id) => http(`/projects/${id}`),
   create: (payload) => http("/projects", { method: "POST", body: payload }),
   update: (id, payload) => http(`/projects/${id}`, { method: "PATCH", body: payload }),
   remove: (id) => http(`/projects/${id}`, { method: "DELETE" }),
+  archive: (id) => http(`/projects/${id}/archive`, { method: "PATCH" }),
+  publish: (id, published) =>
+    http(`/projects/${id}/publish`, { method: "PATCH", body: { published } }),
+  feature: (id, featured) =>
+    http(`/projects/${id}/feature`, { method: "PATCH", body: { featured } }),
 
   // Evidence: dedicated endpoint
   addEvidence: (id, entry) => http(`/projects/${id}/evidence`, { method: "POST", body: entry }),
@@ -239,6 +244,8 @@ export const invoices = {
 
 /* ---------- Users: profile (avatar) ---------- */
 export const users = {
+  me: () => http("/users/me"),
+  updateMe: (payload) => http("/users/me", { method: "PATCH", body: payload }),
   async uploadMyAvatar(file) {
     const token = getToken();
     const headers = token ? { Authorization: `Bearer ${token}` } : undefined;

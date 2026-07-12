@@ -8,9 +8,11 @@ function SectionTitle({
   align = "center",
   description,
   className = "",
+  as = "h2",
 }) {
   const { theme } = useTheme();
   const isDark = theme === "dark";
+  const Heading = as;
 
   // layout
   const wrapper =
@@ -27,13 +29,13 @@ function SectionTitle({
       ) : null}
 
       {title ? (
-        <h2
+        <Heading
           className={`mx-auto max-w-full break-words text-3xl md:text-4xl font-black tracking-tight ${
             isDark ? "text-white" : "text-slate-900"
           }`}
         >
           {title}
-        </h2>
+        </Heading>
       ) : null}
 
       {description ? (

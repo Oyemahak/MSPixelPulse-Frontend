@@ -13,8 +13,8 @@ export const blogPosts = [
     seoTitle: "Small Business Website Cost in Canada | MSPixelPulse",
     metaDescription:
       "Learn what affects small business website cost in Canada, including WordPress, React, e-commerce, redesigns, hosting, and maintenance.",
-    cover: "/blog/website-cost.svg",
-    coverAlt: "Illustration of a website project estimate with design and development cards",
+    cover: "/blog/small-business-website-cost-canada.webp",
+    coverAlt: "Editorial cover showing a laptop website estimate with pricing cards and Canadian small business planning cues",
     sections: [
       {
         heading: "There is no single fixed price",
@@ -47,8 +47,8 @@ export const blogPosts = [
     seoTitle: "WordPress vs React for Business Websites | MSPixelPulse",
     metaDescription:
       "Compare WordPress and React for small business websites, including editing, performance, custom features, maintenance, and growth needs.",
-    cover: "/blog/wordpress-vs-react.svg",
-    coverAlt: "Split interface comparing WordPress content editing and React custom interface design",
+    cover: "/blog/wordpress-vs-react.webp",
+    coverAlt: "Editorial cover comparing WordPress content editing and React custom interface planning",
     sections: [
       {
         heading: "When WordPress makes sense",
@@ -81,8 +81,8 @@ export const blogPosts = [
     seoTitle: "Small Business Website Features | MSPixelPulse",
     metaDescription:
       "Review essential small business website features including clear services, mobile design, trust signals, forms, SEO basics, and maintenance.",
-    cover: "/blog/business-website-features.svg",
-    coverAlt: "Website feature checklist with service, contact, trust, and mobile cards",
+    cover: "/blog/small-business-website-features.webp",
+    coverAlt: "Editorial cover with modular website feature cards for trust, contact, and mobile UX",
     sections: [
       {
         heading: "Clarity beats cleverness",
@@ -115,8 +115,8 @@ export const blogPosts = [
     seoTitle: "Website Redesign Checklist for Small Businesses | MSPixelPulse",
     metaDescription:
       "Use this small business website redesign checklist to plan content, SEO, forms, redirects, mobile UX, analytics, and launch QA.",
-    cover: "/blog/redesign-checklist.svg",
-    coverAlt: "Website redesign checklist with launch, SEO, content, and testing items",
+    cover: "/blog/website-redesign-checklist.webp",
+    coverAlt: "Editorial cover showing a website redesign checklist with before and after layout panels",
     sections: [
       {
         heading: "Start with the business goal",
@@ -149,8 +149,8 @@ export const blogPosts = [
     seoTitle: "How Websites Build Local Business Trust | MSPixelPulse",
     metaDescription:
       "Learn how professional website design supports local business trust with clear services, contact paths, proof, accessibility, and mobile usability.",
-    cover: "/blog/local-trust.svg",
-    coverAlt: "Local business website trust signals arranged on a clean homepage layout",
+    cover: "/blog/website-trust-local-business.webp",
+    coverAlt: "Editorial cover showing local business website trust signals, contact paths, and security cues",
     sections: [
       {
         heading: "Trust starts with obvious basics",
@@ -166,6 +166,108 @@ export const blogPosts = [
         heading: "Honesty is part of trust",
         body:
           "Use real project examples and accurate descriptions. If something is a concept, label it clearly. Honest presentation is stronger than inflated claims.",
+      },
+    ],
+  },
+  {
+    slug: "best-website-features-salons-dental-service-businesses",
+    title: "Best Website Features for Salons, Dental Clinics, and Service Businesses",
+    category: "Industry UX",
+    tags: ["Service businesses", "Bookings", "Local SEO"],
+    author: "MSPixelPulse",
+    publishedAt: "2026-07-12",
+    updatedAt: "2026-07-12",
+    readingTime: "5 min read",
+    excerpt:
+      "Service businesses need websites that make services, booking paths, trust details, and local contact options easy to find on any device.",
+    seoTitle: "Website Features for Salons, Dental Clinics, and Service Businesses | MSPixelPulse",
+    metaDescription:
+      "Review practical website features for salons, dental clinics, and local service businesses, including booking paths, service pages, FAQs, and trust signals.",
+    cover: "/blog/industry-website-features.webp",
+    coverAlt: "Editorial cover showing booking, service, and contact website modules for salons, dental clinics, and service businesses",
+    sections: [
+      {
+        heading: "Make services easy to evaluate",
+        body:
+          "Visitors should be able to scan service categories, common questions, pricing context when appropriate, location details, and next steps without digging through long pages.",
+      },
+      {
+        heading: "Put booking and contact paths close to intent",
+        body:
+          "A useful service website repeats the right call to action near service descriptions, mobile headers, FAQs, and project examples while keeping the experience calm and uncluttered.",
+      },
+      {
+        heading: "Build trust without exaggeration",
+        body:
+          "Use accurate service details, professional imagery, privacy-aware forms, accessible design, and clear labels. Avoid invented testimonials or claims that cannot be supported.",
+      },
+    ],
+  },
+  {
+    slug: "mobile-friendly-website-design-local-businesses",
+    title: "Why Mobile-Friendly Website Design Matters for Local Businesses",
+    category: "Mobile UX",
+    tags: ["Mobile design", "Local business", "Responsive websites"],
+    author: "MSPixelPulse",
+    publishedAt: "2026-07-12",
+    updatedAt: "2026-07-12",
+    readingTime: "4 min read",
+    excerpt:
+      "Local customers often compare businesses from a phone. A mobile-friendly website keeps services, trust signals, and contact actions clear when attention is short.",
+    seoTitle: "Mobile-Friendly Website Design for Local Businesses | MSPixelPulse",
+    metaDescription:
+      "Learn why mobile-friendly website design matters for local businesses, including responsive layouts, readable content, forms, buttons, and speed.",
+    cover: "/blog/mobile-friendly-web-design.webp",
+    coverAlt: "Editorial cover showing mobile-first website screens and responsive breakpoint cards",
+    sections: [
+      {
+        heading: "Mobile is often the first impression",
+        body:
+          "People searching for a nearby service may only spend a few seconds deciding whether a business looks credible. Clear mobile navigation, readable text, and obvious contact buttons help reduce hesitation.",
+      },
+      {
+        heading: "Responsive design is more than shrinking content",
+        body:
+          "A strong mobile layout changes content order, tap targets, image crops, form spacing, and sticky actions so the page feels intentionally designed for smaller screens.",
+      },
+      {
+        heading: "Speed and clarity work together",
+        body:
+          "Optimized images, focused sections, and concise copy help mobile pages load and scan faster. That matters for both customer experience and search visibility.",
+      },
+    ],
+  },
+  {
+    slug: "website-maintenance-small-businesses",
+    title: "Website Maintenance: What Small Businesses Need to Know",
+    category: "Maintenance",
+    tags: ["Website maintenance", "Security", "Updates"],
+    author: "MSPixelPulse",
+    publishedAt: "2026-07-12",
+    updatedAt: "2026-07-12",
+    readingTime: "5 min read",
+    excerpt:
+      "A website needs steady care after launch: updates, backups, form checks, content edits, analytics review, and practical security basics.",
+    seoTitle: "Website Maintenance for Small Businesses | MSPixelPulse",
+    metaDescription:
+      "Learn what website maintenance includes for small businesses, from updates and backups to content changes, forms, analytics, and security basics.",
+    cover: "/blog/website-maintenance-guide.webp",
+    coverAlt: "Editorial cover showing a website maintenance dashboard with backup, update, and monitoring indicators",
+    sections: [
+      {
+        heading: "Launch is not the finish line",
+        body:
+          "After a website goes live, forms, links, plugins, images, and content still need attention. Small issues can quietly hurt trust if they are not reviewed.",
+      },
+      {
+        heading: "Maintenance should be practical",
+        body:
+          "Useful maintenance covers backups, updates, basic security checks, page-speed review, content updates, SEO metadata checks, and testing important contact paths.",
+      },
+      {
+        heading: "Plan ownership early",
+        body:
+          "Decide who handles edits, technical updates, emergency fixes, and future improvements. Clear ownership keeps the site from becoming stale or risky.",
       },
     ],
   },

@@ -89,6 +89,7 @@ export default function Pricing() {
           eyebrow="Our Packages"
           title={isDark ? "Starting points for website projects" : "Starting points for website projects"}
           align="center"
+          as="h1"
         />
 
         {/* Plan selector */}

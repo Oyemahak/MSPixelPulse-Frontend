@@ -65,7 +65,7 @@ export default function BlogPost() {
               <LuClock className="h-4 w-4" aria-hidden="true" /> {post.readingTime}
             </span>
           </div>
-          <h1 className={isDark ? "text-3xl font-black leading-tight md:text-5xl" : "text-3xl font-black leading-tight text-slate-950 md:text-5xl"}>
+          <h1 className={isDark ? "text-3xl font-black leading-tight md:text-4xl" : "text-3xl font-black leading-tight text-slate-950 md:text-4xl"}>
             {post.title}
           </h1>
           <p className={isDark ? "mt-4 text-base leading-7 text-textSub md:text-lg" : "mt-4 text-base leading-7 text-slate-600 md:text-lg"}>
@@ -77,6 +77,7 @@ export default function BlogPost() {
             className="mt-8 aspect-[16/9] w-full rounded-2xl border border-white/10 object-cover shadow-card"
             width="1200"
             height="675"
+            loading="eager"
           />
 
           <div className={isDark ? "prose-lite mt-9 space-y-7 text-textSub" : "prose-lite mt-9 space-y-7 text-slate-700"}>

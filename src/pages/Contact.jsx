@@ -106,6 +106,7 @@ export default function Contact() {
           eyebrow="Contact"
           title={isDark ? "Tell us about your project" : "Tell us about your project"}
           align="left"
+          as="h1"
         />
 
         <div className="grid md:grid-cols-2 gap-6">

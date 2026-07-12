@@ -63,7 +63,7 @@ export const blogPosts = [
       {
         heading: "The practical answer",
         body:
-          "Choose the platform around the job. A salon, dental clinic, or school may prefer WordPress editing. A custom portal, dashboard, or interactive demo may be better as a React application.",
+          "Choose the platform around the job. A salon, dental clinic, or school may prefer WordPress editing. A custom portal, dashboard, or interactive preview may be better as a React application.",
       },
     ],
   },
@@ -165,7 +165,7 @@ export const blogPosts = [
       {
         heading: "Honesty is part of trust",
         body:
-          "Use real project examples and accurate descriptions. If something is a demo or concept, label it clearly. Honest presentation is stronger than inflated claims.",
+          "Use real project examples and accurate descriptions. If something is a concept, label it clearly. Honest presentation is stronger than inflated claims.",
       },
     ],
   },

@@ -28,7 +28,7 @@ function SectionTitle({
 
       {title ? (
         <h2
-          className={`text-3xl md:text-4xl font-black tracking-tight ${
+          className={`mx-auto max-w-full break-words text-3xl md:text-4xl font-black tracking-tight ${
             isDark ? "text-white" : "text-slate-900"
           }`}
         >
@@ -38,7 +38,7 @@ function SectionTitle({
 
       {description ? (
         <p
-          className={`mt-3 max-w-3xl text-[15px] md:text-[16px] leading-relaxed ${
+          className={`mt-3 max-w-3xl break-words text-[15px] md:text-[16px] leading-relaxed ${
             centered ? "mx-auto" : ""
           } ${isDark ? "text-white/65" : "text-slate-600"}`}
         >

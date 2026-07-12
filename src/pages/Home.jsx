@@ -35,8 +35,8 @@ export default function Home() {
       )}
 
       {/* HERO */}
-      <section className="relative pt-28 md:pt-32">
-        <Container className="pb-16 md:pb-24">
+      <section className="relative pt-24 md:pt-28">
+        <Container className="pb-12 md:pb-16">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             {/* LEFT copy */}
             <div>
@@ -53,12 +53,12 @@ export default function Home() {
               <h1
                 className={
                   isDark
-                    ? "text-4xl md:text-6xl font-black leading-tight"
-                    : "text-4xl md:text-6xl font-black leading-tight text-slate-900"
+                    ? "text-4xl md:text-5xl font-black leading-tight"
+                    : "text-4xl md:text-5xl font-black leading-tight text-slate-900"
                 }
               >
-                Pixel-perfect
-                <br /> websites
+                Clean websites for
+                <br /> growing businesses
               </h1>
 
               <p
@@ -154,17 +154,17 @@ export default function Home() {
       </section>
 
       {/* CTA STRIP (after hero) */}
-      <section className="section pt-0">
+      <section className="section py-8 md:py-10">
         <Container>
           {isDark ? (
-            <div className="card-surface p-6 md:p-8 glass-hover">
-              <div className="grid md:grid-cols-[1fr_auto_auto] items-center gap-4">
+            <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-5">
+              <div className="grid gap-4 md:grid-cols-[1fr_auto_auto] md:items-center">
                 <div>
-                  <h3 className="text-2xl font-black">
-                    Ready to boost your online presence?
+                  <h3 className="text-xl font-black">
+                    Ready to plan your website?
                   </h3>
-                  <p className="text-textSub mt-1 text-desc">
-                    Start a project today and get your custom site live fast.
+                  <p className="mt-1 text-sm leading-6 text-textSub">
+                    Tell us what you need and we will suggest a practical next step.
                   </p>
                 </div>
 
@@ -187,14 +187,14 @@ export default function Home() {
               </div>
             </div>
           ) : (
-            <div className="rounded-2xl bg-white/90 border border-slate-200/70 shadow-sm p-6 md:p-8">
-              <div className="grid md:grid-cols-[1fr_auto_auto] items-center gap-4">
+            <div className="rounded-2xl bg-white/90 border border-slate-200/70 shadow-sm p-5">
+              <div className="grid gap-4 md:grid-cols-[1fr_auto_auto] md:items-center">
                 <div>
-                  <h3 className="text-2xl font-black text-slate-900">
-                    Ready to boost your online presence?
+                  <h3 className="text-xl font-black text-slate-900">
+                    Ready to plan your website?
                   </h3>
-                  <p className="text-slate-500 mt-1">
-                    Start a project today and get your custom site live fast.
+                  <p className="mt-1 text-sm leading-6 text-slate-500">
+                    Tell us what you need and we will suggest a practical next step.
                   </p>
                 </div>
 
@@ -221,15 +221,15 @@ export default function Home() {
       </section>
 
       {/* RECENT WORK */}
-      <section className="section pt-6">
+      <section className="section py-10 md:py-14">
         <Container>
           <SectionTitle
             eyebrow="Projects"
-            title={isDark ? "Recent work" : "Explore our work"}
+            title={isDark ? "Featured website work" : "Featured website work"}
             centered
           />
 
-          <div className="grid md:grid-cols-3 gap-6">
+          <div className="grid gap-5 md:grid-cols-3">
             {projects.slice(0, 3).map((p) => (
               <a key={p.id} href={`/projects/${p.id}`} className="group">
                 {/* image */}
@@ -241,9 +241,9 @@ export default function Home() {
                   }
                 >
                   <img
-                    className="h-48 w-full object-cover transition scale-100 group-hover:scale-105"
+                    className="aspect-[16/10] w-full object-cover transition scale-100 group-hover:scale-105"
                     src={p.thumb}
-                    alt={p.title}
+                    alt={p.imageAlt || p.title}
                   />
                 </div>
 
@@ -278,15 +278,9 @@ export default function Home() {
                   >
                     {p.title}
                   </div>
-                  <div
-                    className={
-                      isDark
-                        ? "text-textSub text-sm md:text-base"
-                        : "text-slate-500 text-sm md:text-base"
-                    }
-                  >
-                    {p.summary}
-                  </div>
+                  <p className={isDark ? "mt-1 text-sm leading-6 text-textSub" : "mt-1 text-sm leading-6 text-slate-500"}>
+                    {p.shortDescription || p.summary}
+                  </p>
                 </div>
               </a>
             ))}

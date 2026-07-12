@@ -1,17 +1,16 @@
 import { Link } from "react-router-dom";
 import Meta from "@/components/Meta.jsx";
 import Container from "@/components/layout/Container.jsx";
-import ContactActions from "@/components/ContactActions.jsx";
 import { publishedBlogPosts } from "@/data/blogPosts.js";
 import { useTheme } from "@/lib/theme.js";
-import { LuArrowRight, LuBookOpen, LuSearch } from "react-icons/lu";
+import { LuArrowRight, LuBookOpen, LuMessageCircle } from "react-icons/lu";
 
 export default function Blog() {
   const { theme } = useTheme();
   const isDark = theme === "dark";
 
   return (
-    <section className="section overflow-x-hidden">
+    <section className="section overflow-x-hidden py-10 md:py-14">
       <Meta
         title="Website Design Blog — MSPixelPulse"
         description="Practical website design, redesign, SEO, and maintenance guidance for Canadian small businesses."
@@ -20,36 +19,28 @@ export default function Blog() {
         type="website"
       />
       <Container>
-        <div className="grid gap-8 lg:grid-cols-[1fr_.65fr] lg:items-end">
+        <div className="grid gap-6 lg:grid-cols-[1fr_auto] lg:items-end">
           <div>
             <div className={isDark ? "badge mb-4" : "mb-4 inline-flex rounded-full bg-blue-50 px-3 py-1 text-xs font-bold text-blue-700"}>
               <LuBookOpen className="h-4 w-4" aria-hidden="true" /> Website guidance
             </div>
-            <h1 className={isDark ? "text-4xl font-black leading-tight md:text-5xl" : "text-4xl font-black leading-tight text-slate-950 md:text-5xl"}>
+            <h1 className={isDark ? "max-w-3xl text-3xl font-black leading-tight md:text-4xl" : "max-w-3xl text-3xl font-black leading-tight text-slate-950 md:text-4xl"}>
               Practical website advice for small businesses.
             </h1>
-            <p className={isDark ? "mt-4 max-w-3xl text-lg leading-8 text-textSub" : "mt-4 max-w-3xl text-lg leading-8 text-slate-600"}>
+            <p className={isDark ? "mt-3 max-w-2xl text-base leading-7 text-textSub" : "mt-3 max-w-2xl text-base leading-7 text-slate-600"}>
               Clear, honest articles about website planning, redesigns, platform choices, SEO-ready structure, and maintenance.
             </p>
           </div>
-          <div className={isDark ? "rounded-2xl border border-white/10 bg-white/[0.055] p-5 backdrop-blur" : "rounded-2xl border border-slate-200 bg-white/95 p-5 shadow-sm"}>
-            <div className="flex items-center gap-2 font-black">
-              <LuSearch className="h-5 w-5 text-primary" aria-hidden="true" />
-              Looking for help?
-            </div>
-            <p className={isDark ? "mt-2 text-sm leading-6 text-textSub" : "mt-2 text-sm leading-6 text-slate-600"}>
-              Read a guide, then send a short project note when you are ready.
-            </p>
-            <ContactActions
-              dark={isDark}
-              className="mt-4"
-              whatsappLabel="Ask about your website"
-              message="Hi MSPixelPulse, I would like to ask about a website project after reading your blog."
-            />
-          </div>
+          <Link
+            to="/contact"
+            className={isDark ? "inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/[0.04] px-5 font-bold text-white/90 hover:bg-white/[0.07]" : "inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-5 font-bold text-slate-900 shadow-sm hover:bg-slate-50"}
+          >
+            <LuMessageCircle className="h-5 w-5" aria-hidden="true" />
+            Contact Us
+          </Link>
         </div>
 
-        <div className="mt-12 grid gap-6 lg:grid-cols-3">
+        <div className="mt-10 grid gap-5 lg:grid-cols-3">
           {publishedBlogPosts.map((post) => (
             <article
               key={post.slug}
@@ -67,7 +58,7 @@ export default function Blog() {
                   <span className={isDark ? "badge" : "rounded-full bg-slate-100 px-3 py-1 text-slate-600"}>{post.category}</span>
                   <span className={isDark ? "text-white/45" : "text-slate-500"}>{post.readingTime}</span>
                 </div>
-                <h2 className={isDark ? "mt-4 text-xl font-black" : "mt-4 text-xl font-black text-slate-950"}>
+                <h2 className={isDark ? "mt-4 text-lg font-black leading-snug" : "mt-4 text-lg font-black leading-snug text-slate-950"}>
                   <Link to={`/blog/${post.slug}`}>{post.title}</Link>
                 </h2>
                 <p className={isDark ? "mt-3 text-sm leading-6 text-textSub" : "mt-3 text-sm leading-6 text-slate-600"}>

@@ -120,7 +120,7 @@ export default function ProjectDetail() {
 
         {!isLive && (
           <div className={isDark ? "mt-8 rounded-2xl border border-primary/20 bg-primary/10 p-6" : "mt-8 rounded-2xl border border-blue-100 bg-blue-50 p-6"}>
-            <h2 className={isDark ? "font-black" : "font-black text-slate-950"}>Demo safety note</h2>
+            <h2 className={isDark ? "font-black" : "font-black text-slate-950"}>Concept transparency note</h2>
             <p className={isDark ? "mt-2 text-sm leading-6 text-textSub" : "mt-2 text-sm leading-6 text-slate-700"}>
               This is labeled as {project.label.toLowerCase()} and is not presented as paid client work. It exists to show design direction, user flow, and technical capability.
             </p>

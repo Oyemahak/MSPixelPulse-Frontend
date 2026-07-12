@@ -10,10 +10,10 @@ export default function ContactActions({
   dark = true,
 }) {
   const phoneClass = dark
-    ? "btn btn-outline"
+    ? "inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/[0.035] px-5 font-bold text-white/90 transition hover:bg-white/[0.07] focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
     : "inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-5 font-bold text-slate-900 shadow-sm transition hover:bg-slate-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500";
   const whatsappClass = dark
-    ? "btn btn-outline btn-shiny"
+    ? "inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/[0.035] px-5 font-bold text-white/90 transition hover:bg-white/[0.07] focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
     : "inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-slate-950 px-5 font-bold text-white shadow-sm transition hover:bg-slate-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500";
 
   return (

@@ -64,7 +64,7 @@ Keep event names practical and privacy-aware. Do not send private message text, 
 - Publish the custom domain and verify all public routes.
 - Create or update Google Business Profile with accurate service areas and contact details.
 - Share the Projects page as a portfolio hub on LinkedIn and Instagram.
-- Turn each demo website into one practical social post with the industry, problem, and website features.
+- Turn each concept website into one practical social post with the industry, problem, and website features.
 - Use blog posts as educational outreach links for small business owners.
 - Offer maintenance and redesign audits as follow-up conversations.
 - Track which CTAs generate qualified inquiries before expanding paid campaigns.

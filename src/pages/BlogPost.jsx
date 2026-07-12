@@ -1,11 +1,10 @@
 import { Link, useParams } from "react-router-dom";
-import BlogLeadForm from "@/components/BlogLeadForm.jsx";
 import Meta from "@/components/Meta.jsx";
 import Container from "@/components/layout/Container.jsx";
 import { publishedBlogPosts } from "@/data/blogPosts.js";
 import { useTheme } from "@/lib/theme.js";
 import { site } from "@/data/site.js";
-import { LuArrowLeft, LuCalendarDays, LuClock } from "react-icons/lu";
+import { LuArrowLeft, LuArrowRight, LuCalendarDays, LuClock } from "react-icons/lu";
 
 export default function BlogPost() {
   const { slug } = useParams();
@@ -42,7 +41,7 @@ export default function BlogPost() {
   };
 
   return (
-    <section className="section overflow-x-hidden">
+    <section className="section overflow-x-hidden py-10 md:py-14">
       <Meta
         title={post.seoTitle}
         description={post.metaDescription}
@@ -56,7 +55,7 @@ export default function BlogPost() {
           <LuArrowLeft className="mr-2 h-4 w-4" aria-hidden="true" /> Back to blog
         </Link>
 
-        <article className="mx-auto mt-6 max-w-4xl">
+        <article className="mx-auto mt-6 max-w-3xl">
           <div className="mb-5 flex flex-wrap items-center gap-2 text-xs font-bold">
             <span className={isDark ? "badge" : "rounded-full bg-blue-50 px-3 py-1 text-blue-700"}>{post.category}</span>
             <span className={isDark ? "inline-flex items-center gap-1 text-white/55" : "inline-flex items-center gap-1 text-slate-500"}>
@@ -66,10 +65,10 @@ export default function BlogPost() {
               <LuClock className="h-4 w-4" aria-hidden="true" /> {post.readingTime}
             </span>
           </div>
-          <h1 className={isDark ? "text-4xl font-black leading-tight md:text-6xl" : "text-4xl font-black leading-tight text-slate-950 md:text-6xl"}>
+          <h1 className={isDark ? "text-3xl font-black leading-tight md:text-5xl" : "text-3xl font-black leading-tight text-slate-950 md:text-5xl"}>
             {post.title}
           </h1>
-          <p className={isDark ? "mt-5 text-lg leading-8 text-textSub" : "mt-5 text-lg leading-8 text-slate-600"}>
+          <p className={isDark ? "mt-4 text-base leading-7 text-textSub md:text-lg" : "mt-4 text-base leading-7 text-slate-600 md:text-lg"}>
             {post.excerpt}
           </p>
           <img
@@ -80,7 +79,7 @@ export default function BlogPost() {
             height="675"
           />
 
-          <div className={isDark ? "prose-lite mt-10 space-y-8 text-textSub" : "prose-lite mt-10 space-y-8 text-slate-700"}>
+          <div className={isDark ? "prose-lite mt-9 space-y-7 text-textSub" : "prose-lite mt-9 space-y-7 text-slate-700"}>
             {post.sections.map((section) => (
               <section key={section.heading}>
                 <h2 className={isDark ? "text-2xl font-black text-white" : "text-2xl font-black text-slate-950"}>
@@ -105,7 +104,24 @@ export default function BlogPost() {
             ))}
           </div>
 
-          <BlogLeadForm post={post} dark={isDark} />
+          <section className={isDark ? "mt-12 rounded-2xl border border-white/10 bg-white/[0.045] p-5" : "mt-12 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"}>
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+              <div>
+                <h2 className={isDark ? "text-xl font-black text-white" : "text-xl font-black text-slate-950"}>
+                  Need help with your website?
+                </h2>
+                <p className={isDark ? "mt-1 text-sm text-textSub" : "mt-1 text-sm text-slate-600"}>
+                  Send a short note and we will point you toward the right next step.
+                </p>
+              </div>
+              <Link
+                to={`/contact?source=blog&article=${encodeURIComponent(post.slug)}`}
+                className={isDark ? "inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-primary px-5 font-bold text-white hover:bg-primaryAccent" : "inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-blue-600 px-5 font-bold text-white hover:bg-blue-500"}
+              >
+                Contact Us <LuArrowRight className="h-4 w-4" aria-hidden="true" />
+              </Link>
+            </div>
+          </section>
         </article>
       </Container>
     </section>

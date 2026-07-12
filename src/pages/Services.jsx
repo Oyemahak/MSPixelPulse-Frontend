@@ -20,62 +20,38 @@ const items = [
   {
     t: "Website Design & Development",
     icon: LuPenTool,
-    b: [
-      "Business websites, landing pages, and portfolio websites",
-      "WordPress and React builds based on the project need",
-      "Responsive redesigns for outdated or hard-to-use sites",
-      "Clear content structure, UX flows, and accessibility basics",
-    ],
+    d: "Custom business websites, landing pages, and redesigns built around clear services and mobile-first UX.",
+    best: "Best for new launches and refreshes",
   },
   {
     t: "E-commerce",
     icon: LuCode,
-    b: [
-      "WooCommerce and online storefront planning",
-      "Product-page layout and checkout guidance",
-      "Payment and inquiry-flow integration support",
-      "Mobile-first shopping experience review",
-    ],
+    d: "Storefront structure, product pages, checkout guidance, and shopping flows that feel easy to use.",
+    best: "Best for product-based businesses",
   },
   {
     t: "Website Improvements",
     icon: LuShieldCheck,
-    b: [
-      "UI/UX improvements and responsive fixes",
-      "Speed, image, and Core Web Vitals basics",
-      "SEO-ready structure, metadata, and internal links",
-      "Content and layout updates for clearer services",
-    ],
+    d: "Focused UI, speed, accessibility, SEO structure, and responsive fixes for websites that already exist.",
+    best: "Best for sites that feel outdated",
   },
   {
     t: "Ongoing Support",
     icon: LuGauge,
-    b: [
-      "Maintenance, content updates, and technical support",
-      "Security updates, backups, and uptime checks",
-      "Analytics and Search Console readiness",
-      "Practical handover notes for business owners",
-    ],
+    d: "Maintenance, content updates, technical support, backups, and practical post-launch care.",
+    best: "Best for steady business updates",
   },
   {
     t: "Custom Solutions",
     icon: LuSearch,
-    b: [
-      "Client portals, dashboards, and internal tools",
-      "Custom forms, booking flows, and integrations",
-      "API-connected React interfaces where useful",
-      "Role-based workflows that protect private data",
-    ],
+    d: "Client portals, dashboards, custom forms, booking flows, and integrations for more specific workflows.",
+    best: "Best for app-like requirements",
   },
   {
     t: "SEO & Launch Readiness",
     icon: LuGraduationCap,
-    b: [
-      "Page titles, descriptions, sitemap, and robots review",
-      "Local and industry keyword mapping without stuffing",
-      "Launch QA for forms, links, images, and mobile layouts",
-      "Domain migration and analytics setup guidance",
-    ],
+    d: "Metadata, sitemap, local keyword mapping, launch QA, analytics readiness, and domain migration support.",
+    best: "Best before public launch",
   },
 ];
 
@@ -84,31 +60,39 @@ export default function Services() {
   const isDark = theme === "dark";
 
   return (
-    <section className="section">
+    <section className="section overflow-x-hidden">
       <Container>
         <Meta
           title="Website Services — MSPixelPulse"
           description="MSPixelPulse provides website design and development, WordPress and React websites, e-commerce, redesigns, maintenance, SEO-ready structure, and custom solutions."
           canonical="/services"
         />
-        <SectionTitle
-          eyebrow="Services"
-          title={isDark ? "Website services for small businesses" : "Website services for small businesses"}
-          centered
-        />
+        <div className="mb-8 text-center">
+          <div className="mb-2 inline-flex items-center gap-2">
+            <span className="text-sm font-black uppercase tracking-[0.28em] text-primary">
+              Services
+            </span>
+          </div>
+          <h1 className={isDark ? "mx-auto max-w-2xl text-2xl font-black leading-tight text-white sm:text-3xl md:text-4xl" : "mx-auto max-w-2xl text-2xl font-black leading-tight text-slate-900 sm:text-3xl md:text-4xl"}>
+            Website services for small businesses
+          </h1>
+        </div>
+
+        <div className={isDark ? "mx-auto mb-8 max-w-2xl break-words text-center text-textSub" : "mx-auto mb-8 max-w-2xl break-words text-center text-slate-600"}>
+          Choose the level of help you need, from a cleaner business website to custom workflows and steady post-launch support.
+        </div>
 
         {/* Services grid */}
-        <div className="grid md:grid-cols-3 gap-6">
-          {items.map(({ t, b, icon: Icon }) => (
+        <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+          {items.map(({ t, d, best, icon: Icon }) => (
             <div
               key={t}
               className={
                 isDark
-                  ? "relative card-surface p-6 rounded-2xl hover:bg-white/[0.09] transition-colors"
-                  : "relative rounded-2xl bg-white border border-slate-200 shadow-sm p-6 hover:border-slate-300 transition-colors"
+                  ? "relative min-w-0 rounded-2xl border border-white/10 bg-white/[0.04] p-5 transition-colors hover:bg-white/[0.065]"
+                  : "relative min-w-0 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition-colors hover:border-slate-300"
               }
             >
-              {/* glow/top line */}
               <div
                 className={
                   isDark
@@ -116,7 +100,7 @@ export default function Services() {
                     : "pointer-events-none absolute inset-x-0 -top-px h-px bg-gradient-to-r from-transparent via-slate-200 to-transparent"
                 }
               />
-              <div className="flex items-center gap-2">
+              <div className="flex min-w-0 items-center gap-2">
                 {Icon && (
                   <Icon
                     className={
@@ -125,30 +109,14 @@ export default function Services() {
                     aria-hidden="true"
                   />
                 )}
-                <h3 className={isDark ? "font-extrabold" : "font-extrabold text-slate-900"}>
+                <h3 className={isDark ? "min-w-0 break-words font-extrabold" : "min-w-0 break-words font-extrabold text-slate-900"}>
                   {t}
                 </h3>
               </div>
-              <ul
-                className={
-                  isDark
-                    ? "mt-3 space-y-2 text-textSub text-[16px] md:text-[18px] leading-relaxed"
-                    : "mt-3 space-y-2 text-slate-500 text-[15px] leading-relaxed"
-                }
-              >
-                {b.map((x) => (
-                  <li key={x} className="flex items-start gap-2">
-                    <span
-                      className={
-                        isDark
-                          ? "mt-2 inline-block h-1.5 w-1.5 rounded-full bg-primary/90"
-                          : "mt-2 inline-block h-1.5 w-1.5 rounded-full bg-[#2563ff]"
-                      }
-                    />
-                    <span>{x}</span>
-                  </li>
-                ))}
-              </ul>
+              <p className={isDark ? "mt-3 break-words text-sm leading-6 text-textSub" : "mt-3 break-words text-sm leading-6 text-slate-600"}>{d}</p>
+              <div className={isDark ? "mt-5 rounded-xl border border-white/10 bg-white/[0.035] px-3 py-2 text-xs font-bold text-white/70" : "mt-5 rounded-xl bg-slate-50 px-3 py-2 text-xs font-bold text-slate-600"}>
+                {best}
+              </div>
             </div>
           ))}
         </div>

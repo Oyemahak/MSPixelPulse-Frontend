@@ -163,9 +163,9 @@ export default function Projects() {
 
   const featured = filtered.filter((project) => project.featured).slice(0, 4);
   const live = filtered.filter((project) => project.classification === "live");
-  const demos = filtered.filter((project) => project.classification !== "live");
+  const concepts = filtered.filter((project) => project.classification !== "live");
   const liveCount = live.length;
-  const demoCount = filtered.length - liveCount;
+  const conceptCount = filtered.length - liveCount;
 
   function reset() {
     setQuery("");
@@ -178,7 +178,7 @@ export default function Projects() {
     <section className="section overflow-x-hidden">
       <Meta
         title="Website Projects — MSPixelPulse"
-        description="Explore live MSPixelPulse website work and clearly labeled agency demo websites by industry, platform, and website type."
+        description="Explore live MSPixelPulse website work and clearly labeled industry concept websites by industry, platform, and website type."
         canonical="/projects"
       />
 
@@ -188,10 +188,10 @@ export default function Projects() {
             <LuSparkles className="h-4 w-4" /> Portfolio
           </div>
           <h1 className={isDark ? "max-w-full break-words text-3xl font-black leading-tight sm:text-4xl md:text-5xl" : "max-w-full break-words text-3xl font-black leading-tight text-slate-950 sm:text-4xl md:text-5xl"}>
-            Website work, organized by what is live and what is a demo.
+            Website work, organized by what is live and what is a concept.
           </h1>
           <p className={isDark ? "mt-4 max-w-full break-words text-base leading-7 text-textSub sm:text-lg sm:leading-8" : "mt-4 max-w-full break-words text-base leading-7 text-slate-600 sm:text-lg sm:leading-8"}>
-            Live work is separated from MSPixelPulse demo and concept projects, so every card is clear about what it represents.
+            Live work is separated from concept examples, so every card is clear about what it represents.
           </p>
         </div>
 
@@ -229,7 +229,7 @@ export default function Projects() {
             <select className="min-w-0" value={classification} onChange={(event) => setClassification(event.target.value)} aria-label="Filter by classification">
               <option>{allOption}</option>
               <option value="live">Live Business Websites</option>
-              <option value="demo">Demo Websites</option>
+              <option value="demo">Concept Websites</option>
               <option value="concept">Concept Websites</option>
             </select>
             <button type="button" onClick={reset} className={isDark ? "btn btn-outline" : "inline-flex h-11 items-center justify-center rounded-xl border border-slate-200 px-4 font-bold"}>
@@ -238,14 +238,14 @@ export default function Projects() {
           </div>
           <div className={isDark ? "mt-3 text-sm text-white/55" : "mt-3 text-sm text-slate-500"}>
             Showing {filtered.length} of {publishedProjects.length} website projects
-            {filtered.length ? `: ${liveCount} live and ${demoCount} demo/concept.` : "."}
+            {filtered.length ? `: ${liveCount} live and ${conceptCount} concept.` : "."}
           </div>
         </div>
 
         {!!featured.length && (
           <ProjectSection
             title="Featured Work"
-            description="A quick scan of representative live and demo website examples."
+            description="A quick scan of representative live and concept website examples."
             projects={featured}
             isDark={isDark}
           />
@@ -259,9 +259,9 @@ export default function Projects() {
         />
 
         <ProjectSection
-          title="Demo & Concept Websites"
-          description="Agency demos and concepts, clearly labeled so they are never presented as paid client work."
-          projects={demos}
+          title="Website Concepts"
+          description="Concept examples, clearly labeled so they are never presented as paid client work."
+          projects={concepts}
           isDark={isDark}
         />
 

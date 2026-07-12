@@ -92,7 +92,7 @@ export default function AppHeader() {
   // nav link style (desktop)
   const linkClass = ({ isActive }) => {
     const base =
-      "px-3 py-2 rounded-lg text-sm font-semibold transition-colors inline-flex items-center gap-2";
+      "h-10 px-3.5 rounded-xl text-sm font-semibold transition-colors inline-flex items-center gap-2.5 [&>svg]:h-4 [&>svg]:w-4 [&>svg]:shrink-0";
     if (isDark) {
       return isActive
         ? `${base} bg-white/10 text-white`
@@ -111,20 +111,20 @@ export default function AppHeader() {
 
   // desktop outline btn (Start Project)
   const outlineBtnClass = isDark
-    ? "h-10 px-5 rounded-xl font-semibold inline-flex items-center gap-2 transition-colors duration-200 border border-white/15 bg-transparent text-white hover:bg-white/10"
-    : "h-10 px-5 rounded-xl font-semibold inline-flex items-center gap-2 transition-colors duration-200 border border-slate-200 bg-white text-slate-800 hover:bg-slate-50";
+    ? "h-10 px-4 rounded-xl font-semibold inline-flex items-center gap-2.5 transition-colors duration-200 border border-white/15 bg-transparent text-white hover:bg-white/10"
+    : "h-10 px-4 rounded-xl font-semibold inline-flex items-center gap-2.5 transition-colors duration-200 border border-slate-200 bg-white text-slate-800 hover:bg-slate-50";
 
   // desktop login btn
   const loginBtnClass =
-    "h-10 px-4 rounded-xl font-bold inline-flex items-center gap-2 transition-colors duration-200 shadow-sm border border-transparent bg-blue-600 hover:bg-blue-500 text-white";
+    "h-10 px-4 rounded-xl font-bold inline-flex items-center gap-2.5 transition-colors duration-200 shadow-sm border border-transparent bg-blue-600 hover:bg-blue-500 text-white";
 
   return (
     <header className={headerClass}>
-      <div className="container-edge h-16 flex items-center justify-between gap-4">
+      <div className="container-edge h-16 flex items-center justify-between gap-5">
         {/* Brand */}
         <Link
           to="/"
-          className="flex items-center gap-2 font-black tracking-tight"
+          className="flex shrink-0 items-center gap-2.5 font-black tracking-tight"
           onClick={closeMobile}
         >
           <img
@@ -137,7 +137,7 @@ export default function AppHeader() {
         </Link>
 
         {/* Desktop nav */}
-        <nav className="hidden lg:flex items-center gap-1">
+        <nav className="hidden lg:flex items-center gap-1.5">
           <NavLink to="/" className={linkClass} end>
             <LuLayoutGrid className="h-4 w-4" /> Home
           </NavLink>
@@ -159,13 +159,13 @@ export default function AppHeader() {
         </nav>
 
         {/* Right actions (desktop) */}
-        <div className="hidden lg:flex items-center gap-3">
+        <div className="hidden lg:flex items-center gap-2.5">
           {/* 2-icon desktop switch */}
           <div
             className={
               isDark
-                ? "flex items-center gap-1 bg-white/5 border border-white/10 rounded-full p-1"
-                : "flex items-center gap-1 bg-slate-100 border border-slate-200 rounded-full p-1"
+                ? "flex h-10 items-center gap-1 rounded-full border border-white/10 bg-white/5 p-1"
+                : "flex h-10 items-center gap-1 rounded-full border border-slate-200 bg-slate-100 p-1"
             }
           >
             {/* Dark button */}
@@ -217,8 +217,8 @@ export default function AppHeader() {
                 to={portalPath}
                 className={
                   isDark
-                    ? "btn btn-outline h-10 inline-flex items-center gap-2"
-                    : "h-10 inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white text-slate-800 hover:bg-slate-50 px-4 font-semibold text-sm"
+                    ? "h-10 inline-flex items-center gap-2.5 rounded-xl border border-white/10 px-4 text-sm font-bold text-white/90 hover:bg-white/5"
+                    : "h-10 inline-flex items-center gap-2.5 rounded-xl border border-slate-200 bg-white px-4 text-sm font-bold text-slate-800 hover:bg-slate-50"
                 }
               >
                 <LuLayoutDashboard className="h-4 w-4" /> Portal

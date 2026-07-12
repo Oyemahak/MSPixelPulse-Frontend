@@ -122,7 +122,7 @@ export default function Home() {
         canonical="/"
       />
 
-      <section className="relative pt-8 md:pt-10">
+      <section className="relative pt-2 md:pt-4">
         <Container className="pb-10 md:pb-14">
           <div className="grid min-w-0 gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
             <div className="min-w-0">

@@ -2232,3 +2232,16 @@ html:not([data-theme="dark"]) body::after {
     justify-self: end;
   }
 }
+
+.public-main > .section:first-of-type,
+.public-main > main.section:first-of-type {
+  padding-top: 1.5rem;
+}
+
+@media (min-width: 768px) {
+
+  .public-main > .section:first-of-type,
+  .public-main > main.section:first-of-type {
+    padding-top: 2rem;
+  }
+}

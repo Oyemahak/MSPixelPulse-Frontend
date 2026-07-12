@@ -91,7 +91,7 @@ export default function App() {
       <div className="min-h-screen flex flex-col bg-transparent text-textMain">
         {!hidePublicChrome && <AppHeader />}
 
-        <main className={hidePublicChrome ? "flex-1" : "flex-1 pt-24 md:pt-28"}>
+        <main className={hidePublicChrome ? "flex-1" : "public-main flex-1 pt-20 md:pt-24"}>
           <ScrollToTop />
           <Suspense fallback={<PageFallback />}>
             <Routes>

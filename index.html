@@ -21,6 +21,13 @@
     <meta property="og:url" content="https://mspixelpulse.vercel.app/" />
     <meta property="og:image" content="https://mspixelpulse.vercel.app/logo.svg" />
     <meta name="twitter:card" content="summary_large_image" />
+    <script>
+      try {
+        if (localStorage.getItem("mspixelpulse-theme") === "dark") {
+          document.documentElement.setAttribute("data-theme", "dark");
+        }
+      } catch {}
+    </script>
     <title>MSPixelPulse | Toronto Website Design</title>
   </head>
   <body class="bg-ink text-textMain antialiased">

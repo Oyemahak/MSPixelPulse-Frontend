@@ -2,7 +2,7 @@
 import Container from "./Container.jsx";
 import { useTheme } from "@/lib/theme.js";
 import { Link } from "react-router-dom";
-import { LuMail, LuPhone } from "react-icons/lu";
+import { LuPhone } from "react-icons/lu";
 import { SiWhatsapp } from "react-icons/si";
 import { site, whatsappUrl } from "@/data/site.js";
 
@@ -36,6 +36,7 @@ export default function AppFooter() {
               {[
                 ["Home", "/"],
                 ["Projects", "/projects"],
+                ["About", "/about"],
                 ["Services", "/services"],
                 ["Pricing", "/pricing"],
                 ["Blog", "/blog"],
@@ -48,9 +49,6 @@ export default function AppFooter() {
             </nav>
 
             <div className="space-y-3 text-sm">
-              <a className={isDark ? "flex items-center gap-2 text-white/70 hover:text-white" : "flex items-center gap-2 text-slate-600 hover:text-slate-950"} href={`mailto:${site.email}`}>
-                <LuMail className="h-4 w-4" aria-hidden="true" /> {site.email}
-              </a>
               <a className={isDark ? "flex items-center gap-2 text-white/70 hover:text-white" : "flex items-center gap-2 text-slate-600 hover:text-slate-950"} href={site.phoneHref}>
                 <LuPhone className="h-4 w-4" aria-hidden="true" /> {site.phoneDisplay}
               </a>
@@ -68,7 +66,13 @@ export default function AppFooter() {
           <div className={isDark ? "mt-8 border-t border-white/10 pt-5 text-xs text-textSub" : "mt-8 border-t border-slate-200 pt-5 text-xs text-slate-500"}>
             <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
               <span>© {year} MSPixelPulse. All rights reserved.</span>
-              <span>{site.location}. Legal/privacy pages should be reviewed before custom-domain launch.</span>
+              <nav className="flex flex-wrap gap-x-3 gap-y-1" aria-label="Legal links">
+                <Link to="/privacy" className="hover:underline">Privacy</Link>
+                <Link to="/terms" className="hover:underline">Terms</Link>
+                <Link to="/cookies" className="hover:underline">Cookies</Link>
+                <Link to="/accessibility" className="hover:underline">Accessibility</Link>
+                <Link to="/security" className="hover:underline">Security</Link>
+              </nav>
             </div>
           </div>
         </div>

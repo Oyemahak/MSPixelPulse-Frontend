@@ -7,7 +7,7 @@ export function readThread(id) {
   try { return JSON.parse(localStorage.getItem(K(id)) || "[]"); } catch { return []; }
 }
 export function writeThread(id, msgs) {
-  try { localStorage.setItem(K(id), JSON.stringify(msgs || [])); } catch {}
+  try { localStorage.setItem(K(id), JSON.stringify(msgs || [])); } catch { void 0; }
 }
 export function postMessage(id, msg) {
   const next = [...readThread(id), {

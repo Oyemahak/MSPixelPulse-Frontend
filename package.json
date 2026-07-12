@@ -1,5 +1,6 @@
 {
-  "name": "capstone-frontend",
+  "name": "mspixelpulse-frontend",
+  "description": "Official MSPixelPulse frontend for the public agency website, client portal, admin workspace, developer portal, projects, services, pricing, blog, and contact experiences.",
   "private": true,
   "version": "0.0.0",
   "type": "module",

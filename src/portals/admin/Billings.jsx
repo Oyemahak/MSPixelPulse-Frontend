@@ -5,8 +5,43 @@ import { projects as api, invoices as invApi, files as fileApi } from "@/lib/api
 /* Small badge renderer */
 function StatusBadge({ inv }) {
   if (!inv) return <span className="text-muted-xs">—</span>;
+  if (inv.status === "draft") return <span className="badge">Draft</span>;
+  if (inv.status === "sent") return <span className="badge">Sent</span>;
   if (inv.status === "paid") return <span className="badge">Paid</span>;
+  if (inv.status === "archived") return <span className="badge">Archived</span>;
   return <span className="badge">Uploaded</span>;
+}
+
+function formatMoney(value, currency = "CAD") {
+  if (!Number.isFinite(Number(value))) return "";
+  return new Intl.NumberFormat("en-CA", { style: "currency", currency }).format(Number(value));
+}
+
+function formatDate(value) {
+  if (!value) return "";
+  return new Intl.DateTimeFormat("en-CA", { month: "short", day: "numeric", year: "numeric" }).format(new Date(value));
+}
+
+function InvoiceDetails({ inv }) {
+  if (!inv) return null;
+  return (
+    <div className="grid gap-2 text-sm text-white/70">
+      <div className="flex flex-wrap items-center gap-2">
+        <StatusBadge inv={inv} />
+        <span className="font-semibold text-white/85">
+          {inv.invoiceNumber || inv.file?.name || inv.title || "Invoice details"}
+        </span>
+        {inv.isDemo && <span className="badge">Sample</span>}
+      </div>
+      {inv.title && <div>{inv.title}</div>}
+      <div className="flex flex-wrap gap-x-4 gap-y-1 text-muted-xs">
+        {inv.issueDate && <span>Issued {formatDate(inv.issueDate)}</span>}
+        {inv.dueDate && <span>Due {formatDate(inv.dueDate)}</span>}
+        {Number(inv.total) > 0 && <span>Total {formatMoney(inv.total, inv.currency)}</span>}
+      </div>
+      {inv.notes && <div className="text-muted-xs">{inv.notes}</div>}
+    </div>
+  );
 }
 
 /* Preview for PDF/image */
@@ -95,7 +130,8 @@ export default function Billings() {
       setFinalInv(snap.final);
       setLoaded(true);
     }
-    useEffect(() => { refresh(); /* eslint-disable-next-line */ }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => { refresh(); }, []);
 
     async function handlePick(kind, file) {
       if (!file) return;
@@ -130,7 +166,7 @@ export default function Billings() {
     async function clearFile(kind) {
       const id = kind === "advance" ? advance?._id : finalInv?._id;
       if (!id) return;
-      if (!confirm("Remove this invoice?")) return;
+      if (!confirm("Archive this invoice?")) return;
       setBusyId(p._id);
       try {
         await invApi.remove(p._id, id);
@@ -158,22 +194,23 @@ export default function Billings() {
                 />
               ) : (
                 <>
-                  <div className="text-sm">
-                    <StatusBadge inv={advance} />
-                    <span className="text-white/80 ml-2">{advance.file?.name}</span>
-                  </div>
+                  <InvoiceDetails inv={advance} />
                   <Preview file={advance.file} />
                   <div className="form-actions">
-                    <a className="btn btn-outline" href={advance.file?.url} download={advance.file?.name || "invoice"}>
-                      Download
-                    </a>
-                    {advance.status !== "paid" && (
+                    {advance.file?.url ? (
+                      <a className="btn btn-outline" href={advance.file.url} download={advance.file?.name || "invoice"}>
+                        Download
+                      </a>
+                    ) : (
+                      <span className="text-muted-xs">No export file attached.</span>
+                    )}
+                    {advance.status !== "paid" && advance.status !== "archived" && (
                       <button className="btn btn-primary" onClick={() => markPaid("advance")} disabled={busyId === p._id}>
                         Mark as paid
                       </button>
                     )}
                     <button className="btn btn-outline" onClick={() => clearFile("advance")} disabled={busyId === p._id}>
-                      Remove
+                      Archive
                     </button>
                   </div>
                 </>
@@ -193,22 +230,23 @@ export default function Billings() {
                 />
               ) : (
                 <>
-                  <div className="text-sm">
-                    <StatusBadge inv={finalInv} />
-                    <span className="text-white/80 ml-2">{finalInv.file?.name}</span>
-                  </div>
+                  <InvoiceDetails inv={finalInv} />
                   <Preview file={finalInv.file} />
                   <div className="form-actions">
-                    <a className="btn btn-outline" href={finalInv.file?.url} download={finalInv.file?.name || "invoice"}>
-                      Download
-                    </a>
-                    {finalInv.status !== "paid" && (
+                    {finalInv.file?.url ? (
+                      <a className="btn btn-outline" href={finalInv.file.url} download={finalInv.file?.name || "invoice"}>
+                        Download
+                      </a>
+                    ) : (
+                      <span className="text-muted-xs">No export file attached.</span>
+                    )}
+                    {finalInv.status !== "paid" && finalInv.status !== "archived" && (
                       <button className="btn btn-primary" onClick={() => markPaid("final")} disabled={busyId === p._id}>
                         Mark as paid
                       </button>
                     )}
                     <button className="btn btn-outline" onClick={() => clearFile("final")} disabled={busyId === p._id}>
-                      Remove
+                      Archive
                     </button>
                   </div>
                 </>
@@ -271,9 +309,12 @@ export default function Billings() {
     const [snap, setSnap] = useState({ advance: null, final: null });
     useEffect(() => {
       (async () => {
-        try { setSnap(await loadBilling(p._id)); } catch {}
+        try {
+          setSnap(await loadBilling(p._id));
+        } catch {
+          setSnap({ advance: null, final: null });
+        }
       })();
-      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [tick]);
 
     return (

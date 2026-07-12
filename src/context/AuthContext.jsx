@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 // src/context/AuthContext.jsx
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { auth } from "@/lib/api.js";
@@ -14,10 +15,10 @@ function readToken() {
   }
 }
 function writeToken(token) {
-  try { localStorage.setItem("auth", JSON.stringify({ token: token || "" })); } catch {}
+  try { localStorage.setItem("auth", JSON.stringify({ token: token || "" })); } catch { void 0; }
 }
 function clearToken() {
-  try { localStorage.removeItem("auth"); } catch {}
+  try { localStorage.removeItem("auth"); } catch { void 0; }
 }
 
 /* ---------- provider ---------- */
@@ -61,7 +62,7 @@ export function AuthProvider({ children }) {
   }, []);
 
   const logout = useCallback(async () => {
-    try { await auth.logout(); } catch {}
+    try { await auth.logout(); } catch { void 0; }
     clearToken();
     setUser(null);
   }, []);

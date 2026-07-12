@@ -505,7 +505,7 @@ function ClientRequirementsEditor({ projectId, snapshot, busy, error, onReload }
 /* ============================================================
    Pretty file pickers & badges (no external deps)
    ============================================================ */
-function PrettyPicker({ mode = "single", accept, placeholder = "Click to choose files", value, onChange, disabled }) {
+function PrettyPicker({ mode = "single", accept, placeholder = "Click to choose files", onChange, disabled }) {
   const inputRef = useRef(null);
   const [isOver, setIsOver] = useState(false);
 

@@ -22,6 +22,7 @@ import {
   LuLogOut,
   LuSun,
   LuMoon,
+  LuInfo,
 } from "react-icons/lu";
 import { SiWhatsapp } from "react-icons/si";
 import { site, whatsappUrl } from "@/data/site.js";
@@ -38,7 +39,8 @@ function initials(name = "", email = "") {
 export default function AppHeader() {
   const { isAuthed, role, user, logout } = useAuth();
   const { theme, toggleTheme, setTheme } = useTheme();
-  const isDark = theme === "dark";
+  const actualIsDark = theme === "dark";
+  const isDark = true;
   const nav = useNavigate();
 
   const [open, setOpen] = useState(false); // mobile nav
@@ -144,6 +146,9 @@ export default function AppHeader() {
           <NavLink to="/projects" className={linkClass}>
             <LuFolderOpen className="h-4 w-4" /> Projects
           </NavLink>
+          <NavLink to="/about" className={linkClass}>
+            <LuInfo className="h-4 w-4" /> About
+          </NavLink>
           <NavLink to="/services" className={linkClass}>
             <LuWrench className="h-4 w-4" /> Services
           </NavLink>
@@ -173,11 +178,11 @@ export default function AppHeader() {
               type="button"
               onClick={() => setTheme("dark")}
               className={
-                isDark
+                actualIsDark
                   ? "h-8 w-8 rounded-full bg-slate-950 text-white inline-grid place-items-center shadow-sm"
                   : "h-8 w-8 rounded-full text-slate-700 inline-grid place-items-center hover:bg-white/60"
               }
-              aria-pressed={isDark}
+              aria-pressed={actualIsDark}
               aria-label="Dark mode"
             >
               <LuMoon className="h-4 w-4" />
@@ -188,11 +193,11 @@ export default function AppHeader() {
               type="button"
               onClick={() => setTheme("light")}
               className={
-                !isDark
+                !actualIsDark
                   ? "h-8 w-8 rounded-full bg-white text-slate-900 inline-grid place-items-center shadow-sm"
                   : "h-8 w-8 rounded-full text-white/70 inline-grid place-items-center hover:bg-white/10"
               }
-              aria-pressed={!isDark}
+              aria-pressed={!actualIsDark}
               aria-label="Light mode"
             >
               <LuSun className="h-4 w-4" />
@@ -370,6 +375,9 @@ export default function AppHeader() {
               <MobileLink to="/projects" onClick={closeMobile} dark={isDark}>
                 <LuFolderOpen className="h-4 w-4 mr-2" /> Projects
               </MobileLink>
+              <MobileLink to="/about" onClick={closeMobile} dark={isDark}>
+                <LuInfo className="h-4 w-4 mr-2" /> About
+              </MobileLink>
               <MobileLink to="/services" onClick={closeMobile} dark={isDark}>
                 <LuWrench className="h-4 w-4 mr-2" /> Services
               </MobileLink>
@@ -392,7 +400,7 @@ export default function AppHeader() {
                     : "w-full mt-2 h-10 rounded-xl font-semibold inline-flex items-center justify-center gap-2 bg-slate-100 hover:bg-slate-200 text-slate-800"
                 }
               >
-                {isDark ? (
+                {actualIsDark ? (
                   <>
                     <LuSun className="h-4 w-4" /> Light mode
                   </>

@@ -276,7 +276,6 @@ export default function Contact() {
               </ul>
               <div className="mt-5 space-y-2 text-sm text-textSub">
                 <a className="block hover:text-white" href={site.phoneHref}>{site.phoneDisplay}</a>
-                <a className="block hover:text-white" href={`mailto:${site.email}`}>{site.email}</a>
               </div>
             </div>
           ) : (
@@ -289,7 +288,6 @@ export default function Contact() {
               </ul>
               <div className="mt-5 space-y-2 text-sm text-slate-600">
                 <a className="block hover:text-slate-950" href={site.phoneHref}>{site.phoneDisplay}</a>
-                <a className="block hover:text-slate-950" href={`mailto:${site.email}`}>{site.email}</a>
               </div>
             </div>
           )}

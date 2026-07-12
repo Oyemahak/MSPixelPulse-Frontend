@@ -1,6 +1,6 @@
-# Capstone Frontend - MSPixelPulse
+# MSPixelPulse Frontend
 
-React/Vite frontend for the MSPixelPulse capstone platform. It includes the public marketing site plus role-based portals for admins, clients, and developers.
+Official MSPixelPulse frontend for the agency website and role-based client, admin, and developer portals.
 
 ## Architecture
 
@@ -58,7 +58,7 @@ VITE_API_BASE=http://localhost:5000/api
 VITE_SUPABASE_URL=https://PROJECT_REF.supabase.co
 VITE_SUPABASE_ANON_KEY=replace-with-public-anon-key
 VITE_SUPABASE_BUCKET=uploads
-VITE_SUPPORT_EMAIL=admin@mspixel.pulse
+VITE_SUPPORT_EMAIL=replace-with-support-email-if-verified
 ```
 
 Production Vercel variable:
@@ -95,7 +95,7 @@ Production builds require `VITE_API_BASE`. This prevents accidental same-origin 
 Vercel project:
 
 ```text
-capstone-frontend
+mspixelpulse-frontend
 ```
 
 Build settings:
@@ -122,19 +122,13 @@ The backend validates MongoDB users, checks bcrypt passwords, issues JWTs, and r
 - `developer` -> `/dev`
 - `client` -> `/client`
 
-Local demo emails:
-
-```text
-admin@mspixel.pulse
-client@mspixel.pulse
-dev@mspixel.pulse
-```
+Demo account emails can be configured through backend seed environment variables. Do not document or expose demo passwords in the frontend.
 
 Production builds do not expose demo password autofill.
 
 ## Major Pages
 
-- Public: Home, Projects, Services, Pricing, Contact
+- Public: Home, About, Projects, Services, Pricing, Blog, Contact, Privacy, Terms, Cookies, Accessibility, Security
 - Auth: Login, Register
 - Admin: Dashboard, users, approvals, projects, direct messages, billing, requirements
 - Client: Dashboard, projects, discussions, support, billing, account

@@ -105,9 +105,7 @@ export default function DebugConnection() {
               isDark ? "bg-black/20 text-white/70" : "bg-slate-50 text-slate-600"
             }`}
           >
-            <div>Admin: <b>admin@mspixel.pulse</b> / <b>admin</b></div>
-            <div>Client: <b>client@mspixel.pulse</b> / <b>client</b></div>
-            <div>Developer: <b>dev@mspixel.pulse</b> / <b>developer</b></div>
+            Demo credentials are configured through backend environment variables and are not shown in the app.
           </div>
 
           {seedMsg && (

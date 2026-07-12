@@ -26,19 +26,8 @@ export default function Projects() {
   }
 
   useEffect(() => {
-    let alive = true;
-    (async () => {
-      try {
-        const d = await api.list();
-        const mine = (d.projects || []).filter((p) => p.client?._id === user?._id);
-        if (alive) setRows(mine);
-      } catch (e) {
-        if (alive) setErr(e.message || "Failed to load");
-      }
-    })();
-    return () => {
-      alive = false;
-    };
+    load();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user?._id]);
 
   const filtered = useMemo(() => {
@@ -58,6 +47,15 @@ export default function Projects() {
       </div>
 
       {err && <div className="text-error">{err}</div>}
+
+      <div className="card card-pad filters-grid">
+        <input
+          className="form-input"
+          placeholder="Search projects..."
+          value={q}
+          onChange={(event) => setQ(event.target.value)}
+        />
+      </div>
 
       <div className="card-surface overflow-hidden">
         <table className="table">
@@ -103,7 +101,7 @@ export default function Projects() {
             {!filtered.length && (
               <tr>
                 <td colSpan="4" className="empty-cell">
-                  No projects yet.
+                  {loading ? "Loading..." : "No projects yet."}
                 </td>
               </tr>
             )}

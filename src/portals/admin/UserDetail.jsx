@@ -2,8 +2,6 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { admin } from "@/lib/api.js";
 
-const SUPER_EMAIL = "admin@mspixel.pulse"; // UI safety
-
 export default function UserDetail() {
   const nav = useNavigate();
   const { userId } = useParams();
@@ -35,7 +33,7 @@ export default function UserDetail() {
     return <div className="page-shell">{err ? <div className="text-error">{err}</div> : "Loading…"}</div>;
   }
 
-  const protectDelete = user.email === SUPER_EMAIL || user.isSuperAdmin;
+  const protectDelete = user.isSuperAdmin || user.isProtected;
 
   return (
     <div className="page-shell space-stack">

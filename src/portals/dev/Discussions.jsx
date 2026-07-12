@@ -75,7 +75,12 @@ export default function Discussions() {
       <div>
         <div className="card-surface p-4 mb-3">
           <div className="card-title mb-2">My Projects</div>
-          <input className="form-input" placeholder="Search…"/>
+          <input
+            className="form-input"
+            placeholder="Search..."
+            value={q}
+            onChange={(event) => setQ(event.target.value)}
+          />
         </div>
         <div className="card-surface">
           <div className="list">

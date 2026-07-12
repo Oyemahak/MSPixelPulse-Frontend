@@ -5,8 +5,21 @@ import { useAuth } from "@/context/AuthContext.jsx";
 
 function StatusBadge({ inv }) {
   if (!inv) return <span className="text-muted-xs">—</span>;
+  if (inv.status === "draft") return <span className="badge">Draft</span>;
+  if (inv.status === "sent") return <span className="badge">Sent</span>;
   if (inv.status === "paid") return <span className="badge">Paid</span>;
+  if (inv.status === "archived") return <span className="badge">Archived</span>;
   return <span className="badge">Uploaded</span>;
+}
+
+function formatMoney(value, currency = "CAD") {
+  if (!Number.isFinite(Number(value))) return "";
+  return new Intl.NumberFormat("en-CA", { style: "currency", currency }).format(Number(value));
+}
+
+function formatDate(value) {
+  if (!value) return "";
+  return new Intl.DateTimeFormat("en-CA", { month: "short", day: "numeric", year: "numeric" }).format(new Date(value));
 }
 
 function Preview({ file }) {
@@ -27,15 +40,29 @@ function InvoiceCard({ title, inv }) {
         <div className="text-muted-xs">No invoice uploaded yet.</div>
       ) : (
         <>
-          <div className="text-sm">
+          <div className="grid gap-2 text-sm text-white/70">
             <StatusBadge inv={inv} />
-            <span className="text-white/80 ml-2">{inv.file?.name || "Invoice"}</span>
+            <span className="font-semibold text-white/85">
+              {inv.invoiceNumber || inv.file?.name || inv.title || "Invoice"}
+            </span>
+            {inv.title && <span>{inv.title}</span>}
+            <span className="text-muted-xs">
+              {[
+                inv.dueDate ? `Due ${formatDate(inv.dueDate)}` : "",
+                Number(inv.total) > 0 ? `Total ${formatMoney(inv.total, inv.currency)}` : "",
+                inv.isDemo ? "Sample" : "",
+              ].filter(Boolean).join(" | ")}
+            </span>
           </div>
           <Preview file={inv.file} />
           <div className="form-actions">
-            <a className="btn btn-outline" href={inv.file?.url} download={inv.file?.name || "invoice"}>
-              Download
-            </a>
+            {inv.file?.url ? (
+              <a className="btn btn-outline" href={inv.file.url} download={inv.file?.name || "invoice"}>
+                Download
+              </a>
+            ) : (
+              <span className="text-muted-xs">Download available when a file export is attached.</span>
+            )}
           </div>
         </>
       )}
@@ -55,7 +82,9 @@ function ReadonlyRow({ p }) {
           advance: list.find((x) => x.kind === "advance") || null,
           final: list.find((x) => x.kind === "final") || null,
         });
-      } catch {}
+      } catch {
+        setSnap({ advance: null, final: null });
+      }
     })();
   }, [p._id]);
 
@@ -81,7 +110,6 @@ export default function ClientBillings() {
   const [err, setErr] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const [q, setQ] = useState("");
   const [openId, setOpenId] = useState(null);
 
   async function load() {
@@ -96,10 +124,7 @@ export default function ClientBillings() {
   }
   useEffect(() => { load(); }, [user?._id]);
 
-  const filtered = useMemo(() => {
-    const needle = q.trim().toLowerCase();
-    return (rows || []).filter((p) => !needle || `${p.title} ${p.summary}`.toLowerCase().includes(needle));
-  }, [rows, q]);
+  const filtered = useMemo(() => rows || [], [rows]);
 
   return (
     <div className="page-shell space-y-5">
@@ -164,7 +189,9 @@ export default function ClientBillings() {
             advance: list.find((x) => x.kind === "advance") || null,
             final: list.find((x) => x.kind === "final") || null,
           });
-        } catch {}
+        } catch {
+          setSnap({ advance: null, final: null });
+        }
       })();
     }, [projectId]);
     return (

@@ -73,6 +73,7 @@ export default function ClientDashboard() {
       </div>
 
       {err && <div className="text-error">{err}</div>}
+      {loading && <div className="text-muted-xs">Loading projects...</div>}
 
       {/* Primary KPIs */}
       <div className="grid md:grid-cols-3 gap-4">

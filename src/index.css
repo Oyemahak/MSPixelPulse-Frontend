@@ -606,12 +606,11 @@ html:not([data-theme="dark"]) body {
   color: var(--textMain);
 }
 
-/* make the fixed header light + glassy (your JSX has a dark color) */
 html:not([data-theme="dark"]) header {
-  background: rgba(255, 255, 255, 0.85) !important;
-  border-bottom: 1px solid rgba(15, 23, 42, 0.05);
+  background: rgba(10, 10, 12, 0.9) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   backdrop-filter: saturate(160%) blur(16px);
-  box-shadow: 0 10px 40px rgba(15, 23, 42, 0.04);
+  box-shadow: 0 10px 40px rgba(2, 6, 23, 0.22);
 }
 
 /* cards / surfaces become white */
@@ -773,9 +772,9 @@ html:not([data-theme="dark"]) body::after {
 }
 
 html:not([data-theme="dark"]) header {
-  background: rgba(255, 255, 255, 0.82) !important;
-  border-bottom-color: rgba(148, 163, 184, 0.22) !important;
-  box-shadow: 0 12px 40px rgba(15, 23, 42, 0.055);
+  background: rgba(10, 10, 12, 0.92) !important;
+  border-bottom-color: rgba(255, 255, 255, 0.1) !important;
+  box-shadow: 0 12px 40px rgba(2, 6, 23, 0.22);
 }
 
 html:not([data-theme="dark"]) .card,

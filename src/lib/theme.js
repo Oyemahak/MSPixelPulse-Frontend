@@ -2,20 +2,20 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 
 const ThemeContext = createContext({
-  theme: "dark",
+  theme: "light",
   setTheme: () => {},
   toggleTheme: () => {},
 });
 
 export function ThemeProvider({ children }) {
-  // 1️⃣ start from localStorage, otherwise dark
+  // Start from localStorage, otherwise light.
   const [theme, setThemeState] = useState(() => {
-    if (typeof window === "undefined") return "dark";
+    if (typeof window === "undefined") return "light";
     const saved = window.localStorage.getItem("mspixelpulse-theme");
-    return saved === "light" || saved === "dark" ? saved : "dark";
+    return saved === "light" || saved === "dark" ? saved : "light";
   });
 
-  // 2️⃣ write to <html> + localStorage whenever it changes
+  // Write to <html> + localStorage whenever it changes.
   useEffect(() => {
     const root = document.documentElement;
 
@@ -29,7 +29,6 @@ export function ThemeProvider({ children }) {
     window.localStorage.setItem("mspixelpulse-theme", theme);
   }, [theme]);
 
-  // 3️⃣ public setters
   const setTheme = (value) => {
     if (value !== "dark" && value !== "light") return;
     setThemeState(value);

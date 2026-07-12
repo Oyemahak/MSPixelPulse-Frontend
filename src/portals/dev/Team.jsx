@@ -6,7 +6,7 @@ import { useAuth } from "@/context/AuthContext.jsx";
 import { MessageSquare } from "lucide-react";
 
 const SUPPORT_EMAIL =
-  import.meta.env.VITE_SUPPORT_EMAIL || "admin@mspixel.pulse";
+  import.meta.env.VITE_SUPPORT_EMAIL || "Portal support";
 
 export default function Team() {
   const { user } = useAuth();

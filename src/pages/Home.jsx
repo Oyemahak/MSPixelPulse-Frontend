@@ -1,295 +1,278 @@
-// src/pages/Home.jsx
 import { Link } from "react-router-dom";
+import {
+  LuArrowRight,
+  LuBookOpen,
+  LuBriefcaseBusiness,
+  LuCircleCheck,
+  LuLifeBuoy,
+  LuRocket,
+  LuSearch,
+  LuShieldCheck,
+  LuSmartphone,
+} from "react-icons/lu";
 import Container from "../components/layout/Container.jsx";
 import SectionTitle from "../components/SectionTitle.jsx";
 import Feedback from "@/components/Feedback.jsx";
 import { useTheme } from "@/lib/theme.js";
 import { projects } from "../data/projects.js";
+import { blogPosts } from "@/data/blogPosts.js";
 import Meta from "@/components/Meta.jsx";
 import ContactActions from "@/components/ContactActions.jsx";
 
-/* Icons */
-import { LuTag, LuCalendar, LuRocket } from "react-icons/lu";
+const services = [
+  {
+    icon: LuBriefcaseBusiness,
+    title: "Business websites",
+    body: "Service pages, portfolio pages, pricing, blog, and contact flows built around how customers decide.",
+  },
+  {
+    icon: LuSmartphone,
+    title: "Responsive redesigns",
+    body: "Cleaner mobile layouts, navigation, spacing, speed, and forms for websites that feel hard to use.",
+  },
+  {
+    icon: LuShieldCheck,
+    title: "Client portals",
+    body: "Role-based workspaces for project updates, files, discussions, billing, and launch coordination.",
+  },
+  {
+    icon: LuLifeBuoy,
+    title: "Care and maintenance",
+    body: "Content updates, practical SEO checks, launch fixes, and ongoing website support when needed.",
+  },
+];
+
+const process = [
+  "Clarify audience, services, content, and contact path",
+  "Design a responsive page system before adding polish",
+  "Build with reusable components and SEO-ready structure",
+  "Test forms, links, mobile layouts, and launch details",
+];
 
 export default function Home() {
   const { theme } = useTheme();
   const isDark = theme === "dark";
+  const liveProjects = projects.filter((project) => project.classification === "live").slice(0, 3);
+  const conceptProjects = projects.filter((project) => project.classification !== "live").slice(0, 3);
+  const muted = isDark ? "text-textSub" : "text-slate-600";
+  const surface = isDark
+    ? "border-white/10 bg-white/[0.045] text-white"
+    : "border-slate-200 bg-white text-slate-950 shadow-sm";
 
   return (
     <div className="relative">
       <Meta
         title="MSPixelPulse — Toronto Website Design for Small Businesses"
-        description="MSPixelPulse builds professional websites that help small businesses build trust, explain services clearly, and grow online."
+        description="MSPixelPulse builds professional websites, redesigns, portals, and maintenance workflows for small businesses in Toronto and across Canada."
         canonical="/"
       />
-      {/* LIGHT THEME BG ONLY */}
-      {!isDark && (
-        <div
-          className="absolute inset-0 -z-10"
-          // soft studio background for public/light
-          style={{
-            background:
-              "radial-gradient(circle at top, #fcfdff 0%, #eef2f7 45%, #e0e5ed 85%)",
-          }}
-        />
-      )}
 
-      {/* HERO */}
-      <section className="relative pt-24 md:pt-28">
-        <Container className="pb-12 md:pb-16">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            {/* LEFT copy */}
+      <section className="relative pt-20 md:pt-24">
+        <Container className="pb-10 md:pb-14">
+          <div className="grid gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
             <div>
-              <p
-                className={
-                  isDark
-                    ? "inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 text-xs font-semibold tracking-wide uppercase mb-4"
-                    : "inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-50 text-indigo-700 text-xs font-semibold tracking-wide uppercase mb-4"
-                }
-              >
+              <p className="mb-4 inline-flex rounded-full bg-blue-600/10 px-3 py-1 text-xs font-black uppercase tracking-wide text-blue-500">
                 MSPixelPulse · Toronto
               </p>
-
-              <h1
-                className={
-                  isDark
-                    ? "text-4xl md:text-5xl font-black leading-tight"
-                    : "text-4xl md:text-5xl font-black leading-tight text-slate-900"
-                }
-              >
-                Clean websites for
-                <br /> growing businesses
+              <h1 className={isDark ? "max-w-3xl text-4xl font-black leading-tight md:text-6xl" : "max-w-3xl text-4xl font-black leading-tight text-slate-950 md:text-6xl"}>
+                Clean websites that make small businesses easier to trust.
               </h1>
-
-              <p
-                className={
-                  isDark
-                    ? "mt-5 text-textSub text-desc max-w-xl"
-                    : "mt-5 text-slate-600 text-desc max-w-xl"
-                }
-              >
-                Professional websites built to help small businesses build trust,
-                present services clearly, and grow online.
+              <p className={`mt-5 max-w-2xl text-lg leading-8 ${muted}`}>
+                We plan, design, build, and maintain practical websites for service businesses that need clear pages, strong mobile layouts, and direct contact paths.
               </p>
-
-              {/* Hero buttons */}
               <div className="mt-8 flex flex-wrap gap-3">
-                <Link
-                  className={
-                    isDark
-                      ? "btn btn-primary"
-                      : "inline-flex items-center gap-2 h-11 px-5 rounded-xl bg-[#2563ff] hover:bg-[#2056da] text-white font-semibold shadow-sm"
-                  }
-                  to="/pricing"
-                >
-                  <LuTag className="mr-1 h-5 w-5" aria-hidden="true" />
-                  See Pricing
+                <Link className="btn btn-primary" to="/contact">
+                  <LuRocket className="h-5 w-5" aria-hidden="true" />
+                  Start a project
                 </Link>
-
                 <Link
-                  className={
-                    isDark
-                      ? "btn btn-outline"
-                      : "inline-flex items-center gap-2 h-11 px-5 rounded-xl bg-white border border-slate-200 text-slate-900 font-semibold shadow-sm"
-                  }
-                  to="/contact"
+                  className={isDark ? "btn btn-outline" : "inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-5 font-bold text-slate-900 shadow-sm hover:bg-slate-50"}
+                  to="/projects"
                 >
-                  <LuRocket className="mr-1 h-5 w-5" aria-hidden="true" />
-                  Start Project
+                  View work
+                  <LuArrowRight className="h-4 w-4" aria-hidden="true" />
                 </Link>
               </div>
             </div>
 
-            {/* RIGHT: Includes card */}
-            <div>
-              {isDark ? (
-                // your existing glassy one (unchanged)
-                <div className="include-panel animate-fade-up">
-                  <div className="include-title">Includes</div>
-                  <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {[
-                      "Managed hosting",
-                      "SSL & Security",
-                      "Client Portal",
-                      "SEO & Analytics",
-                    ].map((label) => (
-                      <li
-                        key={label}
-                        className="include-pill text-desc flex items-center gap-2"
-                      >
-                        <span className="inline-block h-2 w-2 rounded-full bg-primary"></span>
-                        {label}
-                      </li>
-                    ))}
-                  </ul>
-                  <div className="include-ring" />
-                </div>
-              ) : (
-                // light version so it doesn't look washed out
-                <div className="animate-fade-up rounded-2xl bg-white/90 border border-slate-200/70 shadow-[0_12px_35px_rgba(12,23,44,0.04)] p-6 md:p-7">
-                  <div className="text-slate-900 font-semibold text-lg mb-4">
-                    Includes
+            <div className={`overflow-hidden rounded-2xl border ${surface}`}>
+              <video
+                className="aspect-video w-full bg-slate-950 object-cover"
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload="metadata"
+                aria-label="Animated MSPixelPulse website and portal preview"
+              >
+                <source src="/media/mspixelpulse-showcase.webm" type="video/webm" />
+              </video>
+              <div className="grid gap-3 p-5 sm:grid-cols-3">
+                {["Website planning", "Responsive build", "Portal handoff"].map((item) => (
+                  <div key={item} className={isDark ? "rounded-xl border border-white/10 bg-white/[0.035] px-3 py-2 text-sm font-bold text-white/80" : "rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-sm font-bold text-slate-700"}>
+                    {item}
                   </div>
-                  <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {[
-                      "Managed hosting",
-                      "SSL & Security",
-                      "Client Portal",
-                      "SEO & Analytics",
-                    ].map((label) => (
-                      <li
-                        key={label}
-                        className="flex items-center gap-2 rounded-xl bg-slate-50 border border-slate-100 px-3 py-2 text-sm text-slate-800"
-                      >
-                        <span className="h-2 w-2 rounded-full bg-[#2563ff]" />
-                        {label}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
+                ))}
+              </div>
             </div>
           </div>
         </Container>
       </section>
 
-      {/* CTA STRIP (after hero) */}
-      <section className="section py-8 md:py-10">
+      <section className="section py-8">
         <Container>
-          {isDark ? (
-            <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-5">
-              <div className="grid gap-4 md:grid-cols-[1fr_auto_auto] md:items-center">
-                <div>
-                  <h3 className="text-xl font-black">
-                    Ready to plan your website?
-                  </h3>
-                  <p className="mt-1 text-sm leading-6 text-textSub">
-                    Tell us what you need and we will suggest a practical next step.
-                  </p>
-                </div>
-
-                <ContactActions
-                  dark={isDark}
-                  showPhone={false}
-                  whatsappLabel="Get a quick consultation"
-                  message="Hi MSPixelPulse, I would like a quick consultation for a website project."
-                />
-
-                <a
-                  className="btn btn-outline"
-                  href="https://calendly.com/mspixelpulse/30min"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <LuCalendar className="mr-2 h-5 w-5" aria-hidden="true" />
-                  Book appointment
-                </a>
-              </div>
-            </div>
-          ) : (
-            <div className="rounded-2xl bg-white/90 border border-slate-200/70 shadow-sm p-5">
-              <div className="grid gap-4 md:grid-cols-[1fr_auto_auto] md:items-center">
-                <div>
-                  <h3 className="text-xl font-black text-slate-900">
-                    Ready to plan your website?
-                  </h3>
-                  <p className="mt-1 text-sm leading-6 text-slate-500">
-                    Tell us what you need and we will suggest a practical next step.
-                  </p>
-                </div>
-
-                <ContactActions
-                  dark={isDark}
-                  showPhone={false}
-                  whatsappLabel="Get a quick consultation"
-                  message="Hi MSPixelPulse, I would like a quick consultation for a website project."
-                />
-
-                <a
-                  className="inline-flex items-center gap-2 h-11 px-5 rounded-xl bg-white border border-slate-200 text-slate-900 font-semibold shadow-sm"
-                  href="https://calendly.com/mspixelpulse/30min"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <LuCalendar className="h-5 w-5" aria-hidden="true" />
-                  Book appointment
-                </a>
-              </div>
-            </div>
-          )}
+          <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-4">
+            {services.map((service) => {
+              const Icon = service.icon;
+              return (
+                <article key={service.title} className={`rounded-2xl border p-5 ${surface}`}>
+                  <Icon className="h-6 w-6 text-blue-500" aria-hidden="true" />
+                  <h2 className="mt-4 text-lg font-black">{service.title}</h2>
+                  <p className={`mt-2 text-sm leading-6 ${muted}`}>{service.body}</p>
+                </article>
+              );
+            })}
+          </div>
         </Container>
       </section>
 
-      {/* RECENT WORK */}
+      <ProjectSection
+        title="Live website work"
+        eyebrow="Portfolio"
+        projects={liveProjects}
+        dark={isDark}
+      />
+
+      <ProjectSection
+        title="Industry concept websites"
+        eyebrow="Sales assets"
+        projects={conceptProjects}
+        dark={isDark}
+      />
+
       <section className="section py-10 md:py-14">
         <Container>
-          <SectionTitle
-            eyebrow="Projects"
-            title={isDark ? "Featured website work" : "Featured website work"}
-            centered
-          />
-
-          <div className="grid gap-5 md:grid-cols-3">
-            {projects.slice(0, 3).map((p) => (
-              <a key={p.id} href={`/projects/${p.id}`} className="group">
-                {/* image */}
-                <div
-                  className={
-                    isDark
-                      ? "overflow-hidden rounded-2xl border border-white/10"
-                      : "overflow-hidden rounded-2xl border border-slate-200/60 bg-white"
-                  }
-                >
-                  <img
-                    className="aspect-[16/10] w-full object-cover transition scale-100 group-hover:scale-105"
-                    src={p.thumb}
-                    alt={p.imageAlt || p.title}
-                  />
+          <div className="grid gap-6 lg:grid-cols-[0.85fr_1.15fr] lg:items-start">
+            <div>
+              <SectionTitle eyebrow="Process" title="A simple delivery flow" align="left" />
+              <p className={`max-w-xl leading-7 ${muted}`}>
+                The goal is not to make the biggest website possible. It is to make the most useful version of the website first, then improve it with evidence from real use.
+              </p>
+            </div>
+            <div className="grid gap-3">
+              {process.map((item, index) => (
+                <div key={item} className={`flex gap-4 rounded-2xl border p-4 ${surface}`}>
+                  <span className="inline-grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-blue-600 text-sm font-black text-white">
+                    {index + 1}
+                  </span>
+                  <div className="flex items-center gap-2 font-bold">
+                    <LuCircleCheck className="h-5 w-5 text-blue-500" aria-hidden="true" />
+                    {item}
+                  </div>
                 </div>
+              ))}
+            </div>
+          </div>
+        </Container>
+      </section>
 
-                {/* text */}
-                <div
-                  className={
-                    isDark
-                      ? "card-surface px-5 py-4 -mt-5 relative"
-                      : "px-5 py-4 -mt-5 relative rounded-2xl bg-white border border-slate-200/70 shadow-sm"
-                  }
-                >
-                  <div className="flex gap-2 flex-wrap mb-2">
-                    {p.stack.slice(0, 3).map((s) => (
-                      <span
-                        key={s}
-                        className={
-                          isDark
-                            ? "badge"
-                            : "inline-flex items-center gap-1 rounded-full bg-slate-100 text-slate-700 text-xs font-semibold px-3 py-1"
-                        }
-                      >
-                        {s}
+      <section className="section py-10 md:py-14">
+        <Container>
+          <div className="grid gap-6 lg:grid-cols-2">
+            <div className={`rounded-2xl border p-6 ${surface}`}>
+              <LuLifeBuoy className="h-7 w-7 text-blue-500" aria-hidden="true" />
+              <h2 className="mt-4 text-2xl font-black">Maintenance after launch</h2>
+              <p className={`mt-3 leading-7 ${muted}`}>
+                Website work usually continues after the first launch. MSPixelPulse can help with page updates, practical SEO cleanup, form checks, mobile fixes, and content changes.
+              </p>
+              <Link className="mt-5 inline-flex items-center gap-2 font-black text-blue-500 hover:underline" to="/services">
+                Review services
+                <LuArrowRight className="h-4 w-4" aria-hidden="true" />
+              </Link>
+            </div>
+
+            <div className={`rounded-2xl border p-6 ${surface}`}>
+              <LuBookOpen className="h-7 w-7 text-blue-500" aria-hidden="true" />
+              <h2 className="mt-4 text-2xl font-black">Recent website guides</h2>
+              <div className="mt-4 grid gap-3">
+                {blogPosts.slice(0, 2).map((post) => (
+                  <Link key={post.slug} to={`/blog/${post.slug}`} className={isDark ? "rounded-xl border border-white/10 p-4 hover:bg-white/[0.045]" : "rounded-xl border border-slate-200 p-4 hover:bg-slate-50"}>
+                    <div className="flex items-start gap-3">
+                      <LuSearch className="mt-1 h-5 w-5 shrink-0 text-blue-500" aria-hidden="true" />
+                      <div>
+                        <h3 className="font-black">{post.title}</h3>
+                        <p className={`mt-1 text-sm leading-6 ${muted}`}>{post.excerpt}</p>
+                      </div>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </div>
+        </Container>
+      </section>
+
+      <section className="section py-10 md:py-14">
+        <Container>
+          <div className={`rounded-2xl border p-6 md:p-8 ${surface}`}>
+            <div className="grid gap-5 md:grid-cols-[1fr_auto] md:items-center">
+              <div>
+                <h2 className="text-2xl font-black md:text-3xl">Ready to plan a cleaner website?</h2>
+                <p className={`mt-2 max-w-2xl leading-7 ${muted}`}>
+                  Send the basics: what your business does, what your current site is missing, and what customers should do next.
+                </p>
+              </div>
+              <ContactActions
+                dark={isDark}
+                whatsappLabel="Chat on WhatsApp"
+                message="Hi MSPixelPulse, I would like to discuss a website project."
+              />
+            </div>
+          </div>
+        </Container>
+      </section>
+
+      <Feedback />
+    </div>
+  );
+}
+
+function ProjectSection({ eyebrow, title, projects: items, dark }) {
+  const muted = dark ? "text-textSub" : "text-slate-600";
+  return (
+    <section className="section py-10 md:py-14">
+      <Container>
+        <SectionTitle eyebrow={eyebrow} title={title} centered />
+        <div className="grid gap-5 md:grid-cols-3">
+          {items.map((project) => (
+            <Link key={project.id} to={`/projects/${project.id}`} className="group">
+              <article className={dark ? "overflow-hidden rounded-2xl border border-white/10 bg-white/[0.035]" : "overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm"}>
+                <img
+                  className="aspect-[16/10] w-full object-cover transition duration-300 group-hover:scale-[1.03]"
+                  src={project.thumb}
+                  alt={project.imageAlt || project.title}
+                  loading="lazy"
+                />
+                <div className="p-5">
+                  <div className="mb-3 flex flex-wrap gap-2">
+                    {project.stack.slice(0, 3).map((stack) => (
+                      <span key={stack} className={dark ? "badge" : "rounded-full bg-slate-100 px-3 py-1 text-xs font-bold text-slate-700"}>
+                        {stack}
                       </span>
                     ))}
                   </div>
-                  <div
-                    className={
-                      isDark
-                        ? "font-extrabold"
-                        : "font-extrabold text-slate-900"
-                    }
-                  >
-                    {p.title}
-                  </div>
-                  <p className={isDark ? "mt-1 text-sm leading-6 text-textSub" : "mt-1 text-sm leading-6 text-slate-500"}>
-                    {p.shortDescription || p.summary}
+                  <h3 className={dark ? "text-lg font-black text-white" : "text-lg font-black text-slate-950"}>
+                    {project.title}
+                  </h3>
+                  <p className={`mt-2 text-sm leading-6 ${muted}`}>
+                    {project.shortDescription || project.summary}
                   </p>
                 </div>
-              </a>
-            ))}
-          </div>
-        </Container>
-      </section>
-
-      {/* FEEDBACK — leave exactly as your dark CSS handles it */}
-      <Feedback />
-    </div>
+              </article>
+            </Link>
+          ))}
+        </div>
+      </Container>
+    </section>
   );
 }

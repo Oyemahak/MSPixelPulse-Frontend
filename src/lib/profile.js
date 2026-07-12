@@ -8,10 +8,10 @@ export function readAvatar(user) {
   try { return localStorage.getItem(keyFor(user)) || ""; } catch { return ""; }
 }
 export function saveAvatar(user, dataUrl) {
-  try { localStorage.setItem(keyFor(user), dataUrl || ""); } catch {}
+  try { localStorage.setItem(keyFor(user), dataUrl || ""); } catch { void 0; }
 }
 export function clearAvatar(user) {
-  try { localStorage.removeItem(keyFor(user)); } catch {}
+  try { localStorage.removeItem(keyFor(user)); } catch { void 0; }
 }
 
 export function fileToDataURL(file) {

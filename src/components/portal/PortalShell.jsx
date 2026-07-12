@@ -255,6 +255,10 @@ export default function PortalShell({ children }) {
           <span>MSPixelPulse secure workspace</span>
           <span className="portal-footer-dot" />
           <span>Toronto agency operations</span>
+          <span className="portal-footer-dot" />
+          <Link to="/privacy">Privacy</Link>
+          <Link to="/terms">Terms</Link>
+          <Link to="/security">Security</Link>
           <LuSparkles className="h-4 w-4" aria-hidden="true" />
         </footer>
       </section>

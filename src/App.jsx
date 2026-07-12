@@ -16,6 +16,8 @@ const Pricing = lazy(() => import("./pages/Pricing.jsx"));
 const Contact = lazy(() => import("./pages/Contact.jsx"));
 const Blog = lazy(() => import("./pages/Blog.jsx"));
 const BlogPost = lazy(() => import("./pages/BlogPost.jsx"));
+const About = lazy(() => import("./pages/About.jsx"));
+const LegalPage = lazy(() => import("./pages/LegalPage.jsx"));
 const Login = lazy(() => import("./pages/auth/Login.jsx"));
 const Register = lazy(() => import("./pages/auth/Register.jsx"));
 const NotFound = lazy(() => import("./pages/NotFound.jsx"));
@@ -76,13 +78,15 @@ export default function App() {
     pathname.startsWith("/admin") ||
     pathname.startsWith("/client") ||
     pathname.startsWith("/dev");
+  const isAuthRoute = pathname.startsWith("/login") || pathname.startsWith("/register");
+  const hidePublicChrome = isPortalRoute || isAuthRoute;
 
   return (
     <ThemeProvider>
       <div className="min-h-screen flex flex-col bg-transparent text-textMain">
-        {!isPortalRoute && <AppHeader />}
+        {!hidePublicChrome && <AppHeader />}
 
-        <main className={isPortalRoute ? "flex-1" : "flex-1 pt-16"}>
+        <main className={hidePublicChrome ? "flex-1" : "flex-1 pt-16"}>
           <ScrollToTop />
           <Suspense fallback={<PageFallback />}>
             <Routes>
@@ -95,6 +99,12 @@ export default function App() {
               <Route path="/contact" element={<Contact />} />
               <Route path="/blog" element={<Blog />} />
               <Route path="/blog/:slug" element={<BlogPost />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/privacy" element={<LegalPage page="privacy" />} />
+              <Route path="/terms" element={<LegalPage page="terms" />} />
+              <Route path="/cookies" element={<LegalPage page="cookies" />} />
+              <Route path="/accessibility" element={<LegalPage page="accessibility" />} />
+              <Route path="/security" element={<LegalPage page="security" />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
               {import.meta.env.DEV && DebugConnection && (
@@ -140,7 +150,7 @@ export default function App() {
           </Suspense>
         </main>
 
-        {!isPortalRoute && <AppFooter />}
+        {!hidePublicChrome && <AppFooter />}
       </div>
     </ThemeProvider>
   );

@@ -1,3 +1,4 @@
+/* global process */
 // Vercel Serverless Function: /api/contact
 import { Resend } from "resend";
 const resend = new Resend(process.env.RESEND_API_KEY);

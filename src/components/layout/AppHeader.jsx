@@ -13,7 +13,6 @@ import {
   LuMail,
   LuBookOpen,
   LuLogIn,
-  LuRocket,
   LuLayoutDashboard,
   LuMenu,
   LuX,
@@ -40,7 +39,7 @@ export default function AppHeader() {
   const { isAuthed, role, user, logout } = useAuth();
   const { theme, toggleTheme, setTheme } = useTheme();
   const actualIsDark = theme === "dark";
-  const isDark = true;
+  const isDark = actualIsDark;
   const nav = useNavigate();
 
   const [open, setOpen] = useState(false); // mobile nav
@@ -109,14 +108,10 @@ export default function AppHeader() {
   // header bg
   const headerClass = "public-site-header fixed inset-x-0 top-3 z-50 px-3 sm:px-4 pointer-events-none";
 
-  // desktop outline btn (Start Project)
-  const outlineBtnClass = isDark
-    ? "h-10 min-w-max whitespace-nowrap px-4 rounded-xl font-semibold inline-flex items-center gap-2.5 transition-colors duration-200 border border-white/15 bg-white/[0.03] text-white hover:bg-white/10"
-    : "h-10 min-w-max whitespace-nowrap px-4 rounded-xl font-semibold inline-flex items-center gap-2.5 transition-colors duration-200 border border-slate-200 bg-white text-slate-800 hover:bg-slate-50";
-
   // desktop login btn
-  const loginBtnClass =
-    "h-10 min-w-max whitespace-nowrap px-4 rounded-xl font-bold inline-flex items-center gap-2.5 transition-colors duration-200 shadow-sm border border-transparent bg-blue-600 hover:bg-blue-500 text-white";
+  const loginBtnClass = isDark
+    ? "h-10 min-w-max whitespace-nowrap px-4 rounded-xl font-bold inline-flex items-center gap-2 transition-colors duration-200 shadow-sm border border-transparent bg-blue-600 hover:bg-blue-500 text-white"
+    : "h-10 min-w-max whitespace-nowrap px-4 rounded-xl font-bold inline-flex items-center gap-2 transition-colors duration-200 border border-blue-200/80 bg-blue-50/70 text-blue-700 shadow-[0_12px_26px_rgba(245,158,11,0.12)] hover:bg-blue-100/75";
 
   return (
     <header className={headerClass}>
@@ -203,16 +198,9 @@ export default function AppHeader() {
           </div>
 
           {!isAuthed ? (
-            <>
-              {/* Login */}
-              <NavLink to="/login" className={loginBtnClass}>
-                <LuLogIn className="h-4 w-4" /> Login
-              </NavLink>
-              {/* Start project */}
-              <Link to="/contact" className={outlineBtnClass}>
-                <LuRocket className="h-4 w-4" /> Start project
-              </Link>
-            </>
+            <NavLink to="/login" className={loginBtnClass}>
+              <LuLogIn className="h-4 w-4" /> Login
+            </NavLink>
           ) : (
             <>
               {/* Portal */}
@@ -358,12 +346,12 @@ export default function AppHeader() {
           open ? "max-h-[480px] opacity-100" : "max-h-0 opacity-0",
         ].join(" ")}
       >
-        <div className="container-edge pb-4">
+        <div className="container-edge pt-2 pb-4">
           <div
             className={
               isDark
-                ? "rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-xl shadow-[0_10px_40px_rgba(0,0,0,0.35)]"
-                : "rounded-2xl border border-slate-200 bg-white/95 shadow-md"
+                ? "public-mobile-menu rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-xl shadow-[0_10px_40px_rgba(0,0,0,0.35)]"
+                : "public-mobile-menu rounded-2xl border border-slate-200 bg-white shadow-md"
             }
           >
             <nav className="p-2">
@@ -420,14 +408,6 @@ export default function AppHeader() {
                     dark={isDark}
                   >
                     <LuLogIn className="h-4 w-4 mr-2" /> Login
-                  </MobileCTA>
-                  <MobileCTA
-                    to="/contact"
-                    onClick={closeMobile}
-                    variant="outline"
-                    dark={isDark}
-                  >
-                    <LuRocket className="h-4 w-4 mr-2" /> Start Project
                   </MobileCTA>
                   <a
                     href={whatsappUrl("Hi MSPixelPulse, I would like a quick website consultation.")}

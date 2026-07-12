@@ -1784,3 +1784,185 @@ html:not([data-theme="dark"]) .portal-profile-hero .row-sub {
         padding-top: 0.9rem;
     }
 }
+
+/* Final light portal readability pass */
+html:not([data-theme="dark"]) .portal-frame {
+    background:
+        linear-gradient(135deg, rgba(228, 236, 248, 0.82), rgba(248, 250, 253, 0.98) 48%, rgba(236, 242, 249, 0.94)),
+        #f5f8fc !important;
+    color: #0f172a;
+}
+
+html:not([data-theme="dark"]) .portal-main,
+html:not([data-theme="dark"]) .portal-content,
+html:not([data-theme="dark"]) .portal-frame .page-shell,
+html:not([data-theme="dark"]) .portal-frame .page-title,
+html:not([data-theme="dark"]) .portal-frame .card-title,
+html:not([data-theme="dark"]) .portal-card-heading,
+html:not([data-theme="dark"]) .portal-frame .kpi-value,
+html:not([data-theme="dark"]) .portal-frame .list-row,
+html:not([data-theme="dark"]) .portal-frame .table tbody td,
+html:not([data-theme="dark"]) .portal-frame .font-medium {
+    color: #0f172a;
+}
+
+html:not([data-theme="dark"]) .portal-sidebar,
+html:not([data-theme="dark"]) .portal-drawer,
+html:not([data-theme="dark"]) .portal-frame .card,
+html:not([data-theme="dark"]) .portal-frame .card-surface {
+    border-color: rgba(255, 255, 255, 0.72);
+    background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.78), rgba(248, 250, 253, 0.66));
+    box-shadow:
+        0 22px 62px rgba(38, 55, 88, 0.09),
+        0 16px 38px rgba(245, 158, 11, 0.08),
+        inset 0 1px 0 rgba(255, 255, 255, 0.86);
+}
+
+html:not([data-theme="dark"]) .portal-topbar,
+html:not([data-theme="dark"]) .portal-footer {
+    border-color: rgba(255, 255, 255, 0.72) !important;
+    background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.76), rgba(248, 250, 252, 0.62)),
+        rgba(255, 255, 255, 0.68) !important;
+    color: #0f172a;
+    box-shadow:
+        0 20px 54px rgba(15, 23, 42, 0.08),
+        0 14px 34px rgba(245, 158, 11, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.9);
+    backdrop-filter: saturate(150%) blur(22px);
+}
+
+html:not([data-theme="dark"]) .portal-topbar .portal-page-heading,
+html:not([data-theme="dark"]) .portal-topbar .portal-user-copy span,
+html:not([data-theme="dark"]) .portal-topbar .portal-icon-button,
+html:not([data-theme="dark"]) .portal-footer a:hover {
+    color: #0f172a;
+}
+
+html:not([data-theme="dark"]) .portal-topbar .portal-breadcrumb,
+html:not([data-theme="dark"]) .portal-topbar .portal-user-copy small,
+html:not([data-theme="dark"]) .portal-footer,
+html:not([data-theme="dark"]) .portal-footer a {
+    color: #64748b;
+}
+
+html:not([data-theme="dark"]) .portal-topbar .portal-icon-button,
+html:not([data-theme="dark"]) .portal-topbar .portal-user-chip,
+html:not([data-theme="dark"]) .portal-context-card {
+    border-color: rgba(148, 163, 184, 0.22);
+    background: rgba(255, 255, 255, 0.52);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.76);
+}
+
+html:not([data-theme="dark"]) .portal-topbar .portal-icon-button:hover,
+html:not([data-theme="dark"]) .portal-topbar .portal-user-chip:hover {
+    border-color: rgba(37, 99, 235, 0.24);
+    background: rgba(255, 255, 255, 0.74);
+}
+
+html:not([data-theme="dark"]) .portal-logo-mark {
+    border-color: rgba(37, 99, 235, 0.18);
+    background:
+        linear-gradient(135deg, rgba(37, 99, 235, 0.94), rgba(93, 72, 244, 0.86)),
+        #2563eb;
+    box-shadow:
+        0 14px 30px rgba(37, 99, 235, 0.18),
+        0 10px 24px rgba(245, 158, 11, 0.12);
+}
+
+html:not([data-theme="dark"]) .portal-brand-name,
+html:not([data-theme="dark"]) .portal-context-title {
+    color: #0f172a;
+}
+
+html:not([data-theme="dark"]) .portal-brand-sub,
+html:not([data-theme="dark"]) .portal-context-kicker,
+html:not([data-theme="dark"]) .portal-nav-item,
+html:not([data-theme="dark"]) .portal-ghost-link,
+html:not([data-theme="dark"]) .portal-frame .kpi-label,
+html:not([data-theme="dark"]) .portal-frame .text-muted,
+html:not([data-theme="dark"]) .portal-frame .text-muted-xs,
+html:not([data-theme="dark"]) .portal-frame .row-sub,
+html:not([data-theme="dark"]) .portal-frame .empty-note,
+html:not([data-theme="dark"]) .portal-frame .subtle-link,
+html:not([data-theme="dark"]) .portal-frame .table thead th,
+html:not([data-theme="dark"]) .portal-frame .card-strip,
+html:not([data-theme="dark"]) .portal-frame .form-label {
+    color: #64748b !important;
+}
+
+html:not([data-theme="dark"]) .portal-nav-item:hover,
+html:not([data-theme="dark"]) .portal-brand:hover,
+html:not([data-theme="dark"]) .portal-ghost-link:hover,
+html:not([data-theme="dark"]) .portal-frame .list-row:hover,
+html:not([data-theme="dark"]) .portal-frame .table-row-hover:hover {
+    background: rgba(37, 99, 235, 0.06);
+    color: #0f172a;
+}
+
+html:not([data-theme="dark"]) .portal-nav-item.is-active {
+    color: #ffffff !important;
+    background: linear-gradient(135deg, #1557d5, #5d48f4);
+    box-shadow:
+        0 16px 34px rgba(37, 99, 235, 0.18),
+        0 10px 26px rgba(245, 158, 11, 0.12);
+}
+
+html:not([data-theme="dark"]) .portal-frame .card-strip,
+html:not([data-theme="dark"]) .portal-frame .table tbody tr,
+html:not([data-theme="dark"]) .portal-frame .list {
+    border-color: rgba(148, 163, 184, 0.18);
+}
+
+html:not([data-theme="dark"]) .portal-frame .badge {
+    border: 1px solid rgba(148, 163, 184, 0.24);
+    background: rgba(255, 255, 255, 0.58);
+    color: #334155;
+}
+
+html:not([data-theme="dark"]) .portal-frame input,
+html:not([data-theme="dark"]) .portal-frame select,
+html:not([data-theme="dark"]) .portal-frame textarea {
+    border-color: rgba(148, 163, 184, 0.28);
+    background: rgba(255, 255, 255, 0.74);
+    color: #0f172a;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.76);
+}
+
+html:not([data-theme="dark"]) .portal-frame input::placeholder,
+html:not([data-theme="dark"]) .portal-frame textarea::placeholder {
+    color: #7c8ca3;
+}
+
+html:not([data-theme="dark"]) .portal-frame .btn-outline {
+    border-color: rgba(148, 163, 184, 0.26);
+    background: rgba(255, 255, 255, 0.52);
+    color: #0f172a;
+}
+
+html:not([data-theme="dark"]) .portal-frame .btn-outline:hover {
+    background: rgba(255, 255, 255, 0.76);
+}
+
+html:not([data-theme="dark"]) .portal-frame .btn-primary {
+    border-color: rgba(37, 99, 235, 0.24);
+    background: rgba(37, 99, 235, 0.12);
+    color: #1557d5;
+    box-shadow:
+        0 16px 34px rgba(37, 99, 235, 0.12),
+        0 10px 26px rgba(245, 158, 11, 0.12);
+}
+
+html:not([data-theme="dark"]) .portal-frame .btn-primary:hover {
+    background: rgba(37, 99, 235, 0.18);
+}
+
+html:not([data-theme="dark"]) .portal-frame .icon-btn {
+    color: #475569;
+}
+
+html:not([data-theme="dark"]) .portal-frame .icon-btn:hover {
+    background: rgba(37, 99, 235, 0.08);
+    color: #0f172a;
+}

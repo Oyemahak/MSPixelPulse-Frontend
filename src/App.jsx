@@ -4,6 +4,7 @@ import React, { Suspense, lazy, useEffect } from "react";
 import { Routes, Route, Navigate, useLocation, Outlet } from "react-router-dom";
 import AppHeader from "./components/layout/AppHeader.jsx";
 import AppFooter from "./components/layout/AppFooter.jsx";
+import CookieBanner from "@/components/CookieBanner.jsx";
 import { useAuth } from "@/context/AuthContext.jsx";
 import { ThemeProvider } from "@/lib/theme.js";
 
@@ -155,6 +156,7 @@ export default function App() {
         </main>
 
         {!hidePublicChrome && <AppFooter />}
+        {!hidePublicChrome && <CookieBanner />}
       </div>
     </ThemeProvider>
   );

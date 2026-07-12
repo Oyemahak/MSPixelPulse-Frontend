@@ -49,6 +49,9 @@ const process = [
   "Test forms, links, mobile layouts, and launch details",
 ];
 
+const heroPhoto =
+  "https://images.unsplash.com/photo-1758691737124-05c5bffe46f0?auto=format&fit=crop&w=1500&q=78";
+
 export default function Home() {
   const { theme } = useTheme();
   const isDark = theme === "dark";
@@ -95,33 +98,35 @@ export default function Home() {
               </div>
             </div>
 
-            <div className={`hero-showcase-frame min-w-0 overflow-hidden rounded-[1.6rem] border ${surface}`}>
-              <div className="hero-showcase-media">
-                <video
-                  className="hero-showcase-video aspect-video w-full object-cover"
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                  preload="metadata"
-                  aria-label="Animated MSPixelPulse website and portal preview"
-                >
-                  <source src="/media/mspixelpulse-showcase.webm" type="video/webm" />
-                </video>
-                <div className="hero-showcase-glass" aria-hidden="true">
-                  <span />
-                  <span />
-                  <span />
+            <figure className={`hero-photo-card min-w-0 overflow-hidden rounded-[1.6rem] border ${surface}`}>
+              <div className="hero-photo-media">
+                <img
+                  className="hero-photo-image"
+                  src={heroPhoto}
+                  alt="Creative agency team reviewing website work around a laptop in a modern office"
+                  loading="eager"
+                  fetchPriority="high"
+                />
+                <div className="hero-photo-scrim" aria-hidden="true" />
+                <div className="hero-photo-stack" aria-hidden="true">
+                  <div className="hero-photo-stack-card">
+                    <span className="hero-photo-line hero-photo-line-lg" />
+                    <span className="hero-photo-line" />
+                  </div>
+                  <div className="hero-photo-stack-card hero-photo-stack-card-accent">
+                    <span className="hero-photo-dot" />
+                    <span className="hero-photo-line" />
+                  </div>
                 </div>
               </div>
               <div className="grid gap-3 p-4 sm:grid-cols-3 sm:p-5">
                 {["Website planning", "Responsive build", "Portal handoff"].map((item) => (
-                  <div key={item} className="hero-showcase-pill">
+                  <div key={item} className="hero-photo-pill">
                     {item}
                   </div>
                 ))}
               </div>
-            </div>
+            </figure>
           </div>
         </Container>
       </section>

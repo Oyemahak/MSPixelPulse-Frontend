@@ -67,14 +67,14 @@ export default function Home() {
         canonical="/"
       />
 
-      <section className="relative pt-20 md:pt-24">
+      <section className="relative pt-8 md:pt-10">
         <Container className="pb-10 md:pb-14">
-          <div className="grid gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
-            <div>
+          <div className="grid min-w-0 gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
+            <div className="min-w-0">
               <p className="mb-4 inline-flex rounded-full bg-blue-600/10 px-3 py-1 text-xs font-black uppercase tracking-wide text-blue-500">
                 MSPixelPulse · Toronto
               </p>
-              <h1 className={isDark ? "max-w-3xl text-4xl font-black leading-tight md:text-6xl" : "max-w-3xl text-4xl font-black leading-tight text-slate-950 md:text-6xl"}>
+              <h1 className={isDark ? "max-w-3xl break-words text-4xl font-black leading-tight md:text-6xl" : "max-w-3xl break-words text-4xl font-black leading-tight text-slate-950 md:text-6xl"}>
                 Clean websites that make small businesses easier to trust.
               </h1>
               <p className={`mt-5 max-w-2xl text-lg leading-8 ${muted}`}>
@@ -95,21 +95,28 @@ export default function Home() {
               </div>
             </div>
 
-            <div className={`overflow-hidden rounded-2xl border ${surface}`}>
-              <video
-                className="aspect-video w-full bg-slate-950 object-cover"
-                autoPlay
-                muted
-                loop
-                playsInline
-                preload="metadata"
-                aria-label="Animated MSPixelPulse website and portal preview"
-              >
-                <source src="/media/mspixelpulse-showcase.webm" type="video/webm" />
-              </video>
-              <div className="grid gap-3 p-5 sm:grid-cols-3">
+            <div className={`hero-showcase-frame min-w-0 overflow-hidden rounded-[1.6rem] border ${surface}`}>
+              <div className="hero-showcase-media">
+                <video
+                  className="hero-showcase-video aspect-video w-full object-cover"
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  preload="metadata"
+                  aria-label="Animated MSPixelPulse website and portal preview"
+                >
+                  <source src="/media/mspixelpulse-showcase.webm" type="video/webm" />
+                </video>
+                <div className="hero-showcase-glass" aria-hidden="true">
+                  <span />
+                  <span />
+                  <span />
+                </div>
+              </div>
+              <div className="grid gap-3 p-4 sm:grid-cols-3 sm:p-5">
                 {["Website planning", "Responsive build", "Portal handoff"].map((item) => (
-                  <div key={item} className={isDark ? "rounded-xl border border-white/10 bg-white/[0.035] px-3 py-2 text-sm font-bold text-white/80" : "rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-sm font-bold text-slate-700"}>
+                  <div key={item} className="hero-showcase-pill">
                     {item}
                   </div>
                 ))}

@@ -1,3 +1,56 @@
+const resourceLinks = {
+  googleSeoStarter: {
+    label: "Google SEO Starter Guide",
+    url: "https://developers.google.com/search/docs/fundamentals/seo-starter-guide",
+    note: "Official Google guidance for helping search engines understand website content.",
+  },
+  googleSearchDocs: {
+    label: "Google Search Central Documentation",
+    url: "https://developers.google.com/search/docs",
+    note: "A practical reference hub for crawling, indexing, structured data, and search appearance.",
+  },
+  pageSpeed: {
+    label: "PageSpeed Insights",
+    url: "https://pagespeed.web.dev/",
+    note: "Google's public tool for reviewing mobile and desktop performance opportunities.",
+  },
+  structuredData: {
+    label: "Google Structured Data Guide",
+    url: "https://developers.google.com/search/docs/appearance/structured-data/intro-structured-data",
+    note: "A starting point for JSON-LD and structured data planning.",
+  },
+  schemaWebsite: {
+    label: "Schema.org WebSite",
+    url: "https://schema.org/WebSite",
+    note: "The Schema.org type for describing a website with structured data.",
+  },
+  wcag: {
+    label: "W3C WCAG 2.2",
+    url: "https://www.w3.org/TR/WCAG22/",
+    note: "The accessibility standard used to evaluate perceivable, operable, understandable, and robust web content.",
+  },
+  wordpressDocs: {
+    label: "WordPress Documentation",
+    url: "https://wordpress.org/documentation/",
+    note: "Official WordPress guidance for publishing, customization, security, and ongoing care.",
+  },
+  reactDocs: {
+    label: "React Documentation",
+    url: "https://react.dev/",
+    note: "Official React documentation for component-based interface planning.",
+  },
+  viteDocs: {
+    label: "Vite Documentation",
+    url: "https://vite.dev/",
+    note: "Official Vite documentation for modern frontend builds and deployment-ready tooling.",
+  },
+  googleBusiness: {
+    label: "Google Business Profile",
+    url: "https://business.google.com/us/business-profile/",
+    note: "Google's official business profile resource for local visibility on Search and Maps.",
+  },
+};
+
 export const blogPosts = [
   {
     slug: "small-business-website-cost-canada",
@@ -31,6 +84,12 @@ export const blogPosts = [
         body:
           "Compare what is included, not just the headline price. Ask whether mobile design, basic SEO setup, analytics readiness, redirects, form testing, post-launch fixes, and maintenance are included.",
       },
+    ],
+    resources: [
+      resourceLinks.googleSeoStarter,
+      resourceLinks.pageSpeed,
+      resourceLinks.wcag,
+      resourceLinks.googleBusiness,
     ],
   },
   {
@@ -66,6 +125,12 @@ export const blogPosts = [
           "Choose the platform around the job. A salon, dental clinic, or school may prefer WordPress editing. A custom portal, dashboard, or interactive preview may be better as a React application.",
       },
     ],
+    resources: [
+      resourceLinks.wordpressDocs,
+      resourceLinks.reactDocs,
+      resourceLinks.viteDocs,
+      resourceLinks.pageSpeed,
+    ],
   },
   {
     slug: "small-business-website-features",
@@ -99,6 +164,12 @@ export const blogPosts = [
         body:
           "Use real work, accurate service details, transparent process steps, privacy-aware forms, and practical FAQs. Avoid fake testimonials or unsupported claims.",
       },
+    ],
+    resources: [
+      resourceLinks.googleSeoStarter,
+      resourceLinks.structuredData,
+      resourceLinks.pageSpeed,
+      resourceLinks.wcag,
     ],
   },
   {
@@ -134,6 +205,12 @@ export const blogPosts = [
           "Check forms, phone links, navigation, project examples, mobile layouts, accessibility basics, image loading, page titles, meta descriptions, and 404 behavior.",
       },
     ],
+    resources: [
+      resourceLinks.googleSearchDocs,
+      resourceLinks.pageSpeed,
+      resourceLinks.structuredData,
+      resourceLinks.wcag,
+    ],
   },
   {
     slug: "professional-website-builds-local-trust",
@@ -167,6 +244,12 @@ export const blogPosts = [
         body:
           "Use real project examples and accurate descriptions. If something is a concept, label it clearly. Honest presentation is stronger than inflated claims.",
       },
+    ],
+    resources: [
+      resourceLinks.googleBusiness,
+      resourceLinks.googleSeoStarter,
+      resourceLinks.schemaWebsite,
+      resourceLinks.wcag,
     ],
   },
   {
@@ -202,6 +285,12 @@ export const blogPosts = [
           "Use accurate service details, professional imagery, privacy-aware forms, accessible design, and clear labels. Avoid invented testimonials or claims that cannot be supported.",
       },
     ],
+    resources: [
+      resourceLinks.googleBusiness,
+      resourceLinks.structuredData,
+      resourceLinks.pageSpeed,
+      resourceLinks.wcag,
+    ],
   },
   {
     slug: "mobile-friendly-website-design-local-businesses",
@@ -236,6 +325,11 @@ export const blogPosts = [
           "Optimized images, focused sections, and concise copy help mobile pages load and scan faster. That matters for both customer experience and search visibility.",
       },
     ],
+    resources: [
+      resourceLinks.pageSpeed,
+      resourceLinks.googleSeoStarter,
+      resourceLinks.wcag,
+    ],
   },
   {
     slug: "website-maintenance-small-businesses",
@@ -269,6 +363,12 @@ export const blogPosts = [
         body:
           "Decide who handles edits, technical updates, emergency fixes, and future improvements. Clear ownership keeps the site from becoming stale or risky.",
       },
+    ],
+    resources: [
+      resourceLinks.pageSpeed,
+      resourceLinks.googleSearchDocs,
+      resourceLinks.wordpressDocs,
+      resourceLinks.wcag,
     ],
   },
 ];

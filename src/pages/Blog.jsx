@@ -24,7 +24,7 @@ export default function Blog() {
             <div className={isDark ? "badge mb-4" : "mb-4 inline-flex rounded-full bg-blue-50 px-3 py-1 text-xs font-bold text-blue-700"}>
               <LuBookOpen className="h-4 w-4" aria-hidden="true" /> Website guidance
             </div>
-            <h1 className={isDark ? "max-w-3xl text-3xl font-black leading-tight md:text-4xl" : "max-w-3xl text-3xl font-black leading-tight text-slate-950 md:text-4xl"}>
+            <h1 className={isDark ? "max-w-3xl text-2xl font-black leading-tight md:text-3xl" : "max-w-3xl text-2xl font-black leading-tight text-slate-950 md:text-3xl"}>
               Practical website advice for small businesses.
             </h1>
             <p className={isDark ? "mt-3 max-w-2xl text-base leading-7 text-textSub" : "mt-3 max-w-2xl text-base leading-7 text-slate-600"}>

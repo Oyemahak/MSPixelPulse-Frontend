@@ -94,7 +94,7 @@ export default function AppHeader() {
   // nav link style (desktop)
   const linkClass = ({ isActive }) => {
     const base =
-      "h-10 px-3.5 rounded-xl text-sm font-semibold transition-colors inline-flex items-center gap-2.5 [&>svg]:h-4 [&>svg]:w-4 [&>svg]:shrink-0";
+      "h-10 whitespace-nowrap px-3 rounded-xl text-sm font-semibold transition-colors inline-flex items-center gap-2 [&>svg]:h-4 [&>svg]:w-4 [&>svg]:shrink-0";
     if (isDark) {
       return isActive
         ? `${base} bg-white/10 text-white`
@@ -107,26 +107,24 @@ export default function AppHeader() {
   };
 
   // header bg
-  const headerClass = isDark
-    ? "fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-[rgba(10,10,12,0.55)] backdrop-blur-lg"
-    : "fixed inset-x-0 top-0 z-50 bg-white/85 backdrop-blur supports-[backdrop-filter]:bg-white/70 border-b border-slate-200 shadow-sm";
+  const headerClass = "public-site-header fixed inset-x-0 top-3 z-50 px-3 sm:px-4 pointer-events-none";
 
   // desktop outline btn (Start Project)
   const outlineBtnClass = isDark
-    ? "h-10 px-4 rounded-xl font-semibold inline-flex items-center gap-2.5 transition-colors duration-200 border border-white/15 bg-transparent text-white hover:bg-white/10"
-    : "h-10 px-4 rounded-xl font-semibold inline-flex items-center gap-2.5 transition-colors duration-200 border border-slate-200 bg-white text-slate-800 hover:bg-slate-50";
+    ? "h-10 min-w-max whitespace-nowrap px-4 rounded-xl font-semibold inline-flex items-center gap-2.5 transition-colors duration-200 border border-white/15 bg-white/[0.03] text-white hover:bg-white/10"
+    : "h-10 min-w-max whitespace-nowrap px-4 rounded-xl font-semibold inline-flex items-center gap-2.5 transition-colors duration-200 border border-slate-200 bg-white text-slate-800 hover:bg-slate-50";
 
   // desktop login btn
   const loginBtnClass =
-    "h-10 px-4 rounded-xl font-bold inline-flex items-center gap-2.5 transition-colors duration-200 shadow-sm border border-transparent bg-blue-600 hover:bg-blue-500 text-white";
+    "h-10 min-w-max whitespace-nowrap px-4 rounded-xl font-bold inline-flex items-center gap-2.5 transition-colors duration-200 shadow-sm border border-transparent bg-blue-600 hover:bg-blue-500 text-white";
 
   return (
     <header className={headerClass}>
-      <div className="container-edge h-16 flex items-center justify-between gap-5">
+      <div className="public-header-shell mx-auto flex h-16 items-center justify-between gap-3 px-4 sm:px-5 pointer-events-auto">
         {/* Brand */}
         <Link
           to="/"
-          className="flex shrink-0 items-center gap-2.5 font-black tracking-tight"
+          className="flex shrink-0 items-center gap-2.5 whitespace-nowrap font-black tracking-tight"
           onClick={closeMobile}
         >
           <img
@@ -139,7 +137,7 @@ export default function AppHeader() {
         </Link>
 
         {/* Desktop nav */}
-        <nav className="hidden lg:flex items-center gap-1.5">
+        <nav className="hidden xl:flex min-w-0 flex-1 items-center justify-center gap-1">
           <NavLink to="/" className={linkClass} end>
             <LuLayoutGrid className="h-4 w-4" /> Home
           </NavLink>
@@ -164,7 +162,7 @@ export default function AppHeader() {
         </nav>
 
         {/* Right actions (desktop) */}
-        <div className="hidden lg:flex items-center gap-2.5">
+        <div className="hidden xl:flex shrink-0 items-center gap-2">
           {/* 2-icon desktop switch */}
           <div
             className={
@@ -212,7 +210,7 @@ export default function AppHeader() {
               </NavLink>
               {/* Start project */}
               <Link to="/contact" className={outlineBtnClass}>
-                <LuRocket className="h-4 w-4" /> Start Project
+                <LuRocket className="h-4 w-4" /> Start project
               </Link>
             </>
           ) : (
@@ -222,8 +220,8 @@ export default function AppHeader() {
                 to={portalPath}
                 className={
                   isDark
-                    ? "h-10 inline-flex items-center gap-2.5 rounded-xl border border-white/10 px-4 text-sm font-bold text-white/90 hover:bg-white/5"
-                    : "h-10 inline-flex items-center gap-2.5 rounded-xl border border-slate-200 bg-white px-4 text-sm font-bold text-slate-800 hover:bg-slate-50"
+                    ? "h-10 min-w-max whitespace-nowrap inline-flex items-center gap-2.5 rounded-xl border border-white/10 px-4 text-sm font-bold text-white/90 hover:bg-white/5"
+                    : "h-10 min-w-max whitespace-nowrap inline-flex items-center gap-2.5 rounded-xl border border-slate-200 bg-white px-4 text-sm font-bold text-slate-800 hover:bg-slate-50"
                 }
               >
                 <LuLayoutDashboard className="h-4 w-4" /> Portal
@@ -336,8 +334,8 @@ export default function AppHeader() {
         <button
           className={
             isDark
-              ? "lg:hidden inline-grid place-items-center h-10 w-10 rounded-xl hover:bg-white/10"
-              : "lg:hidden inline-grid place-items-center h-10 w-10 rounded-xl hover:bg-slate-100 text-slate-800"
+              ? "xl:hidden inline-grid place-items-center h-10 w-10 rounded-xl hover:bg-white/10"
+              : "xl:hidden inline-grid place-items-center h-10 w-10 rounded-xl hover:bg-slate-100 text-slate-800"
           }
           aria-label={open ? "Close menu" : "Open menu"}
           aria-expanded={open}
@@ -356,7 +354,7 @@ export default function AppHeader() {
       {/* Mobile sheet */}
       <div
         className={[
-          "lg:hidden overflow-hidden transition-[max-height,opacity] duration-300",
+          "xl:hidden pointer-events-auto overflow-hidden transition-[max-height,opacity] duration-300",
           open ? "max-h-[480px] opacity-100" : "max-h-0 opacity-0",
         ].join(" ")}
       >

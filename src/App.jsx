@@ -41,9 +41,13 @@ function ScrollToTop() {
 }
 
 function RequireRole({ allow, children }) {
-  const { isAuthed, role } = useAuth();
+  const { isAuthed, role, checked } = useAuth();
   const location = useLocation();
   const allowed = Array.isArray(allow) ? allow : [allow];
+
+  if (!checked) {
+    return <PageFallback />;
+  }
 
   if (!isAuthed) {
     return <Navigate to="/login" replace state={{ from: location.pathname }} />;
@@ -86,7 +90,7 @@ export default function App() {
       <div className="min-h-screen flex flex-col bg-transparent text-textMain">
         {!hidePublicChrome && <AppHeader />}
 
-        <main className={hidePublicChrome ? "flex-1" : "flex-1 pt-16"}>
+        <main className={hidePublicChrome ? "flex-1" : "flex-1 pt-24 md:pt-28"}>
           <ScrollToTop />
           <Suspense fallback={<PageFallback />}>
             <Routes>

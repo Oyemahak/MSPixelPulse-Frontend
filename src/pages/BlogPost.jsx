@@ -4,7 +4,14 @@ import Container from "@/components/layout/Container.jsx";
 import { publishedBlogPosts } from "@/data/blogPosts.js";
 import { useTheme } from "@/lib/theme.js";
 import { site } from "@/data/site.js";
-import { LuArrowLeft, LuArrowRight, LuCalendarDays, LuClock } from "react-icons/lu";
+import {
+  LuArrowLeft,
+  LuArrowRight,
+  LuCalendarDays,
+  LuClock,
+  LuExternalLink,
+  LuLink,
+} from "react-icons/lu";
 
 export default function BlogPost() {
   const { slug } = useParams();
@@ -35,6 +42,8 @@ export default function BlogPost() {
     image: `${site.url}${post.cover}`,
     datePublished: post.publishedAt,
     dateModified: post.updatedAt,
+    keywords: post.tags.join(", "),
+    citation: post.resources?.map((resource) => resource.url),
     author: { "@type": "Organization", name: site.name },
     publisher: { "@type": "Organization", name: site.name, logo: { "@type": "ImageObject", url: `${site.url}/logo.svg` } },
     mainEntityOfPage: `${site.url}/blog/${post.slug}`,
@@ -65,7 +74,7 @@ export default function BlogPost() {
               <LuClock className="h-4 w-4" aria-hidden="true" /> {post.readingTime}
             </span>
           </div>
-          <h1 className={isDark ? "text-3xl font-black leading-tight md:text-4xl" : "text-3xl font-black leading-tight text-slate-950 md:text-4xl"}>
+          <h1 className={isDark ? "text-2xl font-black leading-tight md:text-3xl" : "text-2xl font-black leading-tight text-slate-950 md:text-3xl"}>
             {post.title}
           </h1>
           <p className={isDark ? "mt-4 text-base leading-7 text-textSub md:text-lg" : "mt-4 text-base leading-7 text-slate-600 md:text-lg"}>
@@ -98,6 +107,39 @@ export default function BlogPost() {
               </p>
             </section>
           </div>
+
+          {post.resources?.length > 0 && (
+            <aside className="seo-resource-card mt-10" aria-labelledby="article-resources-heading">
+              <div>
+                <span className="seo-resource-icon">
+                  <LuLink className="h-4 w-4" aria-hidden="true" />
+                </span>
+                <h2 id="article-resources-heading" className="text-xl font-black">
+                  Useful reference links
+                </h2>
+                <p className="mt-2 text-sm leading-6">
+                  Popular, trusted resources to bookmark when planning SEO, speed, accessibility, and platform decisions.
+                </p>
+              </div>
+              <div className="mt-5 grid gap-3">
+                {post.resources.map((resource) => (
+                  <a
+                    key={resource.url}
+                    className="seo-resource-link"
+                    href={resource.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <span>
+                      <strong>{resource.label}</strong>
+                      <small>{resource.note}</small>
+                    </span>
+                    <LuExternalLink className="h-4 w-4 shrink-0" aria-hidden="true" />
+                  </a>
+                ))}
+              </div>
+            </aside>
+          )}
 
           <div className="mt-10 flex flex-wrap gap-2">
             {post.tags.map((tag) => (

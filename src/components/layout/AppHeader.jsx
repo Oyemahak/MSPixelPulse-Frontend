@@ -11,6 +11,7 @@ import {
   LuWrench,
   LuTags,
   LuMail,
+  LuBookOpen,
   LuLogIn,
   LuRocket,
   LuLayoutDashboard,
@@ -22,6 +23,8 @@ import {
   LuSun,
   LuMoon,
 } from "react-icons/lu";
+import { SiWhatsapp } from "react-icons/si";
+import { site, whatsappUrl } from "@/data/site.js";
 
 /* Helper: initials for avatar fallback */
 function initials(name = "", email = "") {
@@ -125,16 +128,16 @@ export default function AppHeader() {
           onClick={closeMobile}
         >
           <img
-            src="/logo.svg"
+            src="/icon.svg"
             alt="MSPixelPulse"
-            className="h-6 w-6 object-contain"
+            className="h-8 w-8 object-contain"
             onError={(e) => (e.currentTarget.style.display = "none")}
           />
-          <span className={isDark ? "" : "text-slate-900"}>MSPixelPulse</span>
+          <span className={isDark ? "text-white" : "text-slate-900"}>MSPixelPulse</span>
         </Link>
 
         {/* Desktop nav */}
-        <nav className="hidden md:flex items-center gap-1">
+        <nav className="hidden lg:flex items-center gap-1">
           <NavLink to="/" className={linkClass} end>
             <LuLayoutGrid className="h-4 w-4" /> Home
           </NavLink>
@@ -147,13 +150,16 @@ export default function AppHeader() {
           <NavLink to="/pricing" className={linkClass}>
             <LuTags className="h-4 w-4" /> Pricing
           </NavLink>
+          <NavLink to="/blog" className={linkClass}>
+            <LuBookOpen className="h-4 w-4" /> Blog
+          </NavLink>
           <NavLink to="/contact" className={linkClass}>
             <LuMail className="h-4 w-4" /> Contact
           </NavLink>
         </nav>
 
         {/* Right actions (desktop) */}
-        <div className="hidden md:flex items-center gap-3">
+        <div className="hidden lg:flex items-center gap-3">
           {/* 2-icon desktop switch */}
           <div
             className={
@@ -325,8 +331,8 @@ export default function AppHeader() {
         <button
           className={
             isDark
-              ? "md:hidden inline-grid place-items-center h-10 w-10 rounded-xl hover:bg-white/10"
-              : "md:hidden inline-grid place-items-center h-10 w-10 rounded-xl hover:bg-slate-100 text-slate-800"
+              ? "lg:hidden inline-grid place-items-center h-10 w-10 rounded-xl hover:bg-white/10"
+              : "lg:hidden inline-grid place-items-center h-10 w-10 rounded-xl hover:bg-slate-100 text-slate-800"
           }
           aria-label={open ? "Close menu" : "Open menu"}
           aria-expanded={open}
@@ -345,7 +351,7 @@ export default function AppHeader() {
       {/* Mobile sheet */}
       <div
         className={[
-          "md:hidden overflow-hidden transition-[max-height,opacity] duration-300",
+          "lg:hidden overflow-hidden transition-[max-height,opacity] duration-300",
           open ? "max-h-[480px] opacity-100" : "max-h-0 opacity-0",
         ].join(" ")}
       >
@@ -369,6 +375,9 @@ export default function AppHeader() {
               </MobileLink>
               <MobileLink to="/pricing" onClick={closeMobile} dark={isDark}>
                 <LuTags className="h-4 w-4 mr-2" /> Pricing
+              </MobileLink>
+              <MobileLink to="/blog" onClick={closeMobile} dark={isDark}>
+                <LuBookOpen className="h-4 w-4 mr-2" /> Blog
               </MobileLink>
               <MobileLink to="/contact" onClick={closeMobile} dark={isDark}>
                 <LuMail className="h-4 w-4 mr-2" /> Contact
@@ -414,6 +423,21 @@ export default function AppHeader() {
                   >
                     <LuRocket className="h-4 w-4 mr-2" /> Start Project
                   </MobileCTA>
+                  <a
+                    href={whatsappUrl("Hi MSPixelPulse, I would like a quick website consultation.")}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={closeMobile}
+                    className={
+                      isDark
+                        ? "mt-2 flex min-h-11 items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/[0.04] font-bold text-white/90"
+                        : "mt-2 flex min-h-11 items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white font-bold text-slate-800"
+                    }
+                    aria-label={`Chat with MSPixelPulse on WhatsApp or call ${site.phoneDisplay}`}
+                  >
+                    <SiWhatsapp className="h-4 w-4" aria-hidden="true" />
+                    WhatsApp
+                  </a>
                 </>
               ) : (
                 <>

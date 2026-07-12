@@ -10,9 +10,11 @@ import Card, {
 } from "../components/ui/Card.jsx";
 import Button from "../components/ui/Button.jsx";
 import { useTheme } from "@/lib/theme.js";
+import Meta from "@/components/Meta.jsx";
+import ContactActions from "@/components/ContactActions.jsx";
 
 /* Icons */
-import { LuTag, LuRocket, LuMail } from "react-icons/lu";
+import { LuRocket, LuMail } from "react-icons/lu";
 import { SiReact, SiWordpress, SiWix } from "react-icons/si";
 
 /* Format numbers as CAD */
@@ -78,9 +80,14 @@ export default function Pricing() {
   return (
     <section className="section">
       <Container>
+        <Meta
+          title="Website Pricing — MSPixelPulse"
+          description="Review starting points for WordPress, React, Wix, professional email, and custom website projects with MSPixelPulse."
+          canonical="/pricing"
+        />
         <SectionTitle
           eyebrow="Our Packages"
-          title={isDark ? "Choose Your Website Solution" : "Choose your website solution"}
+          title={isDark ? "Starting points for website projects" : "Starting points for website projects"}
           align="center"
         />
 
@@ -127,15 +134,12 @@ export default function Pricing() {
 
               <CardContent>
                 <div className="flex flex-col items-center gap-2">
-                  <span className="line-through text-textSub text-lg">
-                    {CAD(active.price * 2)}
-                  </span>
+                  <span className="text-sm font-semibold text-textSub">Starting from</span>
                   <span className="text-4xl font-bold text-primary">
                     {CAD(active.price)}
                   </span>
-                  <span className="text-green-500 font-semibold inline-flex items-center gap-2">
-                    <LuTag className="h-5 w-5" aria-hidden="true" />
-                    50% OFF Limited Time
+                  <span className="max-w-sm text-sm text-textSub">
+                    Final pricing depends on scope, pages, content, integrations, and launch support.
                   </span>
                 </div>
 
@@ -157,15 +161,12 @@ export default function Pricing() {
               <p className="text-slate-500 mt-2">{active.description}</p>
 
               <div className="flex flex-col items-center gap-2 mt-6">
-                <span className="line-through text-slate-400 text-lg">
-                  {CAD(active.price * 2)}
-                </span>
+                <span className="text-sm font-semibold text-slate-500">Starting from</span>
                 <span className="text-4xl font-bold text-slate-900">
                   {CAD(active.price)}
                 </span>
-                <span className="text-emerald-500 font-semibold inline-flex items-center gap-2 text-sm">
-                  <LuTag className="h-5 w-5" aria-hidden="true" />
-                  50% OFF Limited Time
+                <span className="max-w-sm text-sm text-slate-500">
+                  Final pricing depends on scope, pages, content, integrations, and launch support.
                 </span>
               </div>
 
@@ -178,6 +179,17 @@ export default function Pricing() {
               </button>
             </div>
           )}
+        </div>
+        <div className={isDark ? "mx-auto mt-8 max-w-xl rounded-2xl border border-white/10 bg-white/[0.045] p-5 text-center" : "mx-auto mt-8 max-w-xl rounded-2xl border border-slate-200 bg-white/90 p-5 text-center shadow-sm"}>
+          <p className={isDark ? "text-sm leading-6 text-textSub" : "text-sm leading-6 text-slate-600"}>
+            Need help choosing? Send a quick note and we will recommend a practical starting point.
+          </p>
+          <ContactActions
+            dark={isDark}
+            className="mt-4 justify-center"
+            whatsappLabel="Discuss pricing"
+            message={`Hi MSPixelPulse, I would like to discuss pricing for ${active.stack}.`}
+          />
         </div>
       </Container>
     </section>

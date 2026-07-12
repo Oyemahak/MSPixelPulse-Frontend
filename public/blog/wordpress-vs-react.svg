@@ -1,0 +1,11 @@
+<svg width="1200" height="675" viewBox="0 0 1200 675" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title">
+  <title id="title">WordPress and React comparison illustration</title>
+  <rect width="1200" height="675" fill="#F8FAFC"/>
+  <rect x="88" y="86" width="492" height="503" rx="34" fill="#FFFFFF" stroke="#CBD5E1"/>
+  <rect x="620" y="86" width="492" height="503" rx="34" fill="#0F172A"/>
+  <circle cx="184" cy="188" r="50" fill="#2563EB"/>
+  <path d="M155 188c0-16 13-29 29-29s29 13 29 29-13 29-29 29-29-13-29-29Z" stroke="white" stroke-width="9"/>
+  <path d="M700 186c64-46 151-46 216 0M700 186c64 46 151 46 216 0M808 128v116" stroke="#60A5FA" stroke-width="11" stroke-linecap="round"/>
+  <path d="M166 291h285M166 345h338M166 399h220M698 291h285M698 345h338M698 399h220" stroke="#64748B" stroke-width="13" stroke-linecap="round"/>
+  <path d="M698 476h160M884 476h94" stroke="#A78BFA" stroke-width="14" stroke-linecap="round"/>
+</svg>

@@ -1,0 +1,12 @@
+<svg width="1200" height="675" viewBox="0 0 1200 675" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title">
+  <title id="title">Small business website feature checklist</title>
+  <rect width="1200" height="675" fill="#EEF2FF"/>
+  <rect x="106" y="78" width="988" height="519" rx="38" fill="#FFFFFF" stroke="#C7D2FE"/>
+  <rect x="174" y="148" width="326" height="150" rx="24" fill="#DBEAFE"/>
+  <rect x="534" y="148" width="326" height="150" rx="24" fill="#EDE9FE"/>
+  <rect x="174" y="334" width="326" height="150" rx="24" fill="#ECFDF5"/>
+  <rect x="534" y="334" width="326" height="150" rx="24" fill="#FCE7F3"/>
+  <path d="M223 221l29 29 72-82M583 221l29 29 72-82M223 407l29 29 72-82M583 407l29 29 72-82" stroke="#0F172A" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M366 205h78M366 246h54M726 205h78M726 246h54M366 391h78M366 432h54M726 391h78M726 432h54" stroke="#475569" stroke-width="12" stroke-linecap="round"/>
+  <path d="M919 198h92M919 246h58M919 358h92M919 406h58" stroke="#2563EB" stroke-width="14" stroke-linecap="round"/>
+</svg>

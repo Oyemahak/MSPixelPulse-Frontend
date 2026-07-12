@@ -1,4 +1,5 @@
 // Vercel Serverless Function: /api/contact
+/* global process */
 import { Resend } from "resend";
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -37,7 +38,19 @@ export default async function handler(req, res) {
       return res.end(JSON.stringify({ error: "Too many requests, please wait a moment." }));
     }
 
-    const { name = "", email = "", message = "", _hp } = req.body || {};
+    const {
+      name = "",
+      email = "",
+      message = "",
+      phone = "",
+      businessName = "",
+      service = "",
+      source = "",
+      sourceTitle = "",
+      sourceSlug = "",
+      sourceUrl = "",
+      _hp,
+    } = req.body || {};
     if (_hp) {
       res.writeHead(200, headers);
       return res.end(JSON.stringify({ ok: true }));
@@ -55,6 +68,13 @@ New Website Inquiry
 
 Name: ${name}
 Email: ${email}
+Business: ${businessName || "Not provided"}
+Phone: ${phone || "Not provided"}
+Service: ${service || "Not specified"}
+Source: ${source || "Not specified"}
+Source title: ${sourceTitle || "Not specified"}
+Source slug: ${sourceSlug || "Not specified"}
+Source URL: ${sourceUrl || "Not specified"}
 
 Message:
 ${message}
@@ -66,6 +86,13 @@ IP: ${ip}
         <h2 style="margin:0 0 8px">New Website Inquiry</h2>
         <p><strong>Name:</strong> ${escapeHTML(name)}</p>
         <p><strong>Email:</strong> <a href="mailto:${escapeAttr(email)}">${escapeHTML(email)}</a></p>
+        <p><strong>Business:</strong> ${escapeHTML(businessName || "Not provided")}</p>
+        <p><strong>Phone:</strong> ${escapeHTML(phone || "Not provided")}</p>
+        <p><strong>Service:</strong> ${escapeHTML(service || "Not specified")}</p>
+        <p><strong>Source:</strong> ${escapeHTML(source || "Not specified")}</p>
+        <p><strong>Source title:</strong> ${escapeHTML(sourceTitle || "Not specified")}</p>
+        <p><strong>Source slug:</strong> ${escapeHTML(sourceSlug || "Not specified")}</p>
+        <p><strong>Source URL:</strong> ${sourceUrl ? `<a href="${escapeAttr(sourceUrl)}">${escapeHTML(sourceUrl)}</a>` : "Not specified"}</p>
         <p style="margin:12px 0 4px"><strong>Message:</strong></p>
         <div style="white-space:pre-wrap;border:1px solid #e5e7eb;background:#f9fafb;border-radius:8px;padding:12px">${escapeHTML(message)}</div>
         <p style="margin-top:12px;color:#64748b;font-size:12px">IP: ${escapeHTML(ip)}</p>

@@ -5,22 +5,23 @@ import SectionTitle from "../components/SectionTitle.jsx";
 import Feedback from "@/components/Feedback.jsx";
 import { useTheme } from "@/lib/theme.js";
 import { projects } from "../data/projects.js";
+import Meta from "@/components/Meta.jsx";
+import ContactActions from "@/components/ContactActions.jsx";
 
 /* Icons */
-import { SiWhatsapp } from "react-icons/si";
 import { LuTag, LuCalendar, LuRocket } from "react-icons/lu";
 
 export default function Home() {
   const { theme } = useTheme();
   const isDark = theme === "dark";
 
-  // Pre-filled WhatsApp message
-  const waHref =
-    "https://wa.me/13658830338?text=" +
-    encodeURIComponent("Hi MSPixelPulse! I'm interested in a website. Can we chat?");
-
   return (
     <div className="relative">
+      <Meta
+        title="MSPixelPulse — Toronto Website Design for Small Businesses"
+        description="MSPixelPulse builds professional websites that help small businesses build trust, explain services clearly, and grow online."
+        canonical="/"
+      />
       {/* LIGHT THEME BG ONLY */}
       {!isDark && (
         <div
@@ -67,8 +68,8 @@ export default function Home() {
                     : "mt-5 text-slate-600 text-desc max-w-xl"
                 }
               >
-                We design &amp; build delightful sites with a client portal that keeps
-                everything in one place — projects, files, discussions, and delivery.
+                Professional websites built to help small businesses build trust,
+                present services clearly, and grow online.
               </p>
 
               {/* Hero buttons */}
@@ -167,16 +168,12 @@ export default function Home() {
                   </p>
                 </div>
 
-                <a
-                  className="btn btn-outline btn-shiny"
-                  href={waHref}
-                  target="_blank"
-                  rel="noreferrer"
-                  aria-label="Text me on WhatsApp"
-                >
-                  <SiWhatsapp className="mr-2 h-5 w-5" aria-hidden="true" />
-                  Text me on WhatsApp
-                </a>
+                <ContactActions
+                  dark={isDark}
+                  showPhone={false}
+                  whatsappLabel="Get a quick consultation"
+                  message="Hi MSPixelPulse, I would like a quick consultation for a website project."
+                />
 
                 <a
                   className="btn btn-outline"
@@ -201,16 +198,12 @@ export default function Home() {
                   </p>
                 </div>
 
-                <a
-                  className="inline-flex items-center gap-2 h-11 px-5 rounded-xl bg-slate-900 text-white font-semibold shadow-sm"
-                  href={waHref}
-                  target="_blank"
-                  rel="noreferrer"
-                  aria-label="Text me on WhatsApp"
-                >
-                  <SiWhatsapp className="h-5 w-5" aria-hidden="true" />
-                  Text me on WhatsApp
-                </a>
+                <ContactActions
+                  dark={isDark}
+                  showPhone={false}
+                  whatsappLabel="Get a quick consultation"
+                  message="Hi MSPixelPulse, I would like a quick consultation for a website project."
+                />
 
                 <a
                   className="inline-flex items-center gap-2 h-11 px-5 rounded-xl bg-white border border-slate-200 text-slate-900 font-semibold shadow-sm"

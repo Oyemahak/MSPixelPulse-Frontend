@@ -2,6 +2,8 @@
 import Container from "../components/layout/Container.jsx";
 import SectionTitle from "../components/SectionTitle.jsx";
 import { useTheme } from "@/lib/theme.js";
+import Meta from "@/components/Meta.jsx";
+import ContactActions from "@/components/ContactActions.jsx";
 
 /* Icons */
 import {
@@ -13,67 +15,66 @@ import {
   LuGraduationCap,
   LuCalendar,
 } from "react-icons/lu";
-import { SiWhatsapp } from "react-icons/si";
 
 const items = [
   {
-    t: "Design",
+    t: "Website Design & Development",
     icon: LuPenTool,
     b: [
-      "Wireframes & high-fidelity mockups",
-      "Branding & visual system",
-      "Accessibility AA",
-      "Content structure & UX flows",
+      "Business websites, landing pages, and portfolio websites",
+      "WordPress and React builds based on the project need",
+      "Responsive redesigns for outdated or hard-to-use sites",
+      "Clear content structure, UX flows, and accessibility basics",
     ],
   },
   {
-    t: "Development",
+    t: "E-commerce",
     icon: LuCode,
     b: [
-      "React / Node",
-      "WordPress / Wix (as needed)",
-      "Integrations & APIs",
-      "Client portal for collaboration",
+      "WooCommerce and online storefront planning",
+      "Product-page layout and checkout guidance",
+      "Payment and inquiry-flow integration support",
+      "Mobile-first shopping experience review",
     ],
   },
   {
-    t: "Care",
+    t: "Website Improvements",
     icon: LuShieldCheck,
     b: [
-      "Hosting & SSL",
-      "Security updates",
-      "Backups & uptime checks",
-      "Incident response",
+      "UI/UX improvements and responsive fixes",
+      "Speed, image, and Core Web Vitals basics",
+      "SEO-ready structure, metadata, and internal links",
+      "Content and layout updates for clearer services",
     ],
   },
   {
-    t: "Performance",
+    t: "Ongoing Support",
     icon: LuGauge,
     b: [
-      "Core Web Vitals basics",
-      "Image optimization",
-      "Lazy loading",
-      "Edge/CDN setup",
+      "Maintenance, content updates, and technical support",
+      "Security updates, backups, and uptime checks",
+      "Analytics and Search Console readiness",
+      "Practical handover notes for business owners",
     ],
   },
   {
-    t: "Analytics & SEO",
+    t: "Custom Solutions",
     icon: LuSearch,
     b: [
-      "SEO best practices",
-      "Sitemaps & metadata",
-      "Analytics dashboards",
-      "Search Console setup",
+      "Client portals, dashboards, and internal tools",
+      "Custom forms, booking flows, and integrations",
+      "API-connected React interfaces where useful",
+      "Role-based workflows that protect private data",
     ],
   },
   {
-    t: "Support & Training",
+    t: "SEO & Launch Readiness",
     icon: LuGraduationCap,
     b: [
-      "Admin handover session",
-      "Editable content areas",
-      "Short Loom tutorials",
-      "Priority email support",
+      "Page titles, descriptions, sitemap, and robots review",
+      "Local and industry keyword mapping without stuffing",
+      "Launch QA for forms, links, images, and mobile layouts",
+      "Domain migration and analytics setup guidance",
     ],
   },
 ];
@@ -82,16 +83,17 @@ export default function Services() {
   const { theme } = useTheme();
   const isDark = theme === "dark";
 
-  const waHref =
-    "https://wa.me/13658830338?text=" +
-    encodeURIComponent("Hi MSPixelPulse! I'm interested in a website. Can we chat?");
-
   return (
     <section className="section">
       <Container>
+        <Meta
+          title="Website Services — MSPixelPulse"
+          description="MSPixelPulse provides website design and development, WordPress and React websites, e-commerce, redesigns, maintenance, SEO-ready structure, and custom solutions."
+          canonical="/services"
+        />
         <SectionTitle
           eyebrow="Services"
-          title={isDark ? "What we deliver" : "What we deliver"}
+          title={isDark ? "Website services for small businesses" : "Website services for small businesses"}
           centered
         />
 
@@ -161,16 +163,12 @@ export default function Services() {
               </p>
             </div>
 
-            <a
-              className="btn btn-outline btn-shiny"
-              href={waHref}
-              target="_blank"
-              rel="noreferrer"
-              aria-label="Text me on WhatsApp"
-            >
-              <SiWhatsapp className="mr-2 h-5 w-5" aria-hidden="true" />
-              Text me on WhatsApp
-            </a>
+            <ContactActions
+              dark={isDark}
+              showPhone={false}
+              whatsappLabel="Discuss your project"
+              message="Hi MSPixelPulse, I would like to discuss website services for my business."
+            />
 
             <a
               className="btn btn-outline"
@@ -193,16 +191,12 @@ export default function Services() {
               </p>
             </div>
 
-            <a
-              className="inline-flex items-center gap-2 h-11 px-5 rounded-xl bg-slate-900 text-white font-semibold shadow-sm"
-              href={waHref}
-              target="_blank"
-              rel="noreferrer"
-              aria-label="Text me on WhatsApp"
-            >
-              <SiWhatsapp className="h-5 w-5" aria-hidden="true" />
-              Text me on WhatsApp
-            </a>
+            <ContactActions
+              dark={isDark}
+              showPhone={false}
+              whatsappLabel="Discuss your project"
+              message="Hi MSPixelPulse, I would like to discuss website services for my business."
+            />
 
             <a
               className="inline-flex items-center gap-2 h-11 px-5 rounded-xl bg-white border border-slate-200 text-slate-900 font-semibold shadow-sm"

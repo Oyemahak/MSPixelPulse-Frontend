@@ -1,7 +1,8 @@
 // src/components/Meta.jsx
 import { useEffect } from "react";
+import { site } from "@/data/site.js";
 
-export default function Meta({ title, description }) {
+export default function Meta({ title, description, canonical, image, type = "website", jsonLd }) {
   useEffect(() => {
     if (title) document.title = title;
     if (description) {
@@ -15,21 +16,54 @@ export default function Meta({ title, description }) {
     }
   }, [title, description]);
 
-  // Open Graph (lightweight)
   useEffect(() => {
-    const set = (name, content) => {
+    const setMeta = (selector, attrs, content) => {
       if (!content) return;
-      let t = document.querySelector(`meta[property="${name}"]`);
+      let t = document.querySelector(selector);
       if (!t) {
         t = document.createElement("meta");
-        t.setAttribute("property", name);
+        Object.entries(attrs).forEach(([key, value]) => t.setAttribute(key, value));
         document.head.appendChild(t);
       }
       t.setAttribute("content", content);
     };
-    if (title) set("og:title", title);
-    if (description) set("og:description", description);
-  }, [title, description]);
+    const absoluteUrl = canonical?.startsWith("http")
+      ? canonical
+      : `${site.url}${canonical || window.location.pathname}`;
+    const absoluteImage = image?.startsWith("http")
+      ? image
+      : `${site.url}${image || "/logo.svg"}`;
+
+    setMeta('meta[property="og:title"]', { property: "og:title" }, title);
+    setMeta('meta[property="og:description"]', { property: "og:description" }, description);
+    setMeta('meta[property="og:type"]', { property: "og:type" }, type);
+    setMeta('meta[property="og:url"]', { property: "og:url" }, absoluteUrl);
+    setMeta('meta[property="og:image"]', { property: "og:image" }, absoluteImage);
+    setMeta('meta[name="twitter:card"]', { name: "twitter:card" }, "summary_large_image");
+    setMeta('meta[name="twitter:title"]', { name: "twitter:title" }, title);
+    setMeta('meta[name="twitter:description"]', { name: "twitter:description" }, description);
+    setMeta('meta[name="twitter:image"]', { name: "twitter:image" }, absoluteImage);
+
+    let link = document.querySelector('link[rel="canonical"]');
+    if (!link) {
+      link = document.createElement("link");
+      link.setAttribute("rel", "canonical");
+      document.head.appendChild(link);
+    }
+    link.setAttribute("href", absoluteUrl);
+  }, [canonical, description, image, title, type]);
+
+  useEffect(() => {
+    const id = "page-json-ld";
+    document.getElementById(id)?.remove();
+    if (!jsonLd) return;
+    const script = document.createElement("script");
+    script.id = id;
+    script.type = "application/ld+json";
+    script.textContent = JSON.stringify(jsonLd);
+    document.head.appendChild(script);
+    return () => script.remove();
+  }, [jsonLd]);
 
   return null;
 }

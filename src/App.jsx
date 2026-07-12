@@ -14,6 +14,8 @@ const ProjectDetail = lazy(() => import("./pages/ProjectDetail.jsx"));
 const Services = lazy(() => import("./pages/Services.jsx"));
 const Pricing = lazy(() => import("./pages/Pricing.jsx"));
 const Contact = lazy(() => import("./pages/Contact.jsx"));
+const Blog = lazy(() => import("./pages/Blog.jsx"));
+const BlogPost = lazy(() => import("./pages/BlogPost.jsx"));
 const Login = lazy(() => import("./pages/auth/Login.jsx"));
 const Register = lazy(() => import("./pages/auth/Register.jsx"));
 const NotFound = lazy(() => import("./pages/NotFound.jsx"));
@@ -85,6 +87,8 @@ export default function App() {
               <Route path="/services" element={<Services />} />
               <Route path="/pricing" element={<Pricing />} />
               <Route path="/contact" element={<Contact />} />
+              <Route path="/blog" element={<Blog />} />
+              <Route path="/blog/:slug" element={<BlogPost />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
               {import.meta.env.DEV && DebugConnection && (

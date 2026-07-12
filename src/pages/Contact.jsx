@@ -4,9 +4,11 @@ import Container from "../components/layout/Container.jsx";
 import SectionTitle from "../components/SectionTitle.jsx";
 import { FORMS_BASE } from "@/lib/forms.js";
 import { useTheme } from "@/lib/theme.js";
+import Meta from "@/components/Meta.jsx";
+import ContactActions from "@/components/ContactActions.jsx";
+import { site } from "@/data/site.js";
 
 /* Icons */
-import { SiWhatsapp } from "react-icons/si";
 import { LuCalendar, LuSend } from "react-icons/lu";
 
 export default function Contact() {
@@ -27,11 +29,6 @@ export default function Contact() {
   });
   const [submitting, setSubmitting] = useState(false);
   const [note, setNote] = useState("");
-
-  // Pre-filled WhatsApp CTA
-  const waHref =
-    "https://wa.me/13658830338?text=" +
-    encodeURIComponent("Hi MSPixelPulse! I'm interested in a website. Can we chat?");
 
   async function submit(e) {
     e.preventDefault();
@@ -54,6 +51,8 @@ export default function Contact() {
       `Budget range: ${form.budget || "Not specified"}`,
       `Timeline: ${form.timeline || "Not specified"}`,
       `Current URL: ${form.currentUrl || "Not provided"}`,
+      `Source: contact page`,
+      `Source URL: ${typeof window !== "undefined" ? window.location.href : "/contact"}`,
       "",
       message,
     ].join("\n");
@@ -63,7 +62,13 @@ export default function Contact() {
       const res = await fetch(`${FORMS_BASE}/contact`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, message: enrichedMessage }),
+        body: JSON.stringify({
+          name,
+          email,
+          message: enrichedMessage,
+          source: "contact-page",
+          sourceUrl: typeof window !== "undefined" ? window.location.href : "/contact",
+        }),
       });
 
       const data = await res.json().catch(() => ({}));
@@ -92,6 +97,11 @@ export default function Contact() {
   return (
     <section className="section">
       <Container>
+        <Meta
+          title="Contact MSPixelPulse — Start a Website Project"
+          description="Contact MSPixelPulse about website design, redesign, WordPress, React, e-commerce, maintenance, and small business website support."
+          canonical="/contact"
+        />
         <SectionTitle
           eyebrow="Contact"
           title={isDark ? "Tell us about your project" : "Tell us about your project"}
@@ -263,6 +273,10 @@ export default function Contact() {
                 <li>• We’ll invite you to the client portal if it’s a fit.</li>
                 <li>• You can track progress, files, and discussions in one place.</li>
               </ul>
+              <div className="mt-5 space-y-2 text-sm text-textSub">
+                <a className="block hover:text-white" href={site.phoneHref}>{site.phoneDisplay}</a>
+                <a className="block hover:text-white" href={`mailto:${site.email}`}>{site.email}</a>
+              </div>
             </div>
           ) : (
             <div className="rounded-2xl bg-white border border-slate-200 shadow-sm p-5">
@@ -272,6 +286,10 @@ export default function Contact() {
                 <li>• We’ll invite you to the client portal if it’s a fit.</li>
                 <li>• You can track progress, files, and discussions in one place.</li>
               </ul>
+              <div className="mt-5 space-y-2 text-sm text-slate-600">
+                <a className="block hover:text-slate-950" href={site.phoneHref}>{site.phoneDisplay}</a>
+                <a className="block hover:text-slate-950" href={`mailto:${site.email}`}>{site.email}</a>
+              </div>
             </div>
           )}
         </div>
@@ -286,16 +304,11 @@ export default function Contact() {
               </p>
             </div>
 
-            <a
-              className="btn btn-outline btn-shiny"
-              href={waHref}
-              target="_blank"
-              rel="noreferrer"
-              aria-label="Text me on WhatsApp"
-            >
-              <SiWhatsapp className="mr-2 h-5 w-5" aria-hidden="true" />
-              Text me on WhatsApp
-            </a>
+            <ContactActions
+              dark={isDark}
+              whatsappLabel="Chat on WhatsApp"
+              message="Hi MSPixelPulse, I would like to discuss a website project."
+            />
 
             <a
               className="btn btn-outline"
@@ -318,16 +331,11 @@ export default function Contact() {
               </p>
             </div>
 
-            <a
-              className="inline-flex items-center gap-2 h-11 px-5 rounded-xl bg-slate-900 text-white font-semibold shadow-sm"
-              href={waHref}
-              target="_blank"
-              rel="noreferrer"
-              aria-label="Text me on WhatsApp"
-            >
-              <SiWhatsapp className="h-5 w-5" aria-hidden="true" />
-              Text me on WhatsApp
-            </a>
+            <ContactActions
+              dark={isDark}
+              whatsappLabel="Chat on WhatsApp"
+              message="Hi MSPixelPulse, I would like to discuss a website project."
+            />
 
             <a
               className="inline-flex items-center gap-2 h-11 px-5 rounded-xl bg-white border border-slate-200 text-slate-900 font-semibold shadow-sm"

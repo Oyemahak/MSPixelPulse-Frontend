@@ -3,7 +3,8 @@ import Container from "../components/layout/Container.jsx";
 import Meta from "../components/Meta.jsx";
 import { publishedProjects } from "../data/projects.js";
 import { useTheme } from "@/lib/theme.js";
-import { LuArrowLeft, LuExternalLink, LuGithub, LuMessageCircle } from "react-icons/lu";
+import { LuArrowLeft, LuExternalLink, LuGithub } from "react-icons/lu";
+import ContactActions from "@/components/ContactActions.jsx";
 
 export default function ProjectDetail() {
   const { id } = useParams();
@@ -27,15 +28,13 @@ export default function ProjectDetail() {
   }
 
   const isLive = project.classification === "live";
-  const waHref =
-    "https://wa.me/13658830338?text=" +
-    encodeURIComponent(`Hi MSPixelPulse! I want to build a website like ${project.title}.`);
-
   return (
     <section className="section">
       <Meta
         title={`${project.title} — MSPixelPulse Portfolio`}
         description={project.shortDescription || project.summary}
+        canonical={`/projects/${project.slug}`}
+        image={project.thumb}
       />
 
       <Container>
@@ -75,9 +74,12 @@ export default function ProjectDetail() {
                   Repository <LuGithub className="ml-2 h-4 w-4" />
                 </a>
               )}
-              <a href={waHref} target="_blank" rel="noreferrer" className={isDark ? "btn btn-outline" : "inline-flex h-11 items-center rounded-xl border border-slate-200 px-5 font-bold text-slate-800"}>
-                Build similar <LuMessageCircle className="ml-2 h-4 w-4" />
-              </a>
+              <ContactActions
+                dark={isDark}
+                showPhone={false}
+                whatsappLabel="Build similar"
+                message={`Hi MSPixelPulse, I want to build a website like ${project.title}.`}
+              />
             </div>
           </div>
 

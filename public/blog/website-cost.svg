@@ -1,0 +1,12 @@
+<svg width="1200" height="675" viewBox="0 0 1200 675" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title">
+  <title id="title">Website cost planning illustration</title>
+  <rect width="1200" height="675" fill="#0B0B0F"/>
+  <rect x="96" y="86" width="1008" height="503" rx="34" fill="url(#panel)" stroke="rgba(255,255,255,.14)"/>
+  <rect x="158" y="151" width="396" height="92" rx="20" fill="rgba(255,255,255,.08)"/>
+  <rect x="158" y="273" width="262" height="252" rx="24" fill="rgba(96,165,250,.16)"/>
+  <rect x="454" y="273" width="262" height="252" rx="24" fill="rgba(139,108,255,.16)"/>
+  <rect x="750" y="273" width="262" height="252" rx="24" fill="rgba(217,70,239,.14)"/>
+  <path d="M204 198h278M202 333h152M202 379h177M202 425h121M498 333h152M498 379h177M498 425h121M794 333h152M794 379h177M794 425h121" stroke="white" stroke-opacity=".75" stroke-width="12" stroke-linecap="round"/>
+  <path d="M829 184h82l27-39 38 78 44-102 28 63h54" stroke="#60A5FA" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+  <defs><linearGradient id="panel" x1="96" y1="86" x2="1104" y2="589"><stop stop-color="#172554"/><stop offset=".52" stop-color="#312E81"/><stop offset="1" stop-color="#581C87"/></linearGradient></defs>
+</svg>

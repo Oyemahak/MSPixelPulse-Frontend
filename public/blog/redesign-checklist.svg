@@ -1,0 +1,13 @@
+<svg width="1200" height="675" viewBox="0 0 1200 675" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title">
+  <title id="title">Website redesign checklist illustration</title>
+  <rect width="1200" height="675" fill="#0F172A"/>
+  <rect x="120" y="78" width="960" height="520" rx="36" fill="#111827" stroke="rgba(255,255,255,.14)"/>
+  <rect x="190" y="143" width="820" height="80" rx="22" fill="rgba(255,255,255,.08)"/>
+  <path d="M234 183h310M724 183h218" stroke="white" stroke-opacity=".75" stroke-width="12" stroke-linecap="round"/>
+  <g stroke-linecap="round" stroke-linejoin="round" stroke-width="13">
+    <path d="M238 296l28 28 62-72" stroke="#34D399"/>
+    <path d="M238 407l28 28 62-72" stroke="#60A5FA"/>
+    <path d="M238 518l28 28 62-72" stroke="#A78BFA"/>
+  </g>
+  <path d="M382 292h430M382 334h300M382 403h430M382 445h300M382 514h430M382 556h300" stroke="white" stroke-opacity=".65" stroke-width="11" stroke-linecap="round"/>
+</svg>

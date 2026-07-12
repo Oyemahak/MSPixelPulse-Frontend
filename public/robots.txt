@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /client
+Disallow: /dev
+Disallow: /login
+Disallow: /register
+Disallow: /debug
+
+Sitemap: https://mspixelpulse.vercel.app/sitemap.xml

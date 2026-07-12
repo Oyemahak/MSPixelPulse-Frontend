@@ -19,7 +19,7 @@ export const projects = [
     services: ["Website maintenance", "Content structure", "SEO support"],
     features: ["Program-forward page structure", "Admissions CTAs", "Mobile-friendly school content"],
     overview: "A school website presence for program discovery and admissions research.",
-    result: "Verified live public website.",
+    result: "Public website link listed for review.",
   },
   {
     id: "aimze-salon",
@@ -41,7 +41,7 @@ export const projects = [
     services: ["WordPress support", "Service content structure", "Responsive polish"],
     features: ["Service-led navigation", "Salon-focused hierarchy", "Contact and booking emphasis"],
     overview: "A salon and spa website structured around services and appointment interest.",
-    result: "Verified live public website.",
+    result: "Public website link listed for review.",
   },
   {
     id: "dazzling-smile-dental",
@@ -84,7 +84,7 @@ export const projects = [
     services: ["React demo design", "Frontend development", "E-commerce UX concept"],
     features: ["Shop filters", "Product detail flow", "Order inquiry path", "Occasion landing pages"],
     overview: "A fictional boutique storefront demo for Canadian flower shops.",
-    result: "Verified live agency demo.",
+    result: "Public agency demo link listed for review.",
   },
   {
     id: "stephy-pet-grooming-studio",
@@ -94,7 +94,7 @@ export const projects = [
     shortDescription: "A warm grooming demo with services, packages, gallery-style sections, and booking CTAs.",
     classification: "demo",
     label: "Demo Website",
-    industry: "Professional Services",
+    industry: "Beauty & Salon",
     websiteType: "Booking",
     platform: "React",
     stack: ["React", "Vite", "Lucide React"],
@@ -106,7 +106,7 @@ export const projects = [
     services: ["Demo brand design", "Frontend development", "Responsive QA"],
     features: ["Service package cards", "Booking-oriented CTAs", "Mobile-first navigation"],
     overview: "A fictional pet grooming demo for booking-led local services.",
-    result: "Verified live agency demo.",
+    result: "Public agency demo link listed for review.",
   },
   {
     id: "northstar-home-services",
@@ -116,7 +116,7 @@ export const projects = [
     shortDescription: "A conversion-focused local service demo with trust sections and quote CTAs.",
     classification: "demo",
     label: "Agency Demo",
-    industry: "Construction",
+    industry: "Home Services",
     websiteType: "Business Website",
     platform: "React",
     stack: ["React", "Vite", "Lucide React"],
@@ -128,7 +128,7 @@ export const projects = [
     services: ["Demo strategy", "Frontend development", "Responsive QA"],
     features: ["Quote-focused CTAs", "Service category cards", "Local trust sections"],
     overview: "A fictional home services demo built for quote generation and local credibility.",
-    result: "Verified live agency demo.",
+    result: "Public agency demo link listed for review.",
   },
   {
     id: "ms-pixelpulse-realty-group",
@@ -150,7 +150,7 @@ export const projects = [
     services: ["Demo concept", "Frontend development", "SEO-ready structure"],
     features: ["Buyer and seller CTAs", "Demo listing sections", "Premium trust layout"],
     overview: "A fictional real estate demo for agent credibility and lead capture.",
-    result: "Verified live agency demo.",
+    result: "Public agency demo link listed for review.",
   },
   {
     id: "ms-pixelpulse-wellness-studio",
@@ -160,7 +160,7 @@ export const projects = [
     shortDescription: "A calm wellness demo for services, appointment intent, and brand credibility.",
     classification: "demo",
     label: "Demo Website",
-    industry: "Fitness & Wellness",
+    industry: "Wellness",
     websiteType: "Booking",
     platform: "React",
     stack: ["React", "Vite", "Framer Motion"],
@@ -172,7 +172,7 @@ export const projects = [
     services: ["Demo strategy", "Frontend development", "Responsive QA"],
     features: ["Wellness service sections", "Appointment CTAs", "Premium visual tone"],
     overview: "A fictional wellness studio demo for calm service discovery and bookings.",
-    result: "Verified live agency demo.",
+    result: "Public agency demo link listed for review.",
   },
   {
     id: "brightpath-autism-child-development",
@@ -194,7 +194,7 @@ export const projects = [
     services: ["Concept strategy", "Frontend development", "Content safety review"],
     features: ["Safety-first copy", "Resource-oriented navigation", "Accessible content structure"],
     overview: "A fictional healthcare/resource concept with demo-safe language.",
-    result: "Verified live concept demo.",
+    result: "Public concept demo link listed for review.",
   },
 ];
 

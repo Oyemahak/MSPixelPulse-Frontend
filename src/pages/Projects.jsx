@@ -164,6 +164,8 @@ export default function Projects() {
   const featured = filtered.filter((project) => project.featured).slice(0, 4);
   const live = filtered.filter((project) => project.classification === "live");
   const demos = filtered.filter((project) => project.classification !== "live");
+  const liveCount = live.length;
+  const demoCount = filtered.length - liveCount;
 
   function reset() {
     setQuery("");
@@ -175,8 +177,9 @@ export default function Projects() {
   return (
     <section className="section overflow-x-hidden">
       <Meta
-        title="Portfolio Projects — MSPixelPulse"
+        title="Website Projects — MSPixelPulse"
         description="Explore live MSPixelPulse website work and clearly labeled agency demo websites by industry, platform, and website type."
+        canonical="/projects"
       />
 
       <div className="mx-auto w-[calc(100vw-2rem)] max-w-7xl sm:w-auto sm:px-6 lg:px-8">
@@ -192,7 +195,20 @@ export default function Projects() {
           </p>
         </div>
 
-        <div className={isDark ? "mt-8 w-full max-w-[calc(100vw-2rem)] rounded-2xl border border-white/10 bg-white/[0.045] p-4" : "mt-8 w-full max-w-[calc(100vw-2rem)] rounded-2xl border border-slate-200 bg-white p-4 shadow-sm"}>
+        <div className={isDark ? "mt-8 w-full max-w-[calc(100vw-2rem)] rounded-2xl border border-white/10 bg-gradient-to-br from-white/[0.08] to-white/[0.035] p-4 shadow-card backdrop-blur" : "mt-8 w-full max-w-[calc(100vw-2rem)] rounded-2xl border border-blue-100 bg-white/95 p-4 shadow-[0_18px_48px_rgba(37,99,255,0.08)]"}>
+          <div className="mb-3 flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <h2 className={isDark ? "text-sm font-black uppercase tracking-wide text-white/80" : "text-sm font-black uppercase tracking-wide text-slate-700"}>
+                Find the right website example
+              </h2>
+              <p className={isDark ? "mt-1 text-sm text-white/50" : "mt-1 text-sm text-slate-500"}>
+                Search by industry, website type, service, or technology.
+              </p>
+            </div>
+            <div className={isDark ? "text-sm font-bold text-white/70" : "text-sm font-bold text-slate-600"}>
+              {filtered.length} website project{filtered.length === 1 ? "" : "s"}
+            </div>
+          </div>
           <div className="grid min-w-0 gap-3 lg:grid-cols-[1.4fr_1fr_1fr_1fr_auto]">
             <label className="relative min-w-0">
               <span className="sr-only">Search projects</span>
@@ -200,7 +216,7 @@ export default function Projects() {
               <input
                 value={query}
                 onChange={(event) => setQuery(event.target.value)}
-                placeholder="Search by industry, platform, service..."
+                placeholder="Search by industry, website type, service, or technology..."
                 className="min-w-0 pl-10"
               />
             </label>
@@ -212,23 +228,24 @@ export default function Projects() {
             </select>
             <select className="min-w-0" value={classification} onChange={(event) => setClassification(event.target.value)} aria-label="Filter by classification">
               <option>{allOption}</option>
-              <option value="live">Live</option>
-              <option value="demo">Demo</option>
-              <option value="concept">Concept</option>
+              <option value="live">Live Business Websites</option>
+              <option value="demo">Demo Websites</option>
+              <option value="concept">Concept Websites</option>
             </select>
             <button type="button" onClick={reset} className={isDark ? "btn btn-outline" : "inline-flex h-11 items-center justify-center rounded-xl border border-slate-200 px-4 font-bold"}>
               <LuFilter className="mr-2 h-4 w-4" /> Reset
             </button>
           </div>
           <div className={isDark ? "mt-3 text-sm text-white/55" : "mt-3 text-sm text-slate-500"}>
-            Showing {filtered.length} of {publishedProjects.length} portfolio projects.
+            Showing {filtered.length} of {publishedProjects.length} website projects
+            {filtered.length ? `: ${liveCount} live and ${demoCount} demo/concept.` : "."}
           </div>
         </div>
 
         {!!featured.length && (
           <ProjectSection
             title="Featured Work"
-            description="A quick scan of the most representative live and demo portfolio pieces."
+            description="A quick scan of representative live and demo website examples."
             projects={featured}
             isDark={isDark}
           />

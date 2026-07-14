@@ -1,4 +1,5 @@
 // src/pages/Pricing.jsx
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
   LuArrowRight,
@@ -107,6 +108,21 @@ const plans = [
   },
 ];
 
+const planCategories = [
+  {
+    key: "website-builds",
+    label: "Website builds",
+    description: "WordPress and fully custom React websites",
+    planKeys: ["wordpress", "react"],
+  },
+  {
+    key: "managed-setup",
+    label: "Managed setup",
+    description: "Visual Wix builds and professional email",
+    planKeys: ["wix", "email"],
+  },
+];
+
 const compareRows = [
   ["Best editing fit", "CMS editing", "Custom code", "Visual builder", "Domain email"],
   ["Website pages", "Core pages", "Custom scope", "Core pages", "Not included"],
@@ -118,7 +134,10 @@ export default function Pricing() {
   const { theme } = useTheme();
   const isDark = theme === "dark";
   const nav = useNavigate();
+  const [activeCategory, setActiveCategory] = useState(planCategories[0].key);
   const muted = isDark ? "text-textSub" : "text-slate-600";
+  const selectedCategory = planCategories.find((category) => category.key === activeCategory) ?? planCategories[0];
+  const visiblePlans = plans.filter((plan) => selectedCategory.planKeys.includes(plan.key));
 
   function startPlan(plan) {
     const params = new URLSearchParams({
@@ -129,7 +148,7 @@ export default function Pricing() {
   }
 
   return (
-    <section className="section">
+    <section className="section pricing-page">
       <Container>
         <Meta
           title="Website Pricing — MSPixelPulse"
@@ -156,8 +175,34 @@ export default function Pricing() {
           })}
         </div>
 
-        <div className="mt-8 grid gap-5 lg:grid-cols-4">
-          {plans.map((plan) => {
+        <div className="pricing-category-control">
+          <div className="pricing-category-switch" role="tablist" aria-label="Pricing categories">
+            {planCategories.map((category) => (
+              <button
+                key={category.key}
+                id={`pricing-tab-${category.key}`}
+                type="button"
+                role="tab"
+                aria-selected={activeCategory === category.key}
+                aria-controls="pricing-plan-panel"
+                className={activeCategory === category.key ? "is-active" : ""}
+                onClick={() => setActiveCategory(category.key)}
+              >
+                <span>{category.label}</span>
+                <small>{category.description}</small>
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div
+          key={activeCategory}
+          id="pricing-plan-panel"
+          className="pricing-plans-grid"
+          role="tabpanel"
+          aria-labelledby={`pricing-tab-${activeCategory}`}
+        >
+          {visiblePlans.map((plan) => {
             const Icon = plan.icon;
             return (
               <article
@@ -193,7 +238,7 @@ export default function Pricing() {
                   ))}
                 </ul>
                 <button type="button" className="pricing-start-button" onClick={() => startPlan(plan)}>
-                  Discuss this option
+                  Discuss {plan.shortName}
                   <LuRocket className="h-4 w-4" aria-hidden="true" />
                 </button>
               </article>
@@ -212,7 +257,7 @@ export default function Pricing() {
               <LuArrowRight className="h-4 w-4" aria-hidden="true" />
             </Link>
           </div>
-          <div className="mt-6 overflow-x-auto">
+          <div className="pricing-table-wrap overflow-x-auto">
             <table className="pricing-table">
               <thead>
                 <tr>
@@ -237,7 +282,7 @@ export default function Pricing() {
           </div>
         </section>
 
-        <div className={isDark ? "mx-auto mt-8 max-w-3xl rounded-2xl border border-white/10 bg-white/[0.045] p-5 text-center" : "mx-auto mt-8 max-w-3xl rounded-2xl border border-slate-200 bg-white/80 p-5 text-center shadow-sm backdrop-blur-xl"}>
+        <div className={isDark ? "pricing-note mx-auto max-w-3xl rounded-2xl border border-white/10 bg-white/[0.045] p-5 text-center" : "pricing-note mx-auto max-w-3xl rounded-2xl border border-slate-200 bg-white/80 p-5 text-center shadow-sm backdrop-blur-xl"}>
           <p className={`text-sm leading-6 ${muted}`}>
             Final pricing depends on scope, pages, content, integrations, and launch support. Send a quick note and we will recommend the simplest practical starting point.
           </p>

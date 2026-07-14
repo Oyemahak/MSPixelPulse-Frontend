@@ -46,7 +46,7 @@ export default function About() {
         canonical="/about"
       />
       <Container>
-        <section className="grid gap-8 lg:grid-cols-[1.05fr_.95fr] lg:items-center">
+        <section className="about-hero-grid grid gap-10 lg:grid-cols-[minmax(0,1.18fr)_minmax(20rem,.62fr)] lg:items-center">
           <div>
             <p className="mb-4 inline-flex rounded-full bg-blue-600/10 px-3 py-1 text-xs font-black uppercase tracking-wide text-blue-500">
               About MSPixelPulse
@@ -73,33 +73,31 @@ export default function About() {
             </div>
           </div>
 
-          <div className={`about-founder-card rounded-2xl border ${surface}`}>
-            <div className="about-founder-photo-wrap">
-              <img
-                className="about-founder-photo"
-                src="/about/mahak-patel.jpg"
-                alt="Mahak Patel, founder of MSPixelPulse"
-                loading="eager"
-              />
-            </div>
-            <div className="p-5 md:p-6">
-              <div className="flex items-center gap-3">
-                <span className="inline-grid h-12 w-12 place-items-center rounded-2xl bg-blue-600 text-white">
-                  MP
-                </span>
-                <div>
-                  <h2 className="text-xl font-black">Mahak Patel</h2>
-                  <p className={`text-sm ${muted}`}>Founder, MSPixelPulse</p>
-                </div>
+          <div className={`about-founder-card border ${surface}`}>
+            <div className="about-founder-card-intro">
+              <div className="about-founder-photo-wrap">
+                <img
+                  className="about-founder-photo"
+                  src="/about/mahak-patel.jpg"
+                  alt="Mahak Patel, founder of MSPixelPulse"
+                  loading="eager"
+                  width="1100"
+                  height="1100"
+                />
               </div>
-              <p className={`mt-5 leading-7 ${muted}`}>
-                Mahak leads MSPixelPulse with a focus on honest project scoping, clean UX, accessible interfaces, and websites that owners can actually understand after launch.
-              </p>
-              <SocialContactLinks
-                className="mt-5"
-                include={["linkedin", "github", "portfolio"]}
-              />
+              <div className="min-w-0">
+                <p className="about-founder-kicker">Founder &amp; design lead</p>
+                <h2 className="about-founder-name">Mahak Patel</h2>
+                <p className={`about-founder-role ${muted}`}>MSPixelPulse · Toronto</p>
+              </div>
             </div>
+            <p className={`about-founder-summary ${muted}`}>
+              Focused on honest project scoping, clean UX, accessible interfaces, and websites owners can understand after launch.
+            </p>
+            <SocialContactLinks
+              className="about-founder-socials"
+              include={["linkedin", "github", "portfolio"]}
+            />
           </div>
         </section>
 

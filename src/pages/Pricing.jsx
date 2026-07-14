@@ -129,7 +129,7 @@ export default function Pricing() {
   }
 
   return (
-    <main className="section">
+    <section className="section">
       <Container>
         <Meta
           title="Website Pricing — MSPixelPulse"
@@ -249,6 +249,6 @@ export default function Pricing() {
           />
         </div>
       </Container>
-    </main>
+    </section>
   );
 }

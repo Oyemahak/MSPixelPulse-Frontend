@@ -1,15 +1,21 @@
 import { SiWhatsapp } from "react-icons/si";
-import { LuPhone } from "react-icons/lu";
-import { site, whatsappUrl } from "@/data/site.js";
+import { LuMail, LuMessageCircle, LuPhone } from "react-icons/lu";
+import {
+  site,
+  supportsNativeMessages,
+  whatsappUrl,
+} from "@/data/site.js";
 
 export default function ContactActions({
   message,
   whatsappLabel = "Chat on WhatsApp",
   showPhone = true,
+  showEmail = false,
+  showMessage = false,
   className = "",
   dark = true,
 }) {
-  const phoneClass = dark
+  const secondaryClass = dark
     ? "inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/[0.035] px-5 font-bold text-white/90 transition hover:bg-white/[0.07] focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
     : "inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-5 font-bold text-slate-900 shadow-sm transition hover:bg-slate-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500";
   const whatsappClass = dark
@@ -30,12 +36,32 @@ export default function ContactActions({
       </a>
       {showPhone && (
         <a
-          className={phoneClass}
+          className={secondaryClass}
           href={site.phoneHref}
           aria-label={`Call MSPixelPulse at ${site.phoneDisplay}`}
         >
           <LuPhone className="h-5 w-5" aria-hidden="true" />
           {site.phoneDisplay}
+        </a>
+      )}
+      {showEmail && (
+        <a
+          className={secondaryClass}
+          href={site.emailHref}
+          aria-label="Send an email to MSPixelPulse"
+        >
+          <LuMail className="h-5 w-5" aria-hidden="true" />
+          Email us
+        </a>
+      )}
+      {showMessage && supportsNativeMessages() && (
+        <a
+          className={secondaryClass}
+          href={site.messagesHref}
+          aria-label="Send an iMessage or text message to MSPixelPulse"
+        >
+          <LuMessageCircle className="h-5 w-5" aria-hidden="true" />
+          Text / iMessage
         </a>
       )}
     </div>

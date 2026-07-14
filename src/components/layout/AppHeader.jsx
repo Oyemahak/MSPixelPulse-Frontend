@@ -23,8 +23,7 @@ import {
   LuMoon,
   LuHandshake,
 } from "react-icons/lu";
-import { SiWhatsapp } from "react-icons/si";
-import { site, whatsappUrl } from "@/data/site.js";
+import SocialContactLinks from "@/components/SocialContactLinks.jsx";
 
 /* Helper: initials for avatar fallback */
 function initials(name = "", email = "") {
@@ -45,6 +44,8 @@ export default function AppHeader() {
   const [open, setOpen] = useState(false); // mobile nav
   const [menuOpen, setMenuOpen] = useState(false); // profile dropdown
   const menuRef = useRef(null);
+  const mobileButtonRef = useRef(null);
+  const mobilePanelRef = useRef(null);
 
   const avatarUrl = user?.avatarUrl || "";
 
@@ -87,6 +88,49 @@ export default function AppHeader() {
       document.removeEventListener("keydown", onEsc);
     };
   }, []);
+
+  useEffect(() => {
+    if (!open) return undefined;
+
+    const previousOverflow = document.body.style.overflow;
+    const mobileTrigger = mobileButtonRef.current;
+    document.body.style.overflow = "hidden";
+    const panel = mobilePanelRef.current;
+    const focusable = () => Array.from(panel?.querySelectorAll(
+      'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+    ) || []);
+    const focusTimer = window.setTimeout(() => focusable()[0]?.focus(), 80);
+
+    function onMobileKeyDown(event) {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        setOpen(false);
+        mobileButtonRef.current?.focus();
+        return;
+      }
+
+      if (event.key !== "Tab") return;
+      const items = focusable();
+      if (!items.length) return;
+      const first = items[0];
+      const last = items[items.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    }
+
+    document.addEventListener("keydown", onMobileKeyDown);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      document.removeEventListener("keydown", onMobileKeyDown);
+      window.clearTimeout(focusTimer);
+      mobileTrigger?.focus();
+    };
+  }, [open]);
 
   const closeMobile = useCallback(() => setOpen(false), []);
 
@@ -246,6 +290,8 @@ export default function AppHeader() {
                       : "scale-95 opacity-0 pointer-events-none",
                   ].join(" ")}
                   role="menu"
+                  aria-hidden={!menuOpen}
+                  inert={!menuOpen}
                 >
                   <div
                     className={`flex items-center gap-3 pb-2 border-b ${
@@ -320,6 +366,7 @@ export default function AppHeader() {
 
         {/* Mobile hamburger */}
         <button
+          ref={mobileButtonRef}
           className={
             isDark
               ? "xl:hidden inline-grid place-items-center h-10 w-10 rounded-xl hover:bg-white/10"
@@ -327,6 +374,7 @@ export default function AppHeader() {
           }
           aria-label={open ? "Close menu" : "Open menu"}
           aria-expanded={open}
+          aria-controls="public-mobile-navigation"
           onClick={() => setOpen((v) => !v)}
         >
           {open ? (
@@ -341,6 +389,9 @@ export default function AppHeader() {
 
       {/* Mobile sheet */}
       <div
+        id="public-mobile-navigation"
+        aria-hidden={!open}
+        inert={!open}
         className={[
           "xl:hidden pointer-events-auto overflow-hidden transition-[max-height,opacity] duration-300",
           open ? "max-h-[calc(100dvh-5.5rem)] opacity-100" : "max-h-0 opacity-0",
@@ -348,6 +399,10 @@ export default function AppHeader() {
       >
         <div className="container-edge pt-2 pb-3">
           <div
+            ref={mobilePanelRef}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Site navigation"
             className={
               isDark
                 ? "public-mobile-menu rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-xl shadow-[0_10px_40px_rgba(0,0,0,0.35)]"
@@ -409,21 +464,11 @@ export default function AppHeader() {
                   >
                     <LuLogIn className="h-4 w-4 mr-2" /> Login
                   </MobileCTA>
-                  <a
-                    href={whatsappUrl("Hi MSPixelPulse, I would like a quick website consultation.")}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={closeMobile}
-                    className={
-                      isDark
-                        ? "mt-1.5 flex min-h-10 items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/[0.04] font-bold text-white/90"
-                        : "mt-1.5 flex min-h-10 items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white font-bold text-slate-800"
-                    }
-                    aria-label={`Chat with MSPixelPulse on WhatsApp or call ${site.phoneDisplay}`}
-                  >
-                    <SiWhatsapp className="h-4 w-4" aria-hidden="true" />
-                    WhatsApp
-                  </a>
+                  <SocialContactLinks
+                    include={["email", "phone", "messages", "whatsapp"]}
+                    variant="icons"
+                    className="mobile-contact-links"
+                  />
                 </>
               ) : (
                 <>

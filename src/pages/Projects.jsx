@@ -24,18 +24,26 @@ function normalize(value) {
 function ProjectCard({ project, isDark }) {
   const badgeClass =
     project.classification === "live"
-      ? "bg-emerald-500/15 text-emerald-200 border-emerald-300/20"
-      : "bg-primary/15 text-white border-primary/30";
+      ? isDark
+        ? "bg-emerald-500/15 text-emerald-200 border-emerald-300/20"
+        : "bg-emerald-50 text-emerald-700 border-emerald-200"
+      : isDark
+        ? "bg-primary/15 text-blue-100 border-primary/30"
+        : "bg-blue-50 text-blue-700 border-blue-200";
 
   return (
     <article
-      className={
+      className={`project-showcase-card ${
         isDark
           ? "group overflow-hidden rounded-2xl border border-white/10 bg-white/[0.045]"
           : "group overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm"
-      }
+      }`}
     >
       <Link to={`/projects/${project.slug}`} className="block focus:outline-none focus-visible:ring-2 focus-visible:ring-primary">
+        <div className="browser-toolbar" aria-hidden="true">
+          <span /><span /><span />
+          <span className="browser-address">mspixelpulse.com / work</span>
+        </div>
         <div className="aspect-[16/10] overflow-hidden bg-black/20">
           <img
             src={project.thumb}
@@ -54,7 +62,7 @@ function ProjectCard({ project, isDark }) {
         </div>
       </Link>
 
-      <div className="p-5">
+      <div className="project-showcase-copy p-5">
         <div className="mb-3 flex flex-wrap items-center gap-2">
           <span className={`inline-flex rounded-full border px-3 py-1 text-xs font-bold ${badgeClass}`}>
             {project.label}
@@ -82,7 +90,7 @@ function ProjectCard({ project, isDark }) {
           ))}
         </div>
 
-        <div className="mt-5 flex flex-wrap gap-3">
+        <div className="project-card-actions mt-5 flex flex-wrap gap-3">
           <Link
             to={`/projects/${project.slug}`}
             className={isDark ? "btn btn-primary h-10 px-4" : "inline-flex h-10 items-center rounded-xl bg-[#2563ff] px-4 text-sm font-bold text-white"}
@@ -119,7 +127,7 @@ function ProjectSection({ title, description, projects, isDark }) {
           {projects.length} project{projects.length === 1 ? "" : "s"}
         </div>
       </div>
-      <div className="grid gap-6 lg:grid-cols-3">
+      <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
         {projects.map((project) => (
           <ProjectCard key={project.slug} project={project} isDark={isDark} />
         ))}
@@ -156,7 +164,10 @@ export default function Projects() {
         (!q || haystack.includes(q)) &&
         (industry === allOption || project.industry === industry) &&
         (type === allOption || project.websiteType === type) &&
-        (classification === allOption || project.classification === classification)
+        (classification === allOption ||
+          (classification === "concept"
+            ? project.classification !== "live"
+            : project.classification === classification))
       );
     });
   }, [classification, industry, query, type]);
@@ -229,7 +240,6 @@ export default function Projects() {
             <select className="min-w-0" value={classification} onChange={(event) => setClassification(event.target.value)} aria-label="Filter by classification">
               <option>{allOption}</option>
               <option value="live">Live Business Websites</option>
-              <option value="demo">Concept Websites</option>
               <option value="concept">Concept Websites</option>
             </select>
             <button type="button" onClick={reset} className={isDark ? "btn btn-outline" : "inline-flex h-11 items-center justify-center rounded-xl border border-slate-200 px-4 font-bold"}>
@@ -253,7 +263,7 @@ export default function Projects() {
 
         <ProjectSection
           title="Live Website Work"
-          description="Verified public websites and current client-facing work."
+          description="Published work and active website entries; live links are shown where currently available."
           projects={live}
           isDark={isDark}
         />

@@ -23,27 +23,44 @@ import { projects } from "../data/projects.js";
 import { blogPosts } from "@/data/blogPosts.js";
 import Meta from "@/components/Meta.jsx";
 import ContactActions from "@/components/ContactActions.jsx";
+import AgencyInterfacePreview from "@/components/AgencyInterfacePreview.jsx";
 
 const services = [
   {
+    icon: LuSparkles,
+    title: "Web design & UX/UI",
+    body: "Clear page systems, thoughtful interaction design, and strong visual hierarchy built around how customers decide.",
+    deliverable: "Strategy, wireframes and polished UI",
+  },
+  {
+    icon: LuMonitorSmartphone,
+    title: "React development",
+    body: "Fast, reusable interfaces for custom business websites, dashboards, forms, and application-style experiences.",
+    deliverable: "Reusable components and integrations",
+  },
+  {
     icon: LuBriefcaseBusiness,
-    title: "Business websites",
-    body: "Service pages, portfolio pages, pricing, blog, and contact flows built around how customers decide.",
+    title: "WordPress development",
+    body: "Professional WordPress websites that keep service content, updates, and local search structure manageable.",
+    deliverable: "Flexible content and launch support",
+  },
+  {
+    icon: LuShieldCheck,
+    title: "Client portal solutions",
+    body: "Role-based workspaces for project updates, files, discussions, billing, approvals, and launch coordination.",
+    deliverable: "Secure client and admin workflows",
   },
   {
     icon: LuSmartphone,
     title: "Responsive redesigns",
-    body: "Cleaner mobile layouts, navigation, spacing, speed, and forms for websites that feel hard to use.",
-  },
-  {
-    icon: LuShieldCheck,
-    title: "Client portals",
-    body: "Role-based workspaces for project updates, files, discussions, billing, and launch coordination.",
+    body: "Cleaner mobile layouts, navigation, spacing, accessibility, speed, and forms for websites that feel hard to use.",
+    deliverable: "Mobile-first interface improvements",
   },
   {
     icon: LuLifeBuoy,
-    title: "Care and maintenance",
-    body: "Content updates, practical SEO checks, launch fixes, and ongoing website support when needed.",
+    title: "Website maintenance",
+    body: "Content updates, practical SEO checks, launch fixes, and ongoing digital agency support when needed.",
+    deliverable: "Care, updates and release checks",
   },
 ];
 
@@ -53,9 +70,6 @@ const process = [
   "Build with reusable components and SEO-ready structure",
   "Test forms, links, mobile layouts, and launch details",
 ];
-
-const heroPhoto =
-  "https://images.unsplash.com/photo-1758691737124-05c5bffe46f0?auto=format&fit=crop&w=1500&q=78";
 
 export default function Home() {
   const { theme } = useTheme();
@@ -71,14 +85,14 @@ export default function Home() {
     : "border-slate-200 bg-white text-slate-950 shadow-sm";
   const proofStats = [
     {
-      value: `${totalProjectCount}+`,
+      value: `${totalProjectCount}`,
       label: "portfolio examples",
       note: "live work and concept builds listed for review",
     },
     {
       value: `${liveProjectCount}`,
       label: "live website entries",
-      note: "public business websites tracked in the portfolio",
+      note: "published business website entries tracked in the portfolio",
     },
     {
       value: `${conceptProjectCount}`,
@@ -127,13 +141,13 @@ export default function Home() {
           <div className="grid min-w-0 gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
             <div className="min-w-0">
               <p className="mb-4 inline-flex rounded-full bg-blue-600/10 px-3 py-1 text-xs font-black uppercase tracking-wide text-blue-500">
-                MSPixelPulse · Toronto
+                Toronto web design & digital agency
               </p>
               <h1 className={isDark ? "max-w-3xl break-words text-4xl font-black leading-tight md:text-6xl" : "max-w-3xl break-words text-4xl font-black leading-tight text-slate-950 md:text-6xl"}>
-                Clean websites that make small businesses easier to trust.
+                Premium websites that make small businesses easier to trust.
               </h1>
               <p className={`mt-5 max-w-2xl text-lg leading-8 ${muted}`}>
-                We plan, design, build, and maintain practical websites for service businesses that need clear pages, strong mobile layouts, direct contact paths, and simple update workflows after launch.
+                MSPixelPulse combines web design, UX/UI, React and WordPress development, website maintenance, and client portal solutions into one practical agency workflow.
               </p>
               <div className="mt-8 flex flex-wrap gap-3">
                 <Link className="btn btn-primary" to="/contact">
@@ -150,40 +164,7 @@ export default function Home() {
               </div>
             </div>
 
-            <figure className={`hero-photo-card min-w-0 overflow-hidden rounded-[1.6rem] border ${surface}`}>
-              <div className="hero-photo-media">
-                <img
-                  className="hero-photo-image"
-                  src={heroPhoto}
-                  alt="Creative agency team reviewing website work around a laptop in a modern office"
-                  loading="eager"
-                  fetchPriority="high"
-                />
-                <div className="hero-photo-scrim" aria-hidden="true" />
-                <div className="hero-color-ribbon" aria-hidden="true" />
-                <div className="hero-photo-stack" aria-hidden="true">
-                  <div className="hero-photo-stack-card">
-                    <span className="hero-photo-line hero-photo-line-lg" />
-                    <span className="hero-photo-line" />
-                  </div>
-                  <div className="hero-photo-stack-card hero-photo-stack-card-accent">
-                    <span className="hero-photo-dot" />
-                    <span className="hero-photo-line" />
-                  </div>
-                </div>
-                <div className="hero-contact-bubble" aria-hidden="true">
-                  <span>New project note</span>
-                  <strong>Ready for contact</strong>
-                </div>
-              </div>
-              <div className="grid gap-3 p-4 sm:grid-cols-3 sm:p-5">
-                {["Website planning", "Responsive build", "Portal handoff"].map((item) => (
-                  <div key={item} className="hero-photo-pill">
-                    {item}
-                  </div>
-                ))}
-              </div>
-            </figure>
+            <AgencyInterfacePreview />
           </div>
         </Container>
       </section>
@@ -206,14 +187,20 @@ export default function Home() {
 
       <section className="section py-8">
         <Container>
-          <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-4">
+          <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
             {services.map((service) => {
               const Icon = service.icon;
               return (
-                <article key={service.title} className={`rounded-2xl border p-5 ${surface}`}>
-                  <Icon className="h-6 w-6 text-blue-500" aria-hidden="true" />
+                <article key={service.title} className={`home-service-card rounded-2xl border p-5 ${surface}`}>
+                  <span className="home-service-icon" aria-hidden="true">
+                    <Icon className="h-6 w-6" />
+                  </span>
                   <h2 className="mt-4 text-lg font-black">{service.title}</h2>
                   <p className={`mt-2 text-sm leading-6 ${muted}`}>{service.body}</p>
+                  <p className="home-service-deliverable">{service.deliverable}</p>
+                  <Link className="home-service-link" to="/services">
+                    Explore service <LuArrowRight className="h-4 w-4" aria-hidden="true" />
+                  </Link>
                 </article>
               );
             })}
@@ -345,6 +332,7 @@ export default function Home() {
               </div>
               <ContactActions
                 dark={isDark}
+                showEmail
                 whatsappLabel="Chat on WhatsApp"
                 message="Hi MSPixelPulse, I would like to discuss a website project."
               />
@@ -366,15 +354,24 @@ function ProjectSection({ eyebrow, title, projects: items, dark }) {
         <SectionTitle eyebrow={eyebrow} title={title} centered />
         <div className="grid gap-5 md:grid-cols-3">
           {items.map((project) => (
-            <Link key={project.id} to={`/projects/${project.id}`} className="group">
-              <article className={dark ? "overflow-hidden rounded-2xl border border-white/10 bg-white/[0.035]" : "overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm"}>
-                <img
-                  className="aspect-[16/10] w-full object-cover transition duration-300 group-hover:scale-[1.03]"
-                  src={project.thumb}
-                  alt={project.imageAlt || project.title}
-                  loading="lazy"
-                />
-                <div className="p-5">
+            <article key={project.id} className="project-showcase-card">
+              <Link to={`/projects/${project.id}`} className="project-browser-frame group">
+                <span className="project-browser-toolbar" aria-hidden="true">
+                  <i /><i /><i />
+                  <small>{project.platform} preview</small>
+                </span>
+                <span className="project-preview-media">
+                  <img
+                    className="aspect-[16/10] w-full object-cover transition duration-300 group-hover:scale-[1.03]"
+                    src={project.thumb}
+                    alt={project.imageAlt || project.title}
+                    loading="lazy"
+                    width="1440"
+                    height="900"
+                  />
+                </span>
+              </Link>
+                <div className="project-showcase-copy p-5">
                   <div className="mb-3 flex flex-wrap gap-2">
                     {project.stack.slice(0, 3).map((stack) => (
                       <span key={stack} className={dark ? "badge" : "rounded-full bg-slate-100 px-3 py-1 text-xs font-bold text-slate-700"}>
@@ -388,9 +385,11 @@ function ProjectSection({ eyebrow, title, projects: items, dark }) {
                   <p className={`mt-2 text-sm leading-6 ${muted}`}>
                     {project.shortDescription || project.summary}
                   </p>
+                  <Link className="project-showcase-link" to={`/projects/${project.id}`}>
+                    View case study <LuArrowRight className="h-4 w-4" aria-hidden="true" />
+                  </Link>
                 </div>
-              </article>
-            </Link>
+            </article>
           ))}
         </div>
       </Container>

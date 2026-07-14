@@ -2,18 +2,18 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 
 const ThemeContext = createContext({
-  theme: "dark",
+  theme: "light",
   setTheme: () => {},
   toggleTheme: () => {},
 });
 
 function getInitialTheme() {
-  if (typeof window === "undefined") return "dark";
+  if (typeof window === "undefined") return "light";
 
   const saved = window.localStorage.getItem("mspixelpulse-theme");
   if (saved === "light" || saved === "dark") return saved;
 
-  return window.matchMedia("(max-width: 767px)").matches ? "light" : "dark";
+  return "light";
 }
 
 export function ThemeProvider({ children }) {
@@ -23,12 +23,11 @@ export function ThemeProvider({ children }) {
   useEffect(() => {
     const root = document.documentElement;
 
-    if (theme === "dark") {
-      root.setAttribute("data-theme", "dark");
-    } else {
-      // for your current CSS, not having data-theme means "light"
-      root.removeAttribute("data-theme");
-    }
+    root.setAttribute("data-theme", theme);
+    root.style.colorScheme = theme;
+
+    const themeColor = document.querySelector('meta[name="theme-color"]');
+    themeColor?.setAttribute("content", theme === "dark" ? "#101827" : "#f6f8fc");
 
     window.localStorage.setItem("mspixelpulse-theme", theme);
   }, [theme]);
@@ -42,7 +41,6 @@ export function ThemeProvider({ children }) {
     setThemeState((prev) => (prev === "dark" ? "light" : "dark"));
   };
 
-  // keep your React.createElement style
   return React.createElement(
     ThemeContext.Provider,
     {

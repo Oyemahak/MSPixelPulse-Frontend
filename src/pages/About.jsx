@@ -11,6 +11,8 @@ import { Link } from "react-router-dom";
 import Container from "@/components/layout/Container.jsx";
 import Meta from "@/components/Meta.jsx";
 import ContactActions from "@/components/ContactActions.jsx";
+import SocialContactLinks from "@/components/SocialContactLinks.jsx";
+import { site } from "@/data/site.js";
 import { useTheme } from "@/lib/theme.js";
 
 const principles = [
@@ -37,7 +39,7 @@ export default function About() {
   const muted = isDark ? "text-white/65" : "text-slate-600";
 
   return (
-    <main className="section">
+    <section className="section">
       <Meta
         title="About MSPixelPulse — Toronto Website Agency"
         description="Learn about MSPixelPulse, a Toronto website agency focused on clear, responsive, maintainable websites for small businesses."
@@ -61,7 +63,7 @@ export default function About() {
               </Link>
               <a
                 className={isDark ? "btn btn-outline" : "inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-5 font-bold text-slate-900 shadow-sm hover:bg-slate-50"}
-                href="https://mahakpatel.com"
+                href={site.portfolio}
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -93,6 +95,10 @@ export default function About() {
               <p className={`mt-5 leading-7 ${muted}`}>
                 Mahak leads MSPixelPulse with a focus on honest project scoping, clean UX, accessible interfaces, and websites that owners can actually understand after launch.
               </p>
+              <SocialContactLinks
+                className="mt-5"
+                include={["linkedin", "github", "portfolio"]}
+              />
             </div>
           </div>
         </section>
@@ -170,7 +176,7 @@ export default function About() {
           </div>
         </section>
       </Container>
-    </main>
+    </section>
   );
 }
 

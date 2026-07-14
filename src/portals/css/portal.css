@@ -1,306 +1,292 @@
 /* ───────────────────────────────────────────────────────────
    Root / Base
    ─────────────────────────────────────────────────────────── */
-:root {
-    scrollbar-gutter: stable;
-}
-
-html,
-body,
-#root {
-    height: 100%;
-}
-
-body {
+.portal-frame {
     @apply text-textMain antialiased bg-transparent;
-}
-
-html {
-    overflow-y: scroll;
 }
 
 /* ───────────────────────────────────────────────────────────
    Layout helpers
    ─────────────────────────────────────────────────────────── */
-.container-edge {
+.portal-frame .container-edge {
     @apply mx-auto max-w-7xl px-4 sm:px-6 lg:px-8;
 }
 
-.section {
+.portal-frame .section {
     @apply py-14 md:py-20;
 }
 
-.card,
-.card-surface {
+.portal-frame .card,
+.portal-frame .card-surface {
     @apply bg-surface/80 backdrop-blur border border-white/5 shadow-card rounded-2xl;
 }
 
-.card-pad {
+.portal-frame .card-pad {
     @apply p-5;
 }
 
-.card-pad-lg {
+.portal-frame .card-pad-lg {
     @apply p-6;
 }
 
-.page-shell {
+.portal-frame .page-shell {
     @apply px-4 pb-12;
 }
 
-.page-header {
+.portal-frame .page-header {
     @apply flex items-center justify-between mb-4;
 }
 
-.page-title {
+.portal-frame .page-title {
     @apply text-xl font-extrabold;
 }
 
-.grid-3 {
+.portal-frame .grid-3 {
     @apply grid gap-5 md:grid-cols-3;
 }
 
-.grid-2 {
+.portal-frame .grid-2 {
     @apply grid gap-6 md:grid-cols-2;
 }
 
-.mt-section {
+.portal-frame .mt-section {
     @apply mt-8;
 }
 
-.space-stack>*+* {
+.portal-frame .space-stack>*+* {
     @apply mt-5;
 }
 
-.stack>*+* {
+.portal-frame .stack>*+* {
     @apply mt-5;
 }
 
-.toolbar-bottom {
+.portal-frame .toolbar-bottom {
     @apply flex items-center justify-end gap-2 pt-2;
 }
 
-.card-head {
+.portal-frame .card-head {
     @apply flex items-center justify-between mb-3;
 }
 
-.card-title {
+.portal-frame .card-title {
     @apply font-extrabold;
 }
 
-.card-strip {
+.portal-frame .card-strip {
     @apply px-4 py-3 border-b border-white/10 text-sm text-white/70;
 }
 
-.card-strip.between {
+.portal-frame .card-strip.between {
     @apply flex items-center justify-between;
 }
 
 /* ───────────────────────────────────────────────────────────
    Buttons & badges
    ─────────────────────────────────────────────────────────── */
-.btn {
+.portal-frame .btn {
     @apply inline-flex items-center justify-center font-bold rounded-xl h-11 px-5;
 }
 
-.btn-sm {
+.portal-frame .btn-sm {
     @apply h-8 px-3 rounded-lg text-sm;
 }
 
-.btn-primary {
+.portal-frame .btn-primary {
     @apply bg-primary hover:bg-primaryAccent text-white;
 }
 
-.btn-outline {
+.portal-frame .btn-outline {
     @apply border border-white/10 bg-transparent text-textMain hover:bg-white/5;
 }
 
-.badge {
+.portal-frame .badge {
     @apply inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold bg-white/10 text-textSub;
 }
 
-.icon-btn {
+.portal-frame .icon-btn {
     @apply h-8 w-8 inline-grid place-items-center rounded-lg hover:bg-white/10;
 }
 
 /* ───────────────────────────────────────────────────────────
    Text helpers
    ─────────────────────────────────────────────────────────── */
-.text-muted {
+.portal-frame .text-muted {
     @apply text-white/80;
 }
 
-.text-muted-xs {
+.portal-frame .text-muted-xs {
     @apply text-xs text-white/60;
 }
 
-.text-success {
+.portal-frame .text-success {
     @apply text-emerald-400 text-sm;
 }
 
-.text-error {
+.portal-frame .text-error {
     @apply text-rose-400 text-sm;
 }
 
-.subtle-link {
+.portal-frame .subtle-link {
     @apply text-sm underline opacity-80 hover:opacity-100;
 }
 
-.row-link {
+.portal-frame .row-link {
     @apply font-medium hover:text-primary;
 }
 
-.row-sub {
+.portal-frame .row-sub {
     @apply text-xs text-white/60 mt-0.5 leading-5;
 }
 
-.kpi-card:hover {
+.portal-frame .kpi-card:hover {
     @apply bg-white/5;
     transition: background-color .15s;
 }
 
-.kpi-label {
+.portal-frame .kpi-label {
     @apply text-textSub text-sm;
 }
 
-.kpi-value {
+.portal-frame .kpi-value {
     @apply text-3xl font-black mt-1;
 }
 
-.list {
+.portal-frame .list {
     @apply divide-y divide-white/10;
 }
 
-.list-row {
+.portal-frame .list-row {
     @apply flex items-center justify-between py-3 hover:bg-white/5 px-2 rounded-lg;
 }
 
-.empty-note {
+.portal-frame .empty-note {
     @apply text-white/70 text-sm py-2;
 }
 
 /* ───────────────────────────────────────────────────────────
    Tables
    ─────────────────────────────────────────────────────────── */
-.table {
+.portal-frame .table {
     @apply w-full text-sm;
 }
 
-.table thead th {
+.portal-frame .table thead th {
     @apply text-left text-xs font-semibold tracking-wide uppercase text-white/60 py-3 px-5;
 }
 
-.table tbody tr {
+.portal-frame .table tbody tr {
     @apply border-t border-white/5;
 }
 
-.table tbody td {
+.portal-frame .table tbody td {
     @apply py-3 px-5 align-middle;
 }
 
-.table-row-hover:hover {
+.portal-frame .table-row-hover:hover {
     @apply bg-white/5;
 }
 
-.actions-head {
+.portal-frame .actions-head {
     @apply w-[10%] text-right pr-4;
 }
 
-.actions-cell {
+.portal-frame .actions-cell {
     @apply text-right whitespace-nowrap pr-4;
 }
 
-.w-42 {
+.portal-frame .w-42 {
     width: 42%;
 }
 
-.w-34 {
+.portal-frame .w-34 {
     width: 34%;
 }
 
-.w-24 {
+.portal-frame .w-24 {
     width: 24%;
 }
 
-.w-20 {
+.portal-frame .w-20 {
     width: 20%;
 }
 
-.empty-cell {
+.portal-frame .empty-cell {
     @apply text-white/70 py-6 px-5;
 }
 
-.row-edit td {
+.portal-frame .row-edit td {
     @apply p-4 bg-white/5;
 }
 
 /* ───────────────────────────────────────────────────────────
    Forms
    ─────────────────────────────────────────────────────────── */
-input,
-select,
-textarea {
+.portal-frame input,
+.portal-frame select,
+.portal-frame textarea {
     @apply w-full rounded-xl bg-white/5 border border-white/10 px-4 h-11;
 }
 
-textarea,
-.form-textarea {
+.portal-frame textarea,
+.portal-frame .form-textarea {
     @apply h-40 py-3 resize-y;
 }
 
-.form-textarea-sm {
+.portal-frame .form-textarea-sm {
     @apply h-28 py-3 resize-y;
 }
 
-.form-narrow {
+.portal-frame .form-narrow {
     @apply max-w-xl space-y-4;
 }
 
-.form-wide {
+.portal-frame .form-wide {
     @apply max-w-2xl space-y-4;
 }
 
-.form-stack>*+* {
+.portal-frame .form-stack>*+* {
     @apply mt-4;
 }
 
-.form-grid-2 {
+.portal-frame .form-grid-2 {
     @apply grid gap-4 md:grid-cols-2;
 }
 
-.form-grid-3 {
+.portal-frame .form-grid-3 {
     @apply grid gap-3 md:grid-cols-3;
 }
 
-.form-span-2 {
+.portal-frame .form-span-2 {
     grid-column: 1 / -1;
 }
 
-.form-actions {
+.portal-frame .form-actions {
     @apply pt-1 flex items-center gap-3;
 }
 
-.mt-tight {
+.portal-frame .mt-tight {
     @apply mt-4;
 }
 
-.form-label {
+.portal-frame .form-label {
     @apply text-xs text-white/65 mb-1;
 }
 
-.filters-grid {
-    @apply card-pad;
+.portal-frame .filters-grid {
+    padding: 1.25rem;
     display: grid;
     gap: .75rem;
 }
 
 @media (min-width:768px) {
-    .filters-grid {
+    .portal-frame .filters-grid {
         grid-template-columns: 1fr 200px;
     }
 }
 
 /* Avatar fallback */
-.avatar-fallback {
+.portal-frame .avatar-fallback {
     display: inline-grid;
     place-items: center;
     background: linear-gradient(135deg, rgba(255, 255, 255, .18), rgba(255, 255, 255, .06));
@@ -310,7 +296,7 @@ textarea,
 }
 
 /* Compact profile button */
-.profile-chip {
+.portal-frame .profile-chip {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -323,17 +309,17 @@ textarea,
     transition: transform .12s ease, background .15s ease, box-shadow .15s ease;
 }
 
-.profile-chip:hover {
+.portal-frame .profile-chip:hover {
     background: rgba(255, 255, 255, .08);
     box-shadow: 0 8px 24px rgba(0, 0, 0, .25);
 }
 
-.profile-chip:active {
+.portal-frame .profile-chip:active {
     transform: scale(.98);
 }
 
 /* User dropdown (glassy card) */
-.user-menu {
+.portal-frame .user-menu {
     position: absolute;
     top: 2.75rem;
     right: 0;
@@ -350,7 +336,7 @@ textarea,
 }
 
 /* Dropdown items */
-.menu-item {
+.portal-frame .menu-item {
     display: flex;
     align-items: center;
     gap: .55rem;
@@ -366,22 +352,22 @@ textarea,
     transition: background .15s ease, border-color .15s ease;
 }
 
-.menu-item:hover {
+.portal-frame .menu-item:hover {
     background: rgba(255, 255, 255, .06);
     border-color: rgba(255, 255, 255, .12);
 }
 
-.menu-item.danger {
+.portal-frame .menu-item.danger {
     color: #ffb3b3;
 }
 
-.menu-item.danger:hover {
+.portal-frame .menu-item.danger:hover {
     background: rgba(255, 68, 68, .12);
     border-color: rgba(255, 68, 68, .25);
 }
 
 /* Optional shared glass card (e.g., feedback) */
-.glass-card {
+.portal-frame .glass-card {
     border-radius: 18px;
     border: 1px solid rgba(255, 255, 255, .12);
     background: radial-gradient(90rem 90rem at top left, rgba(255, 255, 255, .07), rgba(255, 255, 255, .03)), rgba(10, 10, 12, .55);
@@ -390,7 +376,7 @@ textarea,
 }
 
 /* Liquid canvas container */
-.liquid-ether-container {
+.portal-frame .liquid-ether-container {
     position: relative;
     overflow: hidden;
     width: 100%;
@@ -1801,8 +1787,7 @@ html:not([data-theme="dark"]) .portal-frame .card-title,
 html:not([data-theme="dark"]) .portal-card-heading,
 html:not([data-theme="dark"]) .portal-frame .kpi-value,
 html:not([data-theme="dark"]) .portal-frame .list-row,
-html:not([data-theme="dark"]) .portal-frame .table tbody td,
-html:not([data-theme="dark"]) .portal-frame .font-medium {
+html:not([data-theme="dark"]) .portal-frame .table tbody td {
     color: #0f172a;
 }
 
@@ -1965,4 +1950,94 @@ html:not([data-theme="dark"]) .portal-frame .icon-btn {
 html:not([data-theme="dark"]) .portal-frame .icon-btn:hover {
     background: rgba(37, 99, 235, 0.08);
     color: #0f172a;
+}
+
+/* Canonical portal finish: scoped primitives, glass fallbacks and table safety */
+[data-theme="dark"] .portal-frame {
+    background:
+        radial-gradient(820px 440px at 14% -8%, rgba(37, 99, 235, 0.2), transparent 66%),
+        radial-gradient(720px 420px at 92% 8%, rgba(124, 58, 237, 0.13), transparent 64%),
+        linear-gradient(180deg, #0b1220, #111827 54%, #0d1626);
+}
+
+[data-theme="dark"] :is(.portal-sidebar, .portal-topbar, .portal-drawer) {
+    border-color: rgba(255, 255, 255, 0.1);
+    background: rgba(14, 23, 39, 0.76);
+    -webkit-backdrop-filter: saturate(150%) blur(22px);
+    backdrop-filter: saturate(150%) blur(22px);
+}
+
+.portal-frame :where(a, button, input, select, textarea, [tabindex]):focus-visible {
+    outline: 3px solid var(--focus-ring, #8cb4ff);
+    outline-offset: 3px;
+}
+
+.portal-frame .table {
+    min-width: 42rem;
+}
+
+.portal-frame :is(.card, .card-surface):has(> .table) {
+    max-width: 100%;
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+}
+
+.portal-sidebar,
+.portal-topbar,
+.portal-drawer,
+.portal-frame .card,
+.portal-frame .card-surface,
+.portal-sticky-actions {
+    -webkit-backdrop-filter: saturate(150%) blur(20px);
+    backdrop-filter: saturate(150%) blur(20px);
+}
+
+.portal-drawer-backdrop {
+    animation: portalBackdropIn 180ms ease both;
+}
+
+.portal-drawer {
+    animation: portalDrawerIn 260ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes portalBackdropIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes portalDrawerIn {
+    from { transform: translateX(-100%); }
+    to { transform: translateX(0); }
+}
+
+@media (max-width: 640px) {
+    .portal-frame .table {
+        min-width: 38rem;
+    }
+
+    .portal-footer-dot {
+        display: none;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .portal-drawer-backdrop,
+    .portal-drawer {
+        animation: none;
+    }
+}
+
+@supports not ((backdrop-filter: blur(1rem)) or (-webkit-backdrop-filter: blur(1rem))) {
+    .portal-sidebar,
+    .portal-topbar,
+    .portal-drawer,
+    .portal-frame .card,
+    .portal-frame .card-surface,
+    .portal-sticky-actions {
+        background: var(--surface-raised, #162235) !important;
+    }
+
+    html:not([data-theme="dark"]) :is(.portal-sidebar, .portal-topbar, .portal-drawer, .portal-frame .card, .portal-frame .card-surface, .portal-sticky-actions) {
+        background: #ffffff !important;
+    }
 }

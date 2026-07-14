@@ -6,7 +6,7 @@ import { FORMS_BASE } from "@/lib/forms.js";
 import { useTheme } from "@/lib/theme.js";
 import Meta from "@/components/Meta.jsx";
 import ContactActions from "@/components/ContactActions.jsx";
-import { site } from "@/data/site.js";
+import SocialContactLinks from "@/components/SocialContactLinks.jsx";
 
 /* Icons */
 import { LuCalendar, LuSend } from "react-icons/lu";
@@ -14,6 +14,9 @@ import { LuCalendar, LuSend } from "react-icons/lu";
 export default function Contact() {
   const { theme } = useTheme();
   const isDark = theme === "dark";
+  const fieldClass = isDark
+    ? "w-full min-h-12 rounded-xl bg-white/5 border border-white/10 px-4 text-white"
+    : "w-full min-h-12 rounded-xl bg-white/80 border border-slate-200 px-4 text-slate-900";
 
   const [form, setForm] = useState({
     name: "",
@@ -111,131 +114,64 @@ export default function Contact() {
 
         <div className="grid md:grid-cols-2 gap-6">
           {/* Form */}
-          <form className="space-y-3" onSubmit={submit}>
-            <input
-              type="text"
-              autoComplete="name"
-              className={
-                isDark
-                  ? "w-full h-12 rounded-xl bg-white/5 border border-white/10 px-4"
-                  : "w-full h-12 rounded-xl bg-white border border-slate-200 px-4 text-slate-900"
-              }
-              placeholder="Your name"
-              value={form.name}
-              onChange={(e) => setForm((s) => ({ ...s, name: e.target.value }))}
-              aria-label="Your name"
-              required
-            />
-            <input
-              type="email"
-              autoComplete="email"
-              className={
-                isDark
-                  ? "w-full h-12 rounded-xl bg-white/5 border border-white/10 px-4"
-                  : "w-full h-12 rounded-xl bg-white border border-slate-200 px-4 text-slate-900"
-              }
-              placeholder="Email"
-              value={form.email}
-              onChange={(e) => setForm((s) => ({ ...s, email: e.target.value }))}
-              aria-label="Email"
-              required
-            />
+          <form className="contact-form-panel" onSubmit={submit}>
+            <label className="contact-field">
+              <span>Your name</span>
+              <input type="text" autoComplete="name" className={fieldClass} placeholder="How should we address you?" value={form.name} onChange={(e) => setForm((s) => ({ ...s, name: e.target.value }))} required />
+            </label>
+            <label className="contact-field">
+              <span>Email address</span>
+              <input type="email" autoComplete="email" className={fieldClass} placeholder="you@business.ca" value={form.email} onChange={(e) => setForm((s) => ({ ...s, email: e.target.value }))} required />
+            </label>
             <div className="grid gap-3 sm:grid-cols-2">
-              <input
-                type="text"
-                className={isDark ? "w-full h-12 rounded-xl bg-white/5 border border-white/10 px-4" : "w-full h-12 rounded-xl bg-white border border-slate-200 px-4 text-slate-900"}
-                placeholder="Industry"
-                value={form.industry}
-                onChange={(e) => setForm((s) => ({ ...s, industry: e.target.value }))}
-                aria-label="Industry"
-              />
-              <select
-                className={isDark ? "w-full h-12 rounded-xl bg-white/5 border border-white/10 px-4" : "w-full h-12 rounded-xl bg-white border border-slate-200 px-4 text-slate-900"}
-                value={form.service}
-                onChange={(e) => setForm((s) => ({ ...s, service: e.target.value }))}
-                aria-label="Service needed"
-              >
-                <option value="">Service needed</option>
-                <option>New website design</option>
-                <option>Website redesign</option>
-                <option>E-commerce</option>
-                <option>SEO and content</option>
-                <option>Maintenance and care</option>
-              </select>
+              <label className="contact-field">
+                <span>Industry</span>
+                <input type="text" className={fieldClass} placeholder="e.g. Home services" value={form.industry} onChange={(e) => setForm((s) => ({ ...s, industry: e.target.value }))} />
+              </label>
+              <label className="contact-field">
+                <span>Service needed</span>
+                <select className={fieldClass} value={form.service} onChange={(e) => setForm((s) => ({ ...s, service: e.target.value }))}>
+                  <option value="">Choose a service</option>
+                  <option>New website design</option><option>Website redesign</option><option>E-commerce</option><option>SEO and content</option><option>Maintenance and care</option>
+                </select>
+              </label>
             </div>
             <div className="grid gap-3 sm:grid-cols-2">
-              <select
-                className={isDark ? "w-full h-12 rounded-xl bg-white/5 border border-white/10 px-4" : "w-full h-12 rounded-xl bg-white border border-slate-200 px-4 text-slate-900"}
-                value={form.websiteType}
-                onChange={(e) => setForm((s) => ({ ...s, websiteType: e.target.value }))}
-                aria-label="Website type"
-              >
-                <option value="">Website type</option>
-                <option>Business Website</option>
-                <option>E-commerce</option>
-                <option>Landing Page</option>
-                <option>Portfolio</option>
-                <option>Booking Website</option>
-                <option>Web Application</option>
-              </select>
-              <select
-                className={isDark ? "w-full h-12 rounded-xl bg-white/5 border border-white/10 px-4" : "w-full h-12 rounded-xl bg-white border border-slate-200 px-4 text-slate-900"}
-                value={form.projectKind}
-                onChange={(e) => setForm((s) => ({ ...s, projectKind: e.target.value }))}
-                aria-label="New website or redesign"
-              >
-                <option>New website</option>
-                <option>Redesign existing website</option>
-                <option>Improve existing website</option>
-              </select>
+              <label className="contact-field">
+                <span>Website type</span>
+                <select className={fieldClass} value={form.websiteType} onChange={(e) => setForm((s) => ({ ...s, websiteType: e.target.value }))}>
+                  <option value="">Choose a website type</option><option>Business Website</option><option>E-commerce</option><option>Landing Page</option><option>Portfolio</option><option>Booking Website</option><option>Web Application</option>
+                </select>
+              </label>
+              <label className="contact-field">
+                <span>Project type</span>
+                <select className={fieldClass} value={form.projectKind} onChange={(e) => setForm((s) => ({ ...s, projectKind: e.target.value }))}>
+                  <option>New website</option><option>Redesign existing website</option><option>Improve existing website</option>
+                </select>
+              </label>
             </div>
             <div className="grid gap-3 sm:grid-cols-2">
-              <select
-                className={isDark ? "w-full h-12 rounded-xl bg-white/5 border border-white/10 px-4" : "w-full h-12 rounded-xl bg-white border border-slate-200 px-4 text-slate-900"}
-                value={form.budget}
-                onChange={(e) => setForm((s) => ({ ...s, budget: e.target.value }))}
-                aria-label="Budget range"
-              >
-                <option value="">Budget range</option>
-                <option>Under $2,000</option>
-                <option>$2,000 - $4,000</option>
-                <option>$4,000 - $8,000</option>
-                <option>$8,000+</option>
-              </select>
-              <select
-                className={isDark ? "w-full h-12 rounded-xl bg-white/5 border border-white/10 px-4" : "w-full h-12 rounded-xl bg-white border border-slate-200 px-4 text-slate-900"}
-                value={form.timeline}
-                onChange={(e) => setForm((s) => ({ ...s, timeline: e.target.value }))}
-                aria-label="Timeline"
-              >
-                <option value="">Timeline</option>
-                <option>ASAP</option>
-                <option>2-4 weeks</option>
-                <option>1-2 months</option>
-                <option>Flexible</option>
-              </select>
+              <label className="contact-field">
+                <span>Budget range</span>
+                <select className={fieldClass} value={form.budget} onChange={(e) => setForm((s) => ({ ...s, budget: e.target.value }))}>
+                  <option value="">Choose a range</option><option>Under $2,000</option><option>$2,000 - $4,000</option><option>$4,000 - $8,000</option><option>$8,000+</option>
+                </select>
+              </label>
+              <label className="contact-field">
+                <span>Preferred timeline</span>
+                <select className={fieldClass} value={form.timeline} onChange={(e) => setForm((s) => ({ ...s, timeline: e.target.value }))}>
+                  <option value="">Choose a timeline</option><option>ASAP</option><option>2-4 weeks</option><option>1-2 months</option><option>Flexible</option>
+                </select>
+              </label>
             </div>
-            <input
-              type="url"
-              className={isDark ? "w-full h-12 rounded-xl bg-white/5 border border-white/10 px-4" : "w-full h-12 rounded-xl bg-white border border-slate-200 px-4 text-slate-900"}
-              placeholder="Current website URL, if any"
-              value={form.currentUrl}
-              onChange={(e) => setForm((s) => ({ ...s, currentUrl: e.target.value }))}
-              aria-label="Current website URL"
-            />
-            <textarea
-              rows={6}
-              className={
-                isDark
-                  ? "w-full rounded-xl bg-white/5 border border-white/10 px-4 py-3"
-                  : "w-full rounded-xl bg-white border border-slate-200 px-4 py-3 text-slate-900"
-              }
-              placeholder="Tell us what you want the website to do"
-              value={form.message}
-              onChange={(e) => setForm((s) => ({ ...s, message: e.target.value }))}
-              aria-label="Your message"
-              required
-            />
+            <label className="contact-field">
+              <span>Current website URL <small>(optional)</small></span>
+              <input type="url" className={fieldClass} placeholder="https://" value={form.currentUrl} onChange={(e) => setForm((s) => ({ ...s, currentUrl: e.target.value }))} />
+            </label>
+            <label className="contact-field">
+              <span>Project details</span>
+              <textarea rows={6} className={`${fieldClass} min-h-40 py-3`} placeholder="Tell us what the website should help your customers do." value={form.message} onChange={(e) => setForm((s) => ({ ...s, message: e.target.value }))} required />
+            </label>
 
             <div className="flex flex-wrap items-center gap-3">
               <button
@@ -253,6 +189,8 @@ export default function Contact() {
 
               {note && (
                 <div
+                  role="status"
+                  aria-live="polite"
                   className={
                     isDark
                       ? "text-sm text-white/70 min-w-full"
@@ -270,24 +208,24 @@ export default function Contact() {
             <div className="card-surface p-5 rounded-2xl">
               <div className="font-black">How we’ll respond</div>
               <ul className="text-textSub mt-3 space-y-2 text-sm">
-                <li>• You’ll get a reply within 1 business day.</li>
+                <li>• We’ll review the details and reply using the email you provide.</li>
                 <li>• We’ll invite you to the client portal if it’s a fit.</li>
                 <li>• You can track progress, files, and discussions in one place.</li>
               </ul>
               <div className="mt-5 space-y-2 text-sm text-textSub">
-                <a className="block hover:text-white" href={site.phoneHref}>{site.phoneDisplay}</a>
+                <SocialContactLinks variant="list" />
               </div>
             </div>
           ) : (
             <div className="rounded-2xl bg-white border border-slate-200 shadow-sm p-5">
               <div className="font-semibold text-slate-900">How we’ll respond</div>
               <ul className="text-slate-600 mt-3 space-y-2 text-sm">
-                <li>• You’ll get a reply within 1 business day.</li>
+                <li>• We’ll review the details and reply using the email you provide.</li>
                 <li>• We’ll invite you to the client portal if it’s a fit.</li>
                 <li>• You can track progress, files, and discussions in one place.</li>
               </ul>
               <div className="mt-5 space-y-2 text-sm text-slate-600">
-                <a className="block hover:text-slate-950" href={site.phoneHref}>{site.phoneDisplay}</a>
+                <SocialContactLinks variant="list" />
               </div>
             </div>
           )}
@@ -305,6 +243,8 @@ export default function Contact() {
 
             <ContactActions
               dark={isDark}
+              showEmail
+              showMessage
               whatsappLabel="Chat on WhatsApp"
               message="Hi MSPixelPulse, I would like to discuss a website project."
             />
@@ -332,6 +272,8 @@ export default function Contact() {
 
             <ContactActions
               dark={isDark}
+              showEmail
+              showMessage
               whatsappLabel="Chat on WhatsApp"
               message="Hi MSPixelPulse, I would like to discuss a website project."
             />

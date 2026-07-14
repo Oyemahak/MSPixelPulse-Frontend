@@ -57,7 +57,7 @@ export const projects = [
     stack: ["Wix", "Local SEO", "Responsive Design"],
     live: "",
     thumb: "/projects/mockups/dazzling-smile-dental.webp",
-    imageAlt: "Dazzling Smile Dental website concept shown in desktop and mobile mockup frames",
+    imageAlt: "Dazzling Smile Dental website shown in desktop and mobile mockup frames",
     featured: true,
     services: ["Wix website setup", "Local SEO structure", "Responsive review"],
     features: ["Service overview", "Local SEO positioning", "Trust-first page structure"],

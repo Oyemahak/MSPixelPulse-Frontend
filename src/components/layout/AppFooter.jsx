@@ -1,78 +1,82 @@
-// src/components/layout/AppFooter.jsx
 import Container from "./Container.jsx";
 import { Link } from "react-router-dom";
-import { LuPhone } from "react-icons/lu";
-import { SiWhatsapp } from "react-icons/si";
-import { site, whatsappUrl } from "@/data/site.js";
-import { useTheme } from "@/lib/theme.js";
+import SocialContactLinks from "@/components/SocialContactLinks.jsx";
+import { site } from "@/data/site.js";
+
+const navigation = [
+  ["Home", "/"],
+  ["Projects", "/projects"],
+  ["About", "/about"],
+  ["Services", "/services"],
+  ["Pricing", "/pricing"],
+  ["Blog", "/blog"],
+  ["Contact", "/contact"],
+];
+
+const serviceLinks = [
+  "Web design & UX/UI",
+  "React development",
+  "WordPress development",
+  "Client portal solutions",
+  "Website maintenance",
+];
 
 export default function AppFooter() {
   const year = new Date().getFullYear();
-  const { theme } = useTheme();
-  const isDark = theme === "dark";
-  const brandText = isDark ? "text-white" : "text-slate-950";
-  const bodyText = isDark ? "text-white/64" : "text-slate-600";
-  const linkText = isDark ? "text-white/70 hover:text-white" : "text-slate-600 hover:text-slate-950";
-  const legalText = isDark ? "text-white/58" : "text-slate-500";
 
   return (
-    <footer className="app-footer border-t backdrop-blur">
+    <footer className="app-footer">
       <Container>
-        <div className="py-10">
-          <div className="grid gap-8 lg:grid-cols-[1.1fr_.9fr_1fr]">
-            <div>
-              <div className="flex items-center gap-2">
-                <img src="/icon.svg" alt="" className="h-9 w-9" aria-hidden="true" />
-                <span className={`text-lg font-black ${brandText}`}>MSPixelPulse</span>
-              </div>
-              <p className={`mt-4 max-w-sm text-sm leading-6 ${bodyText}`}>
-                Professional websites built to help small businesses present services clearly and grow online.
-              </p>
+        <div className="agency-footer-main">
+          <div className="agency-footer-brand">
+            <div className="agency-footer-logo">
+              <img src="/icon.svg" alt="" aria-hidden="true" />
+              <span>MSPixelPulse</span>
             </div>
-
-            <nav aria-label="Footer navigation" className="grid grid-cols-2 gap-2 text-sm font-semibold">
-              {[
-                ["Home", "/"],
-                ["Projects", "/projects"],
-                ["About", "/about"],
-                ["Services", "/services"],
-                ["Pricing", "/pricing"],
-                ["Blog", "/blog"],
-                ["Contact", "/contact"],
-              ].map(([label, href]) => (
-                <Link key={href} to={href} className={linkText}>
-                  {label}
-                </Link>
-              ))}
-            </nav>
-
-            <div className="space-y-3 text-sm">
-              <a className={`flex items-center gap-2 ${linkText}`} href={site.phoneHref}>
-                <LuPhone className="h-4 w-4" aria-hidden="true" /> {site.phoneDisplay}
-              </a>
-              <a
-                className={`flex items-center gap-2 ${linkText}`}
-                href={whatsappUrl("Hi MSPixelPulse, I would like to discuss a website project.")}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <SiWhatsapp className="h-4 w-4" aria-hidden="true" /> Chat on WhatsApp
-              </a>
-            </div>
+            <p>
+              Thoughtful web design, development, and client portal solutions for
+              small businesses in Toronto and across Canada.
+            </p>
+            <span className="agency-footer-location">{site.location}</span>
+            <SocialContactLinks
+              include={["linkedin", "github", "portfolio"]}
+              variant="icons"
+            />
           </div>
 
-          <div className={`mt-8 border-t pt-5 text-xs ${isDark ? "border-white/10" : "border-slate-200/80"} ${legalText}`}>
-            <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-              <span>© {year} MSPixelPulse. All rights reserved.</span>
-              <nav className="flex flex-wrap gap-x-3 gap-y-1" aria-label="Legal links">
-                <Link to="/privacy" className="hover:underline">Privacy</Link>
-                <Link to="/terms" className="hover:underline">Terms</Link>
-                <Link to="/cookies" className="hover:underline">Cookies</Link>
-                <Link to="/accessibility" className="hover:underline">Accessibility</Link>
-                <Link to="/security" className="hover:underline">Security</Link>
-              </nav>
-            </div>
+          <nav className="agency-footer-column" aria-label="Footer navigation">
+            <h2>Explore</h2>
+            {navigation.map(([label, href]) => (
+              <Link key={href} to={href}>{label}</Link>
+            ))}
+          </nav>
+
+          <div className="agency-footer-column">
+            <h2>Services</h2>
+            {serviceLinks.map((label) => (
+              <Link key={label} to="/services">{label}</Link>
+            ))}
           </div>
+
+          <div className="agency-footer-column agency-footer-contact">
+            <h2>Contact</h2>
+            <p>Have a website, redesign, or portal project in mind?</p>
+            <SocialContactLinks
+              include={["email", "phone", "messages", "whatsapp"]}
+              variant="list"
+            />
+          </div>
+        </div>
+
+        <div className="agency-footer-bottom">
+          <span>© {year} MSPixelPulse. All rights reserved.</span>
+          <nav aria-label="Legal links">
+            <Link to="/privacy">Privacy</Link>
+            <Link to="/terms">Terms</Link>
+            <Link to="/cookies">Cookies</Link>
+            <Link to="/accessibility">Accessibility</Link>
+            <Link to="/security">Security</Link>
+          </nav>
         </div>
       </Container>
     </footer>

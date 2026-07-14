@@ -28,6 +28,13 @@ export default function ProjectDetail() {
   }
 
   const isLive = project.classification === "live";
+  const classificationClass = isLive
+    ? isDark
+      ? "border-emerald-300/20 bg-emerald-500/15 text-emerald-200"
+      : "border-emerald-200 bg-emerald-50 text-emerald-700"
+    : isDark
+      ? "border-primary/30 bg-primary/15 text-blue-100"
+      : "border-blue-200 bg-blue-50 text-blue-700";
   return (
     <section className="section">
       <Meta
@@ -45,7 +52,7 @@ export default function ProjectDetail() {
         <div className="mt-6 grid gap-8 lg:grid-cols-[1.05fr_.95fr] lg:items-start">
           <div>
             <div className="mb-4 flex flex-wrap gap-2">
-              <span className={isLive ? "rounded-full border border-emerald-300/20 bg-emerald-500/15 px-3 py-1 text-xs font-bold text-emerald-200" : "rounded-full border border-primary/30 bg-primary/15 px-3 py-1 text-xs font-bold text-white"}>
+              <span className={`rounded-full border px-3 py-1 text-xs font-bold ${classificationClass}`}>
                 {project.label}
               </span>
               <span className={isDark ? "badge" : "rounded-full bg-slate-100 px-3 py-1 text-xs font-bold text-slate-600"}>
@@ -83,7 +90,11 @@ export default function ProjectDetail() {
             </div>
           </div>
 
-          <div className={isDark ? "overflow-hidden rounded-2xl border border-white/10 bg-white/[0.045]" : "overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm"}>
+          <div className={isDark ? "project-detail-preview overflow-hidden rounded-2xl border border-white/10 bg-white/[0.045]" : "project-detail-preview overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm"}>
+            <div className="browser-toolbar" aria-hidden="true">
+              <span /><span /><span />
+              <span className="browser-address">project preview</span>
+            </div>
             <img
               src={project.thumb}
               alt={project.imageAlt || `${project.title} website screenshot`}

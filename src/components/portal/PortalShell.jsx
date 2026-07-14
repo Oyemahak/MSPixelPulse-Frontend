@@ -1,7 +1,7 @@
 // src/components/portal/PortalShell.jsx
 import "@/portals/css/portal.css";
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useAuth } from "@/context/AuthContext.jsx";
 import { useTheme } from "@/lib/theme.js";
 import {
@@ -122,6 +122,8 @@ export default function PortalShell({ children }) {
   const navigate = useNavigate();
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [avatarFailed, setAvatarFailed] = useState(false);
+  const menuButtonRef = useRef(null);
+  const drawerRef = useRef(null);
 
   const meta = roleMeta[role] || roleMeta.client;
   const links = meta.nav;
@@ -133,6 +135,51 @@ export default function PortalShell({ children }) {
   useEffect(() => {
     setAvatarFailed(false);
   }, [user?.avatarUrl]);
+
+  useEffect(() => {
+    setDrawerOpen(false);
+  }, [pathname]);
+
+  useEffect(() => {
+    if (!drawerOpen) return undefined;
+
+    const previousOverflow = document.body.style.overflow;
+    const menuTrigger = menuButtonRef.current;
+    document.body.style.overflow = "hidden";
+    const drawer = drawerRef.current;
+    const getFocusable = () => Array.from(drawer?.querySelectorAll(
+      'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+    ) || []);
+    const focusTimer = window.setTimeout(() => getFocusable()[0]?.focus(), 50);
+
+    function onKeyDown(event) {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        setDrawerOpen(false);
+        return;
+      }
+      if (event.key !== "Tab") return;
+      const items = getFocusable();
+      if (!items.length) return;
+      const first = items[0];
+      const last = items[items.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    }
+
+    document.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      document.removeEventListener("keydown", onKeyDown);
+      window.clearTimeout(focusTimer);
+      menuTrigger?.focus();
+    };
+  }, [drawerOpen]);
 
   async function onLogout() {
     await logout();
@@ -169,8 +216,16 @@ export default function PortalShell({ children }) {
       </aside>
 
       {drawerOpen && (
-        <div className="portal-drawer-backdrop" onClick={() => setDrawerOpen(false)}>
-          <aside className="portal-drawer" onClick={(event) => event.stopPropagation()}>
+        <div className="portal-drawer-backdrop" onClick={() => setDrawerOpen(false)} role="presentation">
+          <aside
+            id="portal-mobile-navigation"
+            ref={drawerRef}
+            className="portal-drawer"
+            onClick={(event) => event.stopPropagation()}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Portal navigation"
+          >
             <div className="portal-drawer-head">
               <Link to={meta.home} className="portal-brand" onClick={() => setDrawerOpen(false)}>
                 <span className="portal-logo-mark">M</span>
@@ -197,10 +252,13 @@ export default function PortalShell({ children }) {
         <header className="portal-topbar">
           <div className="portal-topbar-left">
             <button
+              ref={menuButtonRef}
               type="button"
               className="portal-icon-button portal-menu-button"
               onClick={() => setDrawerOpen(true)}
               aria-label="Open portal menu"
+              aria-expanded={drawerOpen}
+              aria-controls="portal-mobile-navigation"
             >
               <LuMenu className="h-5 w-5" aria-hidden="true" />
             </button>

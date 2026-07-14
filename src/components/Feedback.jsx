@@ -1,5 +1,5 @@
 // src/components/Feedback.jsx
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Container from "@/components/layout/Container.jsx";
 import SectionTitle from "@/components/SectionTitle.jsx";
 import { FORMS_BASE } from "@/lib/forms.js";
@@ -77,6 +77,52 @@ export default function Feedback() {
   });
   const [sending, setSending] = useState(false);
   const [note, setNote] = useState("");
+  const reviewButtonRef = useRef(null);
+  const dialogRef = useRef(null);
+  const inputClass = isDark
+    ? "w-full min-h-12 rounded-xl bg-white/5 border border-white/10 px-4 text-white"
+    : "w-full min-h-11 rounded-xl bg-white border border-slate-200 px-4 text-slate-900";
+
+  useEffect(() => {
+    if (!open) return undefined;
+
+    const previousOverflow = document.body.style.overflow;
+    const reviewTrigger = reviewButtonRef.current;
+    document.body.style.overflow = "hidden";
+    const dialog = dialogRef.current;
+    const getFocusable = () => Array.from(dialog?.querySelectorAll(
+      'a[href], button:not([disabled]), input:not([disabled]), textarea:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])'
+    ) || []);
+    const focusTimer = window.setTimeout(() => getFocusable()[0]?.focus(), 50);
+
+    function onKeyDown(event) {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        setOpen(false);
+        return;
+      }
+      if (event.key !== "Tab") return;
+      const items = getFocusable();
+      if (!items.length) return;
+      const first = items[0];
+      const last = items[items.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    }
+
+    document.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      document.removeEventListener("keydown", onKeyDown);
+      window.clearTimeout(focusTimer);
+      reviewTrigger?.focus();
+    };
+  }, [open]);
 
   async function submit(e) {
     e.preventDefault();
@@ -228,20 +274,24 @@ export default function Feedback() {
               return (
                 <button
                   key={i}
+                  type="button"
                   onClick={() => setIdx(i)}
                   className={
                     isDark
                       ? [
-                          "h-2.5 w-2.5 rounded-full transition",
-                          isActive ? "bg-white/90" : "bg-white/30 hover:bg-white/50",
+                          "grid h-11 w-11 place-items-center rounded-full transition",
+                          isActive ? "text-white/90" : "text-white/30 hover:text-white/50",
                         ].join(" ")
                       : [
-                          "h-2.5 w-2.5 rounded-full transition",
-                          isActive ? "bg-slate-900" : "bg-slate-300 hover:bg-slate-400",
+                          "grid h-11 w-11 place-items-center rounded-full transition",
+                          isActive ? "text-slate-900" : "text-slate-300 hover:text-slate-400",
                         ].join(" ")
                   }
                   aria-label={`Go to slide ${i + 1}`}
-                />
+                  aria-current={isActive ? "true" : undefined}
+                >
+                  <span className="h-2.5 w-2.5 rounded-full bg-current" aria-hidden="true" />
+                </button>
               );
             })}
           </div>
@@ -249,6 +299,7 @@ export default function Feedback() {
           {/* Leave a review */}
           <div className="mt-6 flex justify-center">
             <button
+              ref={reviewButtonRef}
               onClick={() => {
                 setNote("");
                 setOpen(true);
@@ -271,8 +322,14 @@ export default function Feedback() {
         <div
           className="fixed inset-0 z-50 grid place-items-center bg-black/60 backdrop-blur-sm animate-fade-up"
           onClick={() => setOpen(false)}
+          role="presentation"
         >
           <div
+            ref={dialogRef}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="feedback-dialog-title"
+            aria-describedby="feedback-dialog-description"
             className={
               isDark
                 ? "modal-panel"
@@ -280,71 +337,41 @@ export default function Feedback() {
             }
             onClick={(e) => e.stopPropagation()}
           >
-            <div
+            <h2
+              id="feedback-dialog-title"
               className={
                 isDark ? "font-black text-lg" : "font-bold text-lg text-slate-900"
               }
             >
               Share your feedback
-            </div>
-            <p className={isDark ? "text-textSub text-sm mt-1" : "text-slate-500 text-sm mt-1"}>
+            </h2>
+            <p id="feedback-dialog-description" className={isDark ? "text-textSub text-sm mt-1" : "text-slate-500 text-sm mt-1"}>
               Your message will be emailed to us.
             </p>
 
             <form className="mt-4 space-y-3" onSubmit={submit}>
-              <input
-                className={
-                  isDark
-                    ? "w-full h-12 rounded-xl bg-white/5 border border-white/10 px-4"
-                    : "w-full h-11 rounded-xl bg-white border border-slate-200 px-4 text-slate-900"
-                }
-                placeholder="Your full name"
-                value={form.name}
-                onChange={(e) => setForm((s) => ({ ...s, name: e.target.value }))}
-              />
-              <input
-                className={
-                  isDark
-                    ? "w-full h-12 rounded-xl bg-white/5 border border-white/10 px-4"
-                    : "w-full h-11 rounded-xl bg-white border border-slate-200 px-4 text-slate-900"
-                }
-                placeholder="Your email"
-                value={form.email}
-                onChange={(e) => setForm((s) => ({ ...s, email: e.target.value }))}
-              />
-              <input
-                className={
-                  isDark
-                    ? "w-full h-12 rounded-xl bg-white/5 border border-white/10 px-4"
-                    : "w-full h-11 rounded-xl bg-white border border-slate-200 px-4 text-slate-900"
-                }
-                placeholder="Business / Organization"
-                value={form.business}
-                onChange={(e) => setForm((s) => ({ ...s, business: e.target.value }))}
-              />
-              <input
-                className={
-                  isDark
-                    ? "w-full h-12 rounded-xl bg-white/5 border border-white/10 px-4"
-                    : "w-full h-11 rounded-xl bg-white border border-slate-200 px-4 text-slate-900"
-                }
-                placeholder="Subject (optional)"
-                value={form.subject}
-                onChange={(e) => setForm((s) => ({ ...s, subject: e.target.value }))}
-              />
-              <textarea
-                rows={5}
-                className={
-                  isDark
-                    ? "w-full rounded-xl bg-white/5 border border-white/10 px-4 py-3"
-                    : "w-full rounded-xl bg-white border border-slate-200 px-4 py-3 text-slate-900"
-                }
-                placeholder="Your feedback"
-                value={form.message}
-                onChange={(e) => setForm((s) => ({ ...s, message: e.target.value }))}
-              />
+              <label className="contact-field">
+                <span>Your full name</span>
+                <input className={inputClass} autoComplete="name" value={form.name} onChange={(e) => setForm((s) => ({ ...s, name: e.target.value }))} required />
+              </label>
+              <label className="contact-field">
+                <span>Your email</span>
+                <input className={inputClass} type="email" autoComplete="email" value={form.email} onChange={(e) => setForm((s) => ({ ...s, email: e.target.value }))} required />
+              </label>
+              <label className="contact-field">
+                <span>Business / organization</span>
+                <input className={inputClass} autoComplete="organization" value={form.business} onChange={(e) => setForm((s) => ({ ...s, business: e.target.value }))} required />
+              </label>
+              <label className="contact-field">
+                <span>Subject <small>(optional)</small></span>
+                <input className={inputClass} value={form.subject} onChange={(e) => setForm((s) => ({ ...s, subject: e.target.value }))} />
+              </label>
+              <label className="contact-field">
+                <span>Your feedback</span>
+                <textarea rows={5} className={`${inputClass} min-h-32 py-3`} value={form.message} onChange={(e) => setForm((s) => ({ ...s, message: e.target.value }))} required />
+              </label>
               {note && (
-                <div className={isDark ? "text-sm text-white/80" : "text-sm text-slate-500"}>
+                <div role="status" aria-live="polite" className={isDark ? "text-sm text-white/80" : "text-sm text-slate-500"}>
                   {note}
                 </div>
               )}

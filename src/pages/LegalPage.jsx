@@ -14,7 +14,7 @@ export default function LegalPage({ page }) {
     : "border-slate-200 bg-white shadow-sm";
 
   return (
-    <main className="section">
+    <section className="section">
       <Meta title={`${content.title} — MSPixelPulse`} description={content.description} canonical={`/${page}`} />
       <Container>
         <div className="max-w-3xl">
@@ -50,6 +50,6 @@ export default function LegalPage({ page }) {
           </Link>
         </div>
       </Container>
-    </main>
+    </section>
   );
 }

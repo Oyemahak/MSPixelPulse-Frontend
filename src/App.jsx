@@ -36,7 +36,8 @@ const DebugConnection = import.meta.env.DEV
 function ScrollToTop() {
   const { pathname } = useLocation();
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    window.scrollTo({ top: 0, behavior: reduceMotion ? "auto" : "smooth" });
   }, [pathname]);
   return null;
 }
@@ -85,13 +86,15 @@ export default function App() {
     pathname.startsWith("/dev");
   const isAuthRoute = pathname.startsWith("/login") || pathname.startsWith("/register");
   const hidePublicChrome = isPortalRoute || isAuthRoute;
+  const ContentRoot = hidePublicChrome ? "div" : "main";
 
   return (
     <ThemeProvider>
       <div className="min-h-screen flex flex-col bg-transparent text-textMain">
+        <a className="skip-link" href="#main-content">Skip to main content</a>
         {!hidePublicChrome && <AppHeader />}
 
-        <main className={hidePublicChrome ? "flex-1" : "public-main flex-1 pt-20 md:pt-24"}>
+        <ContentRoot id="main-content" className={hidePublicChrome ? "flex-1" : "public-main flex-1 pt-20 md:pt-24"}>
           <ScrollToTop />
           <Suspense fallback={<PageFallback />}>
             <Routes>
@@ -153,7 +156,7 @@ export default function App() {
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Suspense>
-        </main>
+        </ContentRoot>
 
         {!hidePublicChrome && <AppFooter />}
         {!hidePublicChrome && <CookieBanner />}

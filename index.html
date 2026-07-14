@@ -8,7 +8,7 @@
       content="MSPixelPulse builds professional websites for small businesses in Toronto and across Canada, including WordPress, React, e-commerce, redesign, and maintenance work."
     />
     <meta name="robots" content="index,follow" />
-    <meta name="theme-color" content="#0b0b0f" />
+    <meta name="theme-color" content="#f6f8fc" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/icon.svg" />
     <link rel="canonical" href="https://mspixelpulse.vercel.app/" />
@@ -23,9 +23,14 @@
     <meta name="twitter:card" content="summary_large_image" />
     <script>
       try {
-        if (localStorage.getItem("mspixelpulse-theme") === "dark") {
-          document.documentElement.setAttribute("data-theme", "dark");
-        }
+        const savedTheme = localStorage.getItem("mspixelpulse-theme");
+        const initialTheme = savedTheme === "dark" ? "dark" : "light";
+        document.documentElement.setAttribute("data-theme", initialTheme);
+        document.documentElement.style.colorScheme = initialTheme;
+        document.querySelector('meta[name="theme-color"]').setAttribute(
+          "content",
+          initialTheme === "dark" ? "#101827" : "#f6f8fc"
+        );
       } catch {}
     </script>
     <title>MSPixelPulse | Toronto Website Design</title>

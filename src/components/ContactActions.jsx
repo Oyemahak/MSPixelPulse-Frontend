@@ -1,5 +1,5 @@
 import { SiWhatsapp } from "react-icons/si";
-import { LuMail, LuMessageCircle, LuPhone } from "react-icons/lu";
+import { LuMessageCircle, LuPhone } from "react-icons/lu";
 import {
   site,
   supportsNativeMessages,
@@ -10,7 +10,6 @@ export default function ContactActions({
   message,
   whatsappLabel = "Chat on WhatsApp",
   showPhone = true,
-  showEmail = false,
   showMessage = false,
   className = "",
   dark = true,
@@ -42,16 +41,6 @@ export default function ContactActions({
         >
           <LuPhone className="h-5 w-5" aria-hidden="true" />
           {site.phoneDisplay}
-        </a>
-      )}
-      {showEmail && (
-        <a
-          className={secondaryClass}
-          href={site.emailHref}
-          aria-label="Send an email to MSPixelPulse"
-        >
-          <LuMail className="h-5 w-5" aria-hidden="true" />
-          Email us
         </a>
       )}
       {showMessage && supportsNativeMessages() && (

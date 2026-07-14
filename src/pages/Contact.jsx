@@ -245,7 +245,6 @@ export default function Contact() {
           <div className="contact-project-actions">
             <ContactActions
               dark={isDark}
-              showEmail
               showMessage
               className="contact-project-link-grid"
               whatsappLabel="Chat on WhatsApp"

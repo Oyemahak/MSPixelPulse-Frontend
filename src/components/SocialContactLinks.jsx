@@ -1,6 +1,5 @@
 import {
   LuGlobe,
-  LuMail,
   LuMessageCircle,
   LuPhone,
 } from "react-icons/lu";
@@ -15,7 +14,6 @@ const allKeys = [
   "linkedin",
   "github",
   "portfolio",
-  "email",
   "phone",
   "messages",
   "whatsapp",
@@ -51,13 +49,6 @@ export default function SocialContactLinks({
       ariaLabel: "View Mahak Patel's portfolio",
       icon: LuGlobe,
       external: true,
-    },
-    {
-      key: "email",
-      label: site.email,
-      href: site.emailHref,
-      ariaLabel: "Send an email to MSPixelPulse",
-      icon: LuMail,
     },
     {
       key: "phone",

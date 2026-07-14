@@ -2,8 +2,6 @@ export const site = {
   name: "MSPixelPulse",
   legalName: "MSPixelPulse",
   location: "Toronto, Ontario, Canada",
-  email: "hello@mspixelpulse.com",
-  emailHref: "mailto:hello@mspixelpulse.com",
   phoneDisplay: "+1 (365) 883-0338",
   phoneHref: "tel:+13658830338",
   messagesHref: "sms:+13658830338",

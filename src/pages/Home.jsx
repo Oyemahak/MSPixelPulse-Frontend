@@ -332,7 +332,6 @@ export default function Home() {
               </div>
               <ContactActions
                 dark={isDark}
-                showEmail
                 whatsappLabel="Chat on WhatsApp"
                 message="Hi MSPixelPulse, I would like to discuss a website project."
               />

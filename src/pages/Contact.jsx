@@ -232,54 +232,28 @@ export default function Contact() {
         </div>
 
         {/* Inline CTA */}
-        {isDark ? (
-          <div className="mt-12 card-surface p-6 md:p-8 rounded-2xl grid md:grid-cols-[1fr_auto_auto] gap-4 items-center glass-hover">
-            <div>
-              <h3 className="text-2xl font-black">Have a project in mind?</h3>
-              <p className="text-textSub mt-1 text-[16px] md:text-[18px] leading-relaxed">
-                Tell us your goals — we’ll propose the simplest path to launch.
-              </p>
-            </div>
-
-            <ContactActions
-              dark={isDark}
-              showEmail
-              showMessage
-              whatsappLabel="Chat on WhatsApp"
-              message="Hi MSPixelPulse, I would like to discuss a website project."
-            />
-
-            <a
-              className="btn btn-outline"
-              href="https://calendly.com/mspixelpulse/30min"
-              target="_blank"
-              rel="noreferrer"
-            >
-              <LuCalendar className="mr-2 h-5 w-5" aria-hidden="true" />
-              Book appointment
-            </a>
+        <div
+          className={`contact-project-cta mt-12 ${
+            isDark ? "contact-project-cta-dark" : "contact-project-cta-light"
+          }`}
+        >
+          <div className="contact-project-copy">
+            <h3>Have a project in mind?</h3>
+            <p>Tell us your goals — we’ll propose the simplest path to launch.</p>
           </div>
-        ) : (
-          <div className="mt-12 rounded-2xl bg-white border border-slate-200 shadow-sm p-6 md:p-8 grid md:grid-cols-[1fr_auto_auto] gap-4 items-center">
-            <div>
-              <h3 className="text-2xl font-black text-slate-900">
-                Have a project in mind?
-              </h3>
-              <p className="text-slate-500 mt-1">
-                Tell us your goals — we’ll propose the simplest path to launch.
-              </p>
-            </div>
 
+          <div className="contact-project-actions">
             <ContactActions
               dark={isDark}
               showEmail
               showMessage
+              className="contact-project-link-grid"
               whatsappLabel="Chat on WhatsApp"
               message="Hi MSPixelPulse, I would like to discuss a website project."
             />
 
             <a
-              className="inline-flex items-center gap-2 h-11 px-5 rounded-xl bg-white border border-slate-200 text-slate-900 font-semibold shadow-sm"
+              className="contact-project-book"
               href="https://calendly.com/mspixelpulse/30min"
               target="_blank"
               rel="noreferrer"
@@ -288,7 +262,7 @@ export default function Contact() {
               Book appointment
             </a>
           </div>
-        )}
+        </div>
       </Container>
     </section>
   );

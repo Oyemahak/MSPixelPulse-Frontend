@@ -62,36 +62,41 @@ export default function Users() {
                     to={`/admin/direct/${u._id}`}
                     state={{ peerEmail: u.email, peerName: u.name }}
                     className="icon-btn mr-1"
-                    title="Direct message"
+                    title={`Message ${u.name || u.email}`}
+                    aria-label={`Message ${u.name || u.email}`}
                   >
-                    <MessageSquare size={16} />
+                    <MessageSquare size={16} aria-hidden="true" />
                   </Link>
 
                   {/* Existing actions */}
-                  <Link to={`/admin/users/${u._id}`} className="icon-btn mr-1" title="Open / Edit">
-                    <Pencil size={16} />
+                  <Link to={`/admin/users/${u._id}`} className="icon-btn mr-1" title={`Open and edit ${u.name || u.email}`} aria-label={`Open and edit ${u.name || u.email}`}>
+                    <Pencil size={16} aria-hidden="true" />
                   </Link>
 
                   {u.status !== "active" && (
                     <button
+                      type="button"
                       className="icon-btn mr-1"
                       onClick={async () => { await admin.approveUser(u._id); load(); }}
-                      title="Approve"
+                      title={`Approve ${u.name || u.email}`}
+                      aria-label={`Approve ${u.name || u.email}`}
                     >
-                      <Check size={16} />
+                      <Check size={16} aria-hidden="true" />
                     </button>
                   )}
 
                   <button
+                    type="button"
                     className="icon-btn text-rose-300"
                     onClick={async () => {
                       if (!confirm("Delete user?")) return;
                       await admin.deleteUser(u._id);
                       load();
                     }}
-                    title="Delete"
+                    title={`Delete ${u.name || u.email}`}
+                    aria-label={`Delete ${u.name || u.email}`}
                   >
-                    <Trash2 size={16} />
+                    <Trash2 size={16} aria-hidden="true" />
                   </button>
                 </td>
               </tr>

@@ -1,6 +1,7 @@
 // frontend/src/portals/admin/ProjectDetail.jsx
 import { useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
+import { LuX } from "react-icons/lu";
 import {
   admin,
   projects as api,
@@ -405,7 +406,15 @@ export default function AdminProjectDetail() {
                       <figcaption className="px-2 py-1 text-[11px] bg-black/40 backdrop-blur">
                         <span className="truncate block" title={f.name}>{f.name}</span>
                       </figcaption>
-                      <button type="button" onClick={() => removePicked(i)} className="absolute top-1 right-1 bg-black/60 hover:bg-black/80 text-white rounded-full h-6 w-6 text-xs">×</button>
+                      <button
+                        type="button"
+                        onClick={() => removePicked(i)}
+                        className="portal-remove-file-button"
+                        aria-label={`Remove ${f.name}`}
+                        title={`Remove ${f.name}`}
+                      >
+                        <LuX aria-hidden="true" />
+                      </button>
                     </figure>
                   ))}
                 </div>

@@ -1,8 +1,9 @@
-// src/pages/auth/Register.jsx
 import { useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { LuLoaderCircle, LuLogIn, LuShieldCheck, LuUserPlus } from "react-icons/lu";
+import Container from "@/components/layout/Container.jsx";
+import Meta from "@/components/Meta.jsx";
 import { useAuth } from "@/context/AuthContext.jsx";
-import { useTheme } from "@/lib/theme.js";
 
 const TABS = [
   { key: "client", label: "Client" },
@@ -12,9 +13,6 @@ const TABS = [
 
 export default function Register() {
   const { register } = useAuth();
-  const { theme } = useTheme();
-  const isDark = theme === "dark";
-
   const nav = useNavigate();
 
   const [tab, setTab] = useState("client");
@@ -32,174 +30,133 @@ export default function Register() {
     [form, loading]
   );
 
-  const change = (k) => (e) => setForm((s) => ({ ...s, [k]: e.target.value }));
+  const change = (key) => (event) => {
+    setForm((current) => ({ ...current, [key]: event.target.value }));
+  };
 
-  async function onSubmit(e) {
-    e.preventDefault();
+  async function onSubmit(event) {
+    event.preventDefault();
     setErr("");
     setOk("");
     setLoading(true);
     try {
       await register({ ...form, role: tab });
-      setOk("Request submitted. Await admin approval.");
+      setOk("Your access request was sent for admin review.");
       setTimeout(() => nav("/login", { replace: true }), 900);
-    } catch (ex) {
-      setErr(ex?.message || "Registration failed");
+    } catch (error) {
+      setErr(error?.message || "We could not send your access request. Please try again.");
     } finally {
       setLoading(false);
     }
   }
 
   return (
-    <div
-      className={`px-4 md:px-6 lg:px-8 py-14 ${
-        isDark ? "bg-[rgba(8,9,12,0.15)]" : "bg-slate-50"
-      }`}
-    >
-      <div
-        className={`max-w-md mx-auto rounded-2xl shadow-2xl backdrop-blur-md border ${
-          isDark
-            ? "bg-white/5 border-white/10 shadow-black/30"
-            : "bg-white border-slate-200 shadow-slate-200/70"
-        }`}
-      >
-        <div className="px-6 pt-6">
-          <h1
-            className={`text-2xl font-semibold tracking-tight ${
-              isDark ? "text-white" : "text-slate-900"
-            }`}
-          >
-            Create an account
-          </h1>
-          <p className={isDark ? "text-sm text-white/60 mt-1" : "text-sm text-slate-500 mt-1"}>
-            Choose a role. An admin will approve your request.
-          </p>
-        </div>
+    <section className="auth-page register-page" aria-labelledby="register-heading">
+      <Meta
+        title="Request portal access — MSPixelPulse"
+        description="Request access to an MSPixelPulse client, developer, or admin workspace."
+        canonical="/register"
+        robots="noindex, nofollow"
+      />
+      <div className="auth-ambient auth-ambient-one" aria-hidden="true" />
+      <div className="auth-ambient auth-ambient-two" aria-hidden="true" />
 
-        {/* Role tabs */}
-        <div className="px-6 pt-5">
-          <div
-            className={`inline-flex items-center gap-1 p-1 rounded-xl border ${
-              isDark ? "bg-white/10 border-white/10" : "bg-slate-100 border-slate-100"
-            }`}
-          >
-            {TABS.map((t) => {
-              const selected = t.key === tab;
+      <Container className="auth-page-container">
+        <div className="auth-register-card liquid-glass-surface">
+          <div className="auth-eyebrow">
+            <LuShieldCheck aria-hidden="true" />
+            Approved workspace access
+          </div>
+          <h1 id="register-heading">Request access to an MSPixelPulse portal.</h1>
+          <p>
+            Choose the workspace role you were invited to use. An administrator
+            reviews every request before access becomes active.
+          </p>
+
+          <div className="register-role-tabs" role="tablist" aria-label="Requested portal role">
+            {TABS.map((item) => {
+              const selected = item.key === tab;
               return (
                 <button
-                  key={t.key}
+                  key={item.key}
                   type="button"
-                  onClick={() => setTab(t.key)}
-                  className={[
-                    "px-3 py-1.5 text-sm rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-400/70",
-                    selected
-                      ? isDark
-                        ? "text-white bg-white/15"
-                        : "text-slate-900 bg-white"
-                      : isDark
-                        ? "text-white/80 hover:text-white hover:bg-white/10"
-                        : "text-slate-600 hover:text-slate-900 hover:bg-white/60",
-                  ].join(" ")}
+                  role="tab"
+                  aria-selected={selected}
+                  className={selected ? "is-active" : ""}
+                  onClick={() => setTab(item.key)}
                 >
-                  {t.label}
+                  {item.label}
                 </button>
               );
             })}
           </div>
-        </div>
 
-        {/* Form */}
-        <form onSubmit={onSubmit} className="px-6 pt-5 pb-6 space-y-4">
-          <label className="block">
-            <div className={isDark ? "text-xs text-white/65 mb-1" : "text-xs text-slate-600 mb-1"}>
-              Full name
+          <form onSubmit={onSubmit} className="auth-form register-form">
+            <div className="auth-form-field">
+              <label htmlFor="register-name">Full name</label>
+              <input
+                id="register-name"
+                name="name"
+                className="auth-input register-input"
+                placeholder="First and last name"
+                value={form.name}
+                onChange={change("name")}
+                autoComplete="name"
+                required
+              />
             </div>
-            <input
-              className={`w-full rounded-lg px-3 py-2 outline-none focus:ring-2 focus:ring-emerald-400/70 ${
-                isDark
-                  ? "bg-black/30 border border-white/15 text-white placeholder-white/35 focus:border-emerald-400/60"
-                  : "bg-white border border-slate-200 text-slate-900 placeholder-slate-400 focus:border-emerald-400/60"
-              }`}
-              placeholder="First Last"
-              value={form.name}
-              onChange={change("name")}
-              autoComplete="name"
-            />
-          </label>
 
-          <label className="block">
-            <div className={isDark ? "text-xs text-white/65 mb-1" : "text-xs text-slate-600 mb-1"}>
-              Email
+            <div className="auth-form-field">
+              <label htmlFor="register-email">Email address</label>
+              <input
+                id="register-email"
+                name="email"
+                type="email"
+                className="auth-input register-input"
+                placeholder="you@example.com"
+                value={form.email}
+                onChange={change("email")}
+                inputMode="email"
+                autoComplete="email"
+                required
+              />
             </div>
-            <input
-              className={`w-full rounded-lg px-3 py-2 outline-none focus:ring-2 focus:ring-emerald-400/70 ${
-                isDark
-                  ? "bg-black/30 border border-white/15 text-white placeholder-white/35 focus:border-emerald-400/60"
-                  : "bg-white border border-slate-200 text-slate-900 placeholder-slate-400 focus:border-emerald-400/60"
-              }`}
-              placeholder="you@example.com"
-              value={form.email}
-              onChange={change("email")}
-              inputMode="email"
-              autoComplete="email"
-            />
-          </label>
 
-          <label className="block">
-            <div className={isDark ? "text-xs text-white/65 mb-1" : "text-xs text-slate-600 mb-1"}>
-              Password
+            <div className="auth-form-field">
+              <label htmlFor="register-password">Password</label>
+              <input
+                id="register-password"
+                name="password"
+                type="password"
+                className="auth-input register-input"
+                placeholder="At least 4 characters"
+                value={form.password}
+                onChange={change("password")}
+                autoComplete="new-password"
+                minLength={4}
+                required
+              />
             </div>
-            <input
-              type="password"
-              className={`w-full rounded-lg px-3 py-2 outline-none focus:ring-2 focus:ring-emerald-400/70 ${
-                isDark
-                  ? "bg-black/30 border border-white/15 text-white placeholder-white/35 focus:border-emerald-400/60"
-                  : "bg-white border border-slate-200 text-slate-900 placeholder-slate-400 focus:border-emerald-400/60"
-              }`}
-              placeholder="Choose a strong password"
-              value={form.password}
-              onChange={change("password")}
-              autoComplete="new-password"
-            />
-          </label>
 
-          {err && (
-            <div className={isDark ? "text-sm text-rose-300" : "text-sm text-rose-600"}>
-              {err}
-            </div>
-          )}
-          {ok && (
-            <div className={isDark ? "text-sm text-emerald-300" : "text-sm text-emerald-600"}>
-              {ok}
-            </div>
-          )}
+            {err && <div className="auth-status auth-status-error" role="alert">{err}</div>}
+            {ok && <div className="auth-status auth-status-success" role="status">{ok}</div>}
 
-          <div className="flex items-center gap-3">
-            <button
-              type="submit"
-              disabled={disabled}
-              className={`inline-flex items-center justify-center px-4 py-2 rounded-lg font-medium transition focus:outline-none focus:ring-2 focus:ring-emerald-400/70 disabled:opacity-60 disabled:cursor-not-allowed ${
-                isDark
-                  ? "bg-emerald-500 text-black hover:bg-emerald-400"
-                  : "bg-emerald-500 text-white hover:bg-emerald-600"
-              }`}
-            >
-              {loading ? "Submitting…" : "Submit Request"}
+            <button type="submit" disabled={disabled} className="auth-submit-button">
+              {loading ? (
+                <LuLoaderCircle className="animate-spin" aria-hidden="true" />
+              ) : (
+                <LuUserPlus aria-hidden="true" />
+              )}
+              {loading ? "Sending access request…" : "Request workspace access"}
             </button>
 
-            <Link
-              to="/login"
-              className={
-                isDark
-                  ? "text-sm underline underline-offset-2 opacity-90 hover:opacity-100"
-                  : "text-sm text-slate-700 underline underline-offset-2 hover:text-slate-900"
-              }
-            >
-              Already have an account? Login
+            <Link to="/login" className="register-login-link liquid-glass-button">
+              <LuLogIn aria-hidden="true" />
+              Return to portal login
             </Link>
-          </div>
-        </form>
-      </div>
-    </div>
+          </form>
+        </div>
+      </Container>
+    </section>
   );
 }

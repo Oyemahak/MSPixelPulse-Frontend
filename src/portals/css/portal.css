@@ -2540,3 +2540,156 @@ html:not([data-theme="dark"]) .admin-project-advanced-filters {
         justify-self: start;
     }
 }
+
+/* Accessible glass action controls across every portal role. */
+.portal-frame :is(.portal-icon-button, .icon-btn, .admin-view-toggle button) {
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.055);
+    box-shadow:
+        0 10px 26px rgba(0, 0, 0, 0.12),
+        inset 0 1px 0 rgba(255, 255, 255, 0.07);
+    -webkit-backdrop-filter: saturate(150%) blur(14px);
+    backdrop-filter: saturate(150%) blur(14px);
+    transition:
+        transform 160ms cubic-bezier(0.22, 1, 0.36, 1),
+        border-color 160ms ease,
+        background 160ms ease,
+        box-shadow 160ms ease,
+        color 160ms ease;
+}
+
+.portal-frame :is(.portal-icon-button, .icon-btn, .admin-view-toggle button):hover:not(:disabled) {
+    border-color: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.1);
+    box-shadow:
+        0 14px 30px rgba(0, 0, 0, 0.16),
+        inset 0 1px 0 rgba(255, 255, 255, 0.11);
+    transform: translateY(-1px);
+}
+
+.portal-frame :is(.portal-icon-button, .icon-btn, .btn, .admin-view-toggle button):disabled,
+.portal-frame :is(.portal-icon-button, .icon-btn, .btn, .admin-view-toggle button)[aria-disabled="true"] {
+    cursor: not-allowed;
+    filter: saturate(0.7);
+    opacity: 0.48;
+    transform: none;
+}
+
+html:not([data-theme="dark"]) .portal-frame :is(.portal-icon-button, .icon-btn, .admin-view-toggle button) {
+    border-color: rgba(100, 116, 139, 0.18) !important;
+    background:
+        radial-gradient(130% 170% at 0% 0%, rgba(255, 255, 255, 0.96), rgba(255, 255, 255, 0.54) 44%, transparent 74%),
+        linear-gradient(135deg, rgba(255, 255, 255, 0.74), rgba(245, 249, 255, 0.5)) !important;
+    color: #334155 !important;
+    box-shadow:
+        0 12px 30px rgba(40, 56, 86, 0.09),
+        inset 0 1px 0 rgba(255, 255, 255, 0.94) !important;
+}
+
+html:not([data-theme="dark"]) .portal-frame :is(.portal-icon-button, .icon-btn, .admin-view-toggle button):hover:not(:disabled) {
+    border-color: rgba(37, 99, 235, 0.22) !important;
+    color: #0f172a !important;
+    box-shadow:
+        0 16px 34px rgba(37, 74, 138, 0.13),
+        inset 0 1px 0 #ffffff !important;
+}
+
+html:not([data-theme="dark"]) .portal-frame :is(input, select, textarea) {
+    border-color: rgba(100, 116, 139, 0.22) !important;
+}
+
+.portal-remove-file-button {
+    position: absolute;
+    top: 0.35rem;
+    right: 0.35rem;
+    display: inline-grid;
+    width: 2.25rem;
+    height: 2.25rem;
+    min-height: 2.25rem;
+    place-items: center;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 999px;
+    background: rgba(8, 8, 10, 0.76);
+    color: #ffffff;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.28);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+}
+
+.portal-remove-file-button:hover {
+    background: rgba(190, 18, 60, 0.9);
+}
+
+.portal-remove-file-button svg {
+    width: 1rem;
+    height: 1rem;
+}
+
+@media (pointer: coarse) {
+    .portal-frame :is(
+        .portal-icon-button,
+        .icon-btn,
+        .btn-sm,
+        .btn-xs,
+        .search-field-clear,
+        .admin-view-toggle button,
+        .portal-remove-file-button
+    ) {
+        width: 2.75rem;
+        min-width: 2.75rem;
+        height: 2.75rem;
+        min-height: 2.75rem;
+    }
+
+    .portal-frame :is(.btn-sm, .btn-xs) {
+        width: auto;
+    }
+}
+
+@media (max-width: 520px) {
+    .portal-topbar-left {
+        min-width: 0;
+        flex: 1 1 auto;
+    }
+
+    .portal-topbar-left > div {
+        min-width: 0;
+    }
+
+    .portal-page-heading,
+    .portal-breadcrumb {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .portal-actions {
+        gap: 0.45rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .portal-frame :is(.portal-icon-button, .icon-btn, .admin-view-toggle button) {
+        transition: none;
+    }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+    .portal-sidebar,
+    .portal-topbar,
+    .portal-drawer,
+    .portal-frame .card,
+    .portal-frame .card-surface,
+    .portal-frame :is(.portal-icon-button, .icon-btn, .admin-view-toggle button) {
+        -webkit-backdrop-filter: none !important;
+        backdrop-filter: none !important;
+    }
+
+    html:not([data-theme="dark"]) :is(.portal-sidebar, .portal-topbar, .portal-drawer, .portal-frame .card, .portal-frame .card-surface) {
+        background: #f8fafc !important;
+    }
+
+    [data-theme="dark"] :is(.portal-sidebar, .portal-topbar, .portal-drawer, .portal-frame .card, .portal-frame .card-surface) {
+        background: #111114 !important;
+    }
+}

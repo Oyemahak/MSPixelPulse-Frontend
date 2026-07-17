@@ -253,6 +253,7 @@ export default function PortalShell({ children }) {
                 className="portal-icon-button"
                 onClick={() => setDrawerOpen(false)}
                 aria-label="Close menu"
+                title="Close portal menu"
               >
                 <LuX className="h-5 w-5" aria-hidden="true" />
               </button>
@@ -271,6 +272,7 @@ export default function PortalShell({ children }) {
               className="portal-icon-button portal-menu-button"
               onClick={() => setDrawerOpen(true)}
               aria-label="Open portal menu"
+              title="Open portal menu"
               aria-expanded={drawerOpen}
               aria-controls="portal-mobile-navigation"
             >
@@ -301,7 +303,12 @@ export default function PortalShell({ children }) {
               )}
             </button>
 
-            <Link to={`${meta.home}/profile`} className="portal-user-chip" aria-label="Open profile">
+            <Link
+              to={`${meta.home}/profile`}
+              className="portal-user-chip"
+              aria-label="Open profile and account details"
+              title="Open profile and account details"
+            >
               <span className="portal-avatar">
                 {user?.avatarUrl && !avatarFailed ? (
                   <img src={user.avatarUrl} alt="" onError={() => setAvatarFailed(true)} />
@@ -315,7 +322,13 @@ export default function PortalShell({ children }) {
               </span>
             </Link>
 
-            <button type="button" className="portal-icon-button" onClick={onLogout} aria-label="Log out">
+            <button
+              type="button"
+              className="portal-icon-button"
+              onClick={onLogout}
+              aria-label="Sign out of the portal"
+              title="Sign out of the portal"
+            >
               <LuLogOut className="h-5 w-5" aria-hidden="true" />
             </button>
           </div>

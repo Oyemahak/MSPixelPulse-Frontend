@@ -2,7 +2,15 @@
 import { useEffect } from "react";
 import { site } from "@/data/site.js";
 
-export default function Meta({ title, description, canonical, image, type = "website", jsonLd }) {
+export default function Meta({
+  title,
+  description,
+  canonical,
+  image,
+  type = "website",
+  robots = "index, follow",
+  jsonLd,
+}) {
   useEffect(() => {
     if (title) document.title = title;
     if (description) {
@@ -14,7 +22,14 @@ export default function Meta({ title, description, canonical, image, type = "web
       }
       tag.setAttribute("content", description);
     }
-  }, [title, description]);
+    let robotsTag = document.querySelector('meta[name="robots"]');
+    if (!robotsTag) {
+      robotsTag = document.createElement("meta");
+      robotsTag.setAttribute("name", "robots");
+      document.head.appendChild(robotsTag);
+    }
+    robotsTag.setAttribute("content", robots);
+  }, [title, description, robots]);
 
   useEffect(() => {
     const setMeta = (selector, attrs, content) => {

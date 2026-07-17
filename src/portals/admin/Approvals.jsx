@@ -72,18 +72,22 @@ export default function Approvals() {
                 <td className="capitalize">{u.role}</td>
                 <td className="actions-cell">
                   <button
+                    type="button"
                     onClick={() => approve(u._id)}
                     className="icon-btn text-emerald-400 hover:text-emerald-300 mr-1"
-                    title="Approve"
+                    title={`Approve ${u.name || u.email}`}
+                    aria-label={`Approve ${u.name || u.email}`}
                   >
-                    <Check size={16} />
+                    <Check size={16} aria-hidden="true" />
                   </button>
                   <button
+                    type="button"
                     onClick={() => remove(u._id)}
                     className="icon-btn text-rose-400 hover:text-rose-300"
-                    title="Delete"
+                    title={`Delete ${u.name || u.email}`}
+                    aria-label={`Delete ${u.name || u.email}`}
                   >
-                    <Trash2 size={16} />
+                    <Trash2 size={16} aria-hidden="true" />
                   </button>
                 </td>
               </tr>

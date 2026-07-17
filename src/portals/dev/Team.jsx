@@ -138,9 +138,10 @@ export default function Team() {
                     to={`/dev/direct/${u._id}`}
                     state={{ peerEmail: u.email, peerName: u.name }}
                     className="icon-btn"
-                    title="Direct message"
+                    title={`Message ${u.name || u.email}`}
+                    aria-label={`Message ${u.name || u.email}`}
                   >
-                    <MessageSquare size={16} />
+                    <MessageSquare size={16} aria-hidden="true" />
                   </Link>
                 </td>
               </tr>

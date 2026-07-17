@@ -71,8 +71,8 @@ export default function DevProjects() {
                 <td className="text-white/80">{p.client?.name || "—"}</td>
                 <td><span className="badge capitalize">{p.status}</span></td>
                 <td className="actions-cell">
-                  <Link className="icon-btn mr-1" title="Open discussion" to={`/dev/discussions/${p._id}`}>
-                    <MessageSquare size={16} />
+                  <Link className="icon-btn mr-1" title={`Open ${p.title} project room`} aria-label={`Open ${p.title} project room`} to={`/dev/discussions/${p._id}`}>
+                    <MessageSquare size={16} aria-hidden="true" />
                   </Link>
                   <Link className="btn btn-outline" to={`/dev/projects/${p._id}`}>Open</Link>
                 </td>

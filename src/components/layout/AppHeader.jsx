@@ -168,7 +168,8 @@ export default function AppHeader() {
         >
           <img
             src="/icon.svg"
-            alt="MSPixelPulse"
+            alt=""
+            aria-hidden="true"
             className="h-8 w-8 object-contain"
             onError={(e) => (e.currentTarget.style.display = "none")}
           />
@@ -221,6 +222,7 @@ export default function AppHeader() {
               }
               aria-pressed={actualIsDark}
               aria-label="Dark mode"
+              title="Use dark mode"
             >
               <LuMoon className="h-4 w-4" />
             </button>
@@ -236,6 +238,7 @@ export default function AppHeader() {
               }
               aria-pressed={!actualIsDark}
               aria-label="Light mode"
+              title="Use light mode"
             >
               <LuSun className="h-4 w-4" />
             </button>
@@ -243,7 +246,7 @@ export default function AppHeader() {
 
           {!isAuthed ? (
             <NavLink to="/login" className={loginBtnClass}>
-              <LuLogIn className="h-4 w-4" /> Login
+              <LuLogIn className="h-4 w-4" /> Portal login
             </NavLink>
           ) : (
             <>
@@ -265,8 +268,9 @@ export default function AppHeader() {
                   className="profile-chip"
                   aria-haspopup="menu"
                   aria-expanded={menuOpen}
+                  aria-label="Open profile and account menu"
                   onClick={() => setMenuOpen((v) => !v)}
-                  title={user?.email || "Account"}
+                  title={user?.email ? `Open account menu for ${user.email}` : "Open account menu"}
                 >
                   {avatarUrl ? (
                     <img
@@ -356,7 +360,7 @@ export default function AppHeader() {
                     onClick={doLogout}
                     role="menuitem"
                   >
-                    <LuLogOut className="h-4 w-4" /> <span>Logout</span>
+                    <LuLogOut className="h-4 w-4" /> <span>Sign out</span>
                   </button>
                 </div>
               </div>
@@ -373,6 +377,7 @@ export default function AppHeader() {
               : "xl:hidden inline-grid place-items-center h-11 w-11 rounded-xl hover:bg-slate-100 text-slate-800"
           }
           aria-label={open ? "Close menu" : "Open menu"}
+          title={open ? "Close website menu" : "Open website menu"}
           aria-expanded={open}
           aria-controls="public-mobile-navigation"
           onClick={() => setOpen((v) => !v)}
@@ -434,12 +439,15 @@ export default function AppHeader() {
 
               {/* mobile theme toggle — KEEPING YOUR OLD ONE */}
               <button
+                type="button"
                 onClick={toggleTheme}
                 className={
                   isDark
                     ? "w-full mt-1.5 h-11 rounded-xl font-semibold inline-flex items-center justify-center gap-2 bg-white/5 hover:bg-white/10 text-white/85"
                     : "liquid-glass-button w-full mt-1.5 h-11 rounded-xl font-semibold inline-flex items-center justify-center gap-2 text-slate-800"
                 }
+                aria-label={actualIsDark ? "Switch to light mode" : "Switch to dark mode"}
+                title={actualIsDark ? "Switch to light mode" : "Switch to dark mode"}
               >
                 {actualIsDark ? (
                   <>
@@ -462,7 +470,7 @@ export default function AppHeader() {
                     variant="primary"
                     dark={isDark}
                   >
-                    <LuLogIn className="h-4 w-4 mr-2" /> Login
+                    <LuLogIn className="h-4 w-4 mr-2" /> Portal login
                   </MobileCTA>
                   <SocialContactLinks
                     include={["email", "phone", "messages", "whatsapp"]}
@@ -499,6 +507,7 @@ export default function AppHeader() {
                     </MobileCTA>
                   )}
                   <button
+                    type="button"
                     onClick={async () => {
                       await doLogout();
                       closeMobile();
@@ -509,7 +518,7 @@ export default function AppHeader() {
                         : "w-full mt-1.5 h-11 rounded-xl font-bold bg-blue-600 hover:bg-blue-500 text-white inline-flex items-center justify-center gap-2"
                     }
                   >
-                    <LuLogOut className="h-4 w-4" /> Logout
+                    <LuLogOut className="h-4 w-4" /> Sign out
                   </button>
                 </>
               )}

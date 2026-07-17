@@ -84,13 +84,12 @@ export default function App() {
     pathname.startsWith("/admin") ||
     pathname.startsWith("/client") ||
     pathname.startsWith("/dev");
-  const isAuthRoute = pathname.startsWith("/login") || pathname.startsWith("/register");
-  const hidePublicChrome = isPortalRoute || isAuthRoute;
+  const hidePublicChrome = isPortalRoute;
   const ContentRoot = hidePublicChrome ? "div" : "main";
 
   return (
     <ThemeProvider>
-      <div className="min-h-screen flex flex-col bg-transparent text-textMain">
+      <div className="app-shell min-h-screen flex flex-col bg-transparent">
         <a className="skip-link" href="#main-content">Skip to main content</a>
         {!hidePublicChrome && <AppHeader />}
 

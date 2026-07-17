@@ -341,40 +341,71 @@ function ProjectCard({ project, busyId, onEdit, onPublish, onFeature, onArchive 
           {project.developer?.name && <span>{project.developer.name}</span>}
         </div>
 
-        <div className="admin-project-actions" aria-label={`${project.title} actions`}>
-          <Link className="portal-icon-button" title="View details" to={`/admin/projects/${project._id}`}>
+        <div className="admin-project-actions" role="group" aria-label={`${project.title} actions`}>
+          <Link
+            className="portal-icon-button"
+            title={`View ${project.title} details`}
+            aria-label={`View ${project.title} details`}
+            to={`/admin/projects/${project._id}`}
+          >
             <LuEye className="h-4 w-4" aria-hidden="true" />
           </Link>
-          <Link className="portal-icon-button" title="Project room" to={`/admin/discussions/${project._id}`}>
+          <Link
+            className="portal-icon-button"
+            title={`Open ${project.title} project room`}
+            aria-label={`Open ${project.title} project room`}
+            to={`/admin/discussions/${project._id}`}
+          >
             <LuMessageSquare className="h-4 w-4" aria-hidden="true" />
           </Link>
           {project.liveUrl && (
-            <a className="portal-icon-button" title="Open live website" href={project.liveUrl} target="_blank" rel="noreferrer">
+            <a
+              className="portal-icon-button"
+              title={`Open ${project.title} live website`}
+              aria-label={`Open ${project.title} live website in a new tab`}
+              href={project.liveUrl}
+              target="_blank"
+              rel="noreferrer"
+            >
               <LuExternalLink className="h-4 w-4" aria-hidden="true" />
             </a>
           )}
-          <button className="portal-icon-button" title="Edit project" onClick={() => onEdit(project)}>
+          <button
+            type="button"
+            className="portal-icon-button"
+            title={`Edit ${project.title}`}
+            aria-label={`Edit ${project.title}`}
+            onClick={() => onEdit(project)}
+          >
             <LuPenLine className="h-4 w-4" aria-hidden="true" />
           </button>
           <button
+            type="button"
             className="portal-icon-button"
             title={project.published ? "Unpublish from portfolio" : "Publish to portfolio"}
+            aria-label={`${project.published ? "Unpublish" : "Publish"} ${project.title} ${project.published ? "from" : "to"} the portfolio`}
+            aria-pressed={Boolean(project.published)}
             disabled={busyId === project._id}
             onClick={() => onPublish(project)}
           >
             <LuBadgeCheck className="h-4 w-4" aria-hidden="true" />
           </button>
           <button
+            type="button"
             className="portal-icon-button"
             title={project.featured ? "Remove featured flag" : "Feature project"}
+            aria-label={`${project.featured ? "Remove" : "Add"} ${project.title} ${project.featured ? "from" : "to"} featured projects`}
+            aria-pressed={Boolean(project.featured)}
             disabled={busyId === project._id}
             onClick={() => onFeature(project)}
           >
             <LuStar className="h-4 w-4" aria-hidden="true" />
           </button>
           <button
+            type="button"
             className="portal-icon-button danger"
             title="Archive project"
+            aria-label={`Archive ${project.title}`}
             disabled={busyId === project._id || project.status === "archived"}
             onClick={() => onArchive(project)}
           >
@@ -427,12 +458,12 @@ function ProjectTable({ rows, busyId, onEdit, onPublish, onFeature, onArchive })
                   {project.featured && <span><LuStar /> Featured</span>}
                 </div>
               </td>
-              <td className="actions-cell">
-                <Link className="icon-btn" title="View details" to={`/admin/projects/${project._id}`}><LuEye /></Link>
-                <button className="icon-btn" title="Edit" onClick={() => onEdit(project)}><LuPenLine /></button>
-                <button className="icon-btn" title="Publish toggle" disabled={busyId === project._id} onClick={() => onPublish(project)}><LuBadgeCheck /></button>
-                <button className="icon-btn" title="Feature toggle" disabled={busyId === project._id} onClick={() => onFeature(project)}><LuStar /></button>
-                <button className="icon-btn text-rose-300" title="Archive" disabled={busyId === project._id || project.status === "archived"} onClick={() => onArchive(project)}><LuArchive /></button>
+              <td className="actions-cell" aria-label={`${project.title} actions`}>
+                <Link className="icon-btn" title={`View ${project.title} details`} aria-label={`View ${project.title} details`} to={`/admin/projects/${project._id}`}><LuEye aria-hidden="true" /></Link>
+                <button type="button" className="icon-btn" title={`Edit ${project.title}`} aria-label={`Edit ${project.title}`} onClick={() => onEdit(project)}><LuPenLine aria-hidden="true" /></button>
+                <button type="button" className="icon-btn" title={project.published ? "Unpublish from portfolio" : "Publish to portfolio"} aria-label={`${project.published ? "Unpublish" : "Publish"} ${project.title}`} aria-pressed={Boolean(project.published)} disabled={busyId === project._id} onClick={() => onPublish(project)}><LuBadgeCheck aria-hidden="true" /></button>
+                <button type="button" className="icon-btn" title={project.featured ? "Remove from featured projects" : "Add to featured projects"} aria-label={`${project.featured ? "Remove" : "Add"} ${project.title} ${project.featured ? "from" : "to"} featured projects`} aria-pressed={Boolean(project.featured)} disabled={busyId === project._id} onClick={() => onFeature(project)}><LuStar aria-hidden="true" /></button>
+                <button type="button" className="icon-btn text-rose-300" title={`Archive ${project.title}`} aria-label={`Archive ${project.title}`} disabled={busyId === project._id || project.status === "archived"} onClick={() => onArchive(project)}><LuArchive aria-hidden="true" /></button>
               </td>
             </tr>
           ))}
@@ -695,10 +726,10 @@ export default function Projects() {
           )}
 
           <div className="admin-view-toggle" role="group" aria-label="Project view">
-            <button className={view === "grid" ? "is-active" : ""} onClick={() => setView("grid")} aria-label="Grid view">
+            <button type="button" className={view === "grid" ? "is-active" : ""} onClick={() => setView("grid")} aria-label="Show projects in a grid" title="Grid view" aria-pressed={view === "grid"}>
               <LuGrid2X2 className="h-4 w-4" aria-hidden="true" />
             </button>
-            <button className={view === "list" ? "is-active" : ""} onClick={() => setView("list")} aria-label="List view">
+            <button type="button" className={view === "list" ? "is-active" : ""} onClick={() => setView("list")} aria-label="Show projects in a list" title="List view" aria-pressed={view === "list"}>
               <LuLayoutList className="h-4 w-4" aria-hidden="true" />
             </button>
           </div>

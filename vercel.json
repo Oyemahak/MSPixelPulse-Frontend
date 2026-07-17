@@ -26,12 +26,23 @@
       "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow, noarchive" }]
     }
   ],
-  "rewrites": [
-    { "source": "/admin", "destination": "/index.html" },
-    { "source": "/admin/(.*)", "destination": "/index.html" },
-    { "source": "/client", "destination": "/index.html" },
-    { "source": "/client/(.*)", "destination": "/index.html" },
-    { "source": "/dev", "destination": "/index.html" },
-    { "source": "/dev/(.*)", "destination": "/index.html" }
+  "routes": [
+    {
+      "src": "/admin(?:/.*)?",
+      "dest": "/index.html",
+      "headers": { "X-Robots-Tag": "noindex, nofollow, noarchive" }
+    },
+    {
+      "src": "/client(?:/.*)?",
+      "dest": "/index.html",
+      "headers": { "X-Robots-Tag": "noindex, nofollow, noarchive" }
+    },
+    {
+      "src": "/dev(?:/.*)?",
+      "dest": "/index.html",
+      "headers": { "X-Robots-Tag": "noindex, nofollow, noarchive" }
+    },
+    { "handle": "filesystem" },
+    { "src": "/.*", "status": 404, "dest": "/404.html" }
   ]
 }

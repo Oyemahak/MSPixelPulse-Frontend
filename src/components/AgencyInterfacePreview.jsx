@@ -17,11 +17,14 @@ export default function AgencyInterfacePreview() {
       <div className="agency-collaboration-frame">
         <img
           src="/hero/mspixelpulse-web-design-collaboration.webp"
+          srcSet="/hero/mspixelpulse-web-design-collaboration-720.webp 720w, /hero/mspixelpulse-web-design-collaboration-1080.webp 1080w, /hero/mspixelpulse-web-design-collaboration.webp 1448w"
+          sizes="(min-width: 1280px) 620px, (min-width: 1024px) 50vw, 100vw"
           alt="A small-business owner and web designer reviewing a responsive website together on a laptop and phone"
           width="1448"
           height="1086"
           loading="eager"
           fetchPriority="high"
+          decoding="async"
         />
         <span className="agency-collaboration-sheen" aria-hidden="true" />
 

@@ -1,19 +1,22 @@
 // src/portals/client/index.jsx  (ClientPortal)
+import { lazy, Suspense } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import PortalShell from "@/components/portal/PortalShell.jsx";
+import PortalRouteFallback from "@/components/portal/PortalRouteFallback.jsx";
 
 import ClientDashboard from "./ClientDashboard.jsx";
-import Projects from "./Projects.jsx";
-import ProjectDetail from "./ProjectDetail.jsx";
-import Discussions from "./Discussions.jsx";
-import Billings from "./Billings.jsx";
-import Support from "./Support.jsx";
-import MyAccount from "./MyAccount.jsx";
+const Projects = lazy(() => import("./Projects.jsx"));
+const ProjectDetail = lazy(() => import("./ProjectDetail.jsx"));
+const Discussions = lazy(() => import("./Discussions.jsx"));
+const Billings = lazy(() => import("./Billings.jsx"));
+const Support = lazy(() => import("./Support.jsx"));
+const MyAccount = lazy(() => import("./MyAccount.jsx"));
 
 export default function ClientPortal() {
   return (
     <PortalShell>
-      <Routes>
+      <Suspense fallback={<PortalRouteFallback />}>
+        <Routes>
         <Route index element={<ClientDashboard />} />
         <Route path="dashboard" element={<ClientDashboard />} />
 
@@ -32,7 +35,8 @@ export default function ClientPortal() {
         <Route path="settings" element={<MyAccount />} />
 
         <Route path="*" element={<Navigate to="." replace />} />
-      </Routes>
+        </Routes>
+      </Suspense>
     </PortalShell>
   );
 }

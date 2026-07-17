@@ -15,6 +15,7 @@ import {
 } from "react-icons/lu";
 import Container from "@/components/layout/Container.jsx";
 import Meta from "@/components/Meta.jsx";
+import { seoPages } from "@/data/seoPages.js";
 import { useAuth } from "@/context/AuthContext.jsx";
 import { API_BASE } from "@/lib/api.js";
 import { site, whatsappUrl } from "@/data/site.js";
@@ -83,18 +84,13 @@ export default function Login() {
 
   return (
     <section className="auth-page" aria-labelledby="login-heading">
-      <Meta
-        title="Portal login — MSPixelPulse"
-        description="Secure access for approved MSPixelPulse client, developer, and admin workspaces."
-        canonical="/login"
-        robots="noindex, nofollow"
-      />
+      <Meta {...seoPages.login} />
       <div className="auth-ambient auth-ambient-one" aria-hidden="true" />
       <div className="auth-ambient auth-ambient-two" aria-hidden="true" />
 
       <Container className="auth-page-container">
         <div className="auth-layout">
-          <div className="auth-story">
+          <div className="auth-intro">
             <div className="auth-eyebrow">
               <LuShieldCheck aria-hidden="true" />
               Secure workspace access
@@ -104,7 +100,106 @@ export default function Login() {
               Sign in with the account assigned by MSPixelPulse. We will take you
               directly to the correct client, developer, or admin portal.
             </p>
+          </div>
 
+          <section className="auth-login-card liquid-glass-surface" aria-labelledby="portal-login-heading">
+            <div className="auth-card-heading">
+              <span className="auth-card-icon" aria-hidden="true">
+                <LuLogIn />
+              </span>
+              <span>
+                <h2 id="portal-login-heading">Continue to your portal</h2>
+                <p>Enter your approved account credentials.</p>
+              </span>
+            </div>
+
+            <form className="auth-form" onSubmit={onSubmit}>
+              <div className="auth-form-field">
+                <label htmlFor="email">Email address</label>
+                <div className="auth-input-shell">
+                  <LuMail className="auth-field-icon" aria-hidden="true" />
+                  <input
+                    id="email"
+                    name="email"
+                    type="email"
+                    autoComplete="username"
+                    inputMode="email"
+                    required
+                    className="auth-input"
+                    placeholder="you@example.com"
+                    value={email}
+                    onChange={(event) => setEmail(event.target.value)}
+                  />
+                </div>
+              </div>
+
+              <div className="auth-form-field">
+                <label htmlFor="password">Password</label>
+                <div className="auth-input-shell">
+                  <LuLockKeyhole className="auth-field-icon" aria-hidden="true" />
+                  <input
+                    id="password"
+                    name="password"
+                    type={showPassword ? "text" : "password"}
+                    autoComplete="current-password"
+                    required
+                    className="auth-input auth-password-input"
+                    placeholder="Enter your password"
+                    value={password}
+                    onChange={(event) => setPassword(event.target.value)}
+                    onKeyDown={(event) => setCapsLock(Boolean(event.getModifierState?.("CapsLock")))}
+                    onKeyUp={(event) => setCapsLock(Boolean(event.getModifierState?.("CapsLock")))}
+                  />
+                  <button
+                    type="button"
+                    className="auth-password-toggle liquid-glass-button"
+                    onClick={() => setShowPassword((value) => !value)}
+                    aria-label={showPassword ? "Hide password" : "Show password"}
+                    title={showPassword ? "Hide password" : "Show password"}
+                  >
+                    {showPassword ? <LuEyeOff className="h-5 w-5" /> : <LuEye className="h-5 w-5" />}
+                  </button>
+                </div>
+                {capsLock && (
+                  <div className="auth-caps-warning" role="status">
+                    Caps Lock is on.
+                  </div>
+                )}
+              </div>
+
+              {waking && (
+                <div className="auth-status auth-status-waking" role="status" aria-live="polite">
+                  <LuLoaderCircle className="animate-spin" aria-hidden="true" />
+                  Preparing your secure workspace.
+                </div>
+              )}
+
+              {err && (
+                <div className="auth-status auth-status-error" role="alert">
+                  {err}
+                </div>
+              )}
+
+              <button
+                type="submit"
+                disabled={loading}
+                className="auth-submit-button"
+              >
+                {loading ? (
+                  <LuLoaderCircle className="animate-spin" aria-hidden="true" />
+                ) : (
+                  <LuLogIn aria-hidden="true" />
+                )}
+                {loading ? "Opening your portal…" : "Open secure portal"}
+              </button>
+            </form>
+
+            <p className="auth-card-note">
+              Access is available only to approved MSPixelPulse accounts.
+            </p>
+          </section>
+
+          <div className="auth-support-panel">
             <div className="auth-proof-grid" aria-label="Portal access details">
               <div className="auth-proof-item liquid-glass-surface">
                 <LuUsersRound aria-hidden="true" />
@@ -138,107 +233,6 @@ export default function Login() {
               </a>
             </div>
           </div>
-
-          <section className="auth-login-card liquid-glass-surface" aria-labelledby="portal-login-heading">
-            <div className="auth-card-heading">
-              <span className="auth-card-icon" aria-hidden="true">
-                <LuLogIn />
-              </span>
-              <span>
-                <h2 id="portal-login-heading">Continue to your portal</h2>
-                <p>Enter your approved account credentials.</p>
-              </span>
-            </div>
-
-            <form className="auth-form" onSubmit={onSubmit}>
-              <div className="auth-form-field">
-                <label htmlFor="email">
-                Email address
-              </label>
-                <div className="auth-input-shell">
-                  <LuMail className="auth-field-icon" aria-hidden="true" />
-                <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  autoComplete="username"
-                  inputMode="email"
-                  required
-                    className="auth-input"
-                  placeholder="you@example.com"
-                  value={email}
-                  onChange={(event) => setEmail(event.target.value)}
-                />
-                </div>
-              </div>
-
-              <div className="auth-form-field">
-                <label htmlFor="password">
-                Password
-              </label>
-                <div className="auth-input-shell">
-                  <LuLockKeyhole className="auth-field-icon" aria-hidden="true" />
-                <input
-                  id="password"
-                  name="password"
-                  type={showPassword ? "text" : "password"}
-                  autoComplete="current-password"
-                  required
-                    className="auth-input auth-password-input"
-                  placeholder="Enter your password"
-                  value={password}
-                  onChange={(event) => setPassword(event.target.value)}
-                  onKeyDown={(event) => setCapsLock(Boolean(event.getModifierState?.("CapsLock")))}
-                  onKeyUp={(event) => setCapsLock(Boolean(event.getModifierState?.("CapsLock")))}
-                />
-                <button
-                  type="button"
-                    className="auth-password-toggle liquid-glass-button"
-                  onClick={() => setShowPassword((value) => !value)}
-                  aria-label={showPassword ? "Hide password" : "Show password"}
-                    title={showPassword ? "Hide password" : "Show password"}
-                >
-                  {showPassword ? <LuEyeOff className="h-5 w-5" /> : <LuEye className="h-5 w-5" />}
-                </button>
-                </div>
-              {capsLock && (
-                  <div className="auth-caps-warning" role="status">
-                  Caps Lock is on.
-                </div>
-              )}
-              </div>
-
-            {waking && (
-                <div className="auth-status auth-status-waking" role="status" aria-live="polite">
-                  <LuLoaderCircle className="animate-spin" aria-hidden="true" />
-                  Preparing your secure workspace.
-              </div>
-            )}
-
-            {err && (
-                <div className="auth-status auth-status-error" role="alert">
-                {err}
-              </div>
-            )}
-
-            <button
-              type="submit"
-              disabled={loading}
-                className="auth-submit-button"
-            >
-                {loading ? (
-                  <LuLoaderCircle className="animate-spin" aria-hidden="true" />
-                ) : (
-                  <LuLogIn aria-hidden="true" />
-                )}
-                {loading ? "Opening your portal…" : "Open secure portal"}
-            </button>
-          </form>
-
-            <p className="auth-card-note">
-              Access is available only to approved MSPixelPulse accounts.
-            </p>
-          </section>
         </div>
       </Container>
     </section>

@@ -28,15 +28,12 @@ export default defineConfig(({ mode }) => ({
     },
   },
   preview: { port: 4173 },
-  optimizeDeps: { include: ["three"] },
   build: {
     outDir: "dist",
+    manifest: true,
     target: "es2020",
     sourcemap: mode !== "production",
     assetsInlineLimit: 0,
-    rollupOptions: {
-      output: { manualChunks: { three: ["three"] } },
-    },
   },
   define: { "process.env": {} },
 }));

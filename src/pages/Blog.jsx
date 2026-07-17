@@ -4,6 +4,7 @@ import Container from "@/components/layout/Container.jsx";
 import { publishedBlogPosts } from "@/data/blogPosts.js";
 import { useTheme } from "@/lib/theme.js";
 import { LuArrowRight, LuBookOpen, LuMessageCircle } from "react-icons/lu";
+import { seoPages } from "@/data/seoPages.js";
 
 export default function Blog() {
   const { theme } = useTheme();
@@ -11,13 +12,7 @@ export default function Blog() {
 
   return (
     <section className="section overflow-x-hidden py-10 md:py-14">
-      <Meta
-        title="Website Design Blog — MSPixelPulse"
-        description="Practical website design, redesign, SEO, and maintenance guidance for Canadian small businesses."
-        canonical="/blog"
-        image="/logo.svg"
-        type="website"
-      />
+      <Meta {...seoPages.blog} />
       <Container>
         <div className="grid gap-6 lg:grid-cols-[1fr_auto] lg:items-end">
           <div>

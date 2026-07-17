@@ -11,6 +11,7 @@ import {
   LuSparkles,
   LuX,
 } from "react-icons/lu";
+import { seoPages } from "@/data/seoPages.js";
 
 const allOption = "All";
 
@@ -191,18 +192,14 @@ export default function Projects() {
 
   return (
     <section className="section overflow-x-hidden">
-      <Meta
-        title="Website Projects — MSPixelPulse"
-        description="Explore live MSPixelPulse website work and clearly labeled industry concept websites by industry, platform, and website type."
-        canonical="/projects"
-      />
+      <Meta {...seoPages.projects} />
 
       <div className="mx-auto w-[calc(100vw-2rem)] max-w-7xl sm:w-auto sm:px-6 lg:px-8">
         <div className="max-w-[20rem] min-w-0 sm:max-w-3xl">
           <div className={isDark ? "badge mb-4" : "mb-4 inline-flex rounded-full bg-blue-50 px-3 py-1 text-xs font-bold text-blue-700"}>
             <LuSparkles className="h-4 w-4" /> Portfolio
           </div>
-          <h1 className={isDark ? "max-w-full break-words text-3xl font-black leading-tight sm:text-4xl md:text-5xl" : "max-w-full break-words text-3xl font-black leading-tight text-slate-950 sm:text-4xl md:text-5xl"}>
+          <h1 className={isDark ? "max-w-full break-words text-3xl font-extrabold leading-[1.08] sm:text-[2.5rem] md:text-[2.75rem]" : "max-w-full break-words text-3xl font-extrabold leading-[1.08] text-slate-950 sm:text-[2.5rem] md:text-[2.75rem]"}>
             Website work, organized by what is live and what is a concept.
           </h1>
           <p className={isDark ? "mt-4 max-w-full break-words text-base leading-7 text-textSub sm:text-lg sm:leading-8" : "mt-4 max-w-full break-words text-base leading-7 text-slate-600 sm:text-lg sm:leading-8"}>

@@ -1,28 +1,29 @@
 // frontend/src/portals/admin/index.jsx
+import { lazy, Suspense } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import PortalShell from "@/components/portal/PortalShell.jsx";
+import PortalRouteFallback from "@/components/portal/PortalRouteFallback.jsx";
 
 import AdminDashboard from "./AdminDashboard.jsx";
-import Users from "./Users.jsx";
-import UserDetail from "./UserDetail.jsx";
-import CreateUser from "./CreateUser.jsx";
-import Projects from "./Projects.jsx";
-import ProjectDetail from "./ProjectDetail.jsx";
-import ProjectNew from "./ProjectNew.jsx";
-import Approvals from "./Approvals.jsx";
-import Billings from "./Billings.jsx";
-
-import Discussions from "./Discussions.jsx";
-import DirectIndex from "./DirectIndex.jsx";
-import Direct from "./Direct.jsx";
-
-import Requirements from "./Requirements.jsx";
-import MyAccount from "./MyAccount.jsx";
+const Users = lazy(() => import("./Users.jsx"));
+const UserDetail = lazy(() => import("./UserDetail.jsx"));
+const CreateUser = lazy(() => import("./CreateUser.jsx"));
+const Projects = lazy(() => import("./Projects.jsx"));
+const ProjectDetail = lazy(() => import("./ProjectDetail.jsx"));
+const ProjectNew = lazy(() => import("./ProjectNew.jsx"));
+const Approvals = lazy(() => import("./Approvals.jsx"));
+const Billings = lazy(() => import("./Billings.jsx"));
+const Discussions = lazy(() => import("./Discussions.jsx"));
+const DirectIndex = lazy(() => import("./DirectIndex.jsx"));
+const Direct = lazy(() => import("./Direct.jsx"));
+const Requirements = lazy(() => import("./Requirements.jsx"));
+const MyAccount = lazy(() => import("./MyAccount.jsx"));
 
 export default function AdminPortal() {
   return (
     <PortalShell>
-      <Routes>
+      <Suspense fallback={<PortalRouteFallback />}>
+        <Routes>
         <Route index element={<Navigate to="dashboard" replace />} />
         <Route path="dashboard" element={<AdminDashboard />} />
         <Route path="approvals" element={<Approvals />} />
@@ -51,7 +52,8 @@ export default function AdminPortal() {
         <Route path="settings" element={<MyAccount />} />
 
         <Route path="*" element={<Navigate to="dashboard" replace />} />
-      </Routes>
+        </Routes>
+      </Suspense>
     </PortalShell>
   );
 }

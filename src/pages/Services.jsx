@@ -3,6 +3,7 @@ import Container from "../components/layout/Container.jsx";
 import { useTheme } from "@/lib/theme.js";
 import Meta from "@/components/Meta.jsx";
 import ContactActions from "@/components/ContactActions.jsx";
+import { seoPages } from "@/data/seoPages.js";
 
 import {
   LuArrowRight,
@@ -109,17 +110,13 @@ export default function Services() {
 
   return (
     <section className="section overflow-x-hidden">
-      <Meta
-        title="Website Services — MSPixelPulse"
-        description="MSPixelPulse provides website design and development, WordPress and React websites, e-commerce, redesigns, maintenance, SEO-ready structure, and custom solutions."
-        canonical="/services"
-      />
+      <Meta {...seoPages.services} />
       <Container>
         <div className="mx-auto max-w-3xl text-center">
           <span className={isDark ? "badge mb-4" : "mb-4 inline-flex rounded-full bg-blue-50 px-3 py-1 text-xs font-black text-blue-700"}>
             Services
           </span>
-          <h1 className={isDark ? "text-3xl font-black leading-tight text-white md:text-5xl" : "text-3xl font-black leading-tight text-slate-950 md:text-5xl"}>
+          <h1 className={isDark ? "text-3xl font-extrabold leading-[1.08] text-white md:text-[2.75rem]" : "text-3xl font-extrabold leading-[1.08] text-slate-950 md:text-[2.75rem]"}>
             Website services with the visuals, structure, and support a real business needs.
           </h1>
           <p className={isDark ? "mx-auto mt-4 max-w-2xl text-base leading-7 text-textSub md:text-lg" : "mx-auto mt-4 max-w-2xl text-base leading-7 text-slate-600 md:text-lg"}>
@@ -129,7 +126,7 @@ export default function Services() {
 
         <div className="mt-10 grid gap-5 lg:grid-cols-2">
           {services.map((service, index) => (
-            <ServiceModule key={service.title} service={service} isDark={isDark} priority={index < 2} />
+            <ServiceModule key={service.title} service={service} isDark={isDark} priority={index === 0} />
           ))}
         </div>
 
@@ -175,6 +172,8 @@ function ServiceModule({ service, isDark, priority }) {
           src={service.photo}
           alt={service.photoAlt}
           loading={priority ? "eager" : "lazy"}
+          decoding="async"
+          fetchPriority={priority ? "high" : "low"}
           width="900"
           height="620"
         />

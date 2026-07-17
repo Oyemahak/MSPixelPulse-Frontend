@@ -3,6 +3,7 @@ import Container from "@/components/layout/Container.jsx";
 import Meta from "@/components/Meta.jsx";
 import { useTheme } from "@/lib/theme.js";
 import { legalPages } from "@/data/legalPages.js";
+import { legalSeo } from "@/data/seoPages.js";
 
 export default function LegalPage({ page }) {
   const { theme } = useTheme();
@@ -15,7 +16,7 @@ export default function LegalPage({ page }) {
 
   return (
     <section className="section">
-      <Meta title={`${content.title} — MSPixelPulse`} description={content.description} canonical={`/${page}`} />
+      <Meta {...legalSeo(page, content)} />
       <Container>
         <div className="max-w-3xl">
           <p className="mb-4 inline-flex rounded-full bg-amber-500/10 px-3 py-1 text-xs font-black uppercase tracking-wide text-amber-500">

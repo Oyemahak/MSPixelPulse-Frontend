@@ -16,6 +16,7 @@ import Container from "../components/layout/Container.jsx";
 import SectionTitle from "../components/SectionTitle.jsx";
 import { useTheme } from "@/lib/theme.js";
 import Meta from "@/components/Meta.jsx";
+import { seoPages } from "@/data/seoPages.js";
 import ContactActions from "@/components/ContactActions.jsx";
 
 const CAD = (n) =>
@@ -150,11 +151,7 @@ export default function Pricing() {
   return (
     <section className="section pricing-page">
       <Container>
-        <Meta
-          title="Website Pricing — MSPixelPulse"
-          description="Compare starting points for WordPress, React, Wix, professional email, and custom website projects with MSPixelPulse."
-          canonical="/pricing"
-        />
+        <Meta {...seoPages.pricing} />
         <SectionTitle
           eyebrow="Pricing"
           title="Easy starting points for clean business websites"

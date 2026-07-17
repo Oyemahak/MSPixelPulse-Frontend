@@ -5,6 +5,7 @@ import { publishedProjects } from "../data/projects.js";
 import { useTheme } from "@/lib/theme.js";
 import { LuArrowLeft, LuExternalLink, LuGithub } from "react-icons/lu";
 import ContactActions from "@/components/ContactActions.jsx";
+import { projectSeo } from "@/data/seoPages.js";
 
 export default function ProjectDetail() {
   const { id } = useParams();
@@ -15,6 +16,11 @@ export default function ProjectDetail() {
   if (!project) {
     return (
       <section className="section">
+        <Meta
+          title="Project not found — MSPixelPulse"
+          description="The requested MSPixelPulse project could not be found."
+          robots="noindex, nofollow"
+        />
         <Container>
           <div className={isDark ? "card-surface p-8 text-center" : "rounded-2xl bg-white p-8 text-center shadow-sm"}>
             <h1 className={isDark ? "text-3xl font-black" : "text-3xl font-black text-slate-950"}>Project not found</h1>
@@ -28,6 +34,7 @@ export default function ProjectDetail() {
   }
 
   const isLive = project.classification === "live";
+  const projectMeta = projectSeo(project);
   const classificationClass = isLive
     ? isDark
       ? "border-emerald-300/20 bg-emerald-500/15 text-emerald-200"
@@ -37,12 +44,7 @@ export default function ProjectDetail() {
       : "border-blue-200 bg-blue-50 text-blue-700";
   return (
     <section className="section">
-      <Meta
-        title={`${project.title} — MSPixelPulse Portfolio`}
-        description={project.shortDescription || project.summary}
-        canonical={`/projects/${project.slug}`}
-        image={project.thumb}
-      />
+      <Meta {...projectMeta} />
 
       <Container>
         <Link to="/projects" className={isDark ? "subtle-link inline-flex items-center" : "inline-flex items-center text-sm font-bold text-slate-600 hover:text-slate-950"}>

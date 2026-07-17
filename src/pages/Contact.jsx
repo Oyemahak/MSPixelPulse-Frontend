@@ -5,6 +5,7 @@ import SectionTitle from "../components/SectionTitle.jsx";
 import { FORMS_BASE } from "@/lib/forms.js";
 import { useTheme } from "@/lib/theme.js";
 import Meta from "@/components/Meta.jsx";
+import { seoPages } from "@/data/seoPages.js";
 import ContactActions from "@/components/ContactActions.jsx";
 import SocialContactLinks from "@/components/SocialContactLinks.jsx";
 
@@ -100,11 +101,7 @@ export default function Contact() {
   return (
     <section className="section">
       <Container>
-        <Meta
-          title="Contact MSPixelPulse — Start a Website Project"
-          description="Contact MSPixelPulse about website design, redesign, WordPress, React, e-commerce, maintenance, and small business website support."
-          canonical="/contact"
-        />
+        <Meta {...seoPages.contact} />
         <SectionTitle
           eyebrow="Contact"
           title={isDark ? "Tell us about your project" : "Tell us about your project"}
@@ -206,7 +203,7 @@ export default function Contact() {
           {/* Side card */}
           {isDark ? (
             <div className="card-surface p-5 rounded-2xl">
-              <div className="font-black">How we’ll respond</div>
+              <h2 className="font-bold">How we’ll respond</h2>
               <ul className="text-textSub mt-3 space-y-2 text-sm">
                 <li>• We’ll review the details and reply using the email you provide.</li>
                 <li>• We’ll invite you to the client portal if it’s a fit.</li>
@@ -218,7 +215,7 @@ export default function Contact() {
             </div>
           ) : (
             <div className="rounded-2xl bg-white border border-slate-200 shadow-sm p-5">
-              <div className="font-semibold text-slate-900">How we’ll respond</div>
+              <h2 className="font-semibold text-slate-900">How we’ll respond</h2>
               <ul className="text-slate-600 mt-3 space-y-2 text-sm">
                 <li>• We’ll review the details and reply using the email you provide.</li>
                 <li>• We’ll invite you to the client portal if it’s a fit.</li>
@@ -238,7 +235,7 @@ export default function Contact() {
           }`}
         >
           <div className="contact-project-copy">
-            <h3>Have a project in mind?</h3>
+            <h2>Have a project in mind?</h2>
             <p>Tell us your goals — we’ll propose the simplest path to launch.</p>
           </div>
 

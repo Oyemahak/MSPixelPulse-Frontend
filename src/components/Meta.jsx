@@ -71,6 +71,7 @@ export default function Meta({
   useEffect(() => {
     const id = "page-json-ld";
     document.getElementById(id)?.remove();
+    document.querySelectorAll("[data-static-page-jsonld]").forEach((script) => script.remove());
     if (!jsonLd) return;
     const script = document.createElement("script");
     script.id = id;

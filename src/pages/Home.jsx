@@ -24,6 +24,7 @@ import { blogPosts } from "@/data/blogPosts.js";
 import Meta from "@/components/Meta.jsx";
 import ContactActions from "@/components/ContactActions.jsx";
 import AgencyInterfacePreview from "@/components/AgencyInterfacePreview.jsx";
+import { seoPages } from "@/data/seoPages.js";
 
 const services = [
   {
@@ -130,11 +131,7 @@ export default function Home() {
 
   return (
     <div className="relative">
-      <Meta
-        title="MSPixelPulse — Toronto Website Design for Small Businesses"
-        description="MSPixelPulse builds professional websites, redesigns, portals, and maintenance workflows for small businesses in Toronto and across Canada."
-        canonical="/"
-      />
+      <Meta {...seoPages.home} />
 
       <section className="relative pt-2 md:pt-4">
         <Container className="pb-10 md:pb-14">
@@ -143,7 +140,7 @@ export default function Home() {
               <p className="mb-4 inline-flex rounded-full bg-blue-600/10 px-3 py-1 text-xs font-black uppercase tracking-wide text-blue-500">
                 Toronto web design & digital agency
               </p>
-              <h1 className={isDark ? "max-w-3xl break-words text-4xl font-black leading-tight md:text-6xl" : "max-w-3xl break-words text-4xl font-black leading-tight text-slate-950 md:text-6xl"}>
+              <h1 className={isDark ? "max-w-3xl break-words text-[2.35rem] font-extrabold leading-[1.08] md:text-[3.5rem]" : "max-w-3xl break-words text-[2.35rem] font-extrabold leading-[1.08] text-slate-950 md:text-[3.5rem]"}>
                 Premium websites that make small businesses easier to trust.
               </h1>
               <p className={`mt-5 max-w-2xl text-lg leading-8 ${muted}`}>

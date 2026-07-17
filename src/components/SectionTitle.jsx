@@ -22,7 +22,7 @@ function SectionTitle({
     <div className={`mb-8 ${wrapper} ${className}`}>
       {eyebrow ? (
         <div className="inline-flex items-center gap-2 mb-2">
-          <span className="text-primary text-sm tracking-[0.28em] font-black uppercase">
+          <span className="text-primary text-sm tracking-[0.28em] font-bold uppercase">
             {eyebrow}
           </span>
         </div>
@@ -30,7 +30,7 @@ function SectionTitle({
 
       {title ? (
         <Heading
-          className={`mx-auto max-w-full break-words text-3xl md:text-4xl font-black tracking-tight ${
+          className={`public-section-title mx-auto max-w-full break-words text-[1.75rem] font-extrabold tracking-tight md:text-[2.125rem] ${
             isDark ? "text-white" : "text-slate-900"
           }`}
         >

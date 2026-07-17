@@ -3,7 +3,7 @@ import Meta from "@/components/Meta.jsx";
 import Container from "@/components/layout/Container.jsx";
 import { publishedBlogPosts } from "@/data/blogPosts.js";
 import { useTheme } from "@/lib/theme.js";
-import { site } from "@/data/site.js";
+import { blogPostSeo } from "@/data/seoPages.js";
 import {
   LuArrowLeft,
   LuArrowRight,
@@ -22,6 +22,11 @@ export default function BlogPost() {
   if (!post) {
     return (
       <section className="section">
+        <Meta
+          title="Article not found — MSPixelPulse"
+          description="The requested MSPixelPulse website guide could not be found."
+          robots="noindex, nofollow"
+        />
         <Container>
           <div className={isDark ? "card-surface p-8 text-center" : "rounded-2xl bg-white p-8 text-center shadow-sm"}>
             <h1 className={isDark ? "text-3xl font-black" : "text-3xl font-black text-slate-950"}>Article not found</h1>
@@ -34,31 +39,11 @@ export default function BlogPost() {
     );
   }
 
-  const articleJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "Article",
-    headline: post.title,
-    description: post.metaDescription,
-    image: `${site.url}${post.cover}`,
-    datePublished: post.publishedAt,
-    dateModified: post.updatedAt,
-    keywords: post.tags.join(", "),
-    citation: post.resources?.map((resource) => resource.url),
-    author: { "@type": "Organization", name: site.name },
-    publisher: { "@type": "Organization", name: site.name, logo: { "@type": "ImageObject", url: `${site.url}/logo.svg` } },
-    mainEntityOfPage: `${site.url}/blog/${post.slug}`,
-  };
+  const postMeta = blogPostSeo(post);
 
   return (
     <section className="section overflow-x-hidden py-10 md:py-14">
-      <Meta
-        title={post.seoTitle}
-        description={post.metaDescription}
-        canonical={`/blog/${post.slug}`}
-        image={post.cover}
-        type="article"
-        jsonLd={articleJsonLd}
-      />
+      <Meta {...postMeta} />
       <Container>
         <Link to="/blog" className={isDark ? "subtle-link inline-flex items-center" : "inline-flex items-center text-sm font-bold text-slate-600 hover:text-slate-950"}>
           <LuArrowLeft className="mr-2 h-4 w-4" aria-hidden="true" /> Back to blog

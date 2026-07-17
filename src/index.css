@@ -1237,7 +1237,7 @@ body {
 }
 
 @keyframes previewIn {
-  from { opacity: 0; transform: perspective(1000px) rotateY(-2.4deg) rotateX(1.2deg) translateY(1rem) scale(0.98); }
+  from { opacity: 0; transform: perspective(1000px) rotateY(-2.4deg) rotateX(1.2deg) translateY(0.5rem) scale(0.995); }
   to { opacity: 1; transform: perspective(1000px) rotateY(-2.4deg) rotateX(1.2deg) translateY(0) scale(1); }
 }
 
@@ -1247,7 +1247,7 @@ body {
 }
 
 @keyframes previewCard {
-  from { opacity: 0; transform: translateY(0.8rem) scale(0.97); }
+  from { opacity: 0; transform: translateY(0.5rem) scale(0.99); }
   to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
@@ -2030,7 +2030,7 @@ html:not([data-theme="dark"]) .glass-hover {
   border-radius: 999px;
   background: #22c55e;
   box-shadow: 0 0 0 rgba(34, 197, 94, 0.42);
-  animation: servicePulse 2.4s ease-out infinite;
+  animation: servicePulse 2.4s ease-out 3;
 }
 
 .service-copy {
@@ -2114,8 +2114,12 @@ html:not([data-theme="dark"]) .glass-hover {
 .auth-layout {
   display: grid;
   grid-template-columns: minmax(0, 1.05fr) minmax(22rem, 0.88fr);
-  align-items: center;
-  gap: clamp(2rem, 6vw, 5.75rem);
+  grid-template-areas:
+    "intro card"
+    "support card";
+  align-items: start;
+  column-gap: clamp(2rem, 6vw, 5.75rem);
+  row-gap: 1.35rem;
   max-width: 72rem;
   margin-inline: auto;
 }
@@ -2145,8 +2149,17 @@ html:not([data-theme="dark"]) .glass-hover {
   background: radial-gradient(circle, rgba(217, 70, 239, 0.13), transparent 68%);
 }
 
-.auth-story {
+.auth-intro,
+.auth-support-panel {
   max-width: 40rem;
+}
+
+.auth-intro {
+  grid-area: intro;
+}
+
+.auth-support-panel {
+  grid-area: support;
 }
 
 .auth-eyebrow,
@@ -2159,7 +2172,7 @@ html:not([data-theme="dark"]) .glass-hover {
   background: rgba(37, 99, 235, 0.09);
   color: #1557d5;
   font-size: 0.76rem;
-  font-weight: 900;
+  font-weight: 750;
   letter-spacing: 0.055em;
   text-transform: uppercase;
 }
@@ -2174,17 +2187,17 @@ html:not([data-theme="dark"]) .glass-hover {
   height: 1rem;
 }
 
-.auth-story h1 {
+.auth-intro h1 {
   max-width: 13ch;
   margin-top: 1.15rem;
-  font-size: clamp(2.65rem, 5.3vw, 5.2rem);
-  font-weight: 950;
-  letter-spacing: -0.057em;
-  line-height: 0.98;
+  font-size: clamp(2.25rem, 4.2vw, 4rem);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1.04;
   text-wrap: balance;
 }
 
-.auth-story > p {
+.auth-intro > p {
   max-width: 39rem;
   margin-top: 1.25rem;
   color: var(--textSub);
@@ -2196,7 +2209,7 @@ html:not([data-theme="dark"]) .glass-hover {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0.75rem;
-  margin-top: 1.6rem;
+  margin-top: 0;
 }
 
 .auth-proof-item {
@@ -2224,7 +2237,7 @@ html:not([data-theme="dark"]) .glass-hover {
 
 .auth-proof-item strong {
   font-size: 0.86rem;
-  font-weight: 900;
+  font-weight: 700;
 }
 
 .auth-proof-item small {
@@ -2250,7 +2263,7 @@ html:not([data-theme="dark"]) .glass-hover {
   padding: 0 0.85rem;
   color: var(--textMain);
   font-size: 0.78rem;
-  font-weight: 850;
+  font-weight: 700;
 }
 
 .auth-support-actions svg {
@@ -2260,8 +2273,10 @@ html:not([data-theme="dark"]) .glass-hover {
 }
 
 .auth-login-card {
+  grid-area: card;
   position: relative;
   overflow: hidden;
+  align-self: center;
   border-radius: 1.75rem;
   padding: clamp(1.25rem, 3vw, 2rem);
 }
@@ -2303,7 +2318,7 @@ html:not([data-theme="dark"]) .glass-hover {
 
 .auth-card-heading h2 {
   font-size: clamp(1.3rem, 2vw, 1.6rem);
-  font-weight: 950;
+  font-weight: 800;
   letter-spacing: -0.025em;
 }
 
@@ -2326,7 +2341,7 @@ html:not([data-theme="dark"]) .glass-hover {
 .auth-form-field label {
   color: var(--textMain);
   font-size: 0.82rem;
-  font-weight: 850;
+  font-weight: 700;
 }
 
 .auth-input-shell {
@@ -2449,7 +2464,7 @@ html:not([data-theme="dark"]) .glass-hover {
   padding: 0 1.1rem;
   color: #ffffff;
   font-size: 0.92rem;
-  font-weight: 900;
+  font-weight: 800;
   box-shadow:
     0 18px 38px rgba(37, 99, 235, 0.22),
     inset 0 1px 0 rgba(255, 255, 255, 0.28);
@@ -2494,10 +2509,10 @@ html:not([data-theme="dark"]) .glass-hover {
 .auth-register-card h1 {
   max-width: 14ch;
   margin-top: 1rem;
-  font-size: clamp(2.1rem, 5vw, 3.7rem);
-  font-weight: 950;
-  letter-spacing: -0.052em;
-  line-height: 1;
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1.06;
   text-wrap: balance;
 }
 
@@ -2526,7 +2541,7 @@ html:not([data-theme="dark"]) .glass-hover {
   border-radius: 0.76rem;
   color: var(--textSub);
   font-size: 0.8rem;
-  font-weight: 850;
+  font-weight: 700;
   transition: background 160ms ease, color 160ms ease, box-shadow 160ms ease;
 }
 
@@ -2564,7 +2579,7 @@ html:not([data-theme="dark"]) .glass-hover {
   border-radius: 1rem;
   color: var(--textMain);
   font-size: 0.84rem;
-  font-weight: 850;
+  font-weight: 700;
 }
 
 .register-login-link svg {
@@ -2615,10 +2630,10 @@ html:not([data-theme="dark"]) .glass-hover {
 .not-found-card h1 {
   max-width: 14ch;
   margin: 1.1rem auto 0;
-  font-size: clamp(2.35rem, 6vw, 4.8rem);
-  font-weight: 950;
-  letter-spacing: -0.055em;
-  line-height: 0.98;
+  font-size: clamp(2.25rem, 5vw, 3.625rem);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1.04;
   text-wrap: balance;
 }
 
@@ -2648,7 +2663,7 @@ html:not([data-theme="dark"]) .glass-hover {
   border-radius: 0.95rem;
   padding: 0 1rem;
   font-size: 0.86rem;
-  font-weight: 880;
+  font-weight: 750;
 }
 
 .not-found-primary {
@@ -2751,14 +2766,19 @@ html:not([data-theme="dark"]) .glass-hover {
 
   .auth-layout {
     grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      "intro"
+      "card"
+      "support";
     gap: 1.75rem;
   }
 
-  .auth-story {
+  .auth-intro,
+  .auth-support-panel {
     max-width: 46rem;
   }
 
-  .auth-story h1 {
+  .auth-intro h1 {
     max-width: 15ch;
   }
 }
@@ -2769,8 +2789,8 @@ html:not([data-theme="dark"]) .glass-hover {
     padding-top: 2rem;
   }
 
-  .auth-story h1 {
-    font-size: clamp(2.35rem, 13vw, 3.45rem);
+  .auth-intro h1 {
+    font-size: clamp(2.1rem, 10.5vw, 2.75rem);
   }
 
   .auth-proof-grid {
@@ -3873,7 +3893,7 @@ html:not([data-theme="dark"]) body::after {
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: clamp(1.25rem, 2vw, 1.75rem);
   align-items: stretch;
-  animation: pricingCardsIn 220ms ease both;
+  animation: pricingCardsIn 420ms var(--premium-ease) both;
 }
 
 @keyframes pricingCardsIn {
@@ -4190,14 +4210,14 @@ html:not([data-theme="dark"]) body::after {
   max-width: 48rem;
 }
 
-.contact-project-copy h3 {
+.contact-project-copy h2 {
   color: #0f172a;
   font-size: clamp(1.4rem, 2.4vw, 1.8rem);
-  font-weight: 950;
+  font-weight: 800;
   line-height: 1.15;
 }
 
-.contact-project-cta-dark .contact-project-copy h3 {
+.contact-project-cta-dark .contact-project-copy h2 {
   color: #ffffff;
 }
 
@@ -4277,7 +4297,7 @@ html:not([data-theme="dark"]) body::after {
   width: min(46rem, calc(100vw - 2rem));
   transform: translateX(-50%);
   padding: 0.78rem 0.85rem;
-  animation: cookieFloatIn 0.28s ease both;
+  animation: cookieFloatIn 320ms var(--premium-ease) both;
 }
 
 .cookie-copy {
@@ -4510,7 +4530,7 @@ body,
     0 8px 24px rgba(115, 91, 163, 0.07),
     inset 0 1px 0 rgba(255, 255, 255, 0.94),
     inset 0 -1px 0 rgba(132, 151, 181, 0.1);
-  --liquid-glass-filter: saturate(185%) blur(24px);
+  --liquid-glass-filter: saturate(180%) blur(18px);
 }
 
 [data-theme="dark"] {
@@ -4663,7 +4683,7 @@ html:not([data-theme="dark"]) #main-content :is(input, select, textarea) {
   box-shadow:
     0 32px 92px rgba(37, 64, 110, 0.2),
     inset 0 1px 0 rgba(255, 255, 255, 0.9);
-  animation: previewIn 720ms var(--premium-ease) both;
+  animation: previewIn 560ms var(--premium-ease) both;
 }
 
 [data-theme="dark"] .agency-collaboration-frame {
@@ -4733,7 +4753,7 @@ html:not([data-theme="dark"]) #main-content :is(input, select, textarea) {
   padding: 0.56rem 0.78rem;
   font-size: 0.67rem;
   font-weight: 850;
-  animation: previewCard 700ms 180ms var(--premium-ease) both;
+  animation: previewCard 520ms 60ms var(--premium-ease) both;
 }
 
 .agency-collaboration-status > span {
@@ -4751,7 +4771,7 @@ html:not([data-theme="dark"]) #main-content :is(input, select, textarea) {
   width: min(20rem, calc(100% - 7rem));
   border-radius: 1.1rem;
   padding: 0.9rem 1rem;
-  animation: previewCard 700ms 260ms var(--premium-ease) both;
+  animation: previewCard 520ms 120ms var(--premium-ease) both;
 }
 
 .agency-collaboration-story small,
@@ -4794,7 +4814,7 @@ html:not([data-theme="dark"]) #main-content :is(input, select, textarea) {
   gap: 0.55rem;
   border-radius: 1rem;
   padding: 0.7rem;
-  animation: previewCard 700ms 340ms var(--premium-ease) both;
+  animation: previewCard 520ms 180ms var(--premium-ease) both;
 }
 
 .agency-collaboration-device > svg {
@@ -5227,5 +5247,68 @@ html:not([data-theme="dark"]) .project-type-switch {
   .project-filter-clear {
     width: 100%;
     flex-basis: 100%;
+  }
+}
+
+/* Performance and typography authority: preserve the visual system without heavy rendering. */
+.public-main,
+.route-fallback {
+  min-height: 100svh;
+}
+
+.public-main .font-black {
+  font-weight: 750;
+}
+
+.public-main h1 {
+  font-weight: 800;
+}
+
+.public-main h2 {
+  font-weight: 750;
+}
+
+.public-main h3 {
+  font-weight: 700;
+}
+
+.public-main h1.font-black,
+.public-main h1.font-extrabold,
+.public-section-title {
+  font-weight: 800;
+  letter-spacing: -0.035em;
+}
+
+.public-main h2.font-black {
+  font-weight: 750;
+}
+
+.public-main h3.font-black {
+  font-weight: 700;
+}
+
+@supports (content-visibility: auto) {
+  .public-main > .section {
+    content-visibility: auto;
+    contain-intrinsic-block-size: auto 720px;
+  }
+}
+
+@media (pointer: coarse) {
+  :root {
+    --liquid-glass-filter: saturate(165%) blur(12px);
+  }
+
+  body,
+  [data-theme="light"] body,
+  [data-theme="dark"] body {
+    background-attachment: scroll;
+  }
+
+  .agency-collaboration-status,
+  .agency-collaboration-story,
+  .agency-collaboration-device {
+    -webkit-backdrop-filter: saturate(155%) blur(12px);
+    backdrop-filter: saturate(155%) blur(12px);
   }
 }

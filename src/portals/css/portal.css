@@ -2693,3 +2693,56 @@ html:not([data-theme="dark"]) .portal-frame :is(input, select, textarea) {
         background: #111114 !important;
     }
 }
+
+/* Portal loading, typography, and mobile rendering authority. */
+.portal-route-fallback {
+    display: flex;
+    min-height: min(28rem, 56svh);
+    align-items: center;
+    justify-content: center;
+    gap: 0.7rem;
+    color: var(--textSub);
+}
+
+.portal-route-fallback > span {
+    width: 1rem;
+    height: 1rem;
+    border: 2px solid currentColor;
+    border-right-color: transparent;
+    border-radius: 999px;
+    animation: portalRouteSpin 720ms linear infinite;
+}
+
+.portal-route-fallback strong {
+    font-size: 0.86rem;
+    font-weight: 700;
+}
+
+.portal-frame h1 {
+    font-weight: 800 !important;
+}
+
+.portal-frame h2 {
+    font-weight: 750 !important;
+}
+
+.portal-frame h3 {
+    font-weight: 700 !important;
+}
+
+@keyframes portalRouteSpin {
+    to { transform: rotate(360deg); }
+}
+
+@media (pointer: coarse) {
+    .portal-frame :is(.portal-sidebar, .portal-topbar, .portal-card, .portal-panel) {
+        -webkit-backdrop-filter: saturate(155%) blur(12px) !important;
+        backdrop-filter: saturate(155%) blur(12px) !important;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .portal-route-fallback > span {
+        animation: none;
+    }
+}

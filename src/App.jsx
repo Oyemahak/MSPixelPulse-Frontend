@@ -36,8 +36,7 @@ const DebugConnection = import.meta.env.DEV
 function ScrollToTop() {
   const { pathname } = useLocation();
   useEffect(() => {
-    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    window.scrollTo({ top: 0, behavior: reduceMotion ? "auto" : "smooth" });
+    window.scrollTo({ top: 0, behavior: "auto" });
   }, [pathname]);
   return null;
 }
@@ -64,7 +63,7 @@ function RequireRole({ allow, children }) {
 
 function PageFallback() {
   return (
-    <div className="px-4 md:px-6 lg:px-8 py-12">
+    <div className="route-fallback px-4 py-12 md:px-6 lg:px-8">
       <div className="animate-pulse space-y-4">
         <div className="h-8 w-1/3 rounded bg-white/10" />
         <div className="h-5 w-2/3 rounded bg-white/10" />

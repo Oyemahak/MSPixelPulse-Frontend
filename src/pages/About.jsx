@@ -14,6 +14,7 @@ import ContactActions from "@/components/ContactActions.jsx";
 import SocialContactLinks from "@/components/SocialContactLinks.jsx";
 import { site } from "@/data/site.js";
 import { useTheme } from "@/lib/theme.js";
+import { seoPages } from "@/data/seoPages.js";
 
 const principles = [
   "Clear website structure before decoration",
@@ -40,18 +41,14 @@ export default function About() {
 
   return (
     <section className="section">
-      <Meta
-        title="About MSPixelPulse — Toronto Website Agency"
-        description="Learn about MSPixelPulse, a Toronto website agency focused on clear, responsive, maintainable websites for small businesses."
-        canonical="/about"
-      />
+      <Meta {...seoPages.about} />
       <Container>
         <section className="about-hero-grid grid gap-10 lg:grid-cols-[minmax(0,1.18fr)_minmax(20rem,.62fr)] lg:items-center">
           <div>
             <p className="mb-4 inline-flex rounded-full bg-blue-600/10 px-3 py-1 text-xs font-black uppercase tracking-wide text-blue-500">
               About MSPixelPulse
             </p>
-            <h1 className={isDark ? "text-4xl font-black leading-tight md:text-5xl" : "text-4xl font-black leading-tight text-slate-950 md:text-5xl"}>
+            <h1 className={isDark ? "text-3xl font-extrabold leading-[1.08] md:text-[2.75rem]" : "text-3xl font-extrabold leading-[1.08] text-slate-950 md:text-[2.75rem]"}>
               Let’s shake hands and make your website part of your business growth.
             </h1>
             <p className={`mt-5 max-w-2xl text-lg leading-8 ${muted}`}>
@@ -78,9 +75,11 @@ export default function About() {
               <div className="about-founder-photo-wrap">
                 <img
                   className="about-founder-photo"
-                  src="/about/mahak-patel.jpg"
+                  src="/about/mahak-patel.webp"
                   alt="Mahak Patel, founder of MSPixelPulse"
                   loading="eager"
+                  fetchPriority="high"
+                  decoding="async"
                   width="1100"
                   height="1100"
                 />

@@ -3,15 +3,12 @@ import { Link } from "react-router-dom";
 import { LuCompass, LuFolderOpen, LuHouse, LuMessageCircle } from "react-icons/lu";
 import Container from "@/components/layout/Container.jsx";
 import Meta from "@/components/Meta.jsx";
+import { seoPages } from "@/data/seoPages.js";
 
 export default function NotFound() {
   return (
     <section className="not-found-page" aria-labelledby="not-found-heading">
-      <Meta
-        title="Page not found — MSPixelPulse"
-        description="The requested MSPixelPulse page could not be found. Return home or browse our website projects."
-        robots="noindex, nofollow"
-      />
+      <Meta {...seoPages.notFound} />
       <div className="not-found-ambient not-found-ambient-one" aria-hidden="true" />
       <div className="not-found-ambient not-found-ambient-two" aria-hidden="true" />
 

@@ -1,22 +1,23 @@
 // src/portals/dev/index.jsx
+import { lazy, Suspense } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import PortalShell from "@/components/portal/PortalShell.jsx";
+import PortalRouteFallback from "@/components/portal/PortalRouteFallback.jsx";
 
 import DevDashboard from "./DevDashboard.jsx";
-import Projects from "./Projects.jsx";
-import ProjectDetail from "./ProjectDetail.jsx";
-import Team from "./Team.jsx";
-import Discussions from "./Discussions.jsx";
-import Direct from "./Direct.jsx";
-import Requirements from "./Requirements.jsx";
-
-// NEW: replace Settings with MyAccount
-import MyAccount from "./MyAccount.jsx";
+const Projects = lazy(() => import("./Projects.jsx"));
+const ProjectDetail = lazy(() => import("./ProjectDetail.jsx"));
+const Team = lazy(() => import("./Team.jsx"));
+const Discussions = lazy(() => import("./Discussions.jsx"));
+const Direct = lazy(() => import("./Direct.jsx"));
+const Requirements = lazy(() => import("./Requirements.jsx"));
+const MyAccount = lazy(() => import("./MyAccount.jsx"));
 
 export default function DevPortal() {
   return (
     <PortalShell>
-      <Routes>
+      <Suspense fallback={<PortalRouteFallback />}>
+        <Routes>
         {/* Dashboard */}
         <Route index element={<DevDashboard />} />
         <Route path="dashboard" element={<DevDashboard />} />
@@ -45,7 +46,8 @@ export default function DevPortal() {
 
         {/* Fallback */}
         <Route path="*" element={<Navigate to="." replace />} />
-      </Routes>
+        </Routes>
+      </Suspense>
     </PortalShell>
   );
 }

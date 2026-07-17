@@ -81,8 +81,8 @@ export default function Home() {
   const totalProjectCount = projects.length;
   const muted = isDark ? "text-textSub" : "text-slate-600";
   const surface = isDark
-    ? "border-white/10 bg-white/[0.045] text-white"
-    : "border-slate-200 bg-white text-slate-950 shadow-sm";
+    ? "dark-neutral-surface border-white/10 text-white"
+    : "liquid-glass-surface border-white/70 text-slate-950";
   const proofStats = [
     {
       value: `${totalProjectCount}`,
@@ -149,13 +149,13 @@ export default function Home() {
               <p className={`mt-5 max-w-2xl text-lg leading-8 ${muted}`}>
                 MSPixelPulse combines web design, UX/UI, React and WordPress development, website maintenance, and client portal solutions into one practical agency workflow.
               </p>
-              <div className="mt-8 flex flex-wrap gap-3">
+              <div className="home-hero-actions mt-8 flex flex-wrap gap-3">
                 <Link className="btn btn-primary" to="/contact">
                   <LuRocket className="h-5 w-5" aria-hidden="true" />
                   Start a project
                 </Link>
                 <Link
-                  className={isDark ? "btn btn-outline" : "inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-5 font-bold text-slate-900 shadow-sm hover:bg-slate-50"}
+                  className={isDark ? "btn btn-outline" : "liquid-glass-button inline-flex min-h-11 items-center justify-center gap-2 rounded-xl px-5 font-bold text-slate-900"}
                   to="/projects"
                 >
                   View work

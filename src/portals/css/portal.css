@@ -2041,3 +2041,294 @@ html:not([data-theme="dark"]) .portal-frame .icon-btn:hover {
         background: #ffffff !important;
     }
 }
+
+/* 2026 portal theme authority: true neutral dark and liquid-glass light. */
+[data-theme="dark"] .portal-frame {
+    background:
+        radial-gradient(860px 460px at 50% -10%, rgba(255, 255, 255, 0.04), transparent 64%),
+        linear-gradient(180deg, #020203 0%, #080809 52%, #030304 100%) !important;
+    color: #f8fafc;
+}
+
+[data-theme="dark"] :is(
+    .portal-sidebar,
+    .portal-topbar,
+    .portal-drawer,
+    .portal-footer,
+    .portal-context-card,
+    .portal-profile-hero,
+    .portal-setting-row,
+    .portal-toggle-row,
+    .portal-sticky-actions,
+    .portal-frame .card,
+    .portal-frame .card-surface,
+    .portal-frame .glass-card,
+    .portal-frame .user-menu,
+    .admin-project-hero,
+    .admin-project-stat,
+    .admin-project-editor,
+    .admin-project-filters,
+    .admin-project-card,
+    .admin-project-table-wrap,
+    .admin-project-loading,
+    .admin-project-empty,
+    .admin-search-field,
+    .admin-view-toggle
+) {
+    border-color: rgba(255, 255, 255, 0.1) !important;
+    background:
+        linear-gradient(145deg, rgba(20, 20, 22, 0.93), rgba(8, 8, 10, 0.96)) !important;
+    box-shadow:
+        0 24px 70px rgba(0, 0, 0, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.055) !important;
+}
+
+[data-theme="dark"] .portal-topbar {
+    background: rgba(11, 11, 13, 0.9) !important;
+}
+
+[data-theme="dark"] .portal-sidebar,
+[data-theme="dark"] .portal-drawer {
+    background: rgba(7, 7, 9, 0.88) !important;
+}
+
+[data-theme="dark"] .portal-footer {
+    color: rgba(255, 255, 255, 0.64);
+}
+
+[data-theme="dark"] .portal-nav-item.is-active {
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.13), rgba(255, 255, 255, 0.055)) !important;
+    color: #ffffff;
+    box-shadow:
+        0 14px 34px rgba(0, 0, 0, 0.34),
+        inset 3px 0 0 #6ea0ff,
+        inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+[data-theme="dark"] .portal-frame :is(input, select, textarea) {
+    border-color: rgba(255, 255, 255, 0.11);
+    background: rgba(255, 255, 255, 0.045);
+    color: #ffffff;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.035);
+}
+
+html:not([data-theme="dark"]) .portal-frame {
+    background:
+        radial-gradient(740px 420px at 8% 0%, rgba(96, 165, 250, 0.18), transparent 66%),
+        radial-gradient(680px 400px at 92% 8%, rgba(244, 114, 182, 0.1), transparent 64%),
+        radial-gradient(620px 360px at 72% 92%, rgba(250, 204, 21, 0.1), transparent 66%),
+        linear-gradient(135deg, #edf4ff, #f9fbff 48%, #f8f5f0) !important;
+    color: #0f172a;
+}
+
+html:not([data-theme="dark"]) :is(
+    .portal-sidebar,
+    .portal-topbar,
+    .portal-drawer,
+    .portal-footer,
+    .portal-context-card,
+    .portal-profile-hero,
+    .portal-setting-row,
+    .portal-toggle-row,
+    .portal-sticky-actions,
+    .portal-frame .card,
+    .portal-frame .card-surface,
+    .portal-frame .glass-card,
+    .portal-frame .user-menu,
+    .admin-project-hero,
+    .admin-project-stat,
+    .admin-project-editor,
+    .admin-project-filters,
+    .admin-project-card,
+    .admin-project-table-wrap,
+    .admin-project-loading,
+    .admin-project-empty,
+    .admin-search-field,
+    .admin-view-toggle
+),
+html:not([data-theme="dark"]) .portal-frame :is([class~="bg-white/5"], [class~="bg-white/10"]) {
+    border-color: var(--liquid-glass-border, rgba(255, 255, 255, 0.82)) !important;
+    background: var(--liquid-glass-fill, rgba(255, 255, 255, 0.68)) !important;
+    box-shadow: var(--liquid-glass-shadow, 0 22px 62px rgba(38, 55, 88, 0.1)) !important;
+    -webkit-backdrop-filter: var(--liquid-glass-filter, saturate(180%) blur(22px));
+    backdrop-filter: var(--liquid-glass-filter, saturate(180%) blur(22px));
+    background-clip: padding-box;
+}
+
+html:not([data-theme="dark"]) .portal-frame .portal-profile-hero,
+html:not([data-theme="dark"]) .portal-frame .portal-profile-hero :is(
+    .portal-card-heading,
+    h1,
+    h2,
+    h3,
+    .portal-profile-copy,
+    .text-muted,
+    .text-muted-xs,
+    .row-sub
+) {
+    color: #0f172a !important;
+}
+
+html:not([data-theme="dark"]) .portal-frame :is(
+    .portal-topbar .portal-page-heading,
+    .portal-topbar .portal-user-copy span,
+    .portal-topbar .portal-icon-button,
+    .portal-footer a:hover
+) {
+    color: #0f172a;
+}
+
+html:not([data-theme="dark"]) .portal-frame :is(
+    .portal-topbar .portal-breadcrumb,
+    .portal-topbar .portal-user-copy small,
+    .portal-footer,
+    .portal-footer a
+) {
+    color: #64748b;
+}
+
+html:not([data-theme="dark"]) .portal-frame :is(
+    input,
+    select,
+    textarea,
+    .portal-icon-button,
+    .portal-user-chip,
+    .portal-segmented,
+    .admin-project-meta span,
+    .admin-project-flags span,
+    .admin-project-switches label,
+    .badge,
+    .btn-outline
+) {
+    border-color: rgba(255, 255, 255, 0.82) !important;
+    background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.74), rgba(247, 250, 255, 0.5)) !important;
+    box-shadow:
+        0 12px 34px rgba(40, 56, 86, 0.08),
+        inset 0 1px 0 rgba(255, 255, 255, 0.92) !important;
+    -webkit-backdrop-filter: saturate(165%) blur(16px);
+    backdrop-filter: saturate(165%) blur(16px);
+}
+
+html:not([data-theme="dark"]) .portal-frame :is(
+    [class~="text-white/60"],
+    [class~="text-white/70"],
+    [class~="text-white/75"],
+    [class~="text-white/80"]
+) {
+    color: #64748b !important;
+}
+
+html:not([data-theme="dark"]) .portal-frame [class~="text-white/85"] {
+    color: #334155 !important;
+}
+
+html:not([data-theme="dark"]) .portal-frame :is([class~="border-white/5"], [class~="border-white/10"]) {
+    border-color: rgba(148, 163, 184, 0.2) !important;
+}
+
+html:not([data-theme="dark"]) .portal-frame :is(.portal-nav-item, .portal-ghost-link):hover {
+    border-color: rgba(255, 255, 255, 0.82);
+    background: rgba(255, 255, 255, 0.58);
+}
+
+html:not([data-theme="dark"]) .portal-frame .portal-nav-item.is-active {
+    border: 1px solid rgba(37, 99, 235, 0.18);
+    background: linear-gradient(135deg, #1557d5, #5d48f4) !important;
+    color: #ffffff !important;
+}
+
+.portal-frame .btn-xs {
+    min-height: 2rem;
+    padding-inline: 0.65rem;
+    border-radius: 0.65rem;
+    font-size: 0.75rem;
+}
+
+@media (max-width: 980px) {
+    .admin-project-filters {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .admin-search-field {
+        grid-column: 1 / -1;
+    }
+}
+
+@media (max-width: 760px) {
+    .admin-project-filters {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+@media (max-width: 640px) {
+    .portal-frame :is(.page-header, .toolbar-bottom, .form-actions, .card-head, .card-strip.between, .admin-project-editor-head) {
+        flex-wrap: wrap;
+    }
+
+    .portal-frame .form-actions > :is(a, button, label) {
+        flex: 1 1 10rem;
+    }
+
+    .portal-frame [class~="flex"] > :is(input, textarea, select) {
+        min-width: 0;
+    }
+
+    .portal-frame :is(button, .btn, .btn-sm, .btn-xs) {
+        min-height: 2.75rem;
+    }
+
+    .portal-frame :is(.portal-icon-button, .icon-btn, .profile-chip) {
+        width: 2.75rem;
+        min-width: 2.75rem;
+        height: 2.75rem;
+        min-height: 2.75rem;
+    }
+
+    .portal-user-chip,
+    .portal-ghost-link,
+    .portal-segmented button,
+    .admin-project-switches label {
+        min-height: 2.75rem;
+    }
+
+    .admin-view-toggle {
+        grid-template-columns: repeat(2, 2.75rem);
+    }
+
+    .admin-view-toggle button {
+        width: 2.75rem;
+        height: 2.75rem;
+    }
+
+    .portal-frame .list-row {
+        gap: 0.75rem;
+        flex-wrap: wrap;
+    }
+}
+
+@supports not ((backdrop-filter: blur(1rem)) or (-webkit-backdrop-filter: blur(1rem))) {
+    html:not([data-theme="dark"]) :is(
+        .portal-sidebar,
+        .portal-topbar,
+        .portal-drawer,
+        .portal-footer,
+        .portal-context-card,
+        .portal-profile-hero,
+        .portal-setting-row,
+        .portal-toggle-row,
+        .portal-sticky-actions,
+        .portal-frame .card,
+        .portal-frame .card-surface,
+        .admin-project-hero,
+        .admin-project-stat,
+        .admin-project-editor,
+        .admin-project-filters,
+        .admin-project-card,
+        .admin-project-table-wrap
+    ) {
+        background: rgba(252, 253, 255, 0.97) !important;
+    }
+}

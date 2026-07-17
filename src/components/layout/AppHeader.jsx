@@ -369,8 +369,8 @@ export default function AppHeader() {
           ref={mobileButtonRef}
           className={
             isDark
-              ? "xl:hidden inline-grid place-items-center h-10 w-10 rounded-xl hover:bg-white/10"
-              : "xl:hidden inline-grid place-items-center h-10 w-10 rounded-xl hover:bg-slate-100 text-slate-800"
+              ? "xl:hidden inline-grid place-items-center h-11 w-11 rounded-xl hover:bg-white/10"
+              : "xl:hidden inline-grid place-items-center h-11 w-11 rounded-xl hover:bg-slate-100 text-slate-800"
           }
           aria-label={open ? "Close menu" : "Open menu"}
           aria-expanded={open}
@@ -437,8 +437,8 @@ export default function AppHeader() {
                 onClick={toggleTheme}
                 className={
                   isDark
-                    ? "w-full mt-1.5 h-9 rounded-xl font-semibold inline-flex items-center justify-center gap-2 bg-white/5 hover:bg-white/10 text-white/85"
-                    : "w-full mt-1.5 h-9 rounded-xl font-semibold inline-flex items-center justify-center gap-2 bg-slate-100 hover:bg-slate-200 text-slate-800"
+                    ? "w-full mt-1.5 h-11 rounded-xl font-semibold inline-flex items-center justify-center gap-2 bg-white/5 hover:bg-white/10 text-white/85"
+                    : "liquid-glass-button w-full mt-1.5 h-11 rounded-xl font-semibold inline-flex items-center justify-center gap-2 text-slate-800"
                 }
               >
                 {actualIsDark ? (
@@ -505,8 +505,8 @@ export default function AppHeader() {
                     }}
                     className={
                       isDark
-                        ? "w-full mt-1.5 h-10 rounded-xl font-bold bg-primary hover:bg-primaryAccent text-white inline-flex items-center justify-center gap-2"
-                        : "w-full mt-1.5 h-10 rounded-xl font-bold bg-blue-600 hover:bg-blue-500 text-white inline-flex items-center justify-center gap-2"
+                        ? "w-full mt-1.5 h-11 rounded-xl font-bold bg-primary hover:bg-primaryAccent text-white inline-flex items-center justify-center gap-2"
+                        : "w-full mt-1.5 h-11 rounded-xl font-bold bg-blue-600 hover:bg-blue-500 text-white inline-flex items-center justify-center gap-2"
                     }
                   >
                     <LuLogOut className="h-4 w-4" /> Logout
@@ -566,7 +566,7 @@ function MobileLink({ to, end, onClick, children, dark }) {
 
 function MobileCTA({ to, variant = "primary", onClick, children, dark }) {
   const base =
-    "w-full mt-1.5 h-10 rounded-xl font-bold inline-flex items-center justify-center gap-2 transition-colors";
+    "w-full mt-1.5 h-11 rounded-xl font-bold inline-flex items-center justify-center gap-2 transition-colors";
   let styles;
   if (variant === "primary") {
     styles = dark
@@ -575,7 +575,7 @@ function MobileCTA({ to, variant = "primary", onClick, children, dark }) {
   } else {
     styles = dark
       ? "border border-white/10 bg-transparent text-white/90 hover:bg-white/5"
-      : "border border-slate-200 bg-white text-slate-800 hover:bg-slate-50";
+      : "liquid-glass-button text-slate-800";
   }
   return (
     <Link to={to} onClick={onClick} className={[base, styles].join(" ")}>

@@ -22,7 +22,7 @@ export default function Button({
   } else if (variant === "outline") {
     variantClass = isDark
       ? "border border-white/10 bg-transparent text-textMain hover:bg-white/5"
-      : "border border-[rgba(148,163,184,0.35)] bg-[rgba(255,255,255,0.45)] text-slate-900 hover:bg-white";
+      : "liquid-glass-button text-slate-900";
   } else {
     // ghost
     variantClass = isDark

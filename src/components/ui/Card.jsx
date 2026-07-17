@@ -9,7 +9,7 @@ export default function Card({ children, className = "" }) {
     ? // your current dark surface
       "bg-surface/80 backdrop-blur border border-white/5 shadow-card"
     : // light surface: white, soft border, soft shadow
-      "bg-white/95 backdrop-blur-md border border-[rgba(148,163,184,0.18)] shadow-[0_22px_40px_rgba(15,23,42,0.06)]";
+      "liquid-glass-surface";
 
   return (
     <div

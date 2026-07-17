@@ -13,72 +13,38 @@ const capabilities = [
 
 export default function AgencyInterfacePreview() {
   return (
-    <figure
-      className="agency-interface-preview"
-      role="img"
-      aria-label="Layered preview of an MSPixelPulse business website, mobile layout, and client portal dashboard"
-    >
-      <div className="agency-preview-stage" aria-hidden="true">
-        <div className="agency-preview-browser">
-          <div className="agency-preview-toolbar">
-            <span />
-            <span />
-            <span />
-            <div>mspixelpulse.com / preview</div>
-          </div>
-          <div className="agency-preview-site">
-            <div className="agency-preview-site-nav">
-              <strong>MSPixelPulse</strong>
-              <span />
-              <span />
-              <span />
-            </div>
-            <div className="agency-preview-site-hero">
-              <div>
-                <small>TORONTO DIGITAL AGENCY</small>
-                <span className="agency-preview-heading agency-preview-heading-wide" />
-                <span className="agency-preview-heading" />
-                <span className="agency-preview-copy" />
-                <span className="agency-preview-copy agency-preview-copy-short" />
-                <span className="agency-preview-cta">Start your project</span>
-              </div>
-              <div className="agency-preview-visual">
-                <span className="agency-preview-orb" />
-                <span className="agency-preview-mini-card agency-preview-mini-card-a" />
-                <span className="agency-preview-mini-card agency-preview-mini-card-b" />
-              </div>
-            </div>
-            <div className="agency-preview-site-grid">
-              <span />
-              <span />
-              <span />
-            </div>
-          </div>
+    <figure className="agency-interface-preview">
+      <div className="agency-collaboration-frame">
+        <img
+          src="/hero/mspixelpulse-web-design-collaboration.webp"
+          alt="A small-business owner and web designer reviewing a responsive website together on a laptop and phone"
+          width="1448"
+          height="1086"
+          loading="eager"
+          fetchPriority="high"
+        />
+        <span className="agency-collaboration-sheen" aria-hidden="true" />
+
+        <div className="agency-collaboration-status">
+          <span aria-hidden="true" />
+          Toronto web strategy + design
         </div>
 
-        <div className="agency-preview-phone">
-          <span className="agency-preview-phone-notch" />
-          <span className="agency-preview-phone-brand">MS</span>
-          <span className="agency-preview-phone-line agency-preview-phone-line-wide" />
-          <span className="agency-preview-phone-line" />
-          <span className="agency-preview-phone-button" />
-          <span className="agency-preview-phone-card" />
+        <div className="agency-collaboration-story">
+          <small>BUILT AROUND YOUR BUSINESS</small>
+          <strong>Strategy, design and launch—together.</strong>
+          <span>
+            <LuCircleCheck aria-hidden="true" />
+            Responsive from the start
+          </span>
         </div>
 
-        <div className="agency-preview-portal-card">
-          <div className="agency-preview-portal-icon">
-            <LuLayoutDashboard />
-          </div>
-          <div>
-            <small>CLIENT PORTAL</small>
-            <strong>Project ready</strong>
-            <span><LuCircleCheck /> Files, notes and progress</span>
-          </div>
-        </div>
-
-        <div className="agency-preview-status">
-          <span />
-          Responsive QA passed
+        <div className="agency-collaboration-device" aria-label="Designed for desktop and mobile">
+          <LuMonitorSmartphone aria-hidden="true" />
+          <span>
+            <small>DESKTOP + MOBILE</small>
+            <strong>One clear experience</strong>
+          </span>
         </div>
       </div>
 

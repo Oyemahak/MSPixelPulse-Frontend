@@ -27,7 +27,7 @@ export function ThemeProvider({ children }) {
     root.style.colorScheme = theme;
 
     const themeColor = document.querySelector('meta[name="theme-color"]');
-    themeColor?.setAttribute("content", theme === "dark" ? "#101827" : "#f6f8fc");
+    themeColor?.setAttribute("content", theme === "dark" ? "#030304" : "#f6f8fc");
 
     window.localStorage.setItem("mspixelpulse-theme", theme);
   }, [theme]);

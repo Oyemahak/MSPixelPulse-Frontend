@@ -7,7 +7,7 @@ Help agents plan, design, build, test, market, optimize, document, secure, and g
 
 ## Directory Structure
 - `AGENT-ROSTER.md` lists specialist agents and when to use them.
-- Shared standards define business, product, brand, quality, security, accessibility, SEO, content, testing, deployment, handoff, and knowledge rules.
+- Shared standards define business, product, brand, UI consistency, quality, security, accessibility, SEO, content, testing, deployment, handoff, and knowledge rules.
 - `agents/` contains specialist operating guides.
 - `workflows/` contains repeatable task flows.
 - `checklists/` contains quality gates.
@@ -20,7 +20,7 @@ Use the Orchestrator Agent first for non-trivial tasks. Select only relevant age
 ## How To Run A Workflow
 1. Define objective, scope, out-of-scope, and business reason.
 2. Inspect the current repository and existing architecture.
-3. Select workflow from `workflows/`.
+3. For UI work, apply `UI-CONSISTENCY-STANDARDS.md` before selecting a workflow.
 4. Assign specialist agents.
 5. Apply quality gates from `QUALITY-STANDARDS.md`.
 6. Run relevant checks.

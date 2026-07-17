@@ -15,4 +15,11 @@
 12. Production deployment approved
 13. Post-deployment verification complete
 
+## UI Release Gates
+
+- Shared-shell consistency passes for public, authentication, error, and portal routes.
+- Light and dark theme parity is verified; one-theme evidence is incomplete.
+- Responsive evidence records the required route, theme, viewport, and interaction matrix from `UI-CONSISTENCY-STANDARDS.md`.
+- Icon controls have contextual accessible names and stateful controls expose their state.
+
 No agent should mark work complete before relevant gates pass.

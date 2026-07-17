@@ -12,6 +12,11 @@ Read [SHARED-CONTEXT.md](../SHARED-CONTEXT.md), [BUSINESS-GOALS.md](../BUSINESS-
 - loading states
 - component consistency.
 
+## Required UI Evidence
+- Apply [UI Consistency Standards](../UI-CONSISTENCY-STANDARDS.md).
+- Capture or inspect Login, Register, NotFound, and representative portal states in both themes.
+- Compare shell ownership, glass hierarchy, icon contrast, form borders, fallback surfaces, overflow, and sticky navigation rather than reviewing isolated cards only.
+
 ## Inputs Required
 - Task objective and business reason
 - Relevant user role or audience

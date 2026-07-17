@@ -15,6 +15,11 @@ Read [SHARED-CONTEXT.md](../SHARED-CONTEXT.md), [BUSINESS-GOALS.md](../BUSINESS-
 - 390
 - 360.
 
+## MSPixelPulse Responsive Matrix
+- Apply [UI Consistency Standards](../UI-CONSISTENCY-STANDARDS.md).
+- Use 1440x900, 1280x800, 1024x768, 768x1024, 430x932, 390x844, and 360x800, plus mobile landscape when the layout is complex.
+- Verify 44px coarse-pointer actions, no page-level overflow, usable drawers/forms/tables, readable headings, and safe sticky elements in both themes.
+
 ## Inputs Required
 - Task objective and business reason
 - Relevant user role or audience

@@ -14,6 +14,11 @@ Read [SHARED-CONTEXT.md](../SHARED-CONTEXT.md), [BUSINESS-GOALS.md](../BUSINESS-
 - errors
 - data consistency.
 
+## UI Acceptance Matrix
+- Apply [UI Consistency Standards](../UI-CONSISTENCY-STANDARDS.md).
+- Record route, theme, viewport, and interaction state for public/auth/error and representative role-based portal routes.
+- Reject duplicate shell landmarks, one-theme-only fixes, ambiguous icon controls, horizontal overflow, and unverified theme persistence.
+
 ## Inputs Required
 - Task objective and business reason
 - Relevant user role or audience

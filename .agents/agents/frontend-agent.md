@@ -15,6 +15,12 @@ Read [SHARED-CONTEXT.md](../SHARED-CONTEXT.md), [BUSINESS-GOALS.md](../BUSINESS-
 - loading/error states
 - bundle impact.
 
+## MSPixelPulse UI Invariants
+- Apply [UI Consistency Standards](../UI-CONSISTENCY-STANDARDS.md).
+- Preserve route-shell ownership: public/auth/error routes use the shared public shell and portal routes use `PortalShell`.
+- Use shared theme tokens and responsive primitives instead of page-local shell or theme copies.
+- Require native button/link semantics, contextual accessible names for icon controls, state attributes for toggles/disclosures, and 44px coarse-pointer targets.
+
 ## Inputs Required
 - Task objective and business reason
 - Relevant user role or audience

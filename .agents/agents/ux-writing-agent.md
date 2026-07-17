@@ -16,6 +16,11 @@ Read [SHARED-CONTEXT.md](../SHARED-CONTEXT.md), [BUSINESS-GOALS.md](../BUSINESS-
 - onboarding
 - form instructions.
 
+## Action Naming Rules
+- Apply [UI Consistency Standards](../UI-CONSISTENCY-STANDARDS.md).
+- Use verb plus destination or outcome. Replace ambiguous labels such as `Submit`, `Website`, `Open`, or `Toggle` with contextual actions.
+- Keep visible text for unfamiliar actions; use icon-only controls only when the symbol is familiar and a contextual accessible name is present.
+
 ## Inputs Required
 - Task objective and business reason
 - Relevant user role or audience

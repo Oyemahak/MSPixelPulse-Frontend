@@ -15,6 +15,12 @@ Read [SHARED-CONTEXT.md](../SHARED-CONTEXT.md), [BUSINESS-GOALS.md](../BUSINESS-
 - empty/loading/error states
 - breakpoints.
 
+## MSPixelPulse UI Invariants
+- Apply [UI Consistency Standards](../UI-CONSISTENCY-STANDARDS.md).
+- Keep Login, Register, NotFound, and all other public routes inside the shared public shell.
+- Treat liquid glass as a reusable recipe with a translucent fill, visible border, inner highlight, restrained shadow, blur with vendor prefix, and readable opaque fallback.
+- Verify neutral dark surfaces, readable light glass, meaningful actions, and both themes before approval.
+
 ## Inputs Required
 - Task objective and business reason
 - Relevant user role or audience

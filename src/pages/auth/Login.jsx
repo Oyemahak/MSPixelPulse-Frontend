@@ -118,7 +118,10 @@ export default function Login() {
 
       <main className="mx-auto grid min-h-[calc(100vh-8rem)] w-full max-w-6xl items-center gap-8 px-4 py-10 sm:px-6 lg:grid-cols-[0.95fr_1.05fr]">
         <section className="max-w-xl">
-          <div className="inline-flex items-center gap-2 rounded-full border border-blue-500/20 bg-blue-500/10 px-3 py-1 text-xs font-bold uppercase tracking-wide text-blue-400">
+          <div className={isDark
+            ? "inline-flex items-center gap-2 rounded-full border border-blue-400/20 bg-blue-400/10 px-3 py-1 text-xs font-bold uppercase tracking-wide text-blue-200"
+            : "inline-flex items-center gap-2 rounded-full border border-blue-600/20 bg-blue-600/10 px-3 py-1 text-xs font-bold uppercase tracking-wide text-blue-700"
+          }>
             <LuShieldCheck className="h-4 w-4" aria-hidden="true" />
             Secure portal access
           </div>
@@ -163,7 +166,7 @@ export default function Login() {
                 Email address
               </label>
               <div className="relative">
-                <LuMail className={isDark ? "pointer-events-none absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-white/35" : "pointer-events-none absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400"} />
+                <LuMail className={isDark ? "auth-field-icon pointer-events-none absolute left-3 top-1/2 z-10 h-5 w-5 -translate-y-1/2 text-white/60" : "auth-field-icon pointer-events-none absolute left-3 top-1/2 z-10 h-5 w-5 -translate-y-1/2 text-slate-600"} />
                 <input
                   id="email"
                   name="email"
@@ -184,7 +187,7 @@ export default function Login() {
                 Password
               </label>
               <div className="relative">
-                <LuLockKeyhole className={isDark ? "pointer-events-none absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-white/35" : "pointer-events-none absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400"} />
+                <LuLockKeyhole className={isDark ? "auth-field-icon pointer-events-none absolute left-3 top-1/2 z-10 h-5 w-5 -translate-y-1/2 text-white/60" : "auth-field-icon pointer-events-none absolute left-3 top-1/2 z-10 h-5 w-5 -translate-y-1/2 text-slate-600"} />
                 <input
                   id="password"
                   name="password"
@@ -200,7 +203,7 @@ export default function Login() {
                 />
                 <button
                   type="button"
-                  className={isDark ? "absolute right-2 top-1/2 inline-grid h-9 w-9 -translate-y-1/2 place-items-center rounded-lg text-white/65 hover:bg-white/10 hover:text-white" : "absolute right-2 top-1/2 inline-grid h-9 w-9 -translate-y-1/2 place-items-center rounded-lg text-slate-500 hover:bg-slate-100 hover:text-slate-900"}
+                  className={isDark ? "absolute right-2 top-1/2 inline-grid h-9 w-9 -translate-y-1/2 place-items-center rounded-lg text-white/70 hover:bg-white/10 hover:text-white" : "absolute right-2 top-1/2 inline-grid h-9 w-9 -translate-y-1/2 place-items-center rounded-lg text-slate-600 hover:bg-slate-100 hover:text-slate-950"}
                   onClick={() => setShowPassword((value) => !value)}
                   aria-label={showPassword ? "Hide password" : "Show password"}
                 >

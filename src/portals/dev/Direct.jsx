@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useParams, useLocation, Link } from "react-router-dom";
 import { directory, dm } from "@/lib/api.js";
 import { useAuth } from "@/context/AuthContext.jsx";
+import SearchField from "@/components/ui/SearchField.jsx";
 
 export default function Direct() {
   const { user } = useAuth();
@@ -75,7 +76,12 @@ export default function Direct() {
       <div>
         <div className="card-surface p-4 mb-3">
           <div className="card-title mb-2">People</div>
-          <input className="form-input" placeholder={`Search users...`} value={q} onChange={(e)=>setQ(e.target.value)} />
+          <SearchField
+            label="Search people"
+            placeholder="Search people"
+            value={q}
+            onValueChange={setQ}
+          />
         </div>
         <div className="card-surface">
           <div className="list">

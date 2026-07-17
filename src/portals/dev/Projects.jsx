@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { projects as api } from "@/lib/api.js";
 import { useAuth } from "@/context/AuthContext.jsx";
 import { MessageSquare } from "lucide-react";
+import SearchField from "@/components/ui/SearchField.jsx";
 
 export default function DevProjects() {
   const { user } = useAuth();
@@ -36,12 +37,12 @@ export default function DevProjects() {
         <div />
       </div>
 
-      <div className="card-surface p-4 grid md:grid-cols-[1fr_auto] gap-3">
-        <input
-          className="form-input"
-          placeholder="Search projects…"
+      <div className="card-surface p-4 grid md:grid-cols-[1fr_auto] gap-3 portal-search-row">
+        <SearchField
+          label="Search assigned projects"
+          placeholder="Search assigned projects"
           value={q}
-          onChange={(e) => setQ(e.target.value)}
+          onValueChange={setQ}
         />
         <button className="btn btn-outline" onClick={load} disabled={loading}>
           {loading ? "Refreshing…" : "Refresh"}

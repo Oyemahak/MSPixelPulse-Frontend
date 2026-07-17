@@ -1,14 +1,15 @@
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import Meta from "../components/Meta.jsx";
+import SearchField from "../components/ui/SearchField.jsx";
 import { publishedProjects } from "../data/projects.js";
 import { useTheme } from "@/lib/theme.js";
 import {
   LuArrowRight,
   LuExternalLink,
-  LuFilter,
-  LuSearch,
+  LuSlidersHorizontal,
   LuSparkles,
+  LuX,
 } from "react-icons/lu";
 
 const allOption = "All";
@@ -177,6 +178,9 @@ export default function Projects() {
   const concepts = filtered.filter((project) => project.classification !== "live");
   const liveCount = live.length;
   const conceptCount = filtered.length - liveCount;
+  const hasActiveFilters = Boolean(
+    query || industry !== allOption || type !== allOption || classification !== allOption
+  );
 
   function reset() {
     setQuery("");
@@ -206,51 +210,72 @@ export default function Projects() {
           </p>
         </div>
 
-        <div className={isDark ? "mt-8 w-full max-w-[calc(100vw-2rem)] rounded-2xl border border-white/10 bg-gradient-to-br from-white/[0.08] to-white/[0.035] p-4 shadow-card backdrop-blur" : "mt-8 w-full max-w-[calc(100vw-2rem)] rounded-2xl border border-blue-100 bg-white/95 p-4 shadow-[0_18px_48px_rgba(37,99,255,0.08)]"}>
-          <div className="mb-3 flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
-            <div>
-              <h2 className={isDark ? "text-sm font-black uppercase tracking-wide text-white/80" : "text-sm font-black uppercase tracking-wide text-slate-700"}>
-                Find the right website example
-              </h2>
-              <p className={isDark ? "mt-1 text-sm text-white/50" : "mt-1 text-sm text-slate-500"}>
-                Search by industry, website type, service, or technology.
-              </p>
+        <section className="project-filter-bar" aria-labelledby="project-filter-heading">
+          <div className="project-filter-topline">
+            <div className="project-filter-heading">
+              <LuSlidersHorizontal aria-hidden="true" />
+              <h2 id="project-filter-heading">Find the right example</h2>
             </div>
-            <div className={isDark ? "text-sm font-bold text-white/70" : "text-sm font-bold text-slate-600"}>
-              {filtered.length} website project{filtered.length === 1 ? "" : "s"}
+            <output className="project-filter-summary" aria-live="polite" aria-atomic="true">
+              <strong>{filtered.length}</strong> project{filtered.length === 1 ? "" : "s"}
+              <span>{liveCount} live · {conceptCount} concept</span>
+            </output>
+          </div>
+
+          <div className="project-filter-main">
+            <SearchField
+              className="project-search-field"
+              label="Search website projects"
+              placeholder="Search projects"
+              value={query}
+              onValueChange={setQuery}
+            />
+
+            <div className="project-type-switch" role="group" aria-label="Project type">
+              {[
+                [allOption, "All"],
+                ["live", "Live"],
+                ["concept", "Concepts"],
+              ].map(([value, label]) => (
+                <button
+                  key={value}
+                  type="button"
+                  className={classification === value ? "is-active" : ""}
+                  onClick={() => setClassification(value)}
+                  aria-pressed={classification === value}
+                >
+                  {label}
+                </button>
+              ))}
             </div>
           </div>
-          <div className="grid min-w-0 gap-3 lg:grid-cols-[1.4fr_1fr_1fr_1fr_auto]">
-            <label className="relative min-w-0">
-              <span className="sr-only">Search projects</span>
-              <LuSearch className="pointer-events-none absolute left-3 top-3.5 h-4 w-4 opacity-60" />
-              <input
-                value={query}
-                onChange={(event) => setQuery(event.target.value)}
-                placeholder="Search by industry, website type, service, or technology..."
-                className="min-w-0 pl-10"
-              />
+
+          <div className="project-filter-options">
+            <label className="project-filter-control">
+              <span>Industry</span>
+              <select value={industry} onChange={(event) => setIndustry(event.target.value)}>
+                {industries.map((item) => (
+                  <option key={item} value={item}>{item === allOption ? "All industries" : item}</option>
+                ))}
+              </select>
             </label>
-            <select className="min-w-0" value={industry} onChange={(event) => setIndustry(event.target.value)} aria-label="Filter by industry">
-              {industries.map((item) => <option key={item}>{item}</option>)}
-            </select>
-            <select className="min-w-0" value={type} onChange={(event) => setType(event.target.value)} aria-label="Filter by website type">
-              {websiteTypes.map((item) => <option key={item}>{item}</option>)}
-            </select>
-            <select className="min-w-0" value={classification} onChange={(event) => setClassification(event.target.value)} aria-label="Filter by classification">
-              <option>{allOption}</option>
-              <option value="live">Live Business Websites</option>
-              <option value="concept">Concept Websites</option>
-            </select>
-            <button type="button" onClick={reset} className={isDark ? "btn btn-outline" : "inline-flex h-11 items-center justify-center rounded-xl border border-slate-200 px-4 font-bold"}>
-              <LuFilter className="mr-2 h-4 w-4" /> Reset
-            </button>
+
+            <label className="project-filter-control">
+              <span>Website type</span>
+              <select value={type} onChange={(event) => setType(event.target.value)}>
+                {websiteTypes.map((item) => (
+                  <option key={item} value={item}>{item === allOption ? "All website types" : item}</option>
+                ))}
+              </select>
+            </label>
+
+            {hasActiveFilters && (
+              <button type="button" onClick={reset} className="project-filter-clear">
+                <LuX aria-hidden="true" /> Clear filters
+              </button>
+            )}
           </div>
-          <div className={isDark ? "mt-3 text-sm text-white/55" : "mt-3 text-sm text-slate-500"}>
-            Showing {filtered.length} of {publishedProjects.length} website projects
-            {filtered.length ? `: ${liveCount} live and ${conceptCount} concept.` : "."}
-          </div>
-        </div>
+        </section>
 
         {!!featured.length && (
           <ProjectSection

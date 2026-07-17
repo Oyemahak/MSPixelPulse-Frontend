@@ -284,7 +284,7 @@ export default function Feedback() {
                         ].join(" ")
                       : [
                           "grid h-11 w-11 place-items-center rounded-full transition",
-                          isActive ? "text-slate-900" : "text-slate-300 hover:text-slate-400",
+                          isActive ? "text-slate-900" : "text-slate-500 hover:text-slate-700",
                         ].join(" ")
                   }
                   aria-label={`Go to slide ${i + 1}`}

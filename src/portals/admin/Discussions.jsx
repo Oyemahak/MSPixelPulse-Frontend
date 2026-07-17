@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { projects as api, rooms } from "@/lib/api.js";
 import { useAuth } from "@/context/AuthContext.jsx";
+import SearchField from "@/components/ui/SearchField.jsx";
 
 function Bubble({ me, m }) {
   const mine = String(m.author) === String(me?._id);
@@ -76,11 +77,11 @@ export default function Discussions() {
       <div>
         <div className="card-surface p-4 mb-3">
           <div className="card-title">Projects</div>
-          <input
-            className="form-input"
+          <SearchField
+            label="Search project rooms"
+            placeholder="Search project rooms"
             value={q}
-            onChange={(e) => setQ(e.target.value)}
-            placeholder="Search…"
+            onValueChange={setQ}
           />
         </div>
 

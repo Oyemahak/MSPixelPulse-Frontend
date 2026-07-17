@@ -4,6 +4,7 @@ import { admin, projects as api } from "@/lib/api.js";
 import { Link } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext.jsx";
 import { MessageSquare } from "lucide-react";
+import SearchField from "@/components/ui/SearchField.jsx";
 
 const SUPPORT_EMAIL =
   import.meta.env.VITE_SUPPORT_EMAIL || "Portal support";
@@ -168,20 +169,13 @@ export default function Team() {
       {/* Only show actual errors (network/server). No permission banner for devs. */}
       {err && <div className="text-error">{err}</div>}
 
-      <div className="card card-pad filters-grid">
-        <input
-          className="form-input"
-          placeholder={`Search team member..`}
+      <div className="card card-pad filters-grid portal-search-row">
+        <SearchField
+          label="Search team members"
+          placeholder="Search team members"
           value={q}
-          onChange={(e) => setQ(e.target.value)}
+          onValueChange={setQ}
         />
-        <button
-          className="btn btn-outline"
-          onClick={() => setQ((s) => s)} // no-op to keep same layout as Admin
-          disabled
-        >
-          {loading ? "Searching…" : "Search"}
-        </button>
       </div>
 
       <div className="stack">

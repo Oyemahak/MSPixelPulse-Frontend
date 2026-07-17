@@ -2,6 +2,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { admin } from "@/lib/api.js";
+import SearchField from "@/components/ui/SearchField.jsx";
 import { Pencil, Trash2, Check, Plus, MessageSquare } from "lucide-react";
 
 export default function Users() {
@@ -112,17 +113,17 @@ export default function Users() {
         <div />
       </div>
 
-      <div className="card card-pad filters-grid">
-        <input
-          className="form-input"
-          placeholder="Search name or email…"
+      <form className="card card-pad filters-grid portal-search-row" onSubmit={(event) => { event.preventDefault(); load(); }}>
+        <SearchField
+          label="Search users by name or email"
+          placeholder="Search by name or email"
           value={q}
-          onChange={(e) => setQ(e.target.value)}
+          onValueChange={setQ}
         />
-        <button className="btn btn-outline" onClick={load} disabled={loading}>
+        <button type="submit" className="btn btn-outline" disabled={loading}>
           {loading ? "Searching…" : "Search"}
         </button>
-      </div>
+      </form>
 
       {err && <div className="text-error">{err}</div>}
 

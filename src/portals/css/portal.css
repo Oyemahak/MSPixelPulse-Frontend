@@ -2332,3 +2332,211 @@ html:not([data-theme="dark"]) .portal-frame .portal-nav-item.is-active {
         background: rgba(252, 253, 255, 0.97) !important;
     }
 }
+
+/* Portal identity, readable light icons and compact search/filter controls. */
+.portal-logo-mark {
+    display: block;
+    width: 2.35rem;
+    height: 2.35rem;
+    flex: 0 0 auto;
+    object-fit: contain;
+    overflow: hidden;
+    border: 0;
+    border-radius: 0.85rem;
+    background: #0b0b0f;
+    box-shadow: 0 14px 30px rgba(37, 99, 235, 0.18);
+}
+
+html:not([data-theme="dark"]) .portal-logo-mark {
+    border: 0 !important;
+    background: #0b0b0f !important;
+    box-shadow: 0 14px 30px rgba(37, 99, 235, 0.16) !important;
+}
+
+.portal-frame .search-field {
+    width: 100%;
+    min-width: 0;
+}
+
+.portal-frame .search-field input,
+html:not([data-theme="dark"]) .portal-frame .search-field input {
+    width: 100%;
+    height: 2.75rem;
+    border: 0 !important;
+    background: transparent !important;
+    padding: 0 2.9rem 0 2.65rem !important;
+    color: var(--textMain) !important;
+    box-shadow: none !important;
+}
+
+.portal-frame .search-field input:focus {
+    border: 0 !important;
+    box-shadow: none !important;
+}
+
+html:not([data-theme="dark"]) .portal-frame :is(
+    .portal-nav-item,
+    .portal-ghost-link,
+    .portal-context-card,
+    .portal-breadcrumb,
+    .portal-footer,
+    .admin-project-footnote,
+    .search-field
+) svg {
+    color: #475569;
+    opacity: 1;
+}
+
+html:not([data-theme="dark"]) .portal-frame :is(
+    .portal-icon-button,
+    .icon-btn,
+    .btn-outline,
+    .admin-view-toggle button
+) {
+    color: #334155 !important;
+}
+
+html:not([data-theme="dark"]) .portal-frame :is(
+    .portal-nav-item.is-active,
+    .btn-primary,
+    .admin-view-toggle button.is-active
+),
+html:not([data-theme="dark"]) .portal-frame :is(
+    .portal-nav-item.is-active,
+    .btn-primary,
+    .admin-view-toggle button.is-active
+) svg {
+    color: #ffffff !important;
+}
+
+html:not([data-theme="dark"]) .portal-frame [class*="text-rose-"] {
+    color: #be123c !important;
+}
+
+html:not([data-theme="dark"]) .portal-frame [class*="text-emerald-"] {
+    color: #047857 !important;
+}
+
+.portal-frame .filters-grid.portal-search-row {
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    padding: 0.75rem;
+}
+
+.admin-project-filters {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.75rem;
+    align-items: stretch;
+    padding: 0.8rem;
+}
+
+.admin-project-filter-main {
+    display: grid;
+    grid-template-columns: minmax(15rem, 2fr) minmax(8.75rem, 0.8fr) minmax(10rem, 0.9fr) minmax(9.5rem, 0.9fr) auto auto auto;
+    gap: 0.6rem;
+    align-items: center;
+    min-width: 0;
+}
+
+.admin-project-filter-main > select,
+.admin-project-filter-main > button {
+    min-width: 0;
+    height: 2.75rem;
+}
+
+.admin-more-filters,
+.admin-filter-clear {
+    gap: 0.42rem;
+    padding-inline: 0.8rem;
+    font-size: 0.8rem;
+}
+
+.admin-more-filters.is-active {
+    border-color: rgba(110, 160, 255, 0.38);
+    color: var(--textMain);
+}
+
+.admin-more-filters > span {
+    display: inline-grid;
+    min-width: 1.25rem;
+    height: 1.25rem;
+    place-items: center;
+    border-radius: 999px;
+    background: rgba(110, 160, 255, 0.16);
+    color: var(--textMain);
+    font-size: 0.68rem;
+}
+
+.admin-project-advanced-filters {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 0.65rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.admin-filter-control {
+    display: grid;
+    min-width: 0;
+    gap: 0.3rem;
+}
+
+.admin-filter-control > span {
+    padding-left: 0.15rem;
+    color: var(--textSub);
+    font-size: 0.66rem;
+    font-weight: 850;
+    letter-spacing: 0.035em;
+    text-transform: uppercase;
+}
+
+.admin-filter-control select {
+    min-width: 0;
+    height: 2.75rem;
+}
+
+.admin-project-filter-summary {
+    color: var(--textSub);
+    font-size: 0.76rem;
+    font-weight: 720;
+}
+
+html:not([data-theme="dark"]) .admin-project-advanced-filters {
+    border-top-color: rgba(100, 116, 139, 0.16);
+}
+
+@media (max-width: 1220px) {
+    .admin-project-filter-main {
+        grid-template-columns: minmax(0, 2fr) repeat(2, minmax(0, 1fr));
+    }
+
+    .admin-project-filter-main .admin-search-field {
+        grid-column: span 2;
+    }
+
+    .admin-project-advanced-filters {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 760px) {
+    .portal-frame .filters-grid.portal-search-row,
+    .admin-project-filter-main,
+    .admin-project-advanced-filters {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .admin-project-filter-main .admin-search-field {
+        grid-column: auto;
+    }
+
+    .portal-frame .filters-grid.portal-search-row > .btn,
+    .admin-project-filter-main > .btn {
+        width: 100%;
+    }
+
+    .admin-view-toggle {
+        justify-self: start;
+    }
+}

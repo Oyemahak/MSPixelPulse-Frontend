@@ -3,6 +3,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { projects as api } from "@/lib/api.js";
 import { useAuth } from "@/context/AuthContext.jsx";
+import SearchField from "@/components/ui/SearchField.jsx";
 
 export default function Projects() {
   const { user } = useAuth();
@@ -48,12 +49,12 @@ export default function Projects() {
 
       {err && <div className="text-error">{err}</div>}
 
-      <div className="card card-pad filters-grid">
-        <input
-          className="form-input"
-          placeholder="Search projects..."
+      <div className="card card-pad filters-grid portal-search-row">
+        <SearchField
+          label="Search your projects"
+          placeholder="Search your projects"
           value={q}
-          onChange={(event) => setQ(event.target.value)}
+          onValueChange={setQ}
         />
       </div>
 

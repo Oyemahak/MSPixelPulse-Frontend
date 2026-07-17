@@ -1,12 +1,12 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { admin, projects as api } from "@/lib/api.js";
+import SearchField from "@/components/ui/SearchField.jsx";
 import {
   LuArchive,
   LuBadgeCheck,
   LuExternalLink,
   LuEye,
-  LuFilter,
   LuGrid2X2,
   LuImage,
   LuLayoutList,
@@ -15,7 +15,7 @@ import {
   LuPenLine,
   LuPlus,
   LuRefreshCw,
-  LuSearch,
+  LuSlidersHorizontal,
   LuSparkles,
   LuStar,
   LuX,
@@ -446,6 +446,8 @@ export default function Projects() {
   const [rows, setRows] = useState([]);
   const [users, setUsers] = useState([]);
   const [filters, setFilters] = useState(emptyFilters);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [moreFiltersOpen, setMoreFiltersOpen] = useState(false);
   const [view, setView] = useState(() => localStorage.getItem("admin-project-view") || "grid");
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState("");
@@ -466,6 +468,15 @@ export default function Projects() {
     featured: filters.featured,
     sort: filters.sort,
   }), [filters]);
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      setFilters((current) => (
+        current.q === searchTerm ? current : { ...current, q: searchTerm }
+      ));
+    }, 320);
+    return () => window.clearTimeout(timer);
+  }, [searchTerm]);
 
   async function load(nextQuery = query) {
     setLoading(true);
@@ -503,8 +514,24 @@ export default function Projects() {
     platforms: uniq(rows, "platform"),
   }), [rows]);
 
+  const activeFilterCount = useMemo(() => (
+    (searchTerm.trim() ? 1 : 0) +
+    Object.entries(filters).filter(([key, value]) => key !== "q" && value !== emptyFilters[key]).length
+  ), [filters, searchTerm]);
+
+  const advancedFilterCount = useMemo(() => (
+    ["classification", "industry", "websiteType", "platform", "featured"]
+      .filter((key) => filters[key] !== emptyFilters[key]).length
+  ), [filters]);
+
   function setFilter(key, value) {
     setFilters((current) => ({ ...current, [key]: value }));
+  }
+
+  function clearFilters() {
+    setSearchTerm("");
+    setFilters(emptyFilters);
+    setMoreFiltersOpen(false);
   }
 
   function openCreate() {
@@ -626,63 +653,105 @@ export default function Projects() {
         />
       )}
 
-      <section className="admin-project-filters">
-        <div className="admin-search-field">
-          <LuSearch className="h-4 w-4" aria-hidden="true" />
-          <input value={filters.q} onChange={(event) => setFilter("q", event.target.value)} placeholder="Search title, client, industry, stack..." />
+      <section className="admin-project-filters" aria-label="Project filters">
+        <div className="admin-project-filter-main">
+          <SearchField
+            className="admin-search-field"
+            label="Search projects"
+            placeholder="Search projects"
+            value={searchTerm}
+            onValueChange={setSearchTerm}
+          />
+
+          <select value={filters.status} onChange={(event) => setFilter("status", event.target.value)} aria-label="Filter by status">
+            {statusOptions.map(([value, label]) => <option key={value} value={value}>{label}</option>)}
+          </select>
+
+          <select value={filters.published} onChange={(event) => setFilter("published", event.target.value)} aria-label="Filter by publication state">
+            <option value="">All publication states</option>
+            <option value="true">Published</option>
+            <option value="false">Private</option>
+          </select>
+
+          <select value={filters.sort} onChange={(event) => setFilter("sort", event.target.value)} aria-label="Sort projects">
+            {sortOptions.map(([value, label]) => <option key={value} value={value}>{label}</option>)}
+          </select>
+
+          <button
+            type="button"
+            className={moreFiltersOpen ? "btn btn-outline admin-more-filters is-active" : "btn btn-outline admin-more-filters"}
+            onClick={() => setMoreFiltersOpen((open) => !open)}
+            aria-expanded={moreFiltersOpen}
+          >
+            <LuSlidersHorizontal className="h-4 w-4" aria-hidden="true" />
+            More filters
+            {!!advancedFilterCount && <span>{advancedFilterCount}</span>}
+          </button>
+
+          {!!activeFilterCount && (
+            <button type="button" className="btn btn-outline admin-filter-clear" onClick={clearFilters}>
+              <LuX className="h-4 w-4" aria-hidden="true" /> Clear
+            </button>
+          )}
+
+          <div className="admin-view-toggle" role="group" aria-label="Project view">
+            <button className={view === "grid" ? "is-active" : ""} onClick={() => setView("grid")} aria-label="Grid view">
+              <LuGrid2X2 className="h-4 w-4" aria-hidden="true" />
+            </button>
+            <button className={view === "list" ? "is-active" : ""} onClick={() => setView("list")} aria-label="List view">
+              <LuLayoutList className="h-4 w-4" aria-hidden="true" />
+            </button>
+          </div>
         </div>
 
-        <select value={filters.status} onChange={(event) => setFilter("status", event.target.value)} title="Filter status">
-          {statusOptions.map(([value, label]) => <option key={value} value={value}>{label}</option>)}
-        </select>
+        {moreFiltersOpen && (
+          <div className="admin-project-advanced-filters">
+            <label className="admin-filter-control">
+              <span>Work type</span>
+              <select value={filters.classification} onChange={(event) => setFilter("classification", event.target.value)}>
+                {classificationOptions.map(([value, label]) => <option key={value} value={value}>{label}</option>)}
+              </select>
+            </label>
 
-        <select value={filters.classification} onChange={(event) => setFilter("classification", event.target.value)} title="Filter work type">
-          {classificationOptions.map(([value, label]) => <option key={value} value={value}>{label}</option>)}
-        </select>
+            <label className="admin-filter-control">
+              <span>Industry</span>
+              <select value={filters.industry} onChange={(event) => setFilter("industry", event.target.value)}>
+                <option value="">All industries</option>
+                {choices.industries.map((industry) => <option key={industry} value={industry}>{industry}</option>)}
+              </select>
+            </label>
 
-        <select value={filters.industry} onChange={(event) => setFilter("industry", event.target.value)} title="Filter industry">
-          <option value="">All industries</option>
-          {choices.industries.map((industry) => <option key={industry} value={industry}>{industry}</option>)}
-        </select>
+            <label className="admin-filter-control">
+              <span>Website type</span>
+              <select value={filters.websiteType} onChange={(event) => setFilter("websiteType", event.target.value)}>
+                <option value="">All website types</option>
+                {choices.websiteTypes.map((type) => <option key={type} value={type}>{type}</option>)}
+              </select>
+            </label>
 
-        <select value={filters.websiteType} onChange={(event) => setFilter("websiteType", event.target.value)} title="Filter website type">
-          <option value="">All website types</option>
-          {choices.websiteTypes.map((type) => <option key={type} value={type}>{type}</option>)}
-        </select>
+            <label className="admin-filter-control">
+              <span>Platform</span>
+              <select value={filters.platform} onChange={(event) => setFilter("platform", event.target.value)}>
+                <option value="">All platforms</option>
+                {choices.platforms.map((platform) => <option key={platform} value={platform}>{platform}</option>)}
+              </select>
+            </label>
 
-        <select value={filters.platform} onChange={(event) => setFilter("platform", event.target.value)} title="Filter platform">
-          <option value="">All platforms</option>
-          {choices.platforms.map((platform) => <option key={platform} value={platform}>{platform}</option>)}
-        </select>
+            <label className="admin-filter-control">
+              <span>Featured state</span>
+              <select value={filters.featured} onChange={(event) => setFilter("featured", event.target.value)}>
+                <option value="">All featured states</option>
+                <option value="true">Featured</option>
+                <option value="false">Not featured</option>
+              </select>
+            </label>
+          </div>
+        )}
 
-        <select value={filters.published} onChange={(event) => setFilter("published", event.target.value)} title="Filter published">
-          <option value="">Publication</option>
-          <option value="true">Published</option>
-          <option value="false">Private</option>
-        </select>
-
-        <select value={filters.featured} onChange={(event) => setFilter("featured", event.target.value)} title="Filter featured">
-          <option value="">Featured state</option>
-          <option value="true">Featured</option>
-          <option value="false">Not featured</option>
-        </select>
-
-        <select value={filters.sort} onChange={(event) => setFilter("sort", event.target.value)} title="Sort projects">
-          {sortOptions.map(([value, label]) => <option key={value} value={value}>{label}</option>)}
-        </select>
-
-        <button className="portal-icon-button" onClick={() => setFilters(emptyFilters)} title="Reset filters" aria-label="Reset filters">
-          <LuFilter className="h-4 w-4" aria-hidden="true" />
-        </button>
-
-        <div className="admin-view-toggle" role="group" aria-label="Project view">
-          <button className={view === "grid" ? "is-active" : ""} onClick={() => setView("grid")} aria-label="Grid view">
-            <LuGrid2X2 className="h-4 w-4" aria-hidden="true" />
-          </button>
-          <button className={view === "list" ? "is-active" : ""} onClick={() => setView("list")} aria-label="List view">
-            <LuLayoutList className="h-4 w-4" aria-hidden="true" />
-          </button>
-        </div>
+        <output className="admin-project-filter-summary" aria-live="polite" aria-atomic="true">
+          Showing {rows.length} project{rows.length === 1 ? "" : "s"}
+          {activeFilterCount ? ` with ${activeFilterCount} active filter${activeFilterCount === 1 ? "" : "s"}` : ""}.
+        </output>
       </section>
 
       {(ok || err) && (
@@ -728,7 +797,7 @@ export default function Projects() {
           <h3>No projects match these filters</h3>
           <p>Clear filters or create a backend-managed project record. No seed/demo data is created from this screen.</p>
           <div className="form-actions">
-            <button className="btn btn-outline" onClick={() => setFilters(emptyFilters)}>Clear filters</button>
+            <button className="btn btn-outline" onClick={clearFilters}>Clear filters</button>
             <button className="btn btn-primary" onClick={openCreate}><LuPlus className="mr-2 h-4 w-4" />New project</button>
           </div>
         </div>

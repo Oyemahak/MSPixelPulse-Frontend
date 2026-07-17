@@ -190,7 +190,14 @@ export default function PortalShell({ children }) {
     <div className="portal-frame">
       <aside className="portal-sidebar">
         <Link to={meta.home} className="portal-brand" aria-label="MSPixelPulse portal dashboard">
-          <span className="portal-logo-mark">M</span>
+          <img
+            src="/icon.svg"
+            alt=""
+            aria-hidden="true"
+            className="portal-logo-mark"
+            width="38"
+            height="38"
+          />
           <span>
             <span className="portal-brand-name">MSPixelPulse</span>
             <span className="portal-brand-sub">{meta.label}</span>
@@ -228,7 +235,14 @@ export default function PortalShell({ children }) {
           >
             <div className="portal-drawer-head">
               <Link to={meta.home} className="portal-brand" onClick={() => setDrawerOpen(false)}>
-                <span className="portal-logo-mark">M</span>
+                <img
+                  src="/icon.svg"
+                  alt=""
+                  aria-hidden="true"
+                  className="portal-logo-mark"
+                  width="38"
+                  height="38"
+                />
                 <span>
                   <span className="portal-brand-name">MSPixelPulse</span>
                   <span className="portal-brand-sub">{meta.label}</span>

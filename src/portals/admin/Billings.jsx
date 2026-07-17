@@ -1,6 +1,7 @@
 // src/portals/admin/Billings.jsx
 import { Fragment, useEffect, useMemo, useState } from "react";
 import { projects as api, invoices as invApi, files as fileApi } from "@/lib/api.js";
+import SearchField from "@/components/ui/SearchField.jsx";
 
 /* Small badge renderer */
 function StatusBadge({ inv }) {
@@ -270,8 +271,13 @@ export default function Billings() {
         <div />
       </div>
 
-      <div className="card card-pad filters-grid">
-        <input className="form-input" placeholder="Search projects…" value={q} onChange={(e) => setQ(e.target.value)} />
+      <div className="card card-pad filters-grid portal-search-row">
+        <SearchField
+          label="Search billing projects"
+          placeholder="Search billing projects"
+          value={q}
+          onValueChange={setQ}
+        />
         <button className="btn btn-outline" onClick={load} disabled={loading}>
           {loading ? "Refreshing…" : "Refresh"}
         </button>

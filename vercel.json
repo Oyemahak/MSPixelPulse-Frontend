@@ -29,17 +29,17 @@
   "routes": [
     {
       "src": "/admin(?:/.*)?",
-      "dest": "/",
+      "dest": "/portal-shell",
       "headers": { "X-Robots-Tag": "noindex, nofollow, noarchive" }
     },
     {
       "src": "/client(?:/.*)?",
-      "dest": "/",
+      "dest": "/portal-shell",
       "headers": { "X-Robots-Tag": "noindex, nofollow, noarchive" }
     },
     {
       "src": "/dev(?:/.*)?",
-      "dest": "/",
+      "dest": "/portal-shell",
       "headers": { "X-Robots-Tag": "noindex, nofollow, noarchive" }
     },
     { "handle": "filesystem" },

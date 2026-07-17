@@ -15,9 +15,17 @@ import { site } from "../src/data/site.js";
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const distDir = path.join(rootDir, "dist");
 const defaultImage = "/logo.svg";
+const portalShellSeo = {
+  path: "/portal-shell",
+  title: "Secure workspace — MSPixelPulse",
+  description: "Secure MSPixelPulse client, developer, and admin workspace.",
+  canonical: "/login",
+  robots: "noindex, nofollow",
+};
 
 const entries = [
   ...Object.values(seoPages),
+  portalShellSeo,
   ...publishedProjects.map(projectSeo),
   ...publishedBlogPosts.map(blogPostSeo),
   ...Object.entries(legalPages).map(([page, content]) => legalSeo(page, content)),

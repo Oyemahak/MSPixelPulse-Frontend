@@ -29,17 +29,17 @@
   "routes": [
     {
       "src": "/admin(?:/.*)?",
-      "dest": "/index.html",
+      "dest": "/",
       "headers": { "X-Robots-Tag": "noindex, nofollow, noarchive" }
     },
     {
       "src": "/client(?:/.*)?",
-      "dest": "/index.html",
+      "dest": "/",
       "headers": { "X-Robots-Tag": "noindex, nofollow, noarchive" }
     },
     {
       "src": "/dev(?:/.*)?",
-      "dest": "/index.html",
+      "dest": "/",
       "headers": { "X-Robots-Tag": "noindex, nofollow, noarchive" }
     },
     { "handle": "filesystem" },

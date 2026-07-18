@@ -3,6 +3,7 @@ import Container from "../components/layout/Container.jsx";
 import { useTheme } from "@/lib/theme.js";
 import Meta from "@/components/Meta.jsx";
 import ContactActions from "@/components/ContactActions.jsx";
+import DemoOffer from "@/components/DemoOffer.jsx";
 import { seoPages } from "@/data/seoPages.js";
 
 import {
@@ -22,9 +23,9 @@ const services = [
     title: "Website Design & Development",
     icon: LuPenTool,
     description:
-      "Custom business websites, landing pages, and redesigns built around clear services, mobile-first UX, and real launch needs.",
+      "Custom business websites, landing pages, and redesigns built around clear services, easy-to-follow pages, and real launch needs.",
     best: "New launches, redesigns, and service websites",
-    benefits: ["Responsive page structure", "Conversion-focused CTAs", "SEO-ready content sections"],
+    benefits: ["Works on phones, tablets, and computers", "Clear next-step buttons", "Basic search setup"],
     cta: "View related work",
     related: "/projects?service=design",
     photo:
@@ -50,7 +51,7 @@ const services = [
     title: "Website Improvements",
     icon: LuShieldCheck,
     description:
-      "Focused UI, speed, accessibility, SEO structure, and responsive fixes for websites that already exist but feel harder to use.",
+      "We improve confusing layouts, slow pages, hard-to-use forms, mobile issues, accessibility, and search setup on an existing website.",
     best: "Older sites, confusing pages, and mobile friction",
     benefits: ["Before/after layout review", "Accessibility and speed basics", "Clearer content paths"],
     cta: "Explore this service",
@@ -89,10 +90,10 @@ const services = [
     visual: "workflow",
   },
   {
-    title: "SEO & Launch Readiness",
+    title: "Search & Launch Setup",
     icon: LuRocket,
     description:
-      "Metadata, sitemap, local keyword mapping, launch QA, analytics readiness, and domain migration support before the public switch.",
+      "We prepare page titles and descriptions, the sitemap, local search topics, analytics setup, and a launch checklist before your website goes public.",
     best: "Pre-launch QA, redesign launches, and local SEO basics",
     benefits: ["Metadata and sitemap checks", "Launch QA checklist", "Local search structure"],
     cta: "Plan your launch",
@@ -120,7 +121,7 @@ export default function Services() {
             Website services with the visuals, structure, and support a real business needs.
           </h1>
           <p className={isDark ? "mx-auto mt-4 max-w-2xl text-base leading-7 text-textSub md:text-lg" : "mx-auto mt-4 max-w-2xl text-base leading-7 text-slate-600 md:text-lg"}>
-            Choose focused help for launch, redesign, e-commerce, support, custom workflows, or SEO-ready release checks.
+            Choose focused help for a new website, online store, redesign, ongoing support, custom online tools, or launch preparation.
           </p>
         </div>
 
@@ -129,6 +130,8 @@ export default function Services() {
             <ServiceModule key={service.title} service={service} isDark={isDark} priority={index === 0} />
           ))}
         </div>
+
+        <DemoOffer compact className="mt-10" />
 
         <div className={isDark ? "mt-12 card-surface grid gap-5 rounded-2xl p-6 md:grid-cols-[1fr_auto_auto] md:items-center md:p-8" : "mt-12 grid gap-5 rounded-2xl border border-blue-100 bg-white/90 p-6 shadow-[0_22px_70px_rgba(37,99,255,0.10)] md:grid-cols-[1fr_auto_auto] md:items-center md:p-8"}>
           <div>
@@ -148,7 +151,7 @@ export default function Services() {
           />
 
           <a
-            className={isDark ? "btn btn-outline" : "inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-5 font-bold text-slate-900 shadow-sm hover:bg-slate-50"}
+            className="btn btn-glass"
             href="https://calendly.com/mspixelpulse/30min"
             target="_blank"
             rel="noreferrer"
@@ -222,7 +225,7 @@ function ServiceModule({ service, isDark, priority }) {
 
         <Link
           to={service.related}
-          className={isDark ? "mt-6 inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-primary px-5 text-sm font-bold text-white hover:bg-primaryAccent" : "mt-6 inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-blue-600 px-5 text-sm font-bold text-white shadow-sm hover:bg-blue-500"}
+          className="btn btn-primary mt-6"
         >
           {service.cta}
           <LuArrowRight className="h-4 w-4" aria-hidden="true" />

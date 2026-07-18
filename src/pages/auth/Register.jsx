@@ -137,7 +137,7 @@ export default function Register() {
             {err && <div className="auth-status auth-status-error" role="alert">{err}</div>}
             {ok && <div className="auth-status auth-status-success" role="status">{ok}</div>}
 
-            <button type="submit" disabled={disabled} className="auth-submit-button">
+            <button type="submit" disabled={disabled} className="auth-submit-button btn btn-primary">
               {loading ? (
                 <LuLoaderCircle className="animate-spin" aria-hidden="true" />
               ) : (

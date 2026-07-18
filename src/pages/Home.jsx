@@ -24,20 +24,21 @@ import { blogPosts } from "@/data/blogPosts.js";
 import Meta from "@/components/Meta.jsx";
 import ContactActions from "@/components/ContactActions.jsx";
 import AgencyInterfacePreview from "@/components/AgencyInterfacePreview.jsx";
+import DemoOffer from "@/components/DemoOffer.jsx";
 import { seoPages } from "@/data/seoPages.js";
 
 const services = [
   {
     icon: LuSparkles,
-    title: "Web design & UX/UI",
-    body: "Clear page systems, thoughtful interaction design, and strong visual hierarchy built around how customers decide.",
-    deliverable: "Strategy, wireframes and polished UI",
+    title: "Website planning and design",
+    body: "Clear pages, thoughtful interactions, and a strong visual hierarchy built around the questions your customers need answered.",
+    deliverable: "Planning, page layouts, and polished design",
   },
   {
     icon: LuMonitorSmartphone,
-    title: "React development",
-    body: "Fast, reusable interfaces for custom business websites, dashboards, forms, and application-style experiences.",
-    deliverable: "Reusable components and integrations",
+    title: "Custom websites and online tools",
+    body: "Custom website experiences, dashboards, forms, and online tools built around how your business needs to work.",
+    deliverable: "Custom pages, forms, and business tools",
   },
   {
     icon: LuBriefcaseBusiness,
@@ -47,9 +48,9 @@ const services = [
   },
   {
     icon: LuShieldCheck,
-    title: "Client portal solutions",
-    body: "Role-based workspaces for project updates, files, discussions, billing, approvals, and launch coordination.",
-    deliverable: "Secure client and admin workflows",
+    title: "Private client workspaces",
+    body: "A secure place for project updates, files, conversations, billing, approvals, and launch planning.",
+    deliverable: "Organized client and admin workflows",
   },
   {
     icon: LuSmartphone,
@@ -144,7 +145,7 @@ export default function Home() {
                 Premium websites that make small businesses easier to trust.
               </h1>
               <p className={`mt-5 max-w-2xl text-lg leading-8 ${muted}`}>
-                MSPixelPulse combines web design, UX/UI, React and WordPress development, website maintenance, and client portal solutions into one practical agency workflow.
+                MSPixelPulse plans, designs, and builds clear, professional websites that help small businesses explain their services and make it easy for customers to take the next step.
               </p>
               <div className="home-hero-actions mt-8 flex flex-wrap gap-3">
                 <Link className="btn btn-primary" to="/contact">
@@ -204,6 +205,8 @@ export default function Home() {
           </div>
         </Container>
       </section>
+
+      <DemoOffer />
 
       <section className="section py-10 md:py-14">
         <Container>

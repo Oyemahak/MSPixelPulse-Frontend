@@ -67,6 +67,17 @@ Production Vercel variable:
 VITE_API_BASE=https://capstone-backend-o3o2.onrender.com/api
 ```
 
+The Vercel contact function also uses these existing server-side variables:
+
+```text
+RESEND_API_KEY
+FORMS_TO_EMAIL
+FORMS_FROM_EMAIL
+```
+
+The free-demo form reuses the same contact function and does not require a new
+environment variable. Preserve the configured values when updating the site.
+
 Never add backend-only secrets to Vercel frontend variables:
 
 - `MONGO_URI`

@@ -1,8 +1,9 @@
 // src/lib/forms.js
 // FINAL — supports both new helpers and legacy FORMS_BASE import
 
+const LOCAL_HOSTS = new Set(["localhost", "127.0.0.1", "::1"]);
 const IS_LOCAL =
-  typeof window !== "undefined" && window.location.hostname === "localhost";
+  typeof window !== "undefined" && LOCAL_HOSTS.has(window.location.hostname);
 
 // In dev, we proxy to Vercel via /vercel-api (vite proxy). In prod, same-origin /api.
 const BASE = IS_LOCAL ? "/vercel-api" : "/api";

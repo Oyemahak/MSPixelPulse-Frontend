@@ -183,7 +183,7 @@ export default function Login() {
               <button
                 type="submit"
                 disabled={loading}
-                className="auth-submit-button"
+                className="auth-submit-button btn btn-primary"
               >
                 {loading ? (
                   <LuLoaderCircle className="animate-spin" aria-hidden="true" />

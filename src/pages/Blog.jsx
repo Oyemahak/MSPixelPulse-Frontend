@@ -27,11 +27,11 @@ export default function Blog() {
             </p>
           </div>
           <Link
-            to="/contact"
-            className={isDark ? "inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/[0.04] px-5 font-bold text-white/90 hover:bg-white/[0.07]" : "inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-5 font-bold text-slate-900 shadow-sm hover:bg-slate-50"}
+            to="/contact?request=free-demo"
+            className="btn btn-glass"
           >
             <LuMessageCircle className="h-5 w-5" aria-hidden="true" />
-            Contact Us
+            Request My Free Demo
           </Link>
         </div>
 

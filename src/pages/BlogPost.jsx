@@ -30,7 +30,7 @@ export default function BlogPost() {
         <Container>
           <div className={isDark ? "card-surface p-8 text-center" : "rounded-2xl bg-white p-8 text-center shadow-sm"}>
             <h1 className={isDark ? "text-3xl font-black" : "text-3xl font-black text-slate-950"}>Article not found</h1>
-            <Link to="/blog" className={isDark ? "btn btn-primary mt-5" : "mt-5 inline-flex h-11 items-center rounded-xl bg-blue-600 px-5 font-bold text-white"}>
+            <Link to="/blog" className="btn btn-primary mt-5">
               Back to blog
             </Link>
           </div>
@@ -80,17 +80,50 @@ export default function BlogPost() {
                 <h2 className={isDark ? "text-2xl font-black text-white" : "text-2xl font-black text-slate-950"}>
                   {section.heading}
                 </h2>
-                <p className="mt-3 text-base leading-8">{section.body}</p>
+                {section.body && <p className="mt-3 text-base leading-8">{section.body}</p>}
+                {section.paragraphs?.map((paragraph) => (
+                  <p key={paragraph} className="mt-3 text-base leading-8">{paragraph}</p>
+                ))}
+                {section.bullets?.length > 0 && (
+                  <ul className="article-bullet-list">
+                    {section.bullets.map((item) => <li key={item}>{item}</li>)}
+                  </ul>
+                )}
+                {section.steps?.length > 0 && (
+                  <ol className="article-step-list">
+                    {section.steps.map((step, index) => (
+                      <li key={step.title}>
+                        <span>{index + 1}</span>
+                        <div>
+                          <h3>{step.title}</h3>
+                          <p>{step.body}</p>
+                        </div>
+                      </li>
+                    ))}
+                  </ol>
+                )}
+                {section.links?.length > 0 && (
+                  <div className="article-internal-links">
+                    {section.links.map((link) => (
+                      <Link key={link.to} to={link.to}>
+                        {link.label}
+                        <LuArrowRight className="h-4 w-4" aria-hidden="true" />
+                      </Link>
+                    ))}
+                  </div>
+                )}
               </section>
             ))}
-            <section>
-              <h2 className={isDark ? "text-2xl font-black text-white" : "text-2xl font-black text-slate-950"}>
-                A practical next step
-              </h2>
-              <p className="mt-3 text-base leading-8">
-                Review your current website on a phone, check whether the main contact path is obvious, and list the top three questions a customer asks before hiring you. Those answers are usually the start of a stronger website plan.
-              </p>
-            </section>
+            {!post.finalCta && (
+              <section>
+                <h2 className={isDark ? "text-2xl font-black text-white" : "text-2xl font-black text-slate-950"}>
+                  A practical next step
+                </h2>
+                <p className="mt-3 text-base leading-8">
+                  Review your current website on a phone, check whether the main contact path is obvious, and list the top three questions a customer asks before hiring you. Those answers are usually the start of a stronger website plan.
+                </p>
+              </section>
+            )}
           </div>
 
           {post.resources?.length > 0 && (
@@ -136,17 +169,17 @@ export default function BlogPost() {
             <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
               <div>
                 <h2 className={isDark ? "text-xl font-black text-white" : "text-xl font-black text-slate-950"}>
-                  Need help with your website?
+                  {post.finalCta?.heading || "Need help with your website?"}
                 </h2>
                 <p className={isDark ? "mt-1 text-sm text-textSub" : "mt-1 text-sm text-slate-600"}>
-                  Send a short note and we will point you toward the right next step.
+                  {post.finalCta?.body || "Send a short note and we will point you toward the right next step."}
                 </p>
               </div>
               <Link
-                to={`/contact?source=blog&article=${encodeURIComponent(post.slug)}`}
-                className={isDark ? "inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-primary px-5 font-bold text-white hover:bg-primaryAccent" : "inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-blue-600 px-5 font-bold text-white hover:bg-blue-500"}
+                to={post.finalCta?.to || `/contact?source=blog&article=${encodeURIComponent(post.slug)}`}
+                className="btn btn-primary"
               >
-                Contact Us <LuArrowRight className="h-4 w-4" aria-hidden="true" />
+                {post.finalCta?.label || "Contact Us"} <LuArrowRight className="h-4 w-4" aria-hidden="true" />
               </Link>
             </div>
           </section>

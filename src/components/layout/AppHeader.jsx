@@ -38,7 +38,8 @@ export default function AppHeader() {
   const { isAuthed, role, user, logout } = useAuth();
   const { theme, toggleTheme, setTheme } = useTheme();
   const actualIsDark = theme === "dark";
-  const isDark = actualIsDark;
+  // The public header intentionally stays dark in both page themes.
+  const isDark = true;
   const nav = useNavigate();
 
   const [open, setOpen] = useState(false); // mobile nav
@@ -218,7 +219,7 @@ export default function AppHeader() {
               className={
                 actualIsDark
                   ? "h-8 w-8 rounded-full bg-slate-950 text-white inline-grid place-items-center shadow-sm"
-                  : "h-8 w-8 rounded-full text-slate-700 inline-grid place-items-center hover:bg-white/60"
+                  : "h-8 w-8 rounded-full text-white/70 inline-grid place-items-center hover:bg-white/10"
               }
               aria-pressed={actualIsDark}
               aria-label="Dark mode"

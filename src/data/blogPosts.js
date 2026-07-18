@@ -53,6 +53,143 @@ const resourceLinks = {
 
 export const blogPosts = [
   {
+    slug: "free-website-demo-before-you-pay",
+    title: "See Your Website Before You Pay: How Our Free Website Demo Works",
+    category: "Website Planning",
+    tags: ["Free website demo", "Website planning", "Small business"],
+    author: "MSPixelPulse",
+    publishedAt: "2026-07-18",
+    updatedAt: "2026-07-18",
+    readingTime: "7 min read",
+    excerpt:
+      "Many business owners know they need a website but are not sure what it should include. A personalized demo gives you something visual to review before you choose a website plan.",
+    seoTitle: "Free Website Demo Before You Choose a Plan | MSPixelPulse",
+    metaDescription:
+      "Tell MSPixelPulse about your business and review a personalized website demo before choosing a website plan. See possible pages, content, and features clearly.",
+    cover: "/hero/mspixelpulse-web-design-collaboration.webp",
+    coverAlt:
+      "A small-business owner and website designer reviewing a personalized website direction on a laptop and phone",
+    sections: [
+      {
+        heading: "Why planning a website can feel difficult",
+        paragraphs: [
+          "A website quote can list pages and features, but a written list is not always easy to picture. Business owners may not know which pages they need, how their services should be organized, or where important contact buttons belong.",
+          "Technical wording can make the decision feel harder. You may also forget useful details until you see how the website could work on a real screen.",
+        ],
+        bullets: [
+          "It can be difficult to decide which pages are necessary.",
+          "Written quotes do not always make the final experience easy to imagine.",
+          "Technical language can make simple decisions feel confusing.",
+          "Useful features may be missed during an early conversation.",
+          "Choosing a plan before seeing a direction can feel risky.",
+        ],
+      },
+      {
+        heading: "What the free demo may include",
+        paragraphs: [
+          "The demo is created from the information you share. Its exact scope depends on your business, goals, and available content.",
+        ],
+        bullets: [
+          "A suggested home-page structure",
+          "A visual design direction",
+          "Recommended sections and service presentation",
+          "Clear call-to-action placement",
+          "Mobile layout ideas",
+          "Possible navigation",
+          "Features that may help customers take the next step",
+        ],
+      },
+      {
+        heading: "How the process works",
+        steps: [
+          {
+            title: "Share your business idea",
+            body: "Tell us what the business does, who it helps, and what you want the website to achieve.",
+          },
+          {
+            title: "Provide any branding or content you have",
+            body: "You can share a logo, colours, service information, example websites, or a simple written description.",
+          },
+          {
+            title: "Review the personalized demo",
+            body: "Use the visual direction to discuss pages, content, features, and anything that may be missing.",
+          },
+          {
+            title: "Choose whether to continue",
+            body: "You can discuss changes and a paid website plan, or keep the planning ideas for later.",
+          },
+        ],
+      },
+      {
+        heading: "What you can share with us",
+        paragraphs: [
+          "More detail can help us understand the idea, but you do not need to have everything ready before contacting us.",
+        ],
+        bullets: [
+          "Business name and a short business description",
+          "Products or services",
+          "Ideal customers",
+          "Logo and preferred colours, if available",
+          "Websites you like",
+          "Required contact details and existing social links",
+          "The main goal for the website",
+        ],
+      },
+      {
+        heading: "How a demo can reveal missing ideas",
+        paragraphs: [
+          "Seeing a website direction can make gaps easier to notice. You may remember a service that needs more explanation or realize customers need a faster path to contact you.",
+        ],
+        bullets: [
+          "Missing services or important calls to action",
+          "Frequently asked questions",
+          "Testimonials or other trust-building content",
+          "Booking options and preferred contact methods",
+          "Privacy, terms, or other required legal pages",
+          "Confusing customer journeys",
+          "Mobile usability needs",
+        ],
+      },
+      {
+        heading: "Is the demo the final website?",
+        paragraphs: [
+          "No. The free demo is for planning and review. It may use temporary text, sample images, or placeholder content so you can understand the proposed direction.",
+          "The final scope, revisions, integrations, hosting, domain setup, timeline, and ownership terms are agreed upon separately. Production work begins only after you approve the project agreement.",
+        ],
+      },
+      {
+        heading: "Who this offer is for",
+        paragraphs: [
+          "The demo can help new businesses and established businesses that are replacing an older website.",
+        ],
+        bullets: [
+          "Small businesses and new businesses",
+          "Freelancers, consultants, and personal brands",
+          "Local service providers",
+          "Restaurants, clinics, and creative professionals",
+          "Business owners replacing an old or confusing website",
+        ],
+      },
+      {
+        heading: "Review the next steps",
+        paragraphs: [
+          "You can compare website starting points, review our services, and browse project examples before sending your idea.",
+        ],
+        links: [
+          { label: "Compare website pricing", to: "/pricing" },
+          { label: "Review website services", to: "/services" },
+          { label: "Browse website projects", to: "/projects" },
+        ],
+      },
+    ],
+    finalCta: {
+      heading: "Ready to see your website idea?",
+      body: "Tell us about your business and request your free personalized demo.",
+      label: "Request My Free Demo",
+      to: "/contact?request=free-demo&source=blog&article=free-website-demo-before-you-pay",
+    },
+  },
+  {
     slug: "small-business-website-cost-canada",
     title: "How Much Does a Small Business Website Cost in Canada?",
     category: "Planning",

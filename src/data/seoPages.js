@@ -41,7 +41,7 @@ export const seoPages = {
     path: "/",
     title: "MSPixelPulse — Toronto Website Design for Small Businesses",
     description:
-      "MSPixelPulse builds professional websites, redesigns, portals, and maintenance workflows for small businesses in Toronto and across Canada.",
+      "MSPixelPulse builds professional websites for small businesses and offers a free personalized demo to review before choosing a website plan.",
     canonical: "/",
     image: "/hero/mspixelpulse-web-design-collaboration.webp",
     component: "src/pages/Home.jsx",
@@ -60,7 +60,7 @@ export const seoPages = {
     path: "/services",
     title: "Website Design & Development Services — MSPixelPulse",
     description:
-      "Explore MSPixelPulse website design, WordPress, React, e-commerce, redesign, maintenance, and SEO-ready launch services for small businesses.",
+      "Explore clear website design, online store, redesign, ongoing support, custom tool, and launch services for small businesses.",
     canonical: "/services",
     component: "src/pages/Services.jsx",
   },
@@ -68,7 +68,7 @@ export const seoPages = {
     path: "/pricing",
     title: "Website Pricing & Project Options — MSPixelPulse",
     description:
-      "Compare practical starting points for WordPress, React, Wix, professional email, and custom small-business website projects.",
+      "Compare MSPixelPulse website plans in CAD, including one-page, business, growth, e-commerce, custom application, and monthly support options.",
     canonical: "/pricing",
     component: "src/pages/Pricing.jsx",
   },

@@ -5,6 +5,7 @@ import { publishedProjects } from "../data/projects.js";
 import { useTheme } from "@/lib/theme.js";
 import { LuArrowLeft, LuExternalLink, LuGithub } from "react-icons/lu";
 import ContactActions from "@/components/ContactActions.jsx";
+import DemoOffer from "@/components/DemoOffer.jsx";
 import { projectSeo } from "@/data/seoPages.js";
 
 export default function ProjectDetail() {
@@ -24,7 +25,7 @@ export default function ProjectDetail() {
         <Container>
           <div className={isDark ? "card-surface p-8 text-center" : "rounded-2xl bg-white p-8 text-center shadow-sm"}>
             <h1 className={isDark ? "text-3xl font-black" : "text-3xl font-black text-slate-950"}>Project not found</h1>
-            <Link to="/projects" className={isDark ? "btn btn-primary mt-5" : "mt-5 inline-flex h-11 items-center rounded-xl bg-[#2563ff] px-5 font-bold text-white"}>
+            <Link to="/projects" className="btn btn-primary mt-5">
               Back to projects
             </Link>
           </div>
@@ -74,12 +75,12 @@ export default function ProjectDetail() {
 
             <div className="mt-6 flex flex-wrap gap-3">
               {project.live && (
-                <a href={project.live} target="_blank" rel="noreferrer" className={isDark ? "btn btn-primary" : "inline-flex h-11 items-center rounded-xl bg-[#2563ff] px-5 font-bold text-white"}>
+                <a href={project.live} target="_blank" rel="noreferrer" className="btn btn-primary">
                   Visit live site <LuExternalLink className="ml-2 h-4 w-4" />
                 </a>
               )}
               {project.repo && (
-                <a href={project.repo} target="_blank" rel="noreferrer" className={isDark ? "btn btn-outline" : "inline-flex h-11 items-center rounded-xl border border-slate-200 px-5 font-bold text-slate-800"}>
+                <a href={project.repo} target="_blank" rel="noreferrer" className="btn btn-glass">
                   Repository <LuGithub className="ml-2 h-4 w-4" />
                 </a>
               )}
@@ -139,6 +140,8 @@ export default function ProjectDetail() {
             </p>
           </div>
         )}
+
+        <DemoOffer compact className="mt-8" />
       </Container>
     </section>
   );

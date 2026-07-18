@@ -12,14 +12,9 @@ export default function ContactActions({
   showPhone = true,
   showMessage = false,
   className = "",
-  dark = true,
 }) {
-  const secondaryClass = dark
-    ? "inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/[0.035] px-5 font-bold text-white/90 transition hover:bg-white/[0.07] focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
-    : "liquid-glass-button inline-flex min-h-11 items-center justify-center gap-2 rounded-xl px-5 font-bold text-slate-900 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500";
-  const whatsappClass = dark
-    ? "inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/[0.035] px-5 font-bold text-white/90 transition hover:bg-white/[0.07] focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
-    : "inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-slate-950 px-5 font-bold text-white shadow-sm transition hover:bg-slate-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500";
+  const secondaryClass = "btn btn-glass";
+  const whatsappClass = "btn btn-secondary";
 
   return (
     <div className={`flex flex-wrap gap-3 ${className}`}>

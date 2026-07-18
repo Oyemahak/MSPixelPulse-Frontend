@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import Meta from "../components/Meta.jsx";
 import SearchField from "../components/ui/SearchField.jsx";
+import DemoOffer from "@/components/DemoOffer.jsx";
 import { publishedProjects } from "../data/projects.js";
 import { useTheme } from "@/lib/theme.js";
 import {
@@ -301,11 +302,13 @@ export default function Projects() {
           <div className={isDark ? "mt-12 rounded-2xl border border-white/10 bg-white/[0.045] p-8 text-center" : "mt-12 rounded-2xl border border-slate-200 bg-white p-8 text-center shadow-sm"}>
             <h2 className={isDark ? "text-2xl font-black" : "text-2xl font-black text-slate-950"}>No projects match those filters.</h2>
             <p className={isDark ? "mt-2 text-textSub" : "mt-2 text-slate-600"}>Try a broader industry, website type, or search term.</p>
-            <button type="button" onClick={reset} className={isDark ? "btn btn-primary mt-5" : "mt-5 inline-flex h-11 items-center rounded-xl bg-[#2563ff] px-5 font-bold text-white"}>
+            <button type="button" onClick={reset} className="btn btn-primary mt-5">
               Reset filters
             </button>
           </div>
         )}
+
+        <DemoOffer compact className="mt-12" />
       </div>
     </section>
   );

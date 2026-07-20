@@ -6774,6 +6774,9 @@ html:not([data-theme="dark"]) .project-type-switch {
 /* Final cascade lock for the theme-native liquid-glass refresh. */
 .public-header-shell,
 html:not([data-theme="dark"]) body .public-site-header .public-header-shell {
+  width: min(76rem, calc(100vw - 2rem));
+  max-width: 76rem;
+  border-radius: 9999px;
   border-color: rgba(255, 255, 255, 0.76) !important;
   background:
     radial-gradient(140% 190% at 0% 0%, rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.44) 44%, transparent 72%),
@@ -6788,15 +6791,15 @@ html:not([data-theme="dark"]) body .public-site-header .public-header-shell {
 }
 
 [data-theme="dark"] .public-header-shell {
-  border-color: rgba(255, 225, 157, 0.17) !important;
+  border-color: rgba(125, 180, 255, 0.22) !important;
   background:
-    radial-gradient(140% 190% at 0% 0%, rgba(255, 232, 172, 0.1), transparent 56%),
-    linear-gradient(145deg, rgba(25, 23, 19, 0.82), rgba(8, 8, 9, 0.78)) !important;
-  color: #fffaf0;
+    radial-gradient(140% 190% at 0% 0%, rgba(96, 165, 250, 0.13), transparent 56%),
+    linear-gradient(145deg, rgba(15, 22, 34, 0.84), rgba(7, 9, 14, 0.8)) !important;
+  color: #f8fbff;
   box-shadow:
     0 22px 62px rgba(0, 0, 0, 0.34),
-    0 8px 28px rgba(180, 121, 20, 0.1),
-    inset 0 1px 0 rgba(255, 241, 205, 0.12) !important;
+    0 8px 28px rgba(37, 99, 235, 0.14),
+    inset 0 1px 0 rgba(191, 219, 254, 0.13) !important;
 }
 
 html:not([data-theme="dark"]) body .public-site-header .public-mobile-menu {
@@ -6808,10 +6811,16 @@ html:not([data-theme="dark"]) body .public-site-header .public-mobile-menu {
 }
 
 [data-theme="dark"] .public-mobile-menu {
-  border-color: rgba(255, 225, 157, 0.17) !important;
+  border-color: rgba(125, 180, 255, 0.22) !important;
   background:
-    radial-gradient(140% 190% at 0% 0%, rgba(255, 232, 172, 0.1), transparent 56%),
-    linear-gradient(145deg, rgba(25, 23, 19, 0.94), rgba(8, 8, 9, 0.92)) !important;
+    radial-gradient(140% 190% at 0% 0%, rgba(96, 165, 250, 0.13), transparent 56%),
+    linear-gradient(145deg, rgba(15, 22, 34, 0.95), rgba(7, 9, 14, 0.93)) !important;
+}
+
+[data-theme="dark"] .public-header-shell nav a[aria-current="page"],
+[data-theme="dark"] .public-mobile-menu a[aria-current="page"] {
+  background: rgba(59, 130, 246, 0.16);
+  color: #dbeafe;
 }
 
 .public-header-cta,
@@ -6961,9 +6970,10 @@ html:not([data-theme="dark"]) :is(.btn-glass, .btn-outline, .liquid-glass-button
   }
 
   .public-header-shell {
+    width: calc(100vw - 2rem);
     height: 3.75rem;
-    max-width: calc(100vw - 1.2rem);
-    border-radius: 1.2rem;
+    max-width: 76rem;
+    border-radius: 9999px;
     padding-inline: 0.85rem;
   }
 
@@ -6983,5 +6993,17 @@ html:not([data-theme="dark"]) :is(.btn-glass, .btn-outline, .liquid-glass-button
     max-width: 100%;
     font-size: clamp(2.15rem, 10.5vw, 2.75rem);
     overflow-wrap: break-word;
+  }
+}
+
+@media (min-width: 640px) {
+  .public-header-shell {
+    width: min(76rem, calc(100vw - 3rem));
+  }
+}
+
+@media (min-width: 1024px) {
+  .public-header-shell {
+    width: min(76rem, calc(100vw - 4rem));
   }
 }

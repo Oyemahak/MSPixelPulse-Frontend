@@ -6821,18 +6821,34 @@ html:not([data-theme="dark"]) .btn-primary,
 .public-mobile-cta.bg-primary,
 .public-mobile-cta.bg-blue-600 {
   overflow: hidden;
-  border: 1px solid rgba(147, 197, 253, 0.52);
-  background:
-    radial-gradient(145% 210% at 8% -20%, rgba(255, 255, 255, 0.72), transparent 47%),
-    linear-gradient(135deg, #3b82f6 0%, #2563eb 46%, #4f46e5 100%);
-  color: #ffffff;
+  border: 1px solid rgba(51, 79, 119, 0.2);
+  background: rgba(239, 246, 255, 0.68);
+  color: #17365d;
   box-shadow:
-    0 18px 42px rgba(37, 99, 235, 0.3),
-    0 6px 18px rgba(79, 70, 229, 0.18),
-    inset 0 1px 0 rgba(255, 255, 255, 0.48),
-    inset 0 -1px 0 rgba(30, 58, 138, 0.28);
-  -webkit-backdrop-filter: saturate(175%) blur(16px);
-  backdrop-filter: saturate(175%) blur(16px);
+    0 10px 26px rgba(42, 63, 94, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.78);
+  -webkit-backdrop-filter: saturate(135%) blur(14px);
+  backdrop-filter: saturate(135%) blur(14px);
+}
+
+.public-header-cta::before,
+.btn-primary::before,
+.public-mobile-cta::before {
+  display: none !important;
+}
+
+[data-theme="dark"] :is(
+  .public-header-cta,
+  .btn-primary,
+  .public-mobile-cta.bg-primary,
+  .public-mobile-cta.bg-blue-600
+) {
+  border-color: rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.075);
+  color: #f8fafc;
+  box-shadow:
+    0 10px 28px rgba(0, 0, 0, 0.24),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 .public-header-cta:hover,
@@ -6841,15 +6857,26 @@ html:not([data-theme="dark"]) .btn-primary:hover,
 [data-theme="dark"] .btn-primary:hover,
 .public-mobile-cta.bg-primary:hover,
 .public-mobile-cta.bg-blue-600:hover {
-  border-color: rgba(191, 219, 254, 0.7);
-  background:
-    radial-gradient(145% 210% at 8% -20%, rgba(255, 255, 255, 0.82), transparent 49%),
-    linear-gradient(135deg, #60a5fa 0%, #2563eb 45%, #4338ca 100%);
+  border-color: rgba(51, 79, 119, 0.3);
+  background: rgba(219, 234, 254, 0.78);
+  color: #102f55;
+  box-shadow:
+    0 12px 30px rgba(42, 63, 94, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.82);
+}
+
+[data-theme="dark"] :is(
+  .public-header-cta,
+  .btn-primary,
+  .public-mobile-cta.bg-primary,
+  .public-mobile-cta.bg-blue-600
+):hover {
+  border-color: rgba(255, 255, 255, 0.24);
+  background: rgba(255, 255, 255, 0.12);
   color: #ffffff;
   box-shadow:
-    0 21px 46px rgba(37, 99, 235, 0.36),
-    0 8px 22px rgba(67, 56, 202, 0.22),
-    inset 0 1px 0 rgba(255, 255, 255, 0.58);
+    0 12px 30px rgba(0, 0, 0, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.14);
 }
 
 .public-header-cta:focus-visible,
@@ -6866,22 +6893,29 @@ html:not([data-theme="dark"]) .btn-primary:hover,
 }
 
 html:not([data-theme="dark"]) :is(.btn-glass, .btn-outline, .liquid-glass-button) {
-  border-color: rgba(96, 130, 184, 0.24);
-  background:
-    radial-gradient(135% 180% at 0% 0%, rgba(255, 255, 255, 0.98), rgba(240, 246, 255, 0.58) 48%, transparent 74%),
-    linear-gradient(135deg, rgba(255, 255, 255, 0.8), rgba(219, 232, 252, 0.38));
+  border-color: rgba(71, 85, 105, 0.18);
+  background: rgba(255, 255, 255, 0.56);
   color: #1e293b;
-  box-shadow:
-    0 16px 38px rgba(49, 73, 112, 0.12),
-    inset 0 1px 0 rgba(255, 255, 255, 0.96);
+  box-shadow: 0 8px 22px rgba(42, 63, 94, 0.09);
 }
 
 [data-theme="dark"] :is(.btn-glass, .btn-outline, .liquid-glass-button) {
-  border-color: rgba(147, 197, 253, 0.2);
-  background:
-    radial-gradient(135% 180% at 0% 0%, rgba(147, 197, 253, 0.11), transparent 56%),
-    linear-gradient(145deg, rgba(24, 32, 48, 0.82), rgba(8, 10, 15, 0.86));
+  border-color: rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.045);
   color: #f8fafc;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+html:not([data-theme="dark"]) :is(.btn-glass, .btn-outline, .liquid-glass-button):hover {
+  border-color: rgba(71, 85, 105, 0.28);
+  background: rgba(255, 255, 255, 0.74);
+  color: #0f172a;
+}
+
+[data-theme="dark"] :is(.btn-glass, .btn-outline, .liquid-glass-button):hover {
+  border-color: rgba(255, 255, 255, 0.22);
+  background: rgba(255, 255, 255, 0.085);
+  color: #ffffff;
 }
 
 [data-theme="dark"] :is(.demo-prompt, .pricing-scope-note) {

@@ -38,8 +38,7 @@ export default function AppHeader() {
   const { isAuthed, role, user, logout } = useAuth();
   const { theme, toggleTheme, setTheme } = useTheme();
   const actualIsDark = theme === "dark";
-  // The public header intentionally stays dark in both page themes.
-  const isDark = true;
+  const isDark = actualIsDark;
   const nav = useNavigate();
 
   const [open, setOpen] = useState(false); // mobile nav
@@ -154,9 +153,8 @@ export default function AppHeader() {
   const headerClass = "public-site-header fixed inset-x-0 top-3 z-50 px-3 sm:px-4 pointer-events-none";
 
   // desktop login btn
-  const loginBtnClass = isDark
-    ? "h-10 min-w-max whitespace-nowrap px-4 rounded-xl font-bold inline-flex items-center gap-2 transition-colors duration-200 shadow-sm border border-transparent bg-blue-600 hover:bg-blue-500 text-white"
-    : "h-10 min-w-max whitespace-nowrap px-4 rounded-xl font-bold inline-flex items-center gap-2 transition-colors duration-200 border border-blue-200/80 bg-blue-50/70 text-blue-700 shadow-[0_12px_26px_rgba(245,158,11,0.12)] hover:bg-blue-100/75";
+  const loginBtnClass =
+    "public-header-cta h-10 min-w-max whitespace-nowrap px-4 rounded-xl font-bold inline-flex items-center gap-2";
 
   return (
     <header className={headerClass}>
@@ -576,7 +574,7 @@ function MobileLink({ to, end, onClick, children, dark }) {
 
 function MobileCTA({ to, variant = "primary", onClick, children, dark }) {
   const base =
-    "w-full mt-1.5 h-11 rounded-xl font-bold inline-flex items-center justify-center gap-2 transition-colors";
+    "public-mobile-cta w-full mt-1.5 h-11 rounded-xl font-bold inline-flex items-center justify-center gap-2 transition-colors";
   let styles;
   if (variant === "primary") {
     styles = dark

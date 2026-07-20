@@ -217,7 +217,7 @@ export default function AppHeader() {
               className={
                 actualIsDark
                   ? "h-8 w-8 rounded-full bg-slate-950 text-white inline-grid place-items-center shadow-sm"
-                  : "h-8 w-8 rounded-full text-white/70 inline-grid place-items-center hover:bg-white/10"
+                  : "h-8 w-8 rounded-full text-slate-500 inline-grid place-items-center hover:bg-slate-200/70 hover:text-slate-800"
               }
               aria-pressed={actualIsDark}
               aria-label="Dark mode"

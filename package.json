@@ -9,6 +9,7 @@
   },
   "scripts": {
     "dev": "vite",
+    "blog:catalog": "node scripts/generate-blog-catalog.mjs",
     "build": "node scripts/generate-seo.mjs --sitemap && vite build && node scripts/generate-seo.mjs --heads",
     "preview": "vite preview --port 4173 --strictPort",
     "lint": "eslint .",

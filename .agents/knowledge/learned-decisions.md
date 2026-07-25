@@ -12,3 +12,27 @@ Use the Knowledge Update Protocol before editing this file.
 - Reviewer:
 
 ## Entries
+
+- Date: 2026-07-25
+- Source: User request, repository SEO standards, and Google Search official guidance
+- Decision or note: Keep the 1,000-topic catalog as non-indexable editorial briefs and publish useful articles in reviewed batches.
+- Evidence: `content/blog-drafts.json` marks all briefs as drafts and non-indexable; only `publishedBlogPosts` is consumed by sitemap and static metadata generation.
+- Affected areas: Blog data, SEO generator, agent documentation, release workflow
+- Confidence: High
+- Reviewer: Human editorial approval required for each future batch
+
+- Date: 2026-07-25
+- Source: UI/UX Pro Max editorial-grid design system and existing MSPixelPulse UI standards
+- Decision or note: The blog uses a content-first editorial grid, fixed top 10, accessible category buttons, search, and progressive View More rather than rendering every article at once.
+- Evidence: `Blog.jsx`, `BlogCard.jsx`, and scoped blog styles implement the pattern with keyboard labels, live results, lazy images, and reduced-motion support.
+- Affected areas: `/blog`, article discovery, responsive UX, performance
+- Confidence: High
+- Reviewer: Visual and accessibility QA required
+
+- Date: 2026-07-25
+- Source: User cover-image requirement and Unsplash source metadata
+- Decision or note: Every published post and every draft brief has a unique human-photo cover source; external covers keep photographer and source attribution.
+- Evidence: Catalog validation reports 1,000 unique draft image IDs and published data reports one unique cover URL per post.
+- Affected areas: Blog cards, article hero images, draft catalog, content workflow
+- Confidence: High
+- Reviewer: Image-fit review required before each future publication

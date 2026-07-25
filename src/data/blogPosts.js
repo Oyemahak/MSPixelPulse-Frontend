@@ -1,3 +1,6 @@
+import { humanBlogCoverPhotos } from "./blogCoverPhotos.js";
+import { growthBlogPosts } from "./blogGrowthPosts.js";
+
 const resourceLinks = {
   googleSeoStarter: {
     label: "Google SEO Starter Guide",
@@ -51,7 +54,7 @@ const resourceLinks = {
   },
 };
 
-export const blogPosts = [
+const coreBlogPosts = [
   {
     slug: "free-website-demo-before-you-pay",
     title: "See Your Website Before You Pay: How Our Free Website Demo Works",
@@ -400,7 +403,7 @@ export const blogPosts = [
     readingTime: "5 min read",
     excerpt:
       "Service businesses need websites that make services, booking paths, trust details, and local contact options easy to find on any device.",
-    seoTitle: "Website Features for Salons, Dental Clinics, and Service Businesses | MSPixelPulse",
+    seoTitle: "Website Features for Salons & Dental Clinics | MSPixelPulse",
     metaDescription:
       "Review practical website features for salons, dental clinics, and local service businesses, including booking paths, service pages, FAQs, and trust signals.",
     cover: "/blog/industry-website-features.webp",
@@ -509,5 +512,52 @@ export const blogPosts = [
     ],
   },
 ];
+
+const existingPillars = {
+  "Website Planning": "Planning",
+  Planning: "Planning",
+  Technology: "Platforms & Growth",
+  Growth: "Design & UX",
+  Redesign: "Planning",
+  Trust: "Content & Brand",
+  "Industry UX": "Design & UX",
+  "Mobile UX": "Design & UX",
+  Maintenance: "Performance & Care",
+};
+
+const popularRanks = {
+  "free-website-demo-before-you-pay": 1,
+  "small-business-website-2026-planning-guide": 2,
+  "ai-search-optimization-small-business-canada": 3,
+  "local-seo-toronto-small-business-guide": 4,
+  "small-business-website-cost-canada": 5,
+  "google-business-profile-website-leads": 6,
+  "brampton-web-design-conversion-checklist": 7,
+  "mississauga-local-business-website-search-visibility": 8,
+  "accessible-website-design-ontario-businesses": 9,
+  "core-web-vitals-small-business-websites": 10,
+};
+
+export const blogPosts = [...coreBlogPosts, ...growthBlogPosts].map((post, index) => {
+  const coverPhoto = index === 0 ? null : humanBlogCoverPhotos[index - 1];
+
+  return {
+    ...post,
+    pillar: post.pillar || existingPillars[post.category] || "Website Growth",
+    popularRank: popularRanks[post.slug] || null,
+    cover: coverPhoto?.url || post.cover,
+    coverPreview: coverPhoto?.previewUrl || post.cover,
+    coverAlt: coverPhoto
+      ? `A real small-business professional featured on the cover of ${post.title}`
+      : post.coverAlt,
+    coverCredit: coverPhoto
+      ? {
+          photographer: coverPhoto.photographer,
+          photographerUrl: coverPhoto.photographerUrl,
+          sourceUrl: coverPhoto.sourceUrl,
+        }
+      : null,
+  };
+});
 
 export const publishedBlogPosts = blogPosts;

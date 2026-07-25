@@ -5,8 +5,8 @@ import {
   LuArrowRight,
   LuBookOpen,
   LuChevronDown,
+  LuCompass,
   LuLayers3,
-  LuMessageCircle,
   LuSearch,
   LuSparkles,
   LuTrendingUp,
@@ -88,6 +88,22 @@ export default function Blog() {
 
       <section className="blog-hero">
         <Container>
+          <nav className="blog-section-nav" aria-label="Explore the blog">
+            <span className="blog-section-nav-label">
+              <LuCompass aria-hidden="true" />
+              Explore
+            </span>
+            <div className="blog-section-nav-links">
+              <a href="#popular-guides">Popular 10</a>
+              <a href="#blog-categories">Categories</a>
+              <a href="#article-library">All guides</a>
+              <Link to="/contact?request=free-demo">
+                Free website demo
+                <LuArrowRight aria-hidden="true" />
+              </Link>
+            </div>
+          </nav>
+
           <div className="blog-hero-grid">
             <Motion.div
               className="blog-hero-copy"
@@ -97,38 +113,31 @@ export default function Blog() {
             >
               <p className="blog-eyebrow">
                 <LuBookOpen aria-hidden="true" />
-                MSPixelPulse field notes
+                MSPixelPulse insights
               </p>
-              <h1>Clear digital growth guidance for Canadian small businesses.</h1>
+              <h1>Simple ideas to grow your business online.</h1>
               <p className="blog-hero-intro">
-                Practical guides on websites, local SEO, AI search, accessibility,
-                performance, content, and conversion—written for real business
-                decisions, not keyword volume.
+                Explore practical, Canada-focused guidance on websites, local SEO,
+                AI search, accessibility, content, and conversion.
               </p>
               <div className="blog-hero-actions">
                 <a className="btn btn-primary" href="#article-library">
-                  Explore the library
+                  Browse all guides
                   <LuArrowRight aria-hidden="true" />
                 </a>
-                <Link className="blog-secondary-action" to="/contact?request=free-demo">
-                  <LuMessageCircle aria-hidden="true" />
-                  Request a free website demo
+                <Link
+                  className="blog-secondary-action"
+                  to={`/blog/${popularPosts[0].slug}`}
+                >
+                  <LuBookOpen aria-hidden="true" />
+                  Start with our top guide
                 </Link>
               </div>
-              <dl className="blog-hero-stats" aria-label="Editorial library overview">
-                <div>
-                  <dt>{publishedBlogPosts.length}</dt>
-                  <dd>published guides</dd>
-                </div>
-                <div>
-                  <dt>{pillars.length - 1}</dt>
-                  <dd>topic categories</dd>
-                </div>
-                <div>
-                  <dt>1,000</dt>
-                  <dd>review-ready briefs</dd>
-                </div>
-              </dl>
+              <ul className="blog-hero-meta" aria-label="Editorial library overview">
+                <li>{publishedBlogPosts.length} practical guides</li>
+                <li>{pillars.length - 1} clear categories</li>
+                <li>Made for Canadian businesses</li>
+              </ul>
             </Motion.div>
 
             <Motion.div
@@ -147,7 +156,7 @@ export default function Blog() {
               <div className="blog-hero-story">
                 <span>
                   <LuSparkles aria-hidden="true" />
-                  Start here
+                  Featured guide · {popularPosts[0].readingTime}
                 </span>
                 <strong>{popularPosts[0].title}</strong>
                 <Link to={`/blog/${popularPosts[0].slug}`}>
@@ -160,7 +169,11 @@ export default function Blog() {
         </Container>
       </section>
 
-      <section className="blog-popular-section" aria-labelledby="popular-guides-heading">
+      <section
+        id="popular-guides"
+        className="blog-popular-section"
+        aria-labelledby="popular-guides-heading"
+      >
         <Container>
           <div className="blog-section-heading">
             <div>
@@ -207,7 +220,7 @@ export default function Blog() {
             </p>
           </div>
 
-          <div className="blog-discovery-panel">
+          <div id="blog-categories" className="blog-discovery-panel">
             <div className="blog-search-field">
               <label htmlFor="blog-search">Search the blog</label>
               <div>

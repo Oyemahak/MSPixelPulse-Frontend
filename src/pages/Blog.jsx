@@ -1,72 +1,323 @@
+import { useEffect, useMemo, useState } from "react";
+import { AnimatePresence, motion as Motion, useReducedMotion } from "framer-motion";
 import { Link } from "react-router-dom";
+import {
+  LuArrowRight,
+  LuBookOpen,
+  LuChevronDown,
+  LuLayers3,
+  LuMessageCircle,
+  LuSearch,
+  LuSparkles,
+  LuTrendingUp,
+} from "react-icons/lu";
 import Meta from "@/components/Meta.jsx";
+import BlogCard from "@/components/blog/BlogCard.jsx";
 import Container from "@/components/layout/Container.jsx";
 import { publishedBlogPosts } from "@/data/blogPosts.js";
-import { useTheme } from "@/lib/theme.js";
-import { LuArrowRight, LuBookOpen, LuMessageCircle } from "react-icons/lu";
 import { seoPages } from "@/data/seoPages.js";
 
+const INITIAL_LIBRARY_COUNT = 9;
+const LOAD_INCREMENT = 9;
+
+const normalizedSearch = (value) => value.trim().toLowerCase();
+
 export default function Blog() {
-  const { theme } = useTheme();
-  const isDark = theme === "dark";
+  const prefersReducedMotion = useReducedMotion();
+  const [activePillar, setActivePillar] = useState("All");
+  const [search, setSearch] = useState("");
+  const [visibleCount, setVisibleCount] = useState(INITIAL_LIBRARY_COUNT);
+
+  const pillars = useMemo(
+    () => [
+      "All",
+      ...new Set(
+        publishedBlogPosts
+          .map((post) => post.pillar)
+          .filter(Boolean)
+          .sort((a, b) => a.localeCompare(b)),
+      ),
+    ],
+    [],
+  );
+
+  const popularPosts = useMemo(
+    () =>
+      publishedBlogPosts
+        .filter((post) => post.popularRank)
+        .sort((a, b) => a.popularRank - b.popularRank),
+    [],
+  );
+
+  const query = normalizedSearch(search);
+  const isBrowsingAll = activePillar === "All" && !query;
+
+  const filteredPosts = useMemo(() => {
+    const source = isBrowsingAll
+      ? publishedBlogPosts.filter((post) => !post.popularRank)
+      : publishedBlogPosts;
+
+    return source
+      .filter((post) => activePillar === "All" || post.pillar === activePillar)
+      .filter((post) => {
+        if (!query) return true;
+        const haystack = [
+          post.title,
+          post.excerpt,
+          post.pillar,
+          post.category,
+          ...(post.tags || []),
+        ]
+          .join(" ")
+          .toLowerCase();
+        return haystack.includes(query);
+      })
+      .sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt));
+  }, [activePillar, isBrowsingAll, query]);
+
+  useEffect(() => {
+    setVisibleCount(INITIAL_LIBRARY_COUNT);
+  }, [activePillar, query]);
+
+  const visiblePosts = filteredPosts.slice(0, visibleCount);
+  const remainingCount = Math.max(filteredPosts.length - visiblePosts.length, 0);
 
   return (
-    <section className="section overflow-x-hidden py-10 md:py-14">
+    <div className="blog-page">
       <Meta {...seoPages.blog} />
-      <Container>
-        <div className="grid gap-6 lg:grid-cols-[1fr_auto] lg:items-end">
-          <div>
-            <div className={isDark ? "badge mb-4" : "mb-4 inline-flex rounded-full bg-blue-50 px-3 py-1 text-xs font-bold text-blue-700"}>
-              <LuBookOpen className="h-4 w-4" aria-hidden="true" /> Website guidance
-            </div>
-            <h1 className={isDark ? "max-w-3xl text-2xl font-black leading-tight md:text-3xl" : "max-w-3xl text-2xl font-black leading-tight text-slate-950 md:text-3xl"}>
-              Practical website advice for small businesses.
-            </h1>
-            <p className={isDark ? "mt-3 max-w-2xl text-base leading-7 text-textSub" : "mt-3 max-w-2xl text-base leading-7 text-slate-600"}>
-              Clear, honest articles about website planning, redesigns, platform choices, SEO-ready structure, and maintenance.
-            </p>
-          </div>
-          <Link
-            to="/contact?request=free-demo"
-            className="btn btn-glass"
-          >
-            <LuMessageCircle className="h-5 w-5" aria-hidden="true" />
-            Request My Free Demo
-          </Link>
-        </div>
 
-        <div className="mt-10 grid gap-5 lg:grid-cols-3">
-          {publishedBlogPosts.map((post) => (
-            <article
-              key={post.slug}
-              className={
-                isDark
-                  ? "group overflow-hidden rounded-2xl border border-white/10 bg-white/[0.045] transition hover:bg-white/[0.07]"
-                  : "group overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
-              }
+      <section className="blog-hero">
+        <Container>
+          <div className="blog-hero-grid">
+            <Motion.div
+              className="blog-hero-copy"
+              initial={prefersReducedMotion ? false : { opacity: 0, y: 18 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.35, ease: "easeOut" }}
             >
-              <Link to={`/blog/${post.slug}`} className="block focus:outline-none focus-visible:ring-2 focus-visible:ring-primary">
-                <img src={post.cover} alt={post.coverAlt} className="aspect-[16/9] w-full object-cover" loading="lazy" width="1200" height="675" />
-              </Link>
-              <div className="p-5">
-                <div className="flex flex-wrap items-center gap-2 text-xs font-bold">
-                  <span className={isDark ? "badge" : "rounded-full bg-slate-100 px-3 py-1 text-slate-600"}>{post.category}</span>
-                  <span className={isDark ? "text-white/45" : "text-slate-500"}>{post.readingTime}</span>
-                </div>
-                <h2 className={isDark ? "mt-4 text-lg font-black leading-snug" : "mt-4 text-lg font-black leading-snug text-slate-950"}>
-                  <Link to={`/blog/${post.slug}`}>{post.title}</Link>
-                </h2>
-                <p className={isDark ? "mt-3 text-sm leading-6 text-textSub" : "mt-3 text-sm leading-6 text-slate-600"}>
-                  {post.excerpt}
-                </p>
-                <Link to={`/blog/${post.slug}`} className={isDark ? "mt-5 inline-flex items-center text-sm font-bold text-white" : "mt-5 inline-flex items-center text-sm font-bold text-blue-700"}>
-                  Read article <LuArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
+              <p className="blog-eyebrow">
+                <LuBookOpen aria-hidden="true" />
+                MSPixelPulse field notes
+              </p>
+              <h1>Clear digital growth guidance for Canadian small businesses.</h1>
+              <p className="blog-hero-intro">
+                Practical guides on websites, local SEO, AI search, accessibility,
+                performance, content, and conversion—written for real business
+                decisions, not keyword volume.
+              </p>
+              <div className="blog-hero-actions">
+                <a className="btn btn-primary" href="#article-library">
+                  Explore the library
+                  <LuArrowRight aria-hidden="true" />
+                </a>
+                <Link className="blog-secondary-action" to="/contact?request=free-demo">
+                  <LuMessageCircle aria-hidden="true" />
+                  Request a free website demo
                 </Link>
               </div>
-            </article>
-          ))}
-        </div>
-      </Container>
-    </section>
+              <dl className="blog-hero-stats" aria-label="Editorial library overview">
+                <div>
+                  <dt>{publishedBlogPosts.length}</dt>
+                  <dd>published guides</dd>
+                </div>
+                <div>
+                  <dt>{pillars.length - 1}</dt>
+                  <dd>topic categories</dd>
+                </div>
+                <div>
+                  <dt>1,000</dt>
+                  <dd>review-ready briefs</dd>
+                </div>
+              </dl>
+            </Motion.div>
+
+            <Motion.div
+              className="blog-hero-visual"
+              initial={prefersReducedMotion ? false : { opacity: 0, scale: 0.97 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.4, ease: "easeOut", delay: 0.06 }}
+            >
+              <img
+                src={popularPosts[0].cover}
+                alt={popularPosts[0].coverAlt}
+                width="1200"
+                height="675"
+                fetchPriority="high"
+              />
+              <div className="blog-hero-story">
+                <span>
+                  <LuSparkles aria-hidden="true" />
+                  Start here
+                </span>
+                <strong>{popularPosts[0].title}</strong>
+                <Link to={`/blog/${popularPosts[0].slug}`}>
+                  Read the guide
+                  <LuArrowRight aria-hidden="true" />
+                </Link>
+              </div>
+            </Motion.div>
+          </div>
+        </Container>
+      </section>
+
+      <section className="blog-popular-section" aria-labelledby="popular-guides-heading">
+        <Container>
+          <div className="blog-section-heading">
+            <div>
+              <p>
+                <LuTrendingUp aria-hidden="true" />
+                Popular now
+              </p>
+              <h2 id="popular-guides-heading">Ten useful places to begin</h2>
+            </div>
+            <span>Ranked editorially—not inflated view counts.</span>
+          </div>
+
+          <div className="blog-popular-grid">
+            {popularPosts.map((post, index) => (
+              <Motion.div
+                key={post.slug}
+                className={index === 0 ? "blog-popular-lead" : ""}
+                initial={prefersReducedMotion ? false : { opacity: 0, y: 14 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.12 }}
+                transition={{ duration: 0.28, delay: prefersReducedMotion ? 0 : Math.min(index * 0.035, 0.2) }}
+              >
+                <BlogCard post={post} rank={post.popularRank} featured={index === 0} />
+              </Motion.div>
+            ))}
+          </div>
+        </Container>
+      </section>
+
+      <section id="article-library" className="blog-library-section" aria-labelledby="article-library-heading">
+        <Container>
+          <div className="blog-library-header">
+            <div>
+              <p className="blog-library-kicker">
+                <LuLayers3 aria-hidden="true" />
+                Article library
+              </p>
+              <h2 id="article-library-heading">
+                {isBrowsingAll ? "More guides to explore" : "Find the guide you need"}
+              </h2>
+            </div>
+            <p>
+              Filter by topic or search across titles, summaries, locations, and tags.
+            </p>
+          </div>
+
+          <div className="blog-discovery-panel">
+            <div className="blog-search-field">
+              <label htmlFor="blog-search">Search the blog</label>
+              <div>
+                <LuSearch aria-hidden="true" />
+                <input
+                  id="blog-search"
+                  type="search"
+                  value={search}
+                  onChange={(event) => setSearch(event.target.value)}
+                  placeholder="Try “Toronto SEO” or “website speed”"
+                />
+              </div>
+            </div>
+
+            <div className="blog-category-control">
+              <span id="blog-category-label">Browse by category</span>
+              <div className="blog-category-switch" aria-labelledby="blog-category-label">
+                {pillars.map((pillar) => {
+                  const count =
+                    pillar === "All"
+                      ? publishedBlogPosts.length
+                      : publishedBlogPosts.filter((post) => post.pillar === pillar).length;
+                  const selected = activePillar === pillar;
+
+                  return (
+                    <button
+                      key={pillar}
+                      type="button"
+                      aria-pressed={selected}
+                      className={selected ? "is-active" : ""}
+                      onClick={() => setActivePillar(pillar)}
+                    >
+                      {pillar}
+                      <span>{count}</span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+
+          <p className="blog-results-summary" aria-live="polite">
+            Showing {visiblePosts.length} of {filteredPosts.length}{" "}
+            {filteredPosts.length === 1 ? "guide" : "guides"}
+            {activePillar !== "All" ? ` in ${activePillar}` : ""}
+            {query ? ` matching “${search.trim()}”` : ""}.
+          </p>
+
+          {visiblePosts.length > 0 ? (
+            <Motion.div layout className="blog-library-grid">
+              <AnimatePresence mode="popLayout" initial={false}>
+                {visiblePosts.map((post) => (
+                  <Motion.div
+                    layout
+                    key={post.slug}
+                    initial={prefersReducedMotion ? false : { opacity: 0, y: 12 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: -8 }}
+                    transition={{ duration: 0.24 }}
+                  >
+                    <BlogCard post={post} />
+                  </Motion.div>
+                ))}
+              </AnimatePresence>
+            </Motion.div>
+          ) : (
+            <div className="blog-empty-state">
+              <LuSearch aria-hidden="true" />
+              <h3>No exact guide found</h3>
+              <p>Try a broader phrase or return to all categories.</p>
+              <button
+                type="button"
+                className="btn btn-primary"
+                onClick={() => {
+                  setSearch("");
+                  setActivePillar("All");
+                }}
+              >
+                Clear filters
+              </button>
+            </div>
+          )}
+
+          {remainingCount > 0 ? (
+            <div className="blog-load-more">
+              <button
+                type="button"
+                className="blog-load-more-button"
+                onClick={() => setVisibleCount((count) => count + LOAD_INCREMENT)}
+              >
+                View more guides
+                <span>{remainingCount} remaining</span>
+                <LuChevronDown aria-hidden="true" />
+              </button>
+            </div>
+          ) : null}
+
+          <div className="blog-editorial-note">
+            <LuSparkles aria-hidden="true" />
+            <div>
+              <strong>Built for useful publishing, not content flooding.</strong>
+              <p>
+                Our 1,000-topic roadmap remains in editorial review. New guides are
+                published in focused batches after source, accessibility, image, and
+                quality checks.
+              </p>
+            </div>
+          </div>
+        </Container>
+      </section>
+    </div>
   );
 }

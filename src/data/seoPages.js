@@ -10,10 +10,13 @@ export const organizationJsonLd = {
   url: site.url,
   logo: absolute("/logo.svg"),
   description: site.description,
-  areaServed: {
-    "@type": "AdministrativeArea",
-    name: "Toronto, Ontario, Canada",
-  },
+  areaServed: [
+    { "@type": "City", name: "Toronto, Ontario, Canada" },
+    { "@type": "City", name: "Brampton, Ontario, Canada" },
+    { "@type": "City", name: "Mississauga, Ontario, Canada" },
+    { "@type": "AdministrativeArea", name: "Greater Toronto Area, Ontario, Canada" },
+    { "@type": "Country", name: "Canada" },
+  ],
   contactPoint: {
     "@type": "ContactPoint",
     telephone: site.phoneDisplay,
@@ -83,12 +86,26 @@ export const seoPages = {
   },
   blog: {
     path: "/blog",
-    title: "Website Design Blog — MSPixelPulse",
+    title: "Website & Local SEO Guides for Canadian Businesses — MSPixelPulse",
     description:
-      "Practical website design, redesign, SEO, performance, and maintenance guidance for Canadian small businesses.",
+      "Practical website, local SEO, AI search, accessibility, performance, and growth guides for businesses in Toronto, Brampton, Mississauga, and Canada.",
     canonical: "/blog",
-    image: "/blog/small-business-website-cost-canada.webp",
+    image: "/hero/mspixelpulse-web-design-collaboration.webp",
     component: "src/pages/Blog.jsx",
+    jsonLd: {
+      "@context": "https://schema.org",
+      "@type": "CollectionPage",
+      name: "MSPixelPulse website and digital growth guides",
+      description:
+        "People-first website, local SEO, AI search, accessibility, performance, content, and conversion guidance for Canadian small businesses.",
+      url: absolute("/blog"),
+      inLanguage: "en-CA",
+      publisher: {
+        "@type": "Organization",
+        name: site.name,
+        url: site.url,
+      },
+    },
   },
   about: {
     path: "/about",
@@ -166,9 +183,18 @@ export function blogPostSeo(post) {
     "@type": "Article",
     headline: post.title,
     description: post.metaDescription,
-    image: absolute(post.cover),
+    image: {
+      "@type": "ImageObject",
+      url: absolute(post.cover),
+      caption: post.coverAlt,
+      width: 1200,
+      height: 675,
+    },
     datePublished: post.publishedAt,
     dateModified: post.updatedAt,
+    articleSection: post.pillar || post.category,
+    inLanguage: "en-CA",
+    isAccessibleForFree: true,
     keywords: post.tags.join(", "),
     citation: post.resources?.map((resource) => resource.url),
     author: { "@type": "Organization", name: site.name },

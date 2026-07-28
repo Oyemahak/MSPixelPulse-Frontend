@@ -93,8 +93,10 @@ export default function AppHeader() {
     if (!open) return undefined;
 
     const previousOverflow = document.body.style.overflow;
+    const previousRootOverflow = document.documentElement.style.overflow;
     const mobileTrigger = mobileButtonRef.current;
     document.body.style.overflow = "hidden";
+    document.documentElement.style.overflow = "hidden";
     const panel = mobilePanelRef.current;
     const focusable = () => Array.from(panel?.querySelectorAll(
       'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
@@ -126,6 +128,7 @@ export default function AppHeader() {
     document.addEventListener("keydown", onMobileKeyDown);
     return () => {
       document.body.style.overflow = previousOverflow;
+      document.documentElement.style.overflow = previousRootOverflow;
       document.removeEventListener("keydown", onMobileKeyDown);
       window.clearTimeout(focusTimer);
       mobileTrigger?.focus();

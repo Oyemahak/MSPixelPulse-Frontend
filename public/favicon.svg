@@ -1,21 +1,11 @@
-<svg width="64" height="64" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg">
+<svg width="64" height="64" viewBox="180 34 1036 1036" fill="none" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <linearGradient id="brand" x1="18" y1="12" x2="110" y2="118" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#60A5FA"/>
-      <stop offset="0.38" stop-color="#2563EB"/>
-      <stop offset="0.7" stop-color="#6D48F4"/>
+    <linearGradient id="brand" x1="270" y1="140" x2="1126" y2="960" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#3B82F6"/>
+      <stop offset="0.5" stop-color="#4F5EF7"/>
       <stop offset="1" stop-color="#A855F7"/>
     </linearGradient>
-    <linearGradient id="highlight" x1="24" y1="15" x2="92" y2="106" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#FFFFFF" stop-opacity="0.5"/>
-      <stop offset="0.52" stop-color="#FFFFFF" stop-opacity="0.12"/>
-      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
-    </linearGradient>
   </defs>
-  <g stroke-linecap="square" stroke-linejoin="bevel">
-    <path d="M18 106V34L64 70L110 34V106" stroke="url(#brand)" stroke-width="16"/>
-    <path d="M96 28L64 10L32 28V52L96 84V100L64 118L32 100V80" stroke="url(#brand)" stroke-width="14"/>
-    <path d="M18 106V34L64 70L110 34V106" stroke="url(#highlight)" stroke-width="3"/>
-    <path d="M96 28L64 10L32 28V52L96 84V100L64 118L32 100V80" stroke="url(#highlight)" stroke-width="2.5"/>
-  </g>
+  <path fill="url(#brand)" d="M914 673L913 904L697 1040L483 904L483 546L560 588L560 858L697 948L836 857L836 641L348 359L348 861L270 861L270 222L483 345L483 186L697 63L913 186L913 255L836 296L836 231L697 152L559 229L559 369L562 392L914 597V673Z"/>
+  <path fill="url(#brand)" d="M1126 222V861H1048V359L865 465L843 456L784 420L1126 222Z"/>
 </svg>

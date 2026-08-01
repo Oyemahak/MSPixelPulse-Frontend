@@ -15,4 +15,5 @@
   <use href="#mark" fill="url(#accent)" opacity="0.68" filter="url(#halo)"/>
   <use href="#mark" fill="url(#accent)" transform="translate(20 24)"/>
   <use href="#mark" fill="url(#face)"/>
+  <use href="#mark" fill="none" stroke="#FFFFFF" stroke-width="36" stroke-linejoin="miter" stroke-miterlimit="3"/>
 </svg>

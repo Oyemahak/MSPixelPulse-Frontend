@@ -20,10 +20,12 @@
     <use href="#mark" fill="url(#accent-light)" opacity="0.45" filter="url(#halo)"/>
     <use href="#mark" fill="url(#accent-light)" transform="translate(18 23)"/>
     <use href="#mark" fill="url(#face-light)"/>
+    <use href="#mark" fill="none" stroke="#FFFFFF" stroke-width="32" stroke-linejoin="miter" stroke-miterlimit="3"/>
   </g>
   <g class="dark-variant">
     <use href="#mark" fill="url(#accent-dark)" opacity="0.7" filter="url(#halo)"/>
     <use href="#mark" fill="url(#accent-dark)" transform="translate(18 23)"/>
     <use href="#mark" fill="url(#face-dark)"/>
+    <use href="#mark" fill="none" stroke="#FFFFFF" stroke-width="32" stroke-linejoin="miter" stroke-miterlimit="3"/>
   </g>
 </svg>

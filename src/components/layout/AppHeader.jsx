@@ -169,7 +169,7 @@ export default function AppHeader() {
           onClick={closeMobile}
         >
           <img
-            src={isDark ? "/icon-dark.svg" : "/icon-light.svg"}
+            src={isDark ? "/icon-dark.svg?v=white-keyline" : "/icon-light.svg?v=white-keyline"}
             alt=""
             aria-hidden="true"
             className="brand-logo-mark h-8 w-8 object-contain"

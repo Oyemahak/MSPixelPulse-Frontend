@@ -8,7 +8,7 @@
   "theme_color": "#f6f8fc",
   "icons": [
     {
-      "src": "/icon.svg",
+      "src": "/icon.svg?v=white-keyline",
       "sizes": "128x128",
       "type": "image/svg+xml"
     }

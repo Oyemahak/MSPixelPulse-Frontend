@@ -1,0 +1,18 @@
+<svg width="64" height="64" viewBox="146 0 1104 1104" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="accent" x1="270" y1="130" x2="1126" y2="980" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#3B82F6"/><stop offset="0.52" stop-color="#4F5EF7"/><stop offset="1" stop-color="#A855F7"/>
+    </linearGradient>
+    <linearGradient id="face" x1="420" y1="100" x2="970" y2="1030" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#262B34"/><stop offset="0.3" stop-color="#0E1015"/><stop offset="1" stop-color="#000000"/>
+    </linearGradient>
+    <filter id="halo" x="-25%" y="-25%" width="150%" height="150%"><feGaussianBlur stdDeviation="18"/></filter>
+    <g id="mark">
+      <path d="M914 673L913 904L697 1040L483 904L483 546L560 588L560 858L697 948L836 857L836 641L348 359L348 861L270 861L270 222L483 345L483 186L697 63L913 186L913 255L836 296L836 231L697 152L559 229L559 369L562 392L914 597V673Z"/>
+      <path d="M1126 222V861H1048V359L865 465L843 456L784 420L1126 222Z"/>
+    </g>
+  </defs>
+  <use href="#mark" fill="url(#accent)" opacity="0.42" filter="url(#halo)"/>
+  <use href="#mark" fill="url(#accent)" transform="translate(20 24)"/>
+  <use href="#mark" fill="url(#face)"/>
+</svg>

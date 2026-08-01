@@ -169,10 +169,10 @@ export default function AppHeader() {
           onClick={closeMobile}
         >
           <img
-            src="/icon.svg"
+            src={isDark ? "/icon-dark.svg" : "/icon-light.svg"}
             alt=""
             aria-hidden="true"
-            className="h-8 w-8 object-contain"
+            className="brand-logo-mark h-8 w-8 object-contain"
             onError={(e) => (e.currentTarget.style.display = "none")}
           />
           <span className={isDark ? "text-white" : "text-slate-900"}>MSPixelPulse</span>

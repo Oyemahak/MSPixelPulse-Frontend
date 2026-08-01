@@ -29,6 +29,9 @@ export function ThemeProvider({ children }) {
     const themeColor = document.querySelector('meta[name="theme-color"]');
     themeColor?.setAttribute("content", theme === "dark" ? "#030304" : "#f6f8fc");
 
+    const favicon = document.querySelector("#site-favicon");
+    favicon?.setAttribute("href", theme === "dark" ? "/favicon-dark.svg" : "/favicon-light.svg");
+
     window.localStorage.setItem("mspixelpulse-theme", theme);
   }, [theme]);
 

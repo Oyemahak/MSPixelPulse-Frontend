@@ -1,13 +1,29 @@
-<svg width="128" height="128" viewBox="180 34 1036 1036" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
-  <title id="title">MSPixelPulse MS monogram</title>
-  <desc id="desc">A transparent interlocking geometric M and S monogram in MSPixelPulse blue and violet.</desc>
+<svg width="128" height="128" viewBox="146 0 1104 1104" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">MSPixelPulse adaptive dimensional monogram</title>
+  <desc id="desc">A transparent interlocking M and S monogram that changes from black to white with the device color scheme.</desc>
+  <style>
+    .dark-variant { display: none; }
+    @media (prefers-color-scheme: dark) { .light-variant { display: none; } .dark-variant { display: inline; } }
+  </style>
   <defs>
-    <linearGradient id="brand" x1="270" y1="140" x2="1126" y2="960" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#3B82F6"/>
-      <stop offset="0.5" stop-color="#4F5EF7"/>
-      <stop offset="1" stop-color="#A855F7"/>
-    </linearGradient>
+    <linearGradient id="accent-light" x1="270" y1="130" x2="1126" y2="980" gradientUnits="userSpaceOnUse"><stop stop-color="#3B82F6"/><stop offset="0.52" stop-color="#4F5EF7"/><stop offset="1" stop-color="#A855F7"/></linearGradient>
+    <linearGradient id="accent-dark" x1="270" y1="130" x2="1126" y2="980" gradientUnits="userSpaceOnUse"><stop stop-color="#60A5FA"/><stop offset="0.52" stop-color="#6366F1"/><stop offset="1" stop-color="#C084FC"/></linearGradient>
+    <linearGradient id="face-light" x1="420" y1="100" x2="970" y2="1030" gradientUnits="userSpaceOnUse"><stop stop-color="#2A2F39"/><stop offset="0.24" stop-color="#111319"/><stop offset="1" stop-color="#000000"/></linearGradient>
+    <linearGradient id="face-dark" x1="420" y1="100" x2="970" y2="1030" gradientUnits="userSpaceOnUse"><stop stop-color="#FFFFFF"/><stop offset="0.4" stop-color="#F8FAFF"/><stop offset="1" stop-color="#CAD5E8"/></linearGradient>
+    <filter id="halo" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="24"/></filter>
+    <g id="mark">
+      <path d="M914 673L913 904L697 1040L483 904L483 546L560 588L560 858L697 948L836 857L836 641L348 359L348 861L270 861L270 222L483 345L483 186L697 63L913 186L913 255L836 296L836 231L697 152L559 229L559 369L562 392L914 597V673Z"/>
+      <path d="M1126 222V861H1048V359L865 465L843 456L784 420L1126 222Z"/>
+    </g>
   </defs>
-  <path fill="url(#brand)" d="M914 673L913 904L697 1040L483 904L483 546L560 588L560 858L697 948L836 857L836 641L348 359L348 861L270 861L270 222L483 345L483 186L697 63L913 186L913 255L836 296L836 231L697 152L559 229L559 369L562 392L914 597V673Z"/>
-  <path fill="url(#brand)" d="M1126 222V861H1048V359L865 465L843 456L784 420L1126 222Z"/>
+  <g class="light-variant">
+    <use href="#mark" fill="url(#accent-light)" opacity="0.45" filter="url(#halo)"/>
+    <use href="#mark" fill="url(#accent-light)" transform="translate(18 23)"/>
+    <use href="#mark" fill="url(#face-light)"/>
+  </g>
+  <g class="dark-variant">
+    <use href="#mark" fill="url(#accent-dark)" opacity="0.7" filter="url(#halo)"/>
+    <use href="#mark" fill="url(#accent-dark)" transform="translate(18 23)"/>
+    <use href="#mark" fill="url(#face-dark)"/>
+  </g>
 </svg>

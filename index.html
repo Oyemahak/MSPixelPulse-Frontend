@@ -9,7 +9,7 @@
     />
     <meta name="robots" content="index,follow" />
     <meta name="theme-color" content="#f6f8fc" />
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link id="site-favicon" rel="icon" href="/favicon-light.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/icon.svg" />
     <link rel="canonical" href="https://mspixelpulse.vercel.app/" />
     <meta property="og:title" content="MSPixelPulse" />
@@ -30,6 +30,10 @@
         document.querySelector('meta[name="theme-color"]').setAttribute(
           "content",
           initialTheme === "dark" ? "#030304" : "#f6f8fc"
+        );
+        document.querySelector("#site-favicon").setAttribute(
+          "href",
+          initialTheme === "dark" ? "/favicon-dark.svg" : "/favicon-light.svg"
         );
       } catch {}
     </script>

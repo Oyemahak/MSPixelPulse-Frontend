@@ -1,6 +1,6 @@
 <svg width="128" height="128" viewBox="146 0 1104 1104" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
   <title id="title">MSPixelPulse adaptive bold dimensional monogram</title>
-  <desc id="desc">A transparent bold interlocking M and S monogram with a white keyline that changes from black to white with the device color scheme.</desc>
+  <desc id="desc">A transparent bold interlocking M and S monogram with a theme-aware keyline that changes from black to white with the device color scheme.</desc>
   <style>
     .dark-variant { display: none; }
     @media (prefers-color-scheme: dark) { .light-variant { display: none; } .dark-variant { display: inline; } }
@@ -20,12 +20,12 @@
     <use href="#mark" fill="url(#accent-light)" stroke="url(#accent-light)" stroke-width="64" stroke-linejoin="miter" opacity="0.45" filter="url(#halo)"/>
     <use href="#mark" fill="url(#accent-light)" stroke="url(#accent-light)" stroke-width="64" stroke-linejoin="miter" transform="translate(18 23)"/>
     <use href="#mark" fill="url(#face-light)" stroke="url(#face-light)" stroke-width="64" stroke-linejoin="miter"/>
-    <use href="#mark" fill="none" stroke="#FFFFFF" stroke-width="30" stroke-linejoin="miter" stroke-miterlimit="3"/>
+    <use href="#mark" fill="none" stroke="#FFFFFF" stroke-width="0.5" vector-effect="non-scaling-stroke" stroke-linejoin="miter" stroke-miterlimit="3"/>
   </g>
   <g class="dark-variant">
     <use href="#mark" fill="url(#accent-dark)" stroke="url(#accent-dark)" stroke-width="64" stroke-linejoin="miter" opacity="0.7" filter="url(#halo)"/>
     <use href="#mark" fill="url(#accent-dark)" stroke="url(#accent-dark)" stroke-width="64" stroke-linejoin="miter" transform="translate(18 23)"/>
     <use href="#mark" fill="url(#face-dark)" stroke="url(#face-dark)" stroke-width="64" stroke-linejoin="miter"/>
-    <use href="#mark" fill="none" stroke="#FFFFFF" stroke-width="30" stroke-linejoin="miter" stroke-miterlimit="3"/>
+    <use href="#mark" fill="none" stroke="#8B6CFF" stroke-width="0.5" vector-effect="non-scaling-stroke" stroke-linejoin="miter" stroke-miterlimit="3"/>
   </g>
 </svg>

@@ -1,6 +1,6 @@
 <svg width="128" height="128" viewBox="146 0 1104 1104" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
   <title id="title">MSPixelPulse bold white dimensional monogram</title>
-  <desc id="desc">A transparent bold white interlocking M and S monogram with a white keyline and blue-violet depth for dark backgrounds.</desc>
+  <desc id="desc">A transparent bold white interlocking M and S monogram with a thin purple keyline and blue-violet depth for dark backgrounds.</desc>
   <defs>
     <linearGradient id="accent" x1="270" y1="130" x2="1126" y2="980" gradientUnits="userSpaceOnUse">
       <stop stop-color="#60A5FA"/>
@@ -27,5 +27,5 @@
   <use href="#mark" fill="url(#accent)" stroke="url(#accent)" stroke-width="64" stroke-linejoin="miter" opacity="0.68" filter="url(#halo)" transform="translate(0 8)"/>
   <use href="#mark" fill="url(#accent)" stroke="url(#accent)" stroke-width="64" stroke-linejoin="miter" opacity="0.96" transform="translate(18 23)"/>
   <use href="#mark" fill="url(#face)" stroke="url(#face)" stroke-width="64" stroke-linejoin="miter" filter="url(#lift)"/>
-  <use href="#mark" fill="none" stroke="#FFFFFF" stroke-width="30" stroke-linejoin="miter" stroke-miterlimit="3"/>
+  <use href="#mark" fill="none" stroke="#8B6CFF" stroke-width="0.5" vector-effect="non-scaling-stroke" stroke-linejoin="miter" stroke-miterlimit="3"/>
 </svg>

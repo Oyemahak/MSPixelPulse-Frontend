@@ -27,5 +27,5 @@
   <use href="#mark" fill="url(#accent)" stroke="url(#accent)" stroke-width="64" stroke-linejoin="miter" opacity="0.42" filter="url(#halo)" transform="translate(0 8)"/>
   <use href="#mark" fill="url(#accent)" stroke="url(#accent)" stroke-width="64" stroke-linejoin="miter" opacity="0.92" transform="translate(18 23)"/>
   <use href="#mark" fill="url(#face)" stroke="url(#face)" stroke-width="64" stroke-linejoin="miter" filter="url(#lift)"/>
-  <use href="#mark" fill="none" stroke="#FFFFFF" stroke-width="30" stroke-linejoin="miter" stroke-miterlimit="3"/>
+  <use href="#mark" fill="none" stroke="#FFFFFF" stroke-width="0.5" vector-effect="non-scaling-stroke" stroke-linejoin="miter" stroke-miterlimit="3"/>
 </svg>

@@ -1,6 +1,6 @@
 <svg width="128" height="128" viewBox="146 0 1104 1104" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
-  <title id="title">MSPixelPulse black dimensional monogram</title>
-  <desc id="desc">A transparent black interlocking M and S monogram with blue-violet depth and glow for light backgrounds.</desc>
+  <title id="title">MSPixelPulse bold black dimensional monogram</title>
+  <desc id="desc">A transparent bold black interlocking M and S monogram with a white keyline and blue-violet depth for light backgrounds.</desc>
   <defs>
     <linearGradient id="accent" x1="270" y1="130" x2="1126" y2="980" gradientUnits="userSpaceOnUse">
       <stop stop-color="#3B82F6"/>
@@ -24,8 +24,8 @@
       <path d="M1126 222V861H1048V359L865 465L843 456L784 420L1126 222Z"/>
     </g>
   </defs>
-  <use href="#mark" fill="url(#accent)" opacity="0.42" filter="url(#halo)" transform="translate(0 8)"/>
-  <use href="#mark" fill="url(#accent)" opacity="0.92" transform="translate(18 23)"/>
-  <use href="#mark" fill="url(#face)" filter="url(#lift)"/>
-  <use href="#mark" fill="none" stroke="#FFFFFF" stroke-width="32" stroke-linejoin="miter" stroke-miterlimit="3"/>
+  <use href="#mark" fill="url(#accent)" stroke="url(#accent)" stroke-width="64" stroke-linejoin="miter" opacity="0.42" filter="url(#halo)" transform="translate(0 8)"/>
+  <use href="#mark" fill="url(#accent)" stroke="url(#accent)" stroke-width="64" stroke-linejoin="miter" opacity="0.92" transform="translate(18 23)"/>
+  <use href="#mark" fill="url(#face)" stroke="url(#face)" stroke-width="64" stroke-linejoin="miter" filter="url(#lift)"/>
+  <use href="#mark" fill="none" stroke="#FFFFFF" stroke-width="30" stroke-linejoin="miter" stroke-miterlimit="3"/>
 </svg>

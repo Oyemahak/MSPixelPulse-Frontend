@@ -33,8 +33,8 @@ export function ThemeProvider({ children }) {
     favicon?.setAttribute(
       "href",
       theme === "dark"
-        ? "/favicon-dark.svg?v=white-keyline"
-        : "/favicon-light.svg?v=white-keyline"
+        ? "/favicon-dark.svg?v=bold-mark"
+        : "/favicon-light.svg?v=bold-mark"
     );
 
     window.localStorage.setItem("mspixelpulse-theme", theme);

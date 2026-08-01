@@ -1,26 +1,23 @@
 <svg width="128" height="128" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
-  <title id="title">MSPixelPulse brand mark</title>
-  <desc id="desc">A geometric M monogram with pixel sparks and a blue-violet pulse.</desc>
+  <title id="title">MSPixelPulse MS monogram</title>
+  <desc id="desc">A transparent, interlocking geometric M and S monogram in blue and violet.</desc>
   <defs>
-    <linearGradient id="frame" x1="10" y1="8" x2="120" y2="122" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#66B3FF"/>
-      <stop offset="0.5" stop-color="#7868FF"/>
-      <stop offset="1" stop-color="#C95CFF"/>
-    </linearGradient>
-    <linearGradient id="pulse" x1="25" y1="92" x2="103" y2="92" gradientUnits="userSpaceOnUse">
+    <linearGradient id="brand" x1="18" y1="12" x2="110" y2="118" gradientUnits="userSpaceOnUse">
       <stop stop-color="#60A5FA"/>
-      <stop offset="0.58" stop-color="#7C6CFF"/>
-      <stop offset="1" stop-color="#D16BFF"/>
+      <stop offset="0.38" stop-color="#2563EB"/>
+      <stop offset="0.7" stop-color="#6D48F4"/>
+      <stop offset="1" stop-color="#A855F7"/>
     </linearGradient>
-    <radialGradient id="glow" cx="0" cy="0" r="1" gradientTransform="translate(38 25) rotate(49) scale(91)">
-      <stop stop-color="#172341"/>
-      <stop offset="1" stop-color="#070910"/>
-    </radialGradient>
+    <linearGradient id="highlight" x1="24" y1="15" x2="92" y2="106" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFFFFF" stop-opacity="0.5"/>
+      <stop offset="0.52" stop-color="#FFFFFF" stop-opacity="0.12"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+    </linearGradient>
   </defs>
-  <rect x="5" y="5" width="118" height="118" rx="34" fill="url(#glow)" stroke="url(#frame)" stroke-width="5"/>
-  <path d="M27 78V41L50.5 66.5L64 51L77.5 66.5L101 41V78" stroke="#FFFFFF" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M26 95H43L49 85L57 104L68 79L77 95H102" stroke="url(#pulse)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
-  <rect x="88" y="20" width="9" height="9" rx="2.25" fill="#8B78FF"/>
-  <rect x="101" y="21" width="5" height="5" rx="1.25" fill="#67B2FF"/>
-  <rect x="99" y="32" width="8" height="8" rx="2" fill="#C766FF"/>
+  <g stroke-linecap="square" stroke-linejoin="bevel">
+    <path d="M18 106V34L64 70L110 34V106" stroke="url(#brand)" stroke-width="16"/>
+    <path d="M96 28L64 10L32 28V52L96 84V100L64 118L32 100V80" stroke="url(#brand)" stroke-width="14"/>
+    <path d="M18 106V34L64 70L110 34V106" stroke="url(#highlight)" stroke-width="3"/>
+    <path d="M96 28L64 10L32 28V52L96 84V100L64 118L32 100V80" stroke="url(#highlight)" stroke-width="2.5"/>
+  </g>
 </svg>

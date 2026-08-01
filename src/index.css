@@ -6117,6 +6117,110 @@ html:not([data-theme="dark"]) #main-content :is(input, select, textarea) {
   backdrop-filter: saturate(160%) blur(14px);
 }
 
+/* Contact form light-theme contrast authority.
+   Keep these selectors page-scoped so portal and authentication forms retain
+   their existing visual treatment. */
+html:not([data-theme="dark"]) .contact-page {
+  --contact-field-border: rgba(80, 94, 130, 0.22);
+  --contact-field-border-hover: rgba(71, 84, 122, 0.36);
+  --contact-field-border-active: #4f46e5;
+  --contact-field-fill: rgba(255, 255, 255, 0.82);
+  --contact-field-fill-strong: rgba(255, 255, 255, 0.94);
+  --contact-field-shadow: 0 8px 30px rgba(55, 71, 110, 0.05);
+}
+
+html:not([data-theme="dark"]) .contact-page .contact-form-panel {
+  border-color: rgba(80, 94, 130, 0.2) !important;
+  background:
+    radial-gradient(110% 90% at 4% 0%, rgba(255, 255, 255, 0.96), transparent 68%),
+    rgba(248, 250, 255, 0.78) !important;
+  box-shadow:
+    0 24px 70px rgba(40, 56, 86, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.96) !important;
+}
+
+html:not([data-theme="dark"]) #main-content .contact-page :is(.form-control, .floating-control) {
+  border-color: var(--contact-field-border);
+  background: var(--contact-field-fill);
+  box-shadow:
+    var(--contact-field-shadow),
+    inset 0 1px 0 rgba(255, 255, 255, 0.96);
+}
+
+html:not([data-theme="dark"]) #main-content .contact-page :is(.form-control, .floating-control):hover:not(:disabled):not(:focus):not([aria-invalid="true"]) {
+  border-color: var(--contact-field-border-hover);
+  background: rgba(255, 255, 255, 0.88);
+  box-shadow:
+    0 10px 32px rgba(55, 71, 110, 0.075),
+    inset 0 1px 0 #ffffff;
+}
+
+html:not([data-theme="dark"]) #main-content .contact-page :is(.form-control, .floating-control):focus {
+  border-color: var(--contact-field-border-active) !important;
+  background: var(--contact-field-fill-strong);
+  outline: none;
+  box-shadow:
+    0 0 0 3px var(--contact-field-border-active),
+    0 0 0 6px rgba(37, 99, 235, 0.1),
+    0 10px 32px rgba(76, 65, 171, 0.08),
+    inset 0 1px 0 #ffffff !important;
+}
+
+html:not([data-theme="dark"]) #main-content .contact-page :is(.form-control, .floating-control)[aria-invalid="true"]:focus {
+  border-color: #e11d48 !important;
+  box-shadow:
+    0 0 0 2px rgba(225, 29, 72, 0.34),
+    0 0 0 5px var(--contact-field-border-active),
+    0 10px 32px rgba(76, 65, 171, 0.08),
+    inset 0 1px 0 #ffffff !important;
+}
+
+html:not([data-theme="dark"]) .contact-page .form-details {
+  border-color: rgba(80, 94, 130, 0.2);
+  background: rgba(255, 255, 255, 0.64);
+  box-shadow:
+    var(--contact-field-shadow),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+html:not([data-theme="dark"]) .contact-page .form-details:hover,
+html:not([data-theme="dark"]) .contact-page .form-details[open] {
+  border-color: rgba(71, 84, 122, 0.32);
+}
+
+html:not([data-theme="dark"]) .contact-page .form-details summary:hover {
+  background: rgba(79, 70, 229, 0.035);
+}
+
+html:not([data-theme="dark"]) .contact-page .form-details summary:focus-visible {
+  outline-color: rgba(79, 70, 229, 0.46);
+}
+
+html:not([data-theme="dark"]) .contact-page .form-details-content {
+  border-top-color: rgba(80, 94, 130, 0.16);
+  background: rgba(248, 250, 255, 0.42);
+}
+
+html:not([data-theme="dark"]) #main-content .contact-page .consent-field input[type="checkbox"] {
+  border-color: var(--contact-field-border);
+  background: #ffffff;
+  box-shadow: 0 4px 14px rgba(55, 71, 110, 0.07);
+}
+
+html:not([data-theme="dark"]) #main-content .contact-page .consent-field input[type="checkbox"]:hover:not(:focus):not([aria-invalid="true"]) {
+  border-color: var(--contact-field-border-hover);
+}
+
+html:not([data-theme="dark"]) #main-content .contact-page .consent-field input[type="checkbox"]:focus-visible {
+  outline-color: rgba(79, 70, 229, 0.58);
+}
+
+@supports not ((backdrop-filter: blur(1rem)) or (-webkit-backdrop-filter: blur(1rem))) {
+  html:not([data-theme="dark"]) .contact-page :is(.contact-form-panel, .form-details) {
+    background: #ffffff !important;
+  }
+}
+
 /* Meaningful home hero image with accessible HTML trust cues. */
 .agency-collaboration-frame {
   position: relative;

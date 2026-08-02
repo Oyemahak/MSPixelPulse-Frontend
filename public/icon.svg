@@ -1,31 +1,19 @@
 <svg width="128" height="128" viewBox="146 0 1104 1104" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
-  <title id="title">MSPixelPulse adaptive bold dimensional monogram</title>
-  <desc id="desc">A transparent bold interlocking M and S monogram with a theme-aware keyline that changes from black to white with the device color scheme.</desc>
+  <title id="title">MSPixelPulse adaptive logo</title>
+  <desc id="desc">A flat interlocking M and S monogram with a transparent background and white 0.2 pixel outline, black in light mode and white in dark mode.</desc>
   <style>
     .dark-variant { display: none; }
-    @media (prefers-color-scheme: dark) { .light-variant { display: none; } .dark-variant { display: inline; } }
+    @media (prefers-color-scheme: dark) {
+      .light-variant { display: none; }
+      .dark-variant { display: inline; }
+    }
   </style>
   <defs>
-    <linearGradient id="accent-light" x1="270" y1="130" x2="1126" y2="980" gradientUnits="userSpaceOnUse"><stop stop-color="#3B82F6"/><stop offset="0.52" stop-color="#4F5EF7"/><stop offset="1" stop-color="#A855F7"/></linearGradient>
-    <linearGradient id="accent-dark" x1="270" y1="130" x2="1126" y2="980" gradientUnits="userSpaceOnUse"><stop stop-color="#60A5FA"/><stop offset="0.52" stop-color="#6366F1"/><stop offset="1" stop-color="#C084FC"/></linearGradient>
-    <linearGradient id="face-light" x1="420" y1="100" x2="970" y2="1030" gradientUnits="userSpaceOnUse"><stop stop-color="#2A2F39"/><stop offset="0.24" stop-color="#111319"/><stop offset="1" stop-color="#000000"/></linearGradient>
-    <linearGradient id="face-dark" x1="420" y1="100" x2="970" y2="1030" gradientUnits="userSpaceOnUse"><stop stop-color="#FFFFFF"/><stop offset="0.4" stop-color="#F8FAFF"/><stop offset="1" stop-color="#CAD5E8"/></linearGradient>
-    <filter id="halo" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="24"/></filter>
     <g id="mark">
       <path d="M914 673L913 904L697 1040L483 904L483 546L560 588L560 858L697 948L836 857L836 641L348 359L348 861L270 861L270 222L483 345L483 186L697 63L913 186L913 255L836 296L836 231L697 152L559 229L559 369L562 392L914 597V673Z"/>
       <path d="M1126 222V861H1048V359L865 465L843 456L784 420L1126 222Z"/>
     </g>
   </defs>
-  <g class="light-variant">
-    <use href="#mark" fill="url(#accent-light)" stroke="url(#accent-light)" stroke-width="64" stroke-linejoin="miter" opacity="0.45" filter="url(#halo)"/>
-    <use href="#mark" fill="url(#accent-light)" stroke="url(#accent-light)" stroke-width="64" stroke-linejoin="miter" transform="translate(18 23)"/>
-    <use href="#mark" fill="url(#face-light)" stroke="url(#face-light)" stroke-width="64" stroke-linejoin="miter"/>
-    <use href="#mark" fill="none" stroke="#FFFFFF" stroke-width="0.5" vector-effect="non-scaling-stroke" stroke-linejoin="miter" stroke-miterlimit="3"/>
-  </g>
-  <g class="dark-variant">
-    <use href="#mark" fill="url(#accent-dark)" stroke="url(#accent-dark)" stroke-width="64" stroke-linejoin="miter" opacity="0.7" filter="url(#halo)"/>
-    <use href="#mark" fill="url(#accent-dark)" stroke="url(#accent-dark)" stroke-width="64" stroke-linejoin="miter" transform="translate(18 23)"/>
-    <use href="#mark" fill="url(#face-dark)" stroke="url(#face-dark)" stroke-width="64" stroke-linejoin="miter"/>
-    <use href="#mark" fill="none" stroke="#8B6CFF" stroke-width="0.5" vector-effect="non-scaling-stroke" stroke-linejoin="miter" stroke-miterlimit="3"/>
-  </g>
+  <use class="light-variant" href="#mark" fill="#000000" stroke="#FFFFFF" stroke-width="0.2" vector-effect="non-scaling-stroke" stroke-linejoin="miter" stroke-miterlimit="3"/>
+  <use class="dark-variant" href="#mark" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="0.2" vector-effect="non-scaling-stroke" stroke-linejoin="miter" stroke-miterlimit="3"/>
 </svg>

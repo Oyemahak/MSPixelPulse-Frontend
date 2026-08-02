@@ -8,7 +8,7 @@
   "theme_color": "#f6f8fc",
   "icons": [
     {
-      "src": "/icon.svg?v=monogram-svg-v1",
+      "src": "/icon.svg?v=flat-monogram-v1",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any"

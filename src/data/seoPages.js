@@ -8,7 +8,7 @@ export const organizationJsonLd = {
   name: site.name,
   legalName: site.legalName,
   url: site.url,
-  logo: absolute("/logo.svg?v=site-logo-border-20px-v6"),
+  logo: absolute("/logo.svg?v=site-logo-outer-border-16px-v7"),
   description: site.description,
   areaServed: [
     { "@type": "City", name: "Toronto, Ontario, Canada" },
@@ -201,7 +201,7 @@ export function blogPostSeo(post) {
     publisher: {
       "@type": "Organization",
       name: site.name,
-      logo: { "@type": "ImageObject", url: absolute("/logo.svg?v=site-logo-border-20px-v6") },
+      logo: { "@type": "ImageObject", url: absolute("/logo.svg?v=site-logo-outer-border-16px-v7") },
     },
     mainEntityOfPage: absolute(path),
   };

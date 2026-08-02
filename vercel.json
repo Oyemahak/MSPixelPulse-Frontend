@@ -2,10 +2,22 @@
   "cleanUrls": true,
   "redirects": [
     {
+      "source": "/",
+      "has": [{ "type": "host", "value": "mspixelpulse.vercel.app" }],
+      "destination": "https://mspixelpulse.com/",
+      "statusCode": 301
+    },
+    {
       "source": "/:path*",
       "has": [{ "type": "host", "value": "mspixelpulse.vercel.app" }],
       "destination": "https://mspixelpulse.com/:path*",
       "statusCode": 301
+    },
+    {
+      "source": "/",
+      "has": [{ "type": "host", "value": "www.mspixelpulse.com" }],
+      "destination": "https://mspixelpulse.com/",
+      "permanent": true
     },
     {
       "source": "/:path*",

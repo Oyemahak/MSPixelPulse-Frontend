@@ -8,9 +8,10 @@
   "theme_color": "#f6f8fc",
   "icons": [
     {
-      "src": "/icon.svg?v=thin-theme-keyline",
-      "sizes": "128x128",
-      "type": "image/svg+xml"
+      "src": "/icon.svg?v=monogram-svg-v1",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
     }
   ]
 }

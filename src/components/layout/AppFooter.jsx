@@ -33,10 +33,12 @@ export default function AppFooter() {
           <div className="agency-footer-brand">
             <div className="agency-footer-logo">
               <img
-                src={theme === "dark" ? "/icon-dark.svg?v=thin-theme-keyline" : "/icon-light.svg?v=thin-theme-keyline"}
+                src={theme === "dark" ? "/icon-dark.svg?v=monogram-svg-v1" : "/icon-light.svg?v=monogram-svg-v1"}
                 alt=""
                 aria-hidden="true"
                 className="brand-logo-mark"
+                width="32"
+                height="32"
               />
               <span>MSPixelPulse</span>
             </div>

@@ -1,16 +1,31 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title desc">
-  <title id="title">MSPixelPulse logo mark</title>
-  <desc id="desc">A clean blue and violet pixel pulse forming an abstract M and S.</desc>
+<svg width="128" height="128" viewBox="146 0 1104 1104" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">MSPixelPulse bold black dimensional monogram</title>
+  <desc id="desc">A transparent bold black interlocking M and S monogram with a white keyline and blue-violet depth for light backgrounds.</desc>
   <defs>
-    <linearGradient id="pulse" x1="8" y1="12" x2="56" y2="52" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#2563EB"/>
-      <stop offset="0.52" stop-color="#4F46E5"/>
-      <stop offset="1" stop-color="#9333EA"/>
+    <linearGradient id="accent" x1="270" y1="130" x2="1126" y2="980" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#3B82F6"/>
+      <stop offset="0.52" stop-color="#4F5EF7"/>
+      <stop offset="1" stop-color="#A855F7"/>
     </linearGradient>
+    <linearGradient id="face" x1="420" y1="100" x2="970" y2="1030" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#2A2F39"/>
+      <stop offset="0.24" stop-color="#111319"/>
+      <stop offset="0.7" stop-color="#050608"/>
+      <stop offset="1" stop-color="#000000"/>
+    </linearGradient>
+    <filter id="halo" x="-30%" y="-30%" width="160%" height="160%" color-interpolation-filters="sRGB">
+      <feGaussianBlur stdDeviation="24"/>
+    </filter>
+    <filter id="lift" x="-30%" y="-30%" width="170%" height="170%" color-interpolation-filters="sRGB">
+      <feDropShadow dx="10" dy="16" stdDeviation="12" flood-color="#020617" flood-opacity="0.32"/>
+    </filter>
+    <g id="mark">
+      <path d="M914 673L913 904L697 1040L483 904L483 546L560 588L560 858L697 948L836 857L836 641L348 359L348 861L270 861L270 222L483 345L483 186L697 63L913 186L913 255L836 296L836 231L697 152L559 229L559 369L562 392L914 597V673Z"/>
+      <path d="M1126 222V861H1048V359L865 465L843 456L784 420L1126 222Z"/>
+    </g>
   </defs>
-  <path d="M8 43V25l10 8 7-18 9 34 7-20 7 7 8-9v16" fill="none" stroke="url(#pulse)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
-  <rect x="5" y="40" width="6" height="6" rx="1.5" fill="#2563EB"/>
-  <rect x="53" y="40" width="6" height="6" rx="1.5" fill="#9333EA"/>
-  <circle cx="25" cy="15" r="3" fill="#4F46E5"/>
-  <circle cx="34" cy="49" r="3" fill="#6D28D9"/>
+  <use href="#mark" fill="url(#accent)" stroke="url(#accent)" stroke-width="64" stroke-linejoin="miter" opacity="0.42" filter="url(#halo)" transform="translate(0 8)"/>
+  <use href="#mark" fill="url(#accent)" stroke="url(#accent)" stroke-width="64" stroke-linejoin="miter" opacity="0.92" transform="translate(18 23)"/>
+  <use href="#mark" fill="url(#face)" stroke="url(#face)" stroke-width="64" stroke-linejoin="miter" filter="url(#lift)"/>
+  <use href="#mark" fill="none" stroke="#FFFFFF" stroke-width="0.5" vector-effect="non-scaling-stroke" stroke-linejoin="miter" stroke-miterlimit="3"/>
 </svg>

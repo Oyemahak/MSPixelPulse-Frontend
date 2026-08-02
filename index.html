@@ -9,8 +9,9 @@
     />
     <meta name="robots" content="index,follow" />
     <meta name="theme-color" content="#f6f8fc" />
-    <link id="site-favicon" rel="icon" href="/favicon-light.svg?v=thin-theme-keyline" type="image/svg+xml" />
-    <link rel="apple-touch-icon" href="/icon.svg?v=thin-theme-keyline" />
+    <link id="site-favicon" rel="icon" href="/favicon-light.svg?v=monogram-svg-v1" type="image/svg+xml" sizes="any" />
+    <link rel="apple-touch-icon" href="/icon.svg?v=monogram-svg-v1" type="image/svg+xml" sizes="any" />
+    <link rel="manifest" href="/site.webmanifest?v=monogram-svg-v1" />
     <link rel="canonical" href="https://mspixelpulse.vercel.app/" />
     <meta property="og:title" content="MSPixelPulse" />
     <meta
@@ -34,8 +35,8 @@
         document.querySelector("#site-favicon").setAttribute(
           "href",
           initialTheme === "dark"
-            ? "/favicon-dark.svg?v=thin-theme-keyline"
-            : "/favicon-light.svg?v=thin-theme-keyline"
+            ? "/favicon-dark.svg?v=monogram-svg-v1"
+            : "/favicon-light.svg?v=monogram-svg-v1"
         );
       } catch {}
     </script>

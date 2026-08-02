@@ -77,6 +77,8 @@ export default function AnalyticsManager() {
         trackEvent("phone_click", { page_path: pathname, placement });
       } else if (href.includes("wa.me/")) {
         trackEvent("whatsapp_click", { page_path: pathname, placement });
+      } else if (href.startsWith("mailto:")) {
+        trackEvent("email_click", { page_path: pathname, placement });
       }
       if (ctaId) {
         trackEvent("cta_click", { page_path: pathname, cta_id: ctaId, placement });

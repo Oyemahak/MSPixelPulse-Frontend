@@ -104,9 +104,13 @@ Analytics are opt-in and disabled by default. Choose one provider mode:
 - `direct`: set `VITE_GA_MEASUREMENT_ID`; the app sends its own SPA page views with `send_page_view: false`.
 
 Do not configure GTM and direct GA4 together. The app emits privacy-limited
-`page_view`, `generate_lead`, `whatsapp_click`, `phone_click`, `cta_click`, and
-`scroll_depth` events only after explicit permission. Event parameters must not
+`page_view`, `generate_lead`, `whatsapp_click`, `phone_click`, `email_click`,
+`cta_click`, and `scroll_depth` events only after explicit permission. Event parameters must not
 contain form values, contact details, query strings, portal roles, or private IDs.
+
+For an authorized GA4 DebugView verification session, append `?ga_debug=1` to
+the public route under test. The flag adds GA4's `debug_mode` event parameter;
+it does not send the URL query string or affect normal visitor sessions.
 
 Microsoft Clarity is intentionally not loaded in this combined public-site and
 authenticated-portal SPA. Recording must remain disabled until sensitive routes

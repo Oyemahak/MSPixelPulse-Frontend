@@ -54,6 +54,7 @@ Recommended events:
 - Start Project click
 - WhatsApp click
 - phone click
+- email click
 - pricing package selection
 - project live-site click
 - project filter usage

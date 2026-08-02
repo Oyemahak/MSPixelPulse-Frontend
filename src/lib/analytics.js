@@ -8,6 +8,16 @@ const gaId = String(import.meta.env.VITE_GA_MEASUREMENT_ID || "").trim();
 
 let initialized = false;
 
+function isDebugMode() {
+  if (typeof window === "undefined") return false;
+  return new URLSearchParams(window.location.search).get("ga_debug") === "1";
+}
+
+function getSanitizedPageLocation() {
+  if (typeof window === "undefined") return "";
+  return `${window.location.origin}${window.location.pathname}`;
+}
+
 export function getAnalyticsConsent() {
   if (typeof window === "undefined") return "unset";
   return window.localStorage.getItem(ANALYTICS_CONSENT_KEY) || "unset";
@@ -69,6 +79,8 @@ export function initializeAnalytics() {
       send_page_view: false,
       allow_google_signals: false,
       allow_ad_personalization_signals: false,
+      page_location: getSanitizedPageLocation(),
+      ...(isDebugMode() ? { debug_mode: true } : {}),
     });
     appendScript("mspixelpulse-ga4", `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(gaId)}`);
     initialized = true;
@@ -91,7 +103,11 @@ export function trackEvent(name, parameters = {}) {
 
   const safeName = String(name || "").replace(/[^a-zA-Z0-9_]/g, "").slice(0, 40);
   if (!safeName) return;
-  const safeParameters = sanitizeParameters(parameters);
+  const safeParameters = sanitizeParameters({
+    ...parameters,
+    page_location: getSanitizedPageLocation(),
+    ...(isDebugMode() ? { debug_mode: true } : {}),
+  });
 
   if (mode === "direct" && typeof window.gtag === "function") {
     window.gtag("event", safeName, safeParameters);

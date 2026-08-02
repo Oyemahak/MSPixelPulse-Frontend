@@ -31,7 +31,7 @@ function isValidPhone(value) {
   const cleaned = String(value || "").trim();
   const mainNumber = cleaned.split(/(?:ext\.?|x)/i)[0];
   const digits = digitsOnly(mainNumber);
-  return /^[+\d][\d\s().-]+$/.test(mainNumber) && digits.length >= 10 && digits.length <= 15;
+  return /^\+?[\d\s().-]+$/.test(mainNumber) && digits.length >= 10 && digits.length <= 15;
 }
 
 function formatPhone(value) {

@@ -97,7 +97,7 @@ function sanitizeParameters(parameters) {
   );
 }
 
-export function trackEvent(name, parameters = {}) {
+export function trackEvent(name, parameters = {}, options = {}) {
   if (typeof window === "undefined" || !hasAnalyticsConsent()) return;
   if (!initializeAnalytics()) return;
 
@@ -108,11 +108,20 @@ export function trackEvent(name, parameters = {}) {
     page_location: getSanitizedPageLocation(),
     ...(isDebugMode() ? { debug_mode: true } : {}),
   });
+  const callback = typeof options.callback === "function" ? options.callback : null;
+  const timeout = Number.isFinite(options.timeout) ? Math.max(0, Math.min(options.timeout, 5000)) : 1000;
 
   if (mode === "direct" && typeof window.gtag === "function") {
-    window.gtag("event", safeName, safeParameters);
+    window.gtag("event", safeName, {
+      ...safeParameters,
+      ...(callback ? { event_callback: callback, event_timeout: timeout } : {}),
+    });
     return;
   }
   window.dataLayer = window.dataLayer || [];
-  window.dataLayer.push({ event: safeName, ...safeParameters });
+  window.dataLayer.push({
+    event: safeName,
+    ...safeParameters,
+    ...(callback ? { eventCallback: callback, eventTimeout: timeout } : {}),
+  });
 }

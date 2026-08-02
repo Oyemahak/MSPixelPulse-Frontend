@@ -9,7 +9,7 @@ import {
 } from "@/lib/analytics.js";
 
 const scrollThresholds = [25, 50, 75, 90];
-const protocolNavigationDelay = 200;
+const protocolNavigationTimeout = 1000;
 
 export default function AnalyticsManager() {
   const { pathname } = useLocation();
@@ -74,16 +74,34 @@ export default function AnalyticsManager() {
       const placement = target.dataset.analyticsPlacement || "public_site";
       const href = target instanceof HTMLAnchorElement ? target.getAttribute("href") || "" : "";
 
-      if (href.startsWith("tel:")) {
+      function trackProtocolClick(eventName) {
         event.preventDefault();
-        trackEvent("phone_click", { page_path: pathname, placement });
-        window.setTimeout(() => window.location.assign(href), protocolNavigationDelay);
+        let navigated = false;
+        const navigate = () => {
+          if (navigated) return;
+          navigated = true;
+          window.location.assign(href);
+        };
+        const fallback = window.setTimeout(navigate, protocolNavigationTimeout);
+        trackEvent(
+          eventName,
+          { page_path: pathname, placement },
+          {
+            callback: () => {
+              window.clearTimeout(fallback);
+              navigate();
+            },
+            timeout: protocolNavigationTimeout,
+          },
+        );
+      }
+
+      if (href.startsWith("tel:")) {
+        trackProtocolClick("phone_click");
       } else if (href.includes("wa.me/")) {
         trackEvent("whatsapp_click", { page_path: pathname, placement });
       } else if (href.startsWith("mailto:")) {
-        event.preventDefault();
-        trackEvent("email_click", { page_path: pathname, placement });
-        window.setTimeout(() => window.location.assign(href), protocolNavigationDelay);
+        trackProtocolClick("email_click");
       }
       if (ctaId) {
         trackEvent("cta_click", { page_path: pathname, cta_id: ctaId, placement });

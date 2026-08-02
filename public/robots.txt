@@ -7,4 +7,4 @@ Disallow: /login
 Disallow: /register
 Disallow: /debug
 
-Sitemap: https://mspixelpulse.vercel.app/sitemap.xml
+Sitemap: https://mspixelpulse.com/sitemap.xml

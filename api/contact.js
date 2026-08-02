@@ -89,7 +89,7 @@ export default async function handler(req, res) {
     }
 
     const to = process.env.FORMS_TO_EMAIL;
-    const from = process.env.FORMS_FROM_EMAIL || "MSPixelPulse <no-reply@mspixelpulse.com>";
+    const from = process.env.FORMS_FROM_EMAIL || "MSPixelPulse <info@mspixelpulse.com>";
     if (!process.env.RESEND_API_KEY || !to) {
       console.error("[contact] missing required email configuration");
       return sendJson(res, 503, headers, {

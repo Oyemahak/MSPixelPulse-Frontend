@@ -75,7 +75,7 @@ export function support({ subject, message, meta = {} }) {
 
   return postFormEncoded("/contact", {
     name: extra.userEmail || "Client User",
-    email: extra.userEmail || "noreply@mspixelpulse.com",
+    email: extra.userEmail || "info@mspixelpulse.com",
     subject,
     message,
     ...extra,

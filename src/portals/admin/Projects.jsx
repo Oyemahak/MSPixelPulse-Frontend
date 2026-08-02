@@ -256,7 +256,7 @@ function ProjectEditor({ form, setForm, users, onClose, onSave, saving }) {
 
         <label className="form-field form-span-2">
           <div className="form-label">Cover mockup URL</div>
-          <input value={form.thumbnail} onChange={(event) => set("thumbnail", event.target.value)} placeholder="https://mspixelpulse.vercel.app/projects/mockups/..." />
+          <input value={form.thumbnail} onChange={(event) => set("thumbnail", event.target.value)} placeholder="https://mspixelpulse.com/projects/mockups/..." />
         </label>
 
         <label className="form-field">

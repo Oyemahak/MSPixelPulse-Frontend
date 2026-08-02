@@ -8,6 +8,7 @@ export const organizationJsonLd = {
   name: site.name,
   legalName: site.legalName,
   url: site.url,
+  email: site.email,
   logo: absolute("/logo.svg?v=site-logo-outer-border-16px-v7"),
   description: site.description,
   areaServed: [
@@ -20,6 +21,7 @@ export const organizationJsonLd = {
   contactPoint: {
     "@type": "ContactPoint",
     telephone: site.phoneDisplay,
+    email: site.email,
     contactType: "sales and customer support",
     areaServed: "CA",
     availableLanguage: "English",

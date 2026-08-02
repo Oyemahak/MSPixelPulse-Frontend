@@ -1,5 +1,19 @@
 {
   "cleanUrls": true,
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "mspixelpulse.vercel.app" }],
+      "destination": "https://mspixelpulse.com/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "www.mspixelpulse.com" }],
+      "destination": "https://mspixelpulse.com/:path*",
+      "permanent": true
+    }
+  ],
   "headers": [
     {
       "source": "/login",
@@ -26,23 +40,9 @@
       "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow, noarchive" }]
     }
   ],
-  "routes": [
-    {
-      "src": "/admin(?:/.*)?",
-      "dest": "/portal-shell",
-      "headers": { "X-Robots-Tag": "noindex, nofollow, noarchive" }
-    },
-    {
-      "src": "/client(?:/.*)?",
-      "dest": "/portal-shell",
-      "headers": { "X-Robots-Tag": "noindex, nofollow, noarchive" }
-    },
-    {
-      "src": "/dev(?:/.*)?",
-      "dest": "/portal-shell",
-      "headers": { "X-Robots-Tag": "noindex, nofollow, noarchive" }
-    },
-    { "handle": "filesystem" },
-    { "src": "/.*", "status": 404, "dest": "/404.html" }
+  "rewrites": [
+    { "source": "/admin/:path*", "destination": "/portal-shell" },
+    { "source": "/client/:path*", "destination": "/portal-shell" },
+    { "source": "/dev/:path*", "destination": "/portal-shell" }
   ]
 }

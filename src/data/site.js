@@ -1,3 +1,8 @@
+const runtimeEnv = import.meta.env || {};
+const publicSiteUrl = (runtimeEnv.VITE_SITE_URL || "https://mspixelpulse.com")
+  .trim()
+  .replace(/\/+$/, "");
+
 export const site = {
   name: "MSPixelPulse",
   legalName: "MSPixelPulse",
@@ -9,7 +14,9 @@ export const site = {
   portfolio: "https://mahakpatel.com",
   linkedin: "https://www.linkedin.com/in/mahak-patel-167640150/",
   github: "https://github.com/MSPixelPulseAgency",
-  url: "https://mspixelpulse.vercel.app",
+  email: runtimeEnv.VITE_SUPPORT_EMAIL || "info@mspixelpulse.com",
+  emailHref: `mailto:${runtimeEnv.VITE_SUPPORT_EMAIL || "info@mspixelpulse.com"}`,
+  url: publicSiteUrl,
   description:
     "Professional websites built to help small businesses build trust, present their services clearly, and grow online.",
 };

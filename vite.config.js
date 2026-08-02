@@ -18,9 +18,9 @@ export default defineConfig(({ mode }) => ({
     open: true,
     // Dev-only proxy so localhost can call your Vercel Serverless Functions
     proxy: {
-      // Any request to /vercel-api/* will be proxied to https://mspixelpulse.vercel.app/api/*
+      // Any request to /vercel-api/* will be proxied to the production contact functions.
       "/vercel-api": {
-        target: "https://mspixelpulse.vercel.app",
+        target: "https://mspixelpulse.com",
         changeOrigin: true,
         secure: true,
         rewrite: (pathStr) => pathStr.replace(/^\/vercel-api/, "/api"),

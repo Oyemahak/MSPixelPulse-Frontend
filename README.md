@@ -2,6 +2,14 @@
 
 Official MSPixelPulse frontend for the agency website and role-based client, admin, and developer portals.
 
+Production site:
+
+```text
+https://mspixelpulse.com
+```
+
+`https://www.mspixelpulse.com` and the legacy Vercel production hostname redirect permanently to the equivalent path on the apex domain.
+
 ## Architecture
 
 - Vercel hosts the React frontend.
@@ -55,16 +63,19 @@ Development example:
 
 ```text
 VITE_API_BASE=http://localhost:5000/api
+VITE_SITE_URL=https://mspixelpulse.com
 VITE_SUPABASE_URL=https://PROJECT_REF.supabase.co
 VITE_SUPABASE_ANON_KEY=replace-with-public-anon-key
 VITE_SUPABASE_BUCKET=uploads
-VITE_SUPPORT_EMAIL=replace-with-support-email-if-verified
+VITE_SUPPORT_EMAIL=info@mspixelpulse.com
 ```
 
 Production Vercel variable:
 
 ```text
 VITE_API_BASE=https://capstone-backend-o3o2.onrender.com/api
+VITE_SITE_URL=https://mspixelpulse.com
+VITE_SUPPORT_EMAIL=info@mspixelpulse.com
 ```
 
 The Vercel contact function also uses these existing server-side variables:
@@ -106,7 +117,7 @@ Production builds require `VITE_API_BASE`. This prevents accidental same-origin 
 Vercel project:
 
 ```text
-mspixelpulse-frontend
+capstone-frontend
 ```
 
 Build settings:

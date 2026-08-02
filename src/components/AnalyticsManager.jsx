@@ -9,6 +9,7 @@ import {
 } from "@/lib/analytics.js";
 
 const scrollThresholds = [25, 50, 75, 90];
+const protocolNavigationDelay = 200;
 
 export default function AnalyticsManager() {
   const { pathname } = useLocation();
@@ -74,11 +75,15 @@ export default function AnalyticsManager() {
       const href = target instanceof HTMLAnchorElement ? target.getAttribute("href") || "" : "";
 
       if (href.startsWith("tel:")) {
+        event.preventDefault();
         trackEvent("phone_click", { page_path: pathname, placement });
+        window.setTimeout(() => window.location.assign(href), protocolNavigationDelay);
       } else if (href.includes("wa.me/")) {
         trackEvent("whatsapp_click", { page_path: pathname, placement });
       } else if (href.startsWith("mailto:")) {
+        event.preventDefault();
         trackEvent("email_click", { page_path: pathname, placement });
+        window.setTimeout(() => window.location.assign(href), protocolNavigationDelay);
       }
       if (ctaId) {
         trackEvent("cta_click", { page_path: pathname, cta_id: ctaId, placement });

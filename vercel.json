@@ -5,7 +5,7 @@
       "source": "/:path*",
       "has": [{ "type": "host", "value": "mspixelpulse.vercel.app" }],
       "destination": "https://mspixelpulse.com/:path*",
-      "permanent": true
+      "statusCode": 301
     },
     {
       "source": "/:path*",

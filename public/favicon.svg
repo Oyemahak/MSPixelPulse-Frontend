@@ -1,6 +1,6 @@
 <svg width="64" height="64" viewBox="146 0 1104 1104" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
   <title id="title">MSPixelPulse white favicon</title>
-  <desc id="desc">A flat white interlocking M and S monogram with a transparent background and a theme-aware 0.2 pixel outline.</desc>
+  <desc id="desc">A flat white interlocking M and S monogram with a transparent background and a theme-aware 1 pixel outline.</desc>
   <style>
     .mark { stroke: #F4CF72; }
     @media (prefers-color-scheme: dark) {
@@ -13,5 +13,5 @@
       <path d="M1126 222V861H1048V359L865 465L843 456L784 420L1126 222Z"/>
     </g>
   </defs>
-  <use class="mark" href="#mark" fill="#FFFFFF" stroke-width="0.2" vector-effect="non-scaling-stroke" stroke-linejoin="miter" stroke-miterlimit="3"/>
+  <use class="mark" href="#mark" fill="#FFFFFF" stroke-width="1" vector-effect="non-scaling-stroke" stroke-linejoin="miter" stroke-miterlimit="3"/>
 </svg>

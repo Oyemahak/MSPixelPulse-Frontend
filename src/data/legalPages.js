@@ -3,7 +3,7 @@ export const legalPages = {
     title: "Privacy Policy",
     description:
       "Draft privacy policy for MSPixelPulse website visitors, leads, and portal users.",
-    updated: "July 12, 2026",
+    updated: "August 2, 2026",
     sections: [
       {
         heading: "Information we collect",
@@ -15,7 +15,7 @@ export const legalPages = {
       },
       {
         heading: "Service providers",
-        body: "The website and portal may use hosting, database, file storage, analytics, email, and deployment providers. These providers are used only as needed to operate MSPixelPulse services.",
+        body: "The website and portal may use hosting, database, file storage, email, and deployment providers. If a visitor accepts optional analytics, public marketing pages may also use Google Analytics 4 directly or through Google Tag Manager to measure aggregate page and conversion activity.",
       },
       {
         heading: "Retention and access",
@@ -27,7 +27,7 @@ export const legalPages = {
     title: "Terms of Service",
     description:
       "Draft terms for using the MSPixelPulse website, public content, and secure portals.",
-    updated: "July 12, 2026",
+    updated: "August 2, 2026",
     sections: [
       {
         heading: "Website use",
@@ -51,7 +51,7 @@ export const legalPages = {
     title: "Cookie Notice",
     description:
       "Draft cookie notice for MSPixelPulse website and portal sessions.",
-    updated: "July 12, 2026",
+    updated: "August 2, 2026",
     sections: [
       {
         heading: "Essential storage",
@@ -59,11 +59,11 @@ export const legalPages = {
       },
       {
         heading: "Analytics and measurement",
-        body: "If analytics are enabled, they should be used to understand website performance and visitor behavior at an aggregate level.",
+        body: "Optional public-page analytics load only after a visitor chooses Accept analytics. MSPixelPulse may use Google Analytics 4 directly or through Google Tag Manager to measure page views, lead completions, call or WhatsApp actions, selected calls to action, and scroll-depth milestones. Form values and private portal activity are not intentionally included in these events.",
       },
       {
         heading: "Managing preferences",
-        body: "Visitors can manage browser cookie settings directly in their browser. Blocking essential storage may prevent secure portal login from working correctly.",
+        body: "Visitors can choose Essential only or Accept analytics in the preference notice and reopen Cookie preferences from the website footer. Browser storage controls may also be used, although blocking essential storage may prevent theme preferences or secure portal login from working correctly.",
       },
     ],
   },
@@ -71,7 +71,7 @@ export const legalPages = {
     title: "Accessibility Statement",
     description:
       "Draft accessibility statement for MSPixelPulse public website and portal.",
-    updated: "July 12, 2026",
+    updated: "August 2, 2026",
     sections: [
       {
         heading: "Our approach",
@@ -91,7 +91,7 @@ export const legalPages = {
     title: "Security Practices",
     description:
       "Draft security practices summary for MSPixelPulse portal users and clients.",
-    updated: "July 12, 2026",
+    updated: "August 2, 2026",
     sections: [
       {
         heading: "Account security",

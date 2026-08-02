@@ -5,19 +5,14 @@ const absolute = (path = "/") => (path.startsWith("http") ? path : `${site.url}$
 export const organizationJsonLd = {
   "@context": "https://schema.org",
   "@type": "Organization",
+  "@id": `${site.url}/#organization`,
   name: site.name,
   legalName: site.legalName,
   url: site.url,
   email: site.email,
   logo: absolute("/logo.svg?v=site-logo-outer-border-16px-v7"),
   description: site.description,
-  areaServed: [
-    { "@type": "City", name: "Toronto, Ontario, Canada" },
-    { "@type": "City", name: "Brampton, Ontario, Canada" },
-    { "@type": "City", name: "Mississauga, Ontario, Canada" },
-    { "@type": "AdministrativeArea", name: "Greater Toronto Area, Ontario, Canada" },
-    { "@type": "Country", name: "Canada" },
-  ],
+  areaServed: site.serviceAreas.map((name) => ({ "@type": "Place", name })),
   contactPoint: {
     "@type": "ContactPoint",
     telephone: site.phoneDisplay,
@@ -26,8 +21,29 @@ export const organizationJsonLd = {
     areaServed: "CA",
     availableLanguage: "English",
   },
-  sameAs: [site.portfolio, site.linkedin, site.github],
+  sameAs: [site.github],
 };
+
+export const localBusinessJsonLd = site.publicAddress
+  ? {
+      "@context": "https://schema.org",
+      "@type": "ProfessionalService",
+      "@id": `${site.url}/#local-business`,
+      name: site.name,
+      url: site.url,
+      image: absolute("/hero/mspixelpulse-web-design-collaboration.webp"),
+      logo: absolute("/logo.svg?v=site-logo-outer-border-16px-v7"),
+      telephone: site.phoneDisplay,
+      email: site.email,
+      address: {
+        "@type": "PostalAddress",
+        ...site.publicAddress,
+      },
+      areaServed: site.serviceAreas.map((name) => ({ "@type": "Place", name })),
+      ...(site.businessHours.length ? { openingHours: site.businessHours } : {}),
+      sameAs: [site.github],
+    }
+  : null;
 
 export const websiteJsonLd = {
   "@context": "https://schema.org",
@@ -50,7 +66,7 @@ export const seoPages = {
     canonical: "/",
     image: "/hero/mspixelpulse-web-design-collaboration.webp",
     component: "src/pages/Home.jsx",
-    jsonLd: [organizationJsonLd, websiteJsonLd],
+    jsonLd: [organizationJsonLd, websiteJsonLd, localBusinessJsonLd].filter(Boolean),
   },
   projects: {
     path: "/projects",
@@ -76,6 +92,32 @@ export const seoPages = {
       "Compare MSPixelPulse website plans in CAD, including one-page, business, growth, e-commerce, custom application, and monthly support options.",
     canonical: "/pricing",
     component: "src/pages/Pricing.jsx",
+  },
+  freeDemo: {
+    path: "/free-demo",
+    title: "Free Personalized Website Demo — MSPixelPulse Toronto",
+    description:
+      "Request a free personalized website demo from MSPixelPulse and review a mobile-first visual direction before deciding whether to start a paid website project.",
+    canonical: "/free-demo",
+    image: "/hero/mspixelpulse-web-design-collaboration.webp",
+    component: "src/pages/FreeDemo.jsx",
+    jsonLd: {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      "@id": `${site.url}/free-demo#service`,
+      name: "Free personalized website demo",
+      serviceType: "Website design planning demo",
+      description:
+        "A free personalized visual website direction for business owners to review before discussing an optional paid production project.",
+      provider: { "@id": `${site.url}/#organization` },
+      areaServed: { "@type": "Country", name: "Canada" },
+      offers: {
+        "@type": "Offer",
+        price: "0",
+        priceCurrency: "CAD",
+        url: absolute("/free-demo"),
+      },
+    },
   },
   contact: {
     path: "/contact",

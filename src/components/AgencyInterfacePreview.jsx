@@ -42,7 +42,7 @@ export default function AgencyInterfacePreview() {
           </span>
         </div>
 
-        <div className="agency-collaboration-device" aria-label="Designed for desktop and mobile">
+        <div className="agency-collaboration-device" role="img" aria-label="Designed for desktop and mobile">
           <LuMonitorSmartphone aria-hidden="true" />
           <span>
             <small>DESKTOP + MOBILE</small>

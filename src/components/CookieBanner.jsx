@@ -2,8 +2,11 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { LuCookie, LuX } from "react-icons/lu";
 import { useTheme } from "@/lib/theme.js";
-
-const CONSENT_KEY = "mspixelpulse-cookie-consent";
+import {
+  ANALYTICS_PREFERENCES_EVENT,
+  getAnalyticsConsent,
+  setAnalyticsConsent,
+} from "@/lib/analytics.js";
 
 export default function CookieBanner() {
   const { theme } = useTheme();
@@ -11,56 +14,61 @@ export default function CookieBanner() {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    if (typeof window === "undefined") return;
-    setVisible(window.localStorage.getItem(CONSENT_KEY) !== "accepted");
+    setVisible(getAnalyticsConsent() === "unset");
+
+    function openPreferences() {
+      setVisible(true);
+    }
+    window.addEventListener(ANALYTICS_PREFERENCES_EVENT, openPreferences);
+    return () => window.removeEventListener(ANALYTICS_PREFERENCES_EVENT, openPreferences);
   }, []);
 
   useEffect(() => {
-    if (!visible) return undefined;
-
-    const timer = window.setTimeout(() => {
-      setVisible(false);
-    }, 9000);
-
-    return () => window.clearTimeout(timer);
+    document.documentElement.classList.toggle("cookie-banner-visible", visible);
+    return () => document.documentElement.classList.remove("cookie-banner-visible");
   }, [visible]);
 
-  const accept = () => {
-    window.localStorage.setItem(CONSENT_KEY, "accepted");
+  function choose(choice) {
+    const previous = getAnalyticsConsent();
+    setAnalyticsConsent(choice);
     setVisible(false);
-  };
-
-  const dismiss = () => {
-    setVisible(false);
-  };
+    if (previous === "granted" && choice !== "granted") window.location.reload();
+  }
 
   if (!visible) return null;
 
   return (
     <section
       className="cookie-banner"
-      aria-label="Cookie notice"
+      aria-label="Analytics preferences"
       data-theme-card={isDark ? "dark" : "light"}
     >
       <div className="cookie-icon" aria-hidden="true">
         <LuCookie className="h-5 w-5" />
       </div>
       <div className="min-w-0">
-        <h2 className="cookie-title">Cookie notice</h2>
+        <h2 className="cookie-title">Analytics preferences</h2>
         <p className="cookie-copy">
-          MSPixelPulse uses essential cookies and local preferences to keep the site theme, navigation, and forms working smoothly.
+          Essential storage keeps core site preferences working. With your permission,
+          privacy-limited analytics help us understand public-page performance and conversions.
         </p>
       </div>
       <div className="cookie-actions">
-        <Link to="/cookies" className="cookie-link">
-          Cookie details
-        </Link>
-        <button type="button" className="cookie-accept" onClick={accept}>
-          Got it
+        <Link to="/cookies" className="cookie-link">Cookie details</Link>
+        <button type="button" className="cookie-link" onClick={() => choose("essential")}>
+          Essential only
+        </button>
+        <button type="button" className="cookie-accept" onClick={() => choose("granted")}>
+          Accept analytics
         </button>
       </div>
-      <button type="button" className="cookie-close" onClick={dismiss} aria-label="Close cookie notice">
-        <LuX className="h-4 w-4" />
+      <button
+        type="button"
+        className="cookie-close"
+        onClick={() => choose("essential")}
+        aria-label="Use essential storage only and close preferences"
+      >
+        <LuX className="h-4 w-4" aria-hidden="true" />
       </button>
     </section>
   );

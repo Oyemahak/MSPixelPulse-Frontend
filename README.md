@@ -68,6 +68,11 @@ VITE_SUPABASE_URL=https://PROJECT_REF.supabase.co
 VITE_SUPABASE_ANON_KEY=replace-with-public-anon-key
 VITE_SUPABASE_BUCKET=uploads
 VITE_SUPPORT_EMAIL=info@mspixelpulse.com
+VITE_ANALYTICS_MODE=off
+VITE_GTM_CONTAINER_ID=
+VITE_GA_MEASUREMENT_ID=
+VITE_GSC_VERIFICATION=
+VITE_BING_VERIFICATION=
 ```
 
 Production Vercel variable:
@@ -76,6 +81,7 @@ Production Vercel variable:
 VITE_API_BASE=https://capstone-backend-o3o2.onrender.com/api
 VITE_SITE_URL=https://mspixelpulse.com
 VITE_SUPPORT_EMAIL=info@mspixelpulse.com
+VITE_ANALYTICS_MODE=off
 ```
 
 The Vercel contact function also uses these existing server-side variables:
@@ -88,6 +94,30 @@ FORMS_FROM_EMAIL
 
 The free-demo form reuses the same contact function and does not require a new
 environment variable. Preserve the configured values when updating the site.
+
+### Analytics and verification
+
+Analytics are opt-in and disabled by default. Choose one provider mode:
+
+- `off`: load no analytics provider.
+- `gtm`: set `VITE_GTM_CONTAINER_ID`; configure GA4 inside that container and disable duplicate automatic/history page views.
+- `direct`: set `VITE_GA_MEASUREMENT_ID`; the app sends its own SPA page views with `send_page_view: false`.
+
+Do not configure GTM and direct GA4 together. The app emits privacy-limited
+`page_view`, `generate_lead`, `whatsapp_click`, `phone_click`, `cta_click`, and
+`scroll_depth` events only after explicit permission. Event parameters must not
+contain form values, contact details, query strings, portal roles, or private IDs.
+
+Microsoft Clarity is intentionally not loaded in this combined public-site and
+authenticated-portal SPA. Recording must remain disabled until sensitive routes
+are isolated or verified not to send Clarity collection requests.
+
+`VITE_GSC_VERIFICATION` and `VITE_BING_VERIFICATION` conditionally add static
+verification meta tags during the Vite build. The existing Google HTML-file
+verification remains supported. A rebuild is required after changing these IDs.
+
+Optional LocalBusiness-ready fields are documented in `.env.example`; no
+LocalBusiness schema is emitted until a confirmed public street address is supplied.
 
 Never add backend-only secrets to Vercel frontend variables:
 
@@ -150,7 +180,7 @@ Production builds do not expose demo password autofill.
 
 ## Major Pages
 
-- Public: Home, About, Projects, Services, Pricing, Blog, Contact, Privacy, Terms, Cookies, Accessibility, Security
+- Public: Home, Free Demo, About, Projects, Services, Pricing, Blog, Contact, Privacy, Terms, Cookies, Accessibility, Security
 - Auth: Login, Register
 - Admin: Dashboard, users, approvals, projects, direct messages, billing, requirements
 - Client: Dashboard, projects, discussions, support, billing, account

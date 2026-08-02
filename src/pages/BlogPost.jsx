@@ -301,7 +301,7 @@ export default function BlogPost() {
                 <Link
                   to={
                     post.finalCta?.to ||
-                    `/contact?request=free-demo&source=blog&article=${encodeURIComponent(post.slug)}`
+                    `/free-demo?source=blog&article=${encodeURIComponent(post.slug)}`
                   }
                   className="btn btn-primary"
                 >

@@ -52,6 +52,9 @@ export function StandardField({
 }) {
   const generatedId = useId();
   const fieldId = id || generatedId;
+  const describedBy = [hint ? `${fieldId}-hint` : "", error ? `${fieldId}-error` : ""]
+    .filter(Boolean)
+    .join(" ") || undefined;
 
   return (
     <div className={`form-field standard-field ${className}`.trim()}>
@@ -61,7 +64,7 @@ export function StandardField({
       </label>
       {children(fieldId, {
         "aria-invalid": Boolean(error),
-        "aria-describedby": error ? `${fieldId}-error` : hint ? `${fieldId}-hint` : undefined,
+        "aria-describedby": describedBy,
       })}
       {hint && <p id={`${fieldId}-hint`} className="form-hint">{hint}</p>}
       {error && <p id={`${fieldId}-error`} className="form-error">{error}</p>}

@@ -1,7 +1,12 @@
-const runtimeEnv = import.meta.env || {};
+const runtimeEnv = import.meta.env || globalThis.process?.env || {};
 const publicSiteUrl = (runtimeEnv.VITE_SITE_URL || "https://mspixelpulse.com")
   .trim()
   .replace(/\/+$/, "");
+const streetAddress = String(runtimeEnv.VITE_BUSINESS_STREET_ADDRESS || "").trim();
+const businessHours = String(runtimeEnv.VITE_BUSINESS_HOURS || "")
+  .split("|")
+  .map((value) => value.trim())
+  .filter(Boolean);
 
 export const site = {
   name: "MSPixelPulse",
@@ -17,6 +22,23 @@ export const site = {
   email: runtimeEnv.VITE_SUPPORT_EMAIL || "info@mspixelpulse.com",
   emailHref: `mailto:${runtimeEnv.VITE_SUPPORT_EMAIL || "info@mspixelpulse.com"}`,
   url: publicSiteUrl,
+  serviceAreas: [
+    "Toronto, Ontario, Canada",
+    "Brampton, Ontario, Canada",
+    "Mississauga, Ontario, Canada",
+    "Greater Toronto Area, Ontario, Canada",
+    "Canada",
+  ],
+  publicAddress: streetAddress
+    ? {
+        streetAddress,
+        addressLocality: String(runtimeEnv.VITE_BUSINESS_CITY || "Toronto").trim(),
+        addressRegion: String(runtimeEnv.VITE_BUSINESS_REGION || "Ontario").trim(),
+        postalCode: String(runtimeEnv.VITE_BUSINESS_POSTAL_CODE || "").trim(),
+        addressCountry: String(runtimeEnv.VITE_BUSINESS_COUNTRY || "CA").trim(),
+      }
+    : null,
+  businessHours,
   description:
     "Professional websites built to help small businesses build trust, present their services clearly, and grow online.",
 };

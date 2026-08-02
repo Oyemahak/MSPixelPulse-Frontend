@@ -33,8 +33,8 @@ export function ThemeProvider({ children }) {
     favicon?.setAttribute(
       "href",
       theme === "dark"
-        ? "/favicon-dark.svg?v=visible-accent-border-v3"
-        : "/favicon-light.svg?v=visible-accent-border-v3"
+        ? "/favicon-dark.svg?v=visible-accent-border-v4"
+        : "/favicon-light.svg?v=visible-accent-border-v4"
     );
 
     window.localStorage.setItem("mspixelpulse-theme", theme);

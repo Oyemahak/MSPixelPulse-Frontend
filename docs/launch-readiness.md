@@ -44,6 +44,8 @@ Do not promise rankings, guaranteed sales, fake results, fake awards, fake testi
 Do not hardcode tracking IDs. Use environment variables when IDs are available:
 
 - `VITE_GA_MEASUREMENT_ID`
+- `VITE_GTM_CONTAINER_ID`
+- `VITE_ANALYTICS_MODE`
 - `VITE_GSC_VERIFICATION`
 - `VITE_BING_VERIFICATION`
 
@@ -57,7 +59,7 @@ Recommended events:
 - project filter usage
 - blog contact form completion
 
-Keep event names practical and privacy-aware. Do not send private message text, email addresses, phone numbers, or client portal data to analytics.
+Keep event names practical and privacy-aware. Do not send private message text, email addresses, phone numbers, query strings, form values, or client portal data to analytics. Use exactly one provider mode, require explicit opt-in, and disable duplicate GA4/GTM SPA page-view collection. Microsoft Clarity remains disabled while public pages and authenticated portals share one SPA.
 
 ## Marketing Launch Plan
 

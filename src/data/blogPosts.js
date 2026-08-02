@@ -189,7 +189,7 @@ const coreBlogPosts = [
       heading: "Ready to see your website idea?",
       body: "Tell us about your business and request your free personalized demo.",
       label: "Request My Free Demo",
-      to: "/contact?request=free-demo&source=blog&article=free-website-demo-before-you-pay",
+      to: "/free-demo?source=blog&article=free-website-demo-before-you-pay",
     },
   },
   {

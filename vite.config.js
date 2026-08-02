@@ -1,13 +1,34 @@
 // vite.config.js
-import { defineConfig } from "vite";
+import { defineConfig, loadEnv } from "vite";
 import react from "@vitejs/plugin-react";
 import path from "path";
 import { fileURLToPath } from "url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
+function verificationMetaPlugin(mode) {
+  const env = loadEnv(mode, __dirname, "");
+  const verificationTags = [
+    ["google-site-verification", env.VITE_GSC_VERIFICATION],
+    ["msvalidate.01", env.VITE_BING_VERIFICATION],
+  ]
+    .filter(([, content]) => String(content || "").trim())
+    .map(([name, content]) => ({
+      tag: "meta",
+      attrs: { name, content: String(content).trim() },
+      injectTo: "head",
+    }));
+
+  return {
+    name: "mspixelpulse-verification-meta",
+    transformIndexHtml() {
+      return verificationTags;
+    },
+  };
+}
+
 export default defineConfig(({ mode }) => ({
-  plugins: [react()],
+  plugins: [react(), verificationMetaPlugin(mode)],
   base: "/",
   resolve: {
     alias: { "@": path.resolve(__dirname, "src") },

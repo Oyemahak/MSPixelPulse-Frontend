@@ -87,6 +87,7 @@ export default function SocialContactLinks({
   return (
     <div
       className={`social-contact-links social-contact-links--${variant} ${className}`.trim()}
+      role="group"
       aria-label="MSPixelPulse contact links"
     >
       {links.map((link) => {

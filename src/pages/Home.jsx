@@ -5,9 +5,9 @@ import {
   LuBookOpen,
   LuBriefcaseBusiness,
   LuCircleCheck,
+  LuExternalLink,
   LuHandshake,
   LuLifeBuoy,
-  LuMessagesSquare,
   LuMonitorSmartphone,
   LuRocket,
   LuSearch,
@@ -110,23 +110,38 @@ export default function Home() {
   const differenceCards = [
     {
       icon: LuHandshake,
-      title: "Friendly, practical planning",
-      body: "Let’s shake hands, understand your business, and make the website feel useful from the first screen.",
-    },
-    {
-      icon: LuBadgeCheck,
-      title: "Affordable scope first",
-      body: "We start with the pages and contact paths your customers need most, then grow the site with clear priorities.",
-    },
-    {
-      icon: LuMessagesSquare,
-      title: "Portal-backed updates",
-      body: "Clients can use a private workspace for files, notes, approvals, and website update conversations.",
+      title: "No upfront demo commitment",
+      body: "Review the free planning direction before deciding whether a paid production project makes sense.",
     },
     {
       icon: LuMonitorSmartphone,
-      title: "Built for real phones",
-      body: "Navigation, spacing, buttons, forms, and content are reviewed on mobile because that is where trust often starts.",
+      title: "See the direction first",
+      body: "A visual demo makes layout, content hierarchy, and customer actions easier to discuss before development.",
+    },
+    {
+      icon: LuSparkles,
+      title: "Modern UI and UX",
+      body: "Clear hierarchy, purposeful interactions, and polished responsive components support a professional first impression.",
+    },
+    {
+      icon: LuSmartphone,
+      title: "Mobile optimized",
+      body: "Navigation, spacing, buttons, forms, and content are reviewed for real phone-sized screens.",
+    },
+    {
+      icon: LuSearch,
+      title: "SEO-ready foundations",
+      body: "Logical headings, metadata, internal links, structured content, and technical basics are planned from the start.",
+    },
+    {
+      icon: LuRocket,
+      title: "Fast demo turnaround",
+      body: "A focused free demo can be prepared in as little as one business day once the essentials are clear.",
+    },
+    {
+      icon: LuBadgeCheck,
+      title: "Transparent scope and pricing",
+      body: "Production deliverables, revisions, timeline, hosting, and ownership are clarified before paid work begins.",
     },
   ];
 
@@ -139,27 +154,38 @@ export default function Home() {
           <div className="grid min-w-0 gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
             <div className="min-w-0">
               <p className="mb-4 inline-flex rounded-full bg-blue-600/10 px-3 py-1 text-xs font-black uppercase tracking-wide text-blue-500">
-                Toronto web design & digital agency
+                Free website demo • ready in as little as 1 business day
               </p>
               <h1 className={isDark ? "max-w-3xl break-words text-[2.35rem] font-extrabold leading-[1.08] md:text-[3.5rem]" : "max-w-3xl break-words text-[2.35rem] font-extrabold leading-[1.08] text-slate-950 md:text-[3.5rem]"}>
-                Premium websites that make small businesses easier to trust.
+                See your business website direction before you commit.
               </h1>
               <p className={`mt-5 max-w-2xl text-lg leading-8 ${muted}`}>
-                MSPixelPulse plans, designs, and builds clear, professional websites that help small businesses explain their services and make it easy for customers to take the next step.
+                Get a free personalized website demo with mobile-first thinking,
+                clear calls to action, and no obligation to start a paid project.
               </p>
               <div className="home-hero-actions mt-8 flex flex-wrap gap-3">
-                <Link className="btn btn-primary" to="/contact">
+                <Link
+                  className="btn btn-primary"
+                  to="/free-demo"
+                  data-analytics-cta="home_free_demo"
+                  data-analytics-placement="hero"
+                >
                   <LuRocket className="h-5 w-5" aria-hidden="true" />
-                  Start a project
+                  Get My Free Demo
                 </Link>
                 <Link
                   className={isDark ? "btn btn-outline" : "liquid-glass-button inline-flex min-h-11 items-center justify-center gap-2 rounded-xl px-5 font-bold text-slate-900"}
                   to="/projects"
                 >
-                  View work
+                  Explore Website Examples
                   <LuArrowRight className="h-4 w-4" aria-hidden="true" />
                 </Link>
               </div>
+              <ul className="home-hero-benefits" aria-label="Free demo benefits">
+                <li><LuCircleCheck aria-hidden="true" /> No obligation</li>
+                <li><LuCircleCheck aria-hidden="true" /> Mobile-first</li>
+                <li><LuCircleCheck aria-hidden="true" /> Canadian support</li>
+              </ul>
             </div>
 
             <AgencyInterfacePreview />
@@ -213,13 +239,14 @@ export default function Home() {
           <div className="grid gap-8 lg:grid-cols-[0.88fr_1.12fr] lg:items-center">
             <div>
               <p className="mb-4 inline-flex rounded-full bg-amber-400/15 px-3 py-1 text-xs font-black uppercase tracking-wide text-amber-500">
-                Why we are different
+                Why businesses choose MSPixelPulse
               </p>
               <h2 className={isDark ? "text-3xl font-black leading-tight md:text-4xl" : "text-3xl font-black leading-tight text-slate-950 md:text-4xl"}>
-                Affordable website help that stays close to your business.
+                A clearer, lower-risk way to plan your website.
               </h2>
               <p className={`mt-4 max-w-xl leading-7 ${muted}`}>
-                You do not only get a few pages and a goodbye. We make MSPixelPulse a practical part of your business with clear planning, useful updates, mobile-first checks, and honest launch notes.
+                Start with a visual direction you can inspect. If you decide to continue,
+                the production scope stays transparent and focused on what your customers need.
               </p>
               <Link className="mt-6 inline-flex items-center gap-2 font-black text-blue-500 hover:underline" to="/about">
                 Meet the agency
@@ -354,7 +381,7 @@ function ProjectSection({ eyebrow, title, projects: items, dark }) {
         <div className="grid gap-5 md:grid-cols-3">
           {items.map((project) => (
             <article key={project.id} className="project-showcase-card">
-              <Link to={`/projects/${project.id}`} className="project-browser-frame group">
+              <Link to={`/projects/${project.slug}`} className="project-browser-frame group">
                 <span className="project-browser-toolbar" aria-hidden="true">
                   <i /><i /><i />
                   <small>{project.platform} preview</small>
@@ -365,6 +392,7 @@ function ProjectSection({ eyebrow, title, projects: items, dark }) {
                     src={project.thumb}
                     alt={project.imageAlt || project.title}
                     loading="lazy"
+                    decoding="async"
                     width="1440"
                     height="900"
                   />
@@ -372,6 +400,12 @@ function ProjectSection({ eyebrow, title, projects: items, dark }) {
               </Link>
                 <div className="project-showcase-copy p-5">
                   <div className="mb-3 flex flex-wrap gap-2">
+                    <span className={dark ? "badge" : "rounded-full bg-blue-50 px-3 py-1 text-xs font-bold text-blue-700"}>
+                      {project.label}
+                    </span>
+                    <span className={dark ? "badge" : "rounded-full bg-slate-100 px-3 py-1 text-xs font-bold text-slate-700"}>
+                      {project.industry}
+                    </span>
                     {project.stack.slice(0, 3).map((stack) => (
                       <span key={stack} className={dark ? "badge" : "rounded-full bg-slate-100 px-3 py-1 text-xs font-bold text-slate-700"}>
                         {stack}
@@ -384,9 +418,17 @@ function ProjectSection({ eyebrow, title, projects: items, dark }) {
                   <p className={`mt-2 text-sm leading-6 ${muted}`}>
                     {project.shortDescription || project.summary}
                   </p>
-                  <Link className="project-showcase-link" to={`/projects/${project.id}`}>
-                    View case study <LuArrowRight className="h-4 w-4" aria-hidden="true" />
-                  </Link>
+                  <div className="project-showcase-actions">
+                    <Link className="project-showcase-link" to={`/projects/${project.slug}`}>
+                      View case study <LuArrowRight className="h-4 w-4" aria-hidden="true" />
+                    </Link>
+                    {project.live && (
+                      <a className="project-showcase-link" href={project.live} target="_blank" rel="noreferrer">
+                        {project.classification === "live" ? "Visit live website" : "Preview concept website"}
+                        <LuExternalLink className="h-4 w-4" aria-hidden="true" />
+                      </a>
+                    )}
+                  </div>
                 </div>
             </article>
           ))}

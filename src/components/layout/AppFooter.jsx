@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import SocialContactLinks from "@/components/SocialContactLinks.jsx";
 import { site } from "@/data/site.js";
 import { useTheme } from "@/lib/theme.js";
+import { openAnalyticsPreferences } from "@/lib/analytics.js";
 
 const navigation = [
   ["Home", "/"],
@@ -12,6 +13,7 @@ const navigation = [
   ["Pricing", "/pricing"],
   ["Blog", "/blog"],
   ["Contact", "/contact"],
+  ["Free Demo", "/free-demo"],
 ];
 
 const serviceLinks = [
@@ -83,6 +85,9 @@ export default function AppFooter() {
             <Link to="/privacy">Privacy</Link>
             <Link to="/terms">Terms</Link>
             <Link to="/cookies">Cookies</Link>
+            <button type="button" className="footer-preferences-button" onClick={openAnalyticsPreferences}>
+              Cookie preferences
+            </button>
             <Link to="/accessibility">Accessibility</Link>
             <Link to="/security">Security</Link>
           </nav>

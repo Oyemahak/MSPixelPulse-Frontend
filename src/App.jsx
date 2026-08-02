@@ -5,6 +5,8 @@ import { Routes, Route, Navigate, useLocation, Outlet } from "react-router-dom";
 import AppHeader from "./components/layout/AppHeader.jsx";
 import AppFooter from "./components/layout/AppFooter.jsx";
 import CookieBanner from "@/components/CookieBanner.jsx";
+import AnalyticsManager from "@/components/AnalyticsManager.jsx";
+import LeadCaptureTools from "@/components/conversion/LeadCaptureTools.jsx";
 import { useAuth } from "@/context/AuthContext.jsx";
 import { ThemeProvider } from "@/lib/theme.js";
 
@@ -15,6 +17,7 @@ const ProjectDetail = lazy(() => import("./pages/ProjectDetail.jsx"));
 const Services = lazy(() => import("./pages/Services.jsx"));
 const Pricing = lazy(() => import("./pages/Pricing.jsx"));
 const Contact = lazy(() => import("./pages/Contact.jsx"));
+const FreeDemo = lazy(() => import("./pages/FreeDemo.jsx"));
 const Blog = lazy(() => import("./pages/Blog.jsx"));
 const BlogPost = lazy(() => import("./pages/BlogPost.jsx"));
 const About = lazy(() => import("./pages/About.jsx"));
@@ -89,6 +92,7 @@ export default function App() {
   return (
     <ThemeProvider>
       <div className="app-shell min-h-screen flex flex-col bg-transparent">
+        <AnalyticsManager />
         <a className="skip-link" href="#main-content">Skip to main content</a>
         {!hidePublicChrome && <AppHeader />}
 
@@ -103,6 +107,7 @@ export default function App() {
               <Route path="/services" element={<Services />} />
               <Route path="/pricing" element={<Pricing />} />
               <Route path="/contact" element={<Contact />} />
+              <Route path="/free-demo" element={<FreeDemo />} />
               <Route path="/blog" element={<Blog />} />
               <Route path="/blog/:slug" element={<BlogPost />} />
               <Route path="/about" element={<About />} />
@@ -157,6 +162,7 @@ export default function App() {
         </ContentRoot>
 
         {!hidePublicChrome && <AppFooter />}
+        {!hidePublicChrome && <LeadCaptureTools />}
         {!hidePublicChrome && <CookieBanner />}
       </div>
     </ThemeProvider>

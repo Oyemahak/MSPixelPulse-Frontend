@@ -53,6 +53,7 @@ function ProjectCard({ project, isDark }) {
             alt={project.imageAlt || `${project.title} website preview`}
             className="h-full w-full object-cover transition duration-300 group-hover:scale-105"
             loading="lazy"
+            decoding="async"
             width="1440"
             height="900"
             onError={(event) => {
@@ -96,18 +97,21 @@ function ProjectCard({ project, isDark }) {
         <div className="project-card-actions mt-5 flex flex-wrap gap-3">
           <Link
             to={`/projects/${project.slug}`}
-            className={isDark ? "btn btn-primary h-10 px-4" : "inline-flex h-10 items-center rounded-xl bg-[#2563ff] px-4 text-sm font-bold text-white"}
+            className="btn btn-primary project-card-button"
           >
-            View case study <LuArrowRight className="ml-2 h-4 w-4" />
+            View case study <LuArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
           </Link>
           {project.live && (
             <a
               href={project.live}
               target="_blank"
               rel="noreferrer"
-              className={isDark ? "btn btn-outline h-10 px-4" : "inline-flex h-10 items-center rounded-xl border border-slate-200 px-4 text-sm font-bold text-slate-800"}
+              className="btn btn-outline project-card-button"
+              data-analytics-cta={project.classification === "live" ? "visit_live_project" : "preview_concept_project"}
+              data-analytics-placement="projects_card"
             >
-              Live site <LuExternalLink className="ml-2 h-4 w-4" />
+              {project.classification === "live" ? "Visit live website" : "Preview concept website"}
+              <LuExternalLink className="ml-2 h-4 w-4" aria-hidden="true" />
             </a>
           )}
         </div>

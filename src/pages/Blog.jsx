@@ -97,7 +97,7 @@ export default function Blog() {
               <a href="#popular-guides">Popular 10</a>
               <a href="#blog-categories">Categories</a>
               <a href="#article-library">All guides</a>
-              <Link to="/contact?request=free-demo">
+              <Link to="/free-demo?source=blog">
                 Free website demo
                 <LuArrowRight aria-hidden="true" />
               </Link>

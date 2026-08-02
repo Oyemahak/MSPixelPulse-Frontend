@@ -1,11 +1,11 @@
 <svg width="64" height="64" viewBox="146 0 1104 1104" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
   <title id="title">MSPixelPulse white favicon</title>
-  <desc id="desc">A flat white interlocking M and S monogram with a transparent background and a white 0.2 pixel outline.</desc>
+  <desc id="desc">A flat white interlocking M and S monogram with a transparent background and a light-theme gold 0.2 pixel outline.</desc>
   <defs>
     <g id="mark">
       <path d="M914 673L913 904L697 1040L483 904L483 546L560 588L560 858L697 948L836 857L836 641L348 359L348 861L270 861L270 222L483 345L483 186L697 63L913 186L913 255L836 296L836 231L697 152L559 229L559 369L562 392L914 597V673Z"/>
       <path d="M1126 222V861H1048V359L865 465L843 456L784 420L1126 222Z"/>
     </g>
   </defs>
-  <use href="#mark" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="0.2" vector-effect="non-scaling-stroke" stroke-linejoin="miter" stroke-miterlimit="3"/>
+  <use href="#mark" fill="#FFFFFF" stroke="#F4CF72" stroke-width="0.2" vector-effect="non-scaling-stroke" stroke-linejoin="miter" stroke-miterlimit="3"/>
 </svg>

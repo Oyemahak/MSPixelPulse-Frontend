@@ -30,7 +30,12 @@ export function ThemeProvider({ children }) {
     themeColor?.setAttribute("content", theme === "dark" ? "#030304" : "#f6f8fc");
 
     const favicon = document.querySelector("#site-favicon");
-    favicon?.setAttribute("href", "/favicon.svg?v=white-favicon-v1");
+    favicon?.setAttribute(
+      "href",
+      theme === "dark"
+        ? "/favicon-dark.svg?v=white-accent-outline-v2"
+        : "/favicon-light.svg?v=white-accent-outline-v2"
+    );
 
     window.localStorage.setItem("mspixelpulse-theme", theme);
   }, [theme]);

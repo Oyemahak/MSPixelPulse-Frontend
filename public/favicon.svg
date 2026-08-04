@@ -1,17 +1,16 @@
-<svg width="64" height="64" viewBox="146 0 1104 1104" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
-  <title id="title">MSPixelPulse adaptive favicon</title>
-  <desc id="desc">A flat interlocking M and S monogram with a transparent background, black with a gold outline in light mode and white with a purple outline in dark mode.</desc>
-  <style>
-    .mark { fill: #000000; stroke: #F4CF72; }
-    @media (prefers-color-scheme: dark) {
-      .mark { fill: #FFFFFF; stroke: #8B6CFF; }
-    }
-  </style>
+<svg width="512" height="512" viewBox="146 0 1104 1104" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">MSPixelPulse brand icon</title>
+  <desc id="desc">A white interlocking M and S monogram on a high-contrast indigo tile with a gold border.</desc>
   <defs>
+    <linearGradient id="tile" x1="190" y1="72" x2="1190" y2="1050" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#2563EB"/>
+      <stop offset="1" stop-color="#6D28D9"/>
+    </linearGradient>
     <g id="mark">
       <path d="M914 673L913 904L697 1040L483 904L483 546L560 588L560 858L697 948L836 857L836 641L348 359L348 861L270 861L270 222L483 345L483 186L697 63L913 186L913 255L836 296L836 231L697 152L559 229L559 369L562 392L914 597V673Z"/>
       <path d="M1126 222V861H1048V359L865 465L843 456L784 420L1126 222Z"/>
     </g>
   </defs>
-  <use class="mark" href="#mark" stroke-width="1" vector-effect="non-scaling-stroke" stroke-linejoin="miter" stroke-miterlimit="3"/>
+  <rect x="154" y="8" width="1088" height="1088" rx="224" fill="url(#tile)" stroke="#F4CF72" stroke-width="16"/>
+  <use href="#mark" fill="#FFFFFF" stroke="#312E81" stroke-width="20" paint-order="stroke fill" stroke-linejoin="round"/>
 </svg>

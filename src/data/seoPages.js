@@ -10,7 +10,7 @@ export const organizationJsonLd = {
   legalName: site.legalName,
   url: site.url,
   email: site.email,
-  logo: absolute("/logo.svg?v=site-logo-outer-border-16px-v7"),
+  logo: absolute("/icon-512.png?v=brand-tile-v1"),
   description: site.description,
   areaServed: site.serviceAreas.map((name) => ({ "@type": "Place", name })),
   contactPoint: {
@@ -32,7 +32,7 @@ export const localBusinessJsonLd = site.publicAddress
       name: site.name,
       url: site.url,
       image: absolute("/hero/mspixelpulse-web-design-collaboration.webp"),
-      logo: absolute("/logo.svg?v=site-logo-outer-border-16px-v7"),
+      logo: absolute("/icon-512.png?v=brand-tile-v1"),
       telephone: site.phoneDisplay,
       email: site.email,
       address: {
@@ -245,7 +245,7 @@ export function blogPostSeo(post) {
     publisher: {
       "@type": "Organization",
       name: site.name,
-      logo: { "@type": "ImageObject", url: absolute("/logo.svg?v=site-logo-outer-border-16px-v7") },
+      logo: { "@type": "ImageObject", url: absolute("/icon-512.png?v=brand-tile-v1") },
     },
     mainEntityOfPage: absolute(path),
   };

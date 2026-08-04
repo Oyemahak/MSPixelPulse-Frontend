@@ -9,9 +9,15 @@
     />
     <meta name="robots" content="index,follow" />
     <meta name="theme-color" content="#f6f8fc" />
-    <link id="site-favicon" rel="icon" href="/favicon-light.svg?v=visible-accent-border-v4" type="image/svg+xml" sizes="any" />
-    <link rel="apple-touch-icon" href="/icon.svg?v=site-logo-outer-border-16px-v7" type="image/svg+xml" sizes="any" />
-    <link rel="manifest" href="/site.webmanifest?v=site-logo-outer-border-16px-v7" />
+    <link id="site-favicon" rel="icon" href="/favicon.svg?v=brand-tile-v1" type="image/svg+xml" sizes="any" />
+    <link rel="icon" href="/favicon-48x48.png?v=brand-tile-v1" type="image/png" sizes="48x48" />
+    <link rel="shortcut icon" href="/favicon.ico?v=brand-tile-v1" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=brand-tile-v1" sizes="180x180" />
+    <link rel="mask-icon" href="/logo-monochrome.svg?v=monochrome-v1" color="#4f46e5" />
+    <link rel="manifest" href="/site.webmanifest?v=brand-tile-v1" />
+    <meta name="application-name" content="MSPixelPulse" />
+    <meta name="apple-mobile-web-app-title" content="MSPixelPulse" />
+    <meta name="msapplication-TileColor" content="#4f46e5" />
     <link rel="canonical" href="https://mspixelpulse.com/" />
     <meta property="og:title" content="MSPixelPulse" />
     <meta
@@ -31,12 +37,6 @@
         document.querySelector('meta[name="theme-color"]').setAttribute(
           "content",
           initialTheme === "dark" ? "#030304" : "#f6f8fc"
-        );
-        document.querySelector("#site-favicon").setAttribute(
-          "href",
-          initialTheme === "dark"
-            ? "/favicon-dark.svg?v=visible-accent-border-v4"
-            : "/favicon-light.svg?v=visible-accent-border-v4"
         );
       } catch {}
     </script>

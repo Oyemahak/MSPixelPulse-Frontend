@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { LuCookie, LuX } from "react-icons/lu";
+import { LuChevronDown, LuChevronUp, LuCookie, LuX } from "react-icons/lu";
 import { useTheme } from "@/lib/theme.js";
 import {
   ANALYTICS_PREFERENCES_EVENT,
@@ -12,11 +12,15 @@ export default function CookieBanner() {
   const { theme } = useTheme();
   const isDark = theme === "dark";
   const [visible, setVisible] = useState(false);
+  const [expanded, setExpanded] = useState(() => (
+    typeof window === "undefined" || !window.matchMedia("(max-width: 640px)").matches
+  ));
 
   useEffect(() => {
     setVisible(getAnalyticsConsent() === "unset");
 
     function openPreferences() {
+      setExpanded(true);
       setVisible(true);
     }
     window.addEventListener(ANALYTICS_PREFERENCES_EVENT, openPreferences);
@@ -39,21 +43,21 @@ export default function CookieBanner() {
 
   return (
     <section
-      className="cookie-banner"
+      className={`cookie-banner ${expanded ? "is-expanded" : "is-collapsed"}`}
       aria-label="Analytics preferences"
       data-theme-card={isDark ? "dark" : "light"}
     >
       <div className="cookie-icon" aria-hidden="true">
         <LuCookie className="h-5 w-5" />
       </div>
-      <div className="min-w-0">
-        <h2 className="cookie-title">Analytics preferences</h2>
-        <p className="cookie-copy">
-          Essential storage keeps core site preferences working. With your permission,
-          privacy-limited analytics help us understand public-page performance and conversions.
-        </p>
-      </div>
-      <div className="cookie-actions">
+      <p className="cookie-copy" id="analytics-preferences-copy">
+        <strong className="cookie-title">Analytics preferences.</strong>{" "}
+        <span className="cookie-details-copy">
+          Essential storage keeps the site working. With your permission, privacy-limited
+          analytics help us improve public pages and conversions.
+        </span>
+      </p>
+      <div className="cookie-actions" id="analytics-preference-actions" hidden={!expanded}>
         <Link to="/cookies" className="cookie-link">Cookie details</Link>
         <button type="button" className="cookie-link" onClick={() => choose("essential")}>
           Essential only
@@ -62,6 +66,17 @@ export default function CookieBanner() {
           Accept analytics
         </button>
       </div>
+      <button
+        type="button"
+        className="cookie-expand"
+        onClick={() => setExpanded((current) => !current)}
+        aria-expanded={expanded}
+        aria-controls="analytics-preference-actions"
+        aria-label={expanded ? "Collapse analytics preferences" : "Manage analytics preferences"}
+      >
+        <span>{expanded ? "Less" : "Manage"}</span>
+        {expanded ? <LuChevronUp aria-hidden="true" /> : <LuChevronDown aria-hidden="true" />}
+      </button>
       <button
         type="button"
         className="cookie-close"

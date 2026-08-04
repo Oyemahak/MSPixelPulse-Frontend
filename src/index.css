@@ -4591,25 +4591,35 @@ html:not([data-theme="dark"]) .app-footer {
 
 .cookie-banner {
   position: fixed;
-  right: max(1rem, env(safe-area-inset-right));
+  left: 50%;
+  right: auto;
   bottom: max(1rem, env(safe-area-inset-bottom));
   z-index: 80;
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto auto;
+  grid-template-columns: auto minmax(16rem, 1fr) auto auto;
   align-items: center;
-  gap: 0.9rem;
-  width: min(44rem, calc(100vw - 2rem));
-  padding: 0.9rem;
-  border-radius: 1.35rem;
+  gap: 0.65rem;
+  width: min(76rem, calc(100vw - 2rem));
+  min-height: 4.25rem;
+  padding: 0.58rem 3.55rem 0.58rem 0.7rem;
+  border-radius: 1.15rem;
   border: 1px solid rgba(255, 255, 255, 0.7);
   background:
     linear-gradient(135deg, rgba(255, 255, 255, 0.78), rgba(248, 250, 252, 0.64)),
     rgba(255, 255, 255, 0.72);
   color: #0f172a;
   box-shadow:
-    0 20px 58px rgba(15, 23, 42, 0.12),
-    0 16px 42px rgba(245, 158, 11, 0.14);
+    0 18px 44px rgba(15, 23, 42, 0.12),
+    0 10px 28px rgba(245, 158, 11, 0.1);
   backdrop-filter: saturate(150%) blur(22px);
+  transform: translateX(-50%);
+  animation: cookieFloatIn 320ms var(--premium-ease) both;
+}
+
+.cookie-banner.is-collapsed {
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  width: min(25rem, calc(100vw - 2rem));
+  min-height: 3.7rem;
 }
 
 [data-theme="dark"] .cookie-banner {
@@ -4622,8 +4632,8 @@ html:not([data-theme="dark"]) .app-footer {
 
 .cookie-icon {
   display: grid;
-  width: 2.4rem;
-  height: 2.4rem;
+  width: 2.25rem;
+  height: 2.25rem;
   place-items: center;
   border-radius: 0.9rem;
   background: rgba(37, 99, 235, 0.1);
@@ -4636,15 +4646,17 @@ html:not([data-theme="dark"]) .app-footer {
 }
 
 .cookie-title {
-  font-size: 0.92rem;
+  color: inherit;
+  font-size: inherit;
   font-weight: 900;
 }
 
 .cookie-copy {
-  margin-top: 0.15rem;
+  min-width: 0;
+  margin: 0;
   color: #526073;
-  font-size: 0.82rem;
-  line-height: 1.55;
+  font-size: 0.78rem;
+  line-height: 1.45;
 }
 
 [data-theme="dark"] .cookie-copy {
@@ -4654,22 +4666,31 @@ html:not([data-theme="dark"]) .app-footer {
 .cookie-actions {
   display: flex;
   align-items: center;
-  gap: 0.55rem;
+  gap: 0.35rem;
+  white-space: nowrap;
+}
+
+.cookie-actions[hidden],
+.cookie-banner.is-collapsed .cookie-details-copy {
+  display: none;
 }
 
 .cookie-link,
 .cookie-accept,
+.cookie-expand,
 .cookie-close {
-  min-height: 2.4rem;
-  border-radius: 0.8rem;
-  font-size: 0.82rem;
+  min-height: 2.75rem;
+  border-radius: 0.75rem;
+  font-size: 0.76rem;
   font-weight: 850;
+  cursor: pointer;
+  transition: background 180ms ease, border-color 180ms ease, color 180ms ease;
 }
 
 .cookie-link {
   display: inline-flex;
   align-items: center;
-  padding: 0 0.8rem;
+  padding: 0 0.65rem;
   color: #1557d5;
 }
 
@@ -4681,22 +4702,76 @@ html:not([data-theme="dark"]) .app-footer {
   border: 1px solid rgba(37, 99, 235, 0.24);
   background: rgba(37, 99, 235, 0.12);
   color: #1557d5;
-  padding: 0 0.95rem;
+  padding: 0 0.8rem;
 }
 
 .cookie-accept:hover {
   background: rgba(37, 99, 235, 0.18);
 }
 
+.cookie-expand {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3rem;
+  padding: 0 0.65rem;
+  color: #475569;
+}
+
+.cookie-expand svg {
+  width: 0.9rem;
+  height: 0.9rem;
+}
+
+.cookie-expand:hover,
 .cookie-close {
+  background: rgba(15, 23, 42, 0.05);
+}
+
+.cookie-close {
+  position: absolute;
+  top: 50%;
+  right: 0.5rem;
   display: grid;
-  width: 2.4rem;
+  width: 2.75rem;
   place-items: center;
   color: #64748b;
+  transform: translateY(-50%);
 }
 
 .cookie-close:hover {
   background: rgba(15, 23, 42, 0.06);
+}
+
+.cookie-link:focus-visible,
+.cookie-accept:focus-visible,
+.cookie-expand:focus-visible,
+.cookie-close:focus-visible {
+  outline: 3px solid rgba(37, 99, 235, 0.42);
+  outline-offset: 2px;
+}
+
+[data-theme="dark"] .cookie-link,
+[data-theme="dark"] .cookie-accept {
+  color: #93c5fd;
+}
+
+[data-theme="dark"] .cookie-expand,
+[data-theme="dark"] .cookie-close {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+[data-theme="dark"] :is(.cookie-link, .cookie-expand, .cookie-close):hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+[data-theme="dark"] .cookie-accept {
+  border-color: rgba(147, 197, 253, 0.28);
+  background: rgba(96, 165, 250, 0.14);
+}
+
+[data-theme="dark"] .cookie-accept:hover {
+  background: rgba(96, 165, 250, 0.22);
 }
 
 .seo-resource-card {
@@ -5735,18 +5810,7 @@ html:not([data-theme="dark"]) body::after {
   left: 50%;
   right: auto;
   bottom: max(1rem, env(safe-area-inset-bottom));
-  width: min(46rem, calc(100vw - 2rem));
   transform: translateX(-50%);
-  padding: 0.78rem 0.85rem;
-  animation: cookieFloatIn 320ms var(--premium-ease) both;
-}
-
-.cookie-copy {
-  max-width: 36rem;
-}
-
-.cookie-close {
-  justify-self: end;
 }
 
 @keyframes cookieFloatIn {
@@ -5797,6 +5861,34 @@ html:not([data-theme="dark"]) body::after {
 @media (max-width: 1024px) {
   .pricing-plan-card-featured {
     transform: none;
+  }
+}
+
+@media (max-width: 900px) and (min-width: 641px) {
+  .cookie-banner.is-expanded {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    width: min(46rem, calc(100vw - 2rem));
+  }
+
+  .cookie-banner.is-expanded .cookie-icon {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .cookie-banner.is-expanded .cookie-copy {
+    grid-column: 2 / -1;
+    grid-row: 1;
+  }
+
+  .cookie-banner.is-expanded .cookie-actions {
+    grid-column: 1 / 3;
+    grid-row: 2;
+    justify-content: flex-start;
+  }
+
+  .cookie-banner.is-expanded .cookie-expand {
+    grid-column: 3;
+    grid-row: 2;
   }
 }
 
@@ -5852,44 +5944,67 @@ html:not([data-theme="dark"]) body::after {
 
   .cookie-banner {
     grid-template-columns: auto minmax(0, 1fr) auto;
-    width: min(22.5rem, calc(100vw - 1.25rem));
-    gap: 0.62rem;
-    padding: 0.72rem;
+    width: min(24rem, calc(100vw - 1.25rem));
+    gap: 0.5rem;
+    padding: 0.58rem 3.35rem 0.58rem 0.58rem;
+  }
+
+  .cookie-banner.is-collapsed {
+    width: min(25rem, calc(100vw - 1rem));
+  }
+
+  .cookie-banner.is-collapsed .cookie-copy {
+    font-size: 0.72rem;
+    white-space: nowrap;
+  }
+
+  .cookie-banner.is-collapsed .cookie-expand {
+    padding-inline: 0.45rem;
+    font-size: 0.72rem;
   }
 
   .cookie-icon {
-    width: 2.15rem;
-    height: 2.15rem;
-  }
-
-  .cookie-title {
-    font-size: 0.86rem;
+    width: 2.25rem;
+    height: 2.25rem;
   }
 
   .cookie-copy {
-    font-size: 0.74rem;
-    line-height: 1.42;
+    font-size: 0.76rem;
+    line-height: 1.45;
   }
 
   .cookie-actions {
     grid-column: 1 / -1;
     grid-row: 2;
-    justify-content: flex-start;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: 100%;
+    white-space: normal;
   }
 
-  .cookie-link,
-  .cookie-accept,
-  .cookie-close {
-    min-height: 2.1rem;
-    font-size: 0.78rem;
+  .cookie-actions .cookie-link:first-child {
+    grid-column: 1 / -1;
   }
 
-  .cookie-close {
-    grid-column: 3;
-    grid-row: 1;
-    width: 2.1rem;
-    align-self: start;
-    justify-self: end;
+  .cookie-actions :is(.cookie-link, .cookie-accept) {
+    justify-content: center;
+    text-align: center;
+  }
+
+  .cookie-banner.is-expanded .cookie-expand {
+    width: 2.75rem;
+    padding: 0;
+  }
+
+  .cookie-banner.is-expanded .cookie-expand span {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
   }
 }
 
@@ -6439,6 +6554,7 @@ html:not([data-theme="dark"]) #main-content .contact-page .consent-field input[t
 
   .cookie-link,
   .cookie-accept,
+  .cookie-expand,
   .cookie-close {
     min-height: 2.75rem;
   }
@@ -7955,13 +8071,13 @@ html:not([data-theme="dark"]) .blog-article-page {
 }
 
 .blog-article-header h1 {
-  max-width: 63rem;
+  max-width: 58rem;
   margin: 0 auto;
   color: var(--blog-ink);
-  font-size: clamp(2.35rem, 6vw, 5rem);
-  font-weight: 950;
-  letter-spacing: -0.055em;
-  line-height: 1.01;
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  font-weight: 900;
+  letter-spacing: -0.045em;
+  line-height: 1.08;
 }
 
 .blog-article-deck {

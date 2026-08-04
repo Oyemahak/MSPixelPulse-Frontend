@@ -1,6 +1,7 @@
 /* global process */
 // Vercel Serverless Function: /api/contact
 import { Resend } from "resend";
+import { internalRecipients } from "./_emailRecipients.js";
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 // Simple 15s per-IP cooldown
@@ -48,7 +49,7 @@ export default async function handler(req, res) {
       return res.end(JSON.stringify({ error: "Please fill out all fields." }));
     }
 
-    const to = process.env.FORMS_TO_EMAIL;
+    const to = internalRecipients(process.env.FORMS_TO_EMAIL);
     const from = process.env.FORMS_FROM_EMAIL || "MSPixelPulse <info@mspixelpulse.com>";
 
     const pretty = `
@@ -59,7 +60,6 @@ Email: ${email}
 
 Message:
 ${message}
-IP: ${ip}
     `.trim();
 
     const html = `
@@ -69,11 +69,10 @@ IP: ${ip}
         <p><strong>Email:</strong> <a href="mailto:${escapeAttr(email)}">${escapeHTML(email)}</a></p>
         <p style="margin:12px 0 4px"><strong>Message:</strong></p>
         <div style="white-space:pre-wrap;border:1px solid #e5e7eb;background:#f9fafb;border-radius:8px;padding:12px">${escapeHTML(message)}</div>
-        <p style="margin-top:12px;color:#64748b;font-size:12px">IP: ${escapeHTML(ip)}</p>
       </div>
     `;
 
-    await resend.emails.send({
+    const result = await resend.emails.send({
       from,
       to,
       subject: `New contact: ${name}`,
@@ -81,6 +80,7 @@ IP: ${ip}
       html,
       reply_to: email,
     });
+    if (result?.error) throw new Error(result.error.message || "Email provider rejected the request");
 
     res.writeHead(201, headers);
     return res.end(JSON.stringify({ ok: true, message: "Sent" }));

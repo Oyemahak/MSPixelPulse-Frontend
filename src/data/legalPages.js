@@ -3,15 +3,15 @@ export const legalPages = {
     title: "Privacy Policy",
     description:
       "Draft privacy policy for MSPixelPulse website visitors, leads, and portal users.",
-    updated: "August 2, 2026",
+    updated: "August 4, 2026",
     sections: [
       {
         heading: "Information we collect",
-        body: "MSPixelPulse may collect contact details, project information, portal account details, messages, uploaded files, and technical information needed to operate the website and client workspace.",
+        body: "MSPixelPulse may collect contact details, project information, portal account details, messages, uploaded files, blog comments submitted for moderation, email subscription choices, privacy-conscious blog reaction identifiers, and technical information needed to operate and protect the website and client workspace.",
       },
       {
         heading: "How information is used",
-        body: "Information is used to respond to inquiries, provide website services, manage projects, communicate updates, improve the website, maintain security, and meet legal or operational requirements.",
+        body: "Information is used to respond to inquiries, provide website services, manage projects, moderate blog comments, record article engagement, manage consent-based blog subscriptions, communicate requested updates, improve the website, maintain security, and meet legal or operational requirements. Comment email addresses are not displayed publicly.",
       },
       {
         heading: "Service providers",
@@ -19,7 +19,7 @@ export const legalPages = {
       },
       {
         heading: "Retention and access",
-        body: "Project and account information is retained while services are active or when needed for records, support, security, or legal purposes. Clients may request access or correction through the contact page.",
+        body: "Project, inquiry, moderation, subscription, and account information is retained while needed for active services, consent records, support, security, or legal and operational records. Subscribers can use the unsubscribe link included with subscription emails. Visitors may request access or correction through the contact page.",
       },
     ],
   },

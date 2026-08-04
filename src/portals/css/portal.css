@@ -2042,6 +2042,575 @@ html:not([data-theme="dark"]) .portal-frame .icon-btn:hover {
     }
 }
 
+/* Admin blog engagement workspace */
+.engagement-admin-page {
+    display: grid;
+    gap: 1rem;
+    min-width: 0;
+    padding-bottom: 2rem;
+}
+
+.engagement-admin-hero,
+.engagement-admin-panel,
+.engagement-admin-filters,
+.engagement-record-card,
+.engagement-metric-card,
+.engagement-admin-empty {
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(15, 15, 18, 0.76);
+    box-shadow: 0 22px 62px rgba(0, 0, 0, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    -webkit-backdrop-filter: saturate(145%) blur(18px);
+    backdrop-filter: saturate(145%) blur(18px);
+}
+
+.engagement-admin-hero {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: clamp(1rem, 3vw, 1.4rem);
+    border-radius: 1.35rem;
+}
+
+.engagement-admin-hero p,
+.engagement-admin-hero h2,
+.engagement-admin-hero span {
+    margin: 0;
+}
+
+.engagement-admin-hero p,
+.engagement-panel-heading p {
+    color: #8cb4ff;
+    font-size: 0.68rem;
+    font-weight: 900;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+}
+
+.engagement-admin-hero h2 {
+    margin-top: 0.25rem;
+    color: var(--textMain);
+    font-size: clamp(1.45rem, 3vw, 2rem);
+    font-weight: 950;
+    letter-spacing: -0.035em;
+}
+
+.engagement-admin-hero span {
+    display: block;
+    max-width: 48rem;
+    margin-top: 0.35rem;
+    color: var(--textSub);
+    font-size: 0.8rem;
+    line-height: 1.55;
+}
+
+.engagement-metric-grid {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 0.7rem;
+}
+
+.engagement-metric-card {
+    display: flex;
+    min-width: 0;
+    align-items: center;
+    gap: 0.7rem;
+    padding: 0.85rem;
+    border-radius: 1rem;
+}
+
+.engagement-metric-card > span {
+    display: grid;
+    width: 2.45rem;
+    height: 2.45rem;
+    flex: 0 0 auto;
+    place-items: center;
+    border-radius: 0.8rem;
+    background: rgba(96, 165, 250, 0.12);
+    color: #8cb4ff;
+}
+
+.engagement-metric-card small,
+.engagement-metric-card strong {
+    display: block;
+}
+
+.engagement-metric-card small {
+    color: var(--textSub);
+    font-size: 0.65rem;
+    line-height: 1.2;
+}
+
+.engagement-metric-card strong {
+    margin-top: 0.15rem;
+    color: var(--textMain);
+    font-size: 1.35rem;
+    font-weight: 950;
+}
+
+.engagement-admin-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    padding: 0.35rem;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 1rem;
+    background: rgba(0, 0, 0, 0.16);
+}
+
+.engagement-admin-tabs button {
+    min-height: 2.75rem;
+    padding: 0.55rem 0.9rem;
+    border-radius: 0.75rem;
+    color: var(--textSub);
+    font-size: 0.74rem;
+    font-weight: 850;
+    cursor: pointer;
+    transition: background 180ms ease, color 180ms ease, transform 180ms ease;
+}
+
+.engagement-admin-tabs button:hover {
+    color: var(--textMain);
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.engagement-admin-tabs button.is-active {
+    color: #ffffff;
+    background: linear-gradient(135deg, #2563eb, #6d4bea);
+    box-shadow: 0 12px 28px rgba(37, 99, 235, 0.2);
+}
+
+.engagement-admin-filters {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(10rem, 1fr)) auto auto;
+    align-items: end;
+    gap: 0.7rem;
+    padding: 0.8rem;
+    border-radius: 1rem;
+}
+
+.engagement-filter-field {
+    display: grid;
+    min-width: 0;
+    gap: 0.35rem;
+    color: var(--textSub);
+    font-size: 0.66rem;
+    font-weight: 800;
+}
+
+.engagement-filter-input {
+    position: relative;
+    display: block;
+}
+
+.engagement-filter-input svg {
+    position: absolute;
+    top: 50%;
+    left: 0.8rem;
+    z-index: 1;
+    width: 0.9rem;
+    height: 0.9rem;
+    color: var(--textSub);
+    transform: translateY(-50%);
+}
+
+.engagement-filter-input input {
+    padding-left: 2.35rem;
+}
+
+.engagement-admin-notice {
+    display: flex;
+    min-height: 1.5rem;
+    align-items: center;
+    gap: 0.45rem;
+    color: var(--textSub);
+    font-size: 0.75rem;
+}
+
+.engagement-admin-notice.is-success {
+    color: #34d399;
+}
+
+.engagement-admin-notice.is-error {
+    color: #fb7185;
+}
+
+.engagement-admin-panel {
+    padding: 1rem;
+    border-radius: 1.2rem;
+}
+
+.engagement-panel-heading h3,
+.engagement-panel-heading p {
+    margin: 0;
+}
+
+.engagement-panel-heading h3 {
+    margin-top: 0.22rem;
+    color: var(--textMain);
+    font-size: 1.1rem;
+    font-weight: 900;
+}
+
+.engagement-blog-list,
+.engagement-record-list {
+    display: grid;
+    gap: 0.7rem;
+}
+
+.engagement-blog-list {
+    margin-top: 0.85rem;
+}
+
+.engagement-blog-list article {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 1rem;
+    align-items: center;
+    padding: 0.8rem;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 0.9rem;
+    background: rgba(255, 255, 255, 0.035);
+}
+
+.engagement-blog-list article > div:first-child {
+    display: grid;
+    min-width: 0;
+    gap: 0.25rem;
+}
+
+.engagement-blog-list strong {
+    color: var(--textMain);
+    font-size: 0.78rem;
+}
+
+.engagement-blog-list a,
+.engagement-record-meta a {
+    display: inline-flex;
+    width: fit-content;
+    align-items: center;
+    gap: 0.3rem;
+    color: #8cb4ff;
+    font-size: 0.68rem;
+    font-weight: 800;
+}
+
+.engagement-blog-list dl {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(3.8rem, 1fr));
+    gap: 0.45rem;
+    margin: 0;
+}
+
+.engagement-blog-list dl div {
+    min-width: 0;
+    padding: 0.5rem;
+    border-radius: 0.7rem;
+    background: rgba(255, 255, 255, 0.045);
+    text-align: center;
+}
+
+.engagement-blog-list dt {
+    color: var(--textSub);
+    font-size: 0.58rem;
+}
+
+.engagement-blog-list dd {
+    margin: 0.08rem 0 0;
+    color: var(--textMain);
+    font-size: 0.88rem;
+    font-weight: 900;
+}
+
+.engagement-record-card {
+    display: grid;
+    min-width: 0;
+    gap: 0.7rem;
+    padding: 0.95rem;
+    border-radius: 1rem;
+}
+
+.engagement-record-head,
+.engagement-record-meta,
+.engagement-record-actions,
+.engagement-delivery-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.55rem;
+}
+
+.engagement-record-head {
+    justify-content: space-between;
+}
+
+.engagement-record-head > div {
+    display: grid;
+    min-width: 0;
+    gap: 0.18rem;
+}
+
+.engagement-record-head strong {
+    color: var(--textMain);
+    font-size: 0.82rem;
+    overflow-wrap: anywhere;
+}
+
+.engagement-record-head span,
+.engagement-record-meta,
+.engagement-delivery-row {
+    color: var(--textSub);
+    font-size: 0.68rem;
+    line-height: 1.45;
+    overflow-wrap: anywhere;
+}
+
+.engagement-status-pill {
+    display: inline-flex;
+    min-height: 1.75rem;
+    align-items: center;
+    padding: 0.25rem 0.6rem;
+    border: 1px solid rgba(148, 163, 184, 0.18);
+    border-radius: 999px;
+    background: rgba(148, 163, 184, 0.1);
+    color: var(--textSub);
+    font-size: 0.62rem;
+    font-weight: 900;
+    text-transform: capitalize;
+}
+
+.engagement-status-pill:is(.status-approved, .status-active, .status-sent, .status-completed, .status-qualified) {
+    border-color: rgba(52, 211, 153, 0.25);
+    background: rgba(16, 185, 129, 0.12);
+    color: #6ee7b7;
+}
+
+.engagement-status-pill:is(.status-pending, .status-new) {
+    border-color: rgba(250, 204, 21, 0.25);
+    background: rgba(250, 204, 21, 0.1);
+    color: #fde047;
+}
+
+.engagement-status-pill:is(.status-failed, .status-rejected, .status-spam) {
+    border-color: rgba(251, 113, 133, 0.25);
+    background: rgba(244, 63, 94, 0.1);
+    color: #fda4af;
+}
+
+.engagement-record-message {
+    max-height: 14rem;
+    margin: 0;
+    overflow: auto;
+    padding: 0.75rem;
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 0.8rem;
+    background: rgba(255, 255, 255, 0.035);
+    color: var(--textMain);
+    font-size: 0.75rem;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+    white-space: pre-wrap;
+}
+
+.engagement-record-actions .btn,
+.engagement-inline-select select {
+    min-height: 2.65rem;
+    height: 2.65rem;
+    font-size: 0.7rem;
+}
+
+.portal-frame .btn-danger {
+    border: 1px solid rgba(244, 63, 94, 0.25);
+    background: rgba(244, 63, 94, 0.1);
+    color: #fda4af;
+}
+
+.portal-frame .btn-danger:hover {
+    background: rgba(244, 63, 94, 0.18);
+}
+
+.engagement-inline-select {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    color: var(--textSub);
+    font-size: 0.68rem;
+    font-weight: 800;
+}
+
+.engagement-inline-select select {
+    width: auto;
+    min-width: 9rem;
+}
+
+.engagement-comment-editor {
+    display: grid;
+    gap: 0.65rem;
+}
+
+.engagement-comment-editor label {
+    display: grid;
+    gap: 0.3rem;
+    color: var(--textSub);
+    font-size: 0.68rem;
+    font-weight: 800;
+}
+
+.engagement-comment-editor textarea {
+    height: auto;
+    min-height: 7rem;
+}
+
+.engagement-admin-empty {
+    display: grid;
+    min-height: 9rem;
+    place-items: center;
+    padding: 1rem;
+    border-radius: 1rem;
+    color: var(--textSub);
+    font-size: 0.78rem;
+    text-align: center;
+}
+
+.engagement-load-more {
+    width: fit-content;
+    justify-self: center;
+}
+
+html:not([data-theme="dark"]) :is(
+    .engagement-admin-hero,
+    .engagement-admin-panel,
+    .engagement-admin-filters,
+    .engagement-record-card,
+    .engagement-metric-card,
+    .engagement-admin-empty
+) {
+    border-color: rgba(255, 255, 255, 0.82);
+    background: rgba(255, 255, 255, 0.7);
+    box-shadow: 0 22px 62px rgba(38, 55, 88, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+html:not([data-theme="dark"]) .engagement-admin-tabs {
+    border-color: rgba(148, 163, 184, 0.2);
+    background: rgba(241, 245, 249, 0.7);
+}
+
+html:not([data-theme="dark"]) :is(.engagement-blog-list article, .engagement-blog-list dl div, .engagement-record-message) {
+    border-color: rgba(148, 163, 184, 0.18);
+    background: rgba(248, 250, 252, 0.76);
+}
+
+html:not([data-theme="dark"]) .engagement-status-pill:is(.status-approved, .status-active, .status-sent, .status-completed, .status-qualified) {
+    color: #047857;
+}
+
+html:not([data-theme="dark"]) .engagement-status-pill:is(.status-pending, .status-new) {
+    color: #a16207;
+}
+
+html:not([data-theme="dark"]) .engagement-status-pill:is(.status-failed, .status-rejected, .status-spam),
+html:not([data-theme="dark"]) .portal-frame .btn-danger {
+    color: #be123c;
+}
+
+html:not([data-theme="dark"]) .engagement-admin-notice.is-success {
+    color: #047857;
+}
+
+html:not([data-theme="dark"]) .engagement-admin-notice.is-error {
+    color: #be123c;
+}
+
+@media (max-width: 1180px) {
+    .engagement-metric-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .engagement-admin-filters {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 720px) {
+    .engagement-admin-hero,
+    .engagement-blog-list article {
+        align-items: stretch;
+        grid-template-columns: 1fr;
+    }
+
+    .engagement-admin-hero {
+        display: grid;
+    }
+
+    .engagement-admin-hero .btn {
+        width: 100%;
+    }
+
+    .engagement-metric-grid,
+    .engagement-admin-filters {
+        grid-template-columns: 1fr;
+    }
+
+    .engagement-blog-list dl {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .engagement-admin-filters .btn,
+    .engagement-record-actions .btn,
+    .engagement-inline-select,
+    .engagement-inline-select select {
+        width: 100%;
+    }
+}
+
+@media (max-width: 430px) {
+    .engagement-metric-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .engagement-admin-tabs button {
+        flex: 1 1 calc(50% - 0.35rem);
+    }
+}
+
+@media (pointer: coarse) {
+    .engagement-admin-tabs button,
+    .engagement-record-actions .btn,
+    .engagement-admin-filters .btn {
+        min-height: 2.75rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .engagement-admin-tabs button,
+    .engagement-admin-tabs button:hover {
+        transform: none;
+        transition: none;
+    }
+}
+
+@supports not ((backdrop-filter: blur(1rem)) or (-webkit-backdrop-filter: blur(1rem))) {
+    .engagement-admin-hero,
+    .engagement-admin-panel,
+    .engagement-admin-filters,
+    .engagement-record-card,
+    .engagement-metric-card,
+    .engagement-admin-empty {
+        background: #151519;
+    }
+
+    html:not([data-theme="dark"]) :is(
+        .engagement-admin-hero,
+        .engagement-admin-panel,
+        .engagement-admin-filters,
+        .engagement-record-card,
+        .engagement-metric-card,
+        .engagement-admin-empty
+    ) {
+        background: #ffffff;
+    }
+}
+
 /* 2026 portal theme authority: true neutral dark and liquid-glass light. */
 [data-theme="dark"] .portal-frame {
     background:

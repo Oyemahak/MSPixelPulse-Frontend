@@ -13,6 +13,7 @@ import {
 } from "react-icons/lu";
 import Meta from "@/components/Meta.jsx";
 import Container from "@/components/layout/Container.jsx";
+import BlogEngagement from "@/components/blog/BlogEngagement.jsx";
 import { publishedBlogPosts } from "@/data/blogPosts.js";
 import { blogPostSeo } from "@/data/seoPages.js";
 
@@ -309,6 +310,14 @@ export default function BlogPost() {
                   <LuArrowRight aria-hidden="true" />
                 </Link>
               </section>
+
+              <BlogEngagement
+                article={{
+                  slug: post.slug,
+                  title: post.title,
+                  url: `https://mspixelpulse.com/blog/${post.slug}`,
+                }}
+              />
             </div>
           </div>
         </article>

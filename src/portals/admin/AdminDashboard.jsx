@@ -1,26 +1,29 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { admin, projects } from "@/lib/api.js";
+import { admin, adminEngagement, projects } from "@/lib/api.js";
 
 export default function AdminDashboard() {
   const [users, setUsers] = useState([]);
   const [pending, setPending] = useState(0);
   const [projs, setProjs] = useState([]);
+  const [engagement, setEngagement] = useState(null);
   const [err, setErr] = useState("");
 
   useEffect(() => {
     let live = true;
     (async () => {
       try {
-        const [u, pend, p] = await Promise.all([
+        const [u, pend, p, blog] = await Promise.all([
           admin.users(),
           admin.pending().catch(() => ({ users: [] })),
           projects.list(),
+          adminEngagement.summary().catch(() => null),
         ]);
         if (!live) return;
         setUsers(u.users || []);
         setPending((pend.users || []).length);
         setProjs(p.projects || []);
+        setEngagement(blog?.metrics || null);
         setErr("");
       } catch (e) {
         if (live) setErr(e.message);
@@ -33,6 +36,11 @@ export default function AdminDashboard() {
     { label: "Total Users", value: users.length, to: "/admin/users" },
     { label: "Pending Approvals", value: pending, to: "/admin/approvals" },
     { label: "Projects", value: projs.length, to: "/admin/projects" },
+    {
+      label: "Blog Engagement",
+      value: engagement ? engagement.likes + engagement.comments + engagement.shares : "—",
+      to: "/admin/blog-engagement",
+    },
   ];
 
   return (

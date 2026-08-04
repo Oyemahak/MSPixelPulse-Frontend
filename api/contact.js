@@ -1,6 +1,7 @@
 // Vercel Serverless Function: /api/contact
 /* global process */
 import { Resend } from "resend";
+import { internalRecipients } from "./_emailRecipients.js";
 
 // Simple 15s per-IP cooldown
 const hits = new Map();
@@ -88,9 +89,9 @@ export default async function handler(req, res) {
       return sendJson(res, 400, headers, { error: "Please enter a valid email address." });
     }
 
-    const to = process.env.FORMS_TO_EMAIL;
+    const to = internalRecipients(process.env.FORMS_TO_EMAIL);
     const from = process.env.FORMS_FROM_EMAIL || "MSPixelPulse <info@mspixelpulse.com>";
-    if (!process.env.RESEND_API_KEY || !to) {
+    if (!process.env.RESEND_API_KEY) {
       console.error("[contact] missing required email configuration");
       return sendJson(res, 503, headers, {
         error: "The contact service is temporarily unavailable. Please try again later.",
@@ -112,7 +113,6 @@ Source URL: ${sourceUrl || "Not specified"}
 
 Message:
 ${message}
-IP: ${ip}
     `.trim();
 
     const html = `
@@ -129,7 +129,6 @@ IP: ${ip}
         <p><strong>Source URL:</strong> ${sourceUrl ? `<a href="${escapeAttr(sourceUrl)}">${escapeHTML(sourceUrl)}</a>` : "Not specified"}</p>
         <p style="margin:12px 0 4px"><strong>Message:</strong></p>
         <div style="white-space:pre-wrap;border:1px solid #e5e7eb;background:#f9fafb;border-radius:8px;padding:12px">${escapeHTML(message)}</div>
-        <p style="margin-top:12px;color:#64748b;font-size:12px">IP: ${escapeHTML(ip)}</p>
       </div>
     `;
 

@@ -120,6 +120,28 @@ export const admin = {
   stats: () => http("/admin/stats"),
 };
 
+export const adminEngagement = {
+  summary: () => http("/admin/blog-engagement/summary"),
+  comments: (params = {}) => http(`/admin/blog-engagement/comments${qs(params)}`),
+  updateComment: (id, payload) => http(`/admin/blog-engagement/comments/${id}`, { method: "PATCH", body: payload }),
+  deleteComment: (id) => http(`/admin/blog-engagement/comments/${id}`, { method: "DELETE" }),
+  subscribers: (params = {}) => http(`/admin/blog-engagement/subscribers${qs(params)}`),
+  unsubscribeSubscriber: (id) => http(`/admin/blog-engagement/subscribers/${id}/unsubscribe`, { method: "PATCH" }),
+  leads: (params = {}) => http(`/admin/blog-engagement/leads${qs(params)}`),
+  updateLead: (id, payload) => http(`/admin/blog-engagement/leads/${id}`, { method: "PATCH", body: payload }),
+  notifications: (params = {}) => http(`/admin/blog-engagement/notifications${qs(params)}`),
+  retryNotification: (id) => http(`/admin/blog-engagement/notifications/${id}/retry`, { method: "POST" }),
+  async downloadSubscribers() {
+    const authToken = getToken();
+    const response = await fetch(`${API_BASE}/admin/blog-engagement/subscribers.csv`, {
+      credentials: "include",
+      headers: authToken ? { Authorization: `Bearer ${authToken}` } : {},
+    });
+    if (!response.ok) throw new Error("Unable to export subscribers.");
+    return response.blob();
+  },
+};
+
 export const projects = {
   list: (params = {}) => http(`/projects${qs(params)}`),
   one: (id) => http(`/projects/${id}`),

@@ -20,6 +20,7 @@ const Contact = lazy(() => import("./pages/Contact.jsx"));
 const FreeDemo = lazy(() => import("./pages/FreeDemo.jsx"));
 const Blog = lazy(() => import("./pages/Blog.jsx"));
 const BlogPost = lazy(() => import("./pages/BlogPost.jsx"));
+const SubscriptionAction = lazy(() => import("./pages/SubscriptionAction.jsx"));
 const About = lazy(() => import("./pages/About.jsx"));
 const LegalPage = lazy(() => import("./pages/LegalPage.jsx"));
 const Login = lazy(() => import("./pages/auth/Login.jsx"));
@@ -109,6 +110,8 @@ export default function App() {
               <Route path="/contact" element={<Contact />} />
               <Route path="/free-demo" element={<FreeDemo />} />
               <Route path="/blog" element={<Blog />} />
+              <Route path="/blog/subscription/confirm" element={<SubscriptionAction action="confirm" />} />
+              <Route path="/blog/subscription/unsubscribe" element={<SubscriptionAction action="unsubscribe" />} />
               <Route path="/blog/:slug" element={<BlogPost />} />
               <Route path="/about" element={<About />} />
               <Route path="/privacy" element={<LegalPage page="privacy" />} />

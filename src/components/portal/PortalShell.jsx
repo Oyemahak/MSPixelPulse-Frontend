@@ -6,6 +6,7 @@ import { useAuth } from "@/context/AuthContext.jsx";
 import { useTheme } from "@/lib/theme.js";
 import {
   LuBell,
+  LuActivity,
   LuBriefcaseBusiness,
   LuCheckCheck,
   LuChevronRight,
@@ -37,6 +38,7 @@ const roleMeta = {
       { to: "/admin/users", label: "Users", icon: LuUsers },
       { to: "/admin/approvals", label: "Approvals", icon: LuCheckCheck },
       { to: "/admin/billing", label: "Billing", icon: LuCreditCard },
+      { to: "/admin/blog-engagement", label: "Blog engagement", icon: LuActivity },
       { to: "/admin/discussions", label: "Project rooms", icon: LuMessageSquare },
       { to: "/admin/messages", label: "Messages", icon: LuBell, aliases: ["/admin/direct"] },
       { to: "/admin/profile", label: "Profile", icon: LuUserRound, aliases: ["/admin/my-account"] },

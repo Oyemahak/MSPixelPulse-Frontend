@@ -9240,3 +9240,588 @@ html:not([data-theme="dark"]) .exit-demo-dialog {
   .exit-demo-dialog,
   .cookie-banner { display: none !important; }
 }
+
+/* Blog engagement, moderation-ready comments, sharing, and subscriptions */
+.blog-engagement {
+  margin-top: 1.5rem;
+  padding: clamp(1rem, 3vw, 1.5rem);
+  border: 1px solid var(--blog-border);
+  border-radius: 1.35rem;
+  background:
+    radial-gradient(circle at 100% 0%, color-mix(in srgb, var(--blog-accent) 14%, transparent), transparent 34%),
+    var(--blog-surface);
+  box-shadow: 0 24px 64px rgba(5, 7, 18, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  -webkit-backdrop-filter: saturate(145%) blur(18px);
+  backdrop-filter: saturate(145%) blur(18px);
+}
+
+.blog-engagement-intro,
+.blog-engagement-heading,
+.blog-subscription-copy {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.8rem;
+}
+
+.blog-engagement-icon {
+  display: grid;
+  width: 2.55rem;
+  height: 2.55rem;
+  flex: 0 0 auto;
+  place-items: center;
+  border: 1px solid color-mix(in srgb, var(--blog-accent) 28%, var(--blog-border));
+  border-radius: 0.85rem;
+  background: var(--blog-accent-soft);
+  color: var(--blog-accent);
+}
+
+.blog-engagement-icon svg {
+  width: 1.15rem;
+  height: 1.15rem;
+}
+
+.blog-engagement-kicker {
+  margin: 0;
+  color: var(--blog-accent);
+  font-size: 0.66rem;
+  font-weight: 900;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.blog-engagement-intro h2,
+.blog-engagement-intro p,
+.blog-engagement-heading h3,
+.blog-subscription-copy h3,
+.blog-subscription-copy p {
+  margin: 0;
+}
+
+.blog-engagement-intro h2,
+.blog-engagement-heading h3,
+.blog-subscription-copy h3 {
+  margin-top: 0.28rem;
+  color: var(--blog-ink);
+  font-size: clamp(1.25rem, 3vw, 1.65rem);
+  font-weight: 930;
+  letter-spacing: -0.03em;
+}
+
+.blog-engagement-heading h3 span {
+  color: var(--blog-accent);
+  font-size: 0.78em;
+}
+
+.blog-engagement-intro > div > p:last-child,
+.blog-subscription-copy > div > p:last-child {
+  margin-top: 0.35rem;
+  color: var(--blog-muted);
+  font-size: 0.78rem;
+  line-height: 1.55;
+}
+
+.blog-engagement-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  margin-top: 1.25rem;
+}
+
+.blog-reaction-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+}
+
+.blog-reaction-button {
+  display: inline-flex;
+  min-width: 7rem;
+  min-height: 2.85rem;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  padding: 0.55rem 0.8rem;
+  border: 1px solid var(--blog-border);
+  border-radius: 0.9rem;
+  background: var(--blog-soft);
+  color: var(--blog-ink);
+  font-size: 0.76rem;
+  font-weight: 850;
+  cursor: pointer;
+  transition: transform 180ms ease, border-color 180ms ease, background 180ms ease, box-shadow 180ms ease;
+}
+
+.blog-reaction-button:hover:not(:disabled) {
+  border-color: color-mix(in srgb, var(--blog-accent) 62%, var(--blog-border));
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(5, 7, 18, 0.12);
+}
+
+.blog-reaction-button.is-active {
+  border-color: var(--blog-accent);
+  background: var(--blog-accent-soft);
+  color: var(--blog-accent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--blog-accent) 20%, transparent);
+}
+
+.blog-reaction-button:disabled {
+  cursor: wait;
+  opacity: 0.58;
+}
+
+.blog-reaction-button svg {
+  width: 1rem;
+  height: 1rem;
+  flex: 0 0 auto;
+}
+
+.blog-reaction-button strong {
+  display: inline-grid;
+  min-width: 1.5rem;
+  height: 1.5rem;
+  place-items: center;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--blog-ink) 8%, transparent);
+  font-size: 0.66rem;
+}
+
+.blog-share-control {
+  position: relative;
+}
+
+.blog-share-button {
+  min-width: 8rem;
+}
+
+.blog-share-chevron {
+  width: 0.78rem !important;
+  height: 0.78rem !important;
+  color: var(--blog-muted);
+}
+
+.blog-share-menu {
+  position: absolute;
+  top: calc(100% + 0.55rem);
+  right: 0;
+  z-index: 30;
+  display: grid;
+  width: min(14rem, calc(100vw - 2.5rem));
+  padding: 0.4rem;
+  border: 1px solid var(--blog-border);
+  border-radius: 1rem;
+  background: var(--blog-surface-strong);
+  box-shadow: 0 22px 58px rgba(5, 7, 18, 0.26);
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+}
+
+.blog-share-menu button {
+  display: flex;
+  min-height: 2.75rem;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.55rem 0.7rem;
+  border-radius: 0.72rem;
+  color: var(--blog-ink);
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-align: left;
+  cursor: pointer;
+}
+
+.blog-share-menu button:hover,
+.blog-share-menu button:focus-visible {
+  background: var(--blog-accent-soft);
+  color: var(--blog-accent);
+}
+
+.blog-share-menu svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+.blog-engagement-status,
+.blog-form-status {
+  min-height: 1.4rem;
+  color: var(--blog-muted);
+  font-size: 0.72rem;
+  line-height: 1.5;
+}
+
+.blog-engagement-status {
+  margin-top: 0.65rem;
+}
+
+.blog-engagement-status.is-success,
+.blog-form-status.is-success {
+  color: #34d399;
+}
+
+html:not([data-theme="dark"]) :is(.blog-engagement-status.is-success, .blog-form-status.is-success) {
+  color: #047857;
+}
+
+.blog-engagement-status.is-error,
+.blog-form-status.is-error,
+.blog-field-error {
+  color: #fb7185;
+}
+
+html:not([data-theme="dark"]) :is(.blog-engagement-status.is-error, .blog-form-status.is-error, .blog-field-error) {
+  color: #be123c;
+}
+
+.blog-comments {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--blog-border);
+}
+
+.blog-comment-form {
+  display: grid;
+  gap: 0.9rem;
+  margin-top: 1.1rem;
+  padding: 1rem;
+  border: 1px solid var(--blog-border);
+  border-radius: 1rem;
+  background: var(--blog-soft);
+}
+
+.blog-comment-grid {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.blog-comment-form label,
+.blog-subscription-card form > label:first-child {
+  display: grid;
+  gap: 0.38rem;
+  color: var(--blog-ink);
+  font-size: 0.72rem;
+  font-weight: 850;
+}
+
+.blog-comment-form label > span small {
+  color: var(--blog-muted);
+  font-size: 0.84em;
+  font-weight: 650;
+}
+
+.blog-comment-form :is(input, textarea),
+.blog-subscription-card input[type="email"] {
+  min-height: 2.85rem;
+  border: 1px solid color-mix(in srgb, var(--blog-muted) 38%, var(--blog-border));
+  background: var(--blog-surface-strong);
+  color: var(--blog-ink);
+  font-size: 0.86rem;
+}
+
+.blog-comment-form textarea {
+  min-height: 8.5rem;
+  height: auto;
+  overflow-wrap: anywhere;
+}
+
+.blog-comment-form label > small:not(.blog-field-error) {
+  color: var(--blog-muted);
+  font-size: 0.64rem;
+  font-weight: 650;
+}
+
+.blog-field-error {
+  font-size: 0.66rem;
+  font-weight: 800;
+}
+
+.blog-form-action-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.blog-form-action-row .blog-form-status {
+  flex: 1 1 14rem;
+}
+
+.blog-comment-list {
+  display: grid;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.blog-comment-card {
+  padding: 1rem;
+  border: 1px solid var(--blog-border);
+  border-radius: 1rem;
+  background: var(--blog-surface-strong);
+}
+
+.blog-comment-card > div {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.blog-comment-card strong {
+  color: var(--blog-ink);
+  font-size: 0.78rem;
+}
+
+.blog-comment-card time {
+  color: var(--blog-muted);
+  font-size: 0.65rem;
+}
+
+.blog-comment-card p {
+  margin: 0.65rem 0 0;
+  color: var(--blog-muted);
+  font-size: 0.8rem;
+  line-height: 1.65;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+
+.blog-comments-empty {
+  display: flex;
+  min-height: 7rem;
+  align-items: center;
+  justify-content: center;
+  gap: 0.7rem;
+  padding: 1rem;
+  border: 1px dashed var(--blog-border);
+  border-radius: 1rem;
+  color: var(--blog-muted);
+  text-align: center;
+}
+
+.blog-comments-empty p {
+  margin: 0;
+  font-size: 0.75rem;
+}
+
+.blog-load-more {
+  min-height: 2.75rem;
+  margin-top: 0.85rem;
+  padding: 0.55rem 0.9rem;
+  border: 1px solid var(--blog-border);
+  border-radius: 0.85rem;
+  color: var(--blog-accent);
+  font-size: 0.72rem;
+  font-weight: 850;
+}
+
+.blog-subscription-card {
+  display: grid;
+  gap: 1.1rem;
+  margin-top: 1.5rem;
+  padding: clamp(1rem, 3vw, 1.35rem);
+  border: 1px solid color-mix(in srgb, var(--blog-accent) 42%, var(--blog-border));
+  border-radius: 1.1rem;
+  background:
+    linear-gradient(135deg, var(--blog-accent-soft), transparent 66%),
+    var(--blog-surface-strong);
+}
+
+.blog-subscription-card form {
+  min-width: 0;
+}
+
+.blog-subscription-fields {
+  display: grid;
+  gap: 0.65rem;
+  margin-top: 0.4rem;
+}
+
+.blog-subscription-consent {
+  display: flex !important;
+  align-items: flex-start;
+  gap: 0.6rem !important;
+  margin-top: 0.75rem;
+  color: var(--blog-muted) !important;
+  font-size: 0.66rem !important;
+  line-height: 1.5;
+  cursor: pointer;
+}
+
+.blog-subscription-consent input {
+  width: 1.1rem;
+  min-width: 1.1rem;
+  height: 1.1rem;
+  margin-top: 0.1rem;
+  padding: 0;
+}
+
+.blog-subscription-consent span {
+  display: flex;
+  gap: 0.35rem;
+}
+
+.blog-subscription-consent svg {
+  width: 0.8rem;
+  height: 0.8rem;
+  flex: 0 0 auto;
+  margin-top: 0.16rem;
+  color: var(--blog-accent);
+}
+
+.blog-subscription-privacy {
+  margin: 0.55rem 0 0;
+  color: var(--blog-muted);
+  font-size: 0.62rem;
+  line-height: 1.5;
+}
+
+.blog-subscription-privacy a {
+  color: var(--blog-accent);
+  font-weight: 800;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.blog-subscription-card .blog-form-status {
+  margin-top: 0.35rem;
+}
+
+.subscription-action-page {
+  min-height: 68vh;
+}
+
+.subscription-action-card {
+  display: grid;
+  max-width: 42rem;
+  min-height: 25rem;
+  margin: 0 auto;
+  place-items: center;
+  align-content: center;
+  gap: 0.9rem;
+  padding: clamp(1.25rem, 5vw, 2.5rem);
+  border: 1px solid var(--borderSoft);
+  border-radius: 1.5rem;
+  background: var(--surface);
+  text-align: center;
+  box-shadow: var(--shadow-float);
+  -webkit-backdrop-filter: var(--premium-blur);
+  backdrop-filter: var(--premium-blur);
+}
+
+.subscription-action-card > span {
+  display: grid;
+  width: 4rem;
+  height: 4rem;
+  place-items: center;
+  border-radius: 1.25rem;
+  background: rgba(37, 99, 235, 0.1);
+  color: #2563eb;
+}
+
+.subscription-action-card > span svg {
+  width: 2rem;
+  height: 2rem;
+}
+
+.subscription-action-card.is-success > span {
+  background: rgba(16, 185, 129, 0.12);
+  color: #059669;
+}
+
+.subscription-action-card.is-error > span {
+  background: rgba(244, 63, 94, 0.12);
+  color: #e11d48;
+}
+
+.subscription-action-card h1,
+.subscription-action-card > p {
+  margin: 0;
+}
+
+.subscription-action-card h1 {
+  font-size: clamp(1.8rem, 5vw, 2.65rem);
+  font-weight: 950;
+  letter-spacing: -0.045em;
+}
+
+.subscription-action-card > p:not(.blog-engagement-kicker) {
+  max-width: 32rem;
+  color: var(--textSub);
+  line-height: 1.7;
+}
+
+.is-spinning {
+  animation: engagementSpin 800ms linear infinite;
+}
+
+@keyframes engagementSpin {
+  to { transform: rotate(360deg); }
+}
+
+@media (min-width: 640px) {
+  .blog-comment-grid,
+  .blog-subscription-fields {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .blog-subscription-fields {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+}
+
+@media (min-width: 900px) {
+  .blog-subscription-card {
+    grid-template-columns: minmax(0, 0.9fr) minmax(20rem, 1.1fr);
+    align-items: center;
+  }
+}
+
+@media (max-width: 430px) {
+  .blog-engagement-controls,
+  .blog-reaction-buttons,
+  .blog-share-control,
+  .blog-reaction-button,
+  .blog-form-action-row .btn,
+  .blog-subscription-fields .btn {
+    width: 100%;
+  }
+
+  .blog-reaction-buttons {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .blog-reaction-button {
+    min-width: 0;
+  }
+
+  .blog-share-menu {
+    right: auto;
+    left: 0;
+  }
+}
+
+@media (pointer: coarse) {
+  .blog-reaction-button,
+  .blog-share-menu button,
+  .blog-load-more {
+    min-height: 2.75rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .blog-reaction-button,
+  .blog-reaction-button:hover,
+  .is-spinning {
+    animation: none;
+    transform: none;
+    transition: none;
+  }
+}
+
+@supports not ((backdrop-filter: blur(1rem)) or (-webkit-backdrop-filter: blur(1rem))) {
+  .blog-engagement,
+  .blog-share-menu,
+  .subscription-action-card {
+    background: var(--blog-surface-strong, #ffffff);
+  }
+}

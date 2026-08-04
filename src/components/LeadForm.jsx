@@ -2,7 +2,7 @@ import { useRef, useState } from "react";
 import { LuCheck, LuChevronDown, LuCircleCheckBig, LuSend } from "react-icons/lu";
 import Button from "@/components/ui/Button.jsx";
 import { FloatingField, StandardField } from "@/components/ui/FormField.jsx";
-import { FORMS_BASE } from "@/lib/forms.js";
+import { API_BASE } from "@/lib/api.js";
 import { trackEvent } from "@/lib/analytics.js";
 
 const emptyForm = {
@@ -157,7 +157,7 @@ export default function LeadForm({
 
     try {
       setSubmitting(true);
-      const response = await fetch(`${FORMS_BASE}/contact`, {
+      const response = await fetch(`${API_BASE}/contact`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -189,6 +189,15 @@ export default function LeadForm({
         form_type: demoMode ? "free_demo" : "project_inquiry",
         form_source: source,
       });
+      trackEvent("contact_form_submitted", {
+        form_source: source,
+        page_path: typeof window !== "undefined" ? window.location.pathname : "/contact",
+      });
+      if (data?.confirmationEmailStatus === "sent") {
+        trackEvent("contact_confirmation_sent", {
+          form_source: source,
+        });
+      }
       onSuccess?.();
       window.requestAnimationFrame(() => statusRef.current?.focus());
     } catch (error) {

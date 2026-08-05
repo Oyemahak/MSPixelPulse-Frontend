@@ -2189,6 +2189,10 @@ html:not([data-theme="dark"]) .portal-frame .icon-btn:hover {
     border-radius: 1rem;
 }
 
+.engagement-admin-filters--notifications {
+    grid-template-columns: minmax(14rem, 1fr) minmax(11rem, 0.65fr) auto;
+}
+
 .engagement-filter-field {
     display: grid;
     min-width: 0;
@@ -2328,6 +2332,174 @@ html:not([data-theme="dark"]) .portal-frame .icon-btn:hover {
     gap: 0.7rem;
     padding: 0.95rem;
     border-radius: 1rem;
+}
+
+.engagement-notification-workspace {
+    display: grid;
+    min-width: 0;
+    gap: 0.75rem;
+}
+
+.engagement-notification-summary {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 0.25rem 0.15rem;
+}
+
+.engagement-notification-summary-icon,
+.engagement-notification-icon {
+    display: grid;
+    flex: 0 0 auto;
+    place-items: center;
+    color: #8cb4ff;
+    background: rgba(96, 165, 250, 0.12);
+}
+
+.engagement-notification-summary-icon {
+    width: 2.65rem;
+    height: 2.65rem;
+    border-radius: 0.85rem;
+}
+
+.engagement-notification-summary p,
+.engagement-notification-summary h3,
+.engagement-notification-summary span {
+    margin: 0;
+}
+
+.engagement-notification-summary p {
+    color: #8cb4ff;
+    font-size: 0.62rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.engagement-notification-summary h3 {
+    margin-top: 0.08rem;
+    color: var(--textMain);
+    font-size: 0.95rem;
+    font-weight: 900;
+}
+
+.engagement-notification-summary div > span {
+    display: block;
+    max-width: 52rem;
+    margin-top: 0.14rem;
+    color: var(--textSub);
+    font-size: 0.68rem;
+    line-height: 1.45;
+}
+
+.engagement-notification-failure-count {
+    padding: 0.38rem 0.66rem;
+    border: 1px solid rgba(251, 113, 133, 0.25);
+    border-radius: 999px;
+    background: rgba(244, 63, 94, 0.1);
+    color: #fda4af;
+    font-size: 0.64rem;
+    font-weight: 850;
+    white-space: nowrap;
+}
+
+.engagement-record-list--notifications {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
+}
+
+.engagement-notification-card {
+    position: relative;
+    gap: 0.8rem;
+    overflow: hidden;
+    padding: 0.9rem;
+    box-shadow: 0 14px 38px rgba(0, 0, 0, 0.16), inset 3px 0 0 rgba(148, 163, 184, 0.28);
+}
+
+.engagement-notification-card.status-failed {
+    box-shadow: 0 14px 38px rgba(0, 0, 0, 0.16), inset 3px 0 0 rgba(244, 63, 94, 0.76);
+}
+
+.engagement-notification-card.status-sent {
+    box-shadow: 0 14px 38px rgba(0, 0, 0, 0.16), inset 3px 0 0 rgba(16, 185, 129, 0.74);
+}
+
+.engagement-notification-title {
+    display: flex !important;
+    align-items: center;
+    gap: 0.65rem !important;
+}
+
+.engagement-notification-title > div {
+    display: grid;
+    min-width: 0;
+    gap: 0.12rem;
+}
+
+.engagement-notification-icon {
+    width: 2.35rem;
+    height: 2.35rem;
+    border-radius: 0.7rem;
+}
+
+.engagement-notification-meta {
+    display: grid;
+    grid-template-columns: 0.55fr 1fr 1.2fr;
+    gap: 0.45rem;
+    margin: 0;
+}
+
+.engagement-notification-meta > div {
+    min-width: 0;
+    padding: 0.58rem 0.65rem;
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 0.72rem;
+    background: rgba(255, 255, 255, 0.035);
+}
+
+.engagement-notification-meta .engagement-notification-recipients {
+    grid-column: 1 / -1;
+}
+
+.engagement-notification-meta dt {
+    color: var(--textSub);
+    font-size: 0.58rem;
+    font-weight: 800;
+}
+
+.engagement-notification-meta dd {
+    margin: 0.12rem 0 0;
+    color: var(--textMain);
+    font-size: 0.68rem;
+    font-weight: 750;
+    line-height: 1.35;
+    overflow: hidden;
+    overflow-wrap: anywhere;
+    text-overflow: ellipsis;
+}
+
+.engagement-notification-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding-top: 0.65rem;
+    border-top: 1px solid rgba(148, 163, 184, 0.13);
+}
+
+.engagement-notification-footer > span {
+    color: var(--textSub);
+    font-size: 0.64rem;
+    line-height: 1.4;
+}
+
+.engagement-notification-footer .btn {
+    min-width: 8.5rem;
+    min-height: 2.75rem;
+    height: 2.75rem;
+    flex: 0 0 auto;
+    font-size: 0.68rem;
 }
 
 .engagement-record-head,
@@ -2500,6 +2672,27 @@ html:not([data-theme="dark"]) :is(.engagement-blog-list article, .engagement-blo
     background: rgba(248, 250, 252, 0.76);
 }
 
+html:not([data-theme="dark"]) .engagement-notification-meta > div {
+    border-color: rgba(148, 163, 184, 0.2);
+    background: rgba(248, 250, 252, 0.78);
+}
+
+html:not([data-theme="dark"]) .engagement-notification-card {
+    box-shadow: 0 14px 38px rgba(38, 55, 88, 0.09), inset 3px 0 0 rgba(100, 116, 139, 0.28);
+}
+
+html:not([data-theme="dark"]) .engagement-notification-card.status-failed {
+    box-shadow: 0 14px 38px rgba(38, 55, 88, 0.09), inset 3px 0 0 rgba(225, 29, 72, 0.74);
+}
+
+html:not([data-theme="dark"]) .engagement-notification-card.status-sent {
+    box-shadow: 0 14px 38px rgba(38, 55, 88, 0.09), inset 3px 0 0 rgba(5, 150, 105, 0.7);
+}
+
+html:not([data-theme="dark"]) .engagement-notification-failure-count {
+    color: #be123c;
+}
+
 html:not([data-theme="dark"]) .engagement-status-pill:is(.status-approved, .status-active, .status-sent, .status-completed, .status-qualified) {
     color: #047857;
 }
@@ -2529,6 +2722,14 @@ html:not([data-theme="dark"]) .engagement-admin-notice.is-error {
     .engagement-admin-filters {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
+
+    .engagement-admin-filters--notifications {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto;
+    }
+
+    .engagement-record-list--notifications {
+        grid-template-columns: 1fr;
+    }
 }
 
 @media (max-width: 720px) {
@@ -2551,6 +2752,24 @@ html:not([data-theme="dark"]) .engagement-admin-notice.is-error {
         grid-template-columns: 1fr;
     }
 
+    .engagement-notification-summary {
+        grid-template-columns: auto minmax(0, 1fr);
+    }
+
+    .engagement-notification-failure-count {
+        grid-column: 1 / -1;
+        width: fit-content;
+    }
+
+    .engagement-notification-footer {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .engagement-notification-footer .btn {
+        width: 100%;
+    }
+
     .engagement-blog-list dl {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
@@ -2570,6 +2789,14 @@ html:not([data-theme="dark"]) .engagement-admin-notice.is-error {
 
     .engagement-admin-tabs button {
         flex: 1 1 calc(50% - 0.35rem);
+    }
+
+    .engagement-notification-meta {
+        grid-template-columns: 1fr;
+    }
+
+    .engagement-notification-meta .engagement-notification-recipients {
+        grid-column: auto;
     }
 }
 

@@ -26,6 +26,39 @@ const initialFilters = {
   notifications: { status: "", type: "" },
 };
 
+const notificationTypes = [
+  "contact_notification",
+  "contact_confirmation",
+  "blog_like",
+  "blog_dislike",
+  "blog_reaction_removed",
+  "blog_comment",
+  "blog_share",
+  "blog_subscription_started",
+  "blog_subscription_confirmed",
+  "blog_subscription_confirmation",
+];
+
+const internalNotificationRecipients = ["info@mspixelpulse.com", "mspixelpulse@gmail.com"];
+
+function formatNotificationType(value) {
+  return String(value || "Notification")
+    .replaceAll("_", " ")
+    .replace(/\b\w/g, (letter) => letter.toUpperCase());
+}
+
+function formatDeliveryResult(value) {
+  if (!value) return "No error recorded";
+  if (value === "ETIMEDOUT") return "Provider timeout";
+  if (value === "ECONNREFUSED") return "Provider unavailable";
+  return value;
+}
+
+function isInternalNotification(notification) {
+  const recipients = notification.recipients || [];
+  return internalNotificationRecipients.every((email) => recipients.includes(email));
+}
+
 function formatDate(value) {
   if (!value) return "—";
   return new Intl.DateTimeFormat("en-CA", {
@@ -161,6 +194,7 @@ export default function BlogEngagementAdmin() {
   ], [summary]);
 
   const currentFilters = draftFilters[activeTab] || {};
+  const failedNotificationCount = records.notifications.filter((notification) => notification.status === "failed").length;
 
   return (
     <div className="engagement-admin-page">
@@ -200,7 +234,7 @@ export default function BlogEngagementAdmin() {
       </div>
 
       {activeTab !== "overview" ? (
-        <form className="engagement-admin-filters" onSubmit={applyFilters}>
+        <form className={`engagement-admin-filters${activeTab === "notifications" ? " engagement-admin-filters--notifications" : ""}`} onSubmit={applyFilters}>
           {Object.prototype.hasOwnProperty.call(currentFilters, "q") ? (
             <FilterField label="Search">
               <span className="engagement-filter-input"><LuSearch aria-hidden="true" /><input value={currentFilters.q} onChange={(event) => updateDraft("q", event.target.value)} /></span>
@@ -213,7 +247,12 @@ export default function BlogEngagementAdmin() {
             <FilterField label="Source"><input value={currentFilters.source} onChange={(event) => updateDraft("source", event.target.value)} /></FilterField>
           ) : null}
           {activeTab === "notifications" ? (
-            <FilterField label="Notification type"><input value={currentFilters.type} onChange={(event) => updateDraft("type", event.target.value)} /></FilterField>
+            <FilterField label="Notification type">
+              <select value={currentFilters.type} onChange={(event) => updateDraft("type", event.target.value)}>
+                <option value="">All notification types</option>
+                {notificationTypes.map((type) => <option key={type} value={type}>{formatNotificationType(type)}</option>)}
+              </select>
+            </FilterField>
           ) : null}
           <FilterField label="Status">
             <select value={currentFilters.status} onChange={(event) => updateDraft("status", event.target.value)}>
@@ -348,16 +387,67 @@ export default function BlogEngagementAdmin() {
       ) : null}
 
       {!loading && activeTab === "notifications" ? (
-        <section className="engagement-record-list" aria-label="Email notification logs">
-          {records.notifications.length ? records.notifications.map((notification) => (
-            <article key={notification._id} className="engagement-record-card">
-              <div className="engagement-record-head"><div><strong>{notification.notificationType.replaceAll("_", " ")}</strong><span>{notification.relatedEntityType}</span></div><StatusPill>{notification.status}</StatusPill></div>
-              <div className="engagement-record-meta"><span>Recipients: {notification.recipients.join(", ")}</span><span>Attempts: {notification.attemptCount}</span><span>Last result: {notification.lastError || "None"}</span><time>{formatDate(notification.sentAt || notification.createdAt)}</time></div>
-              {notification.status === "failed" ? (
-                <div className="engagement-record-actions"><button type="button" className="btn btn-secondary" onClick={() => runAction(notification._id, () => adminEngagement.retryNotification(notification._id), "Notification retry completed.")} disabled={busyId === notification._id}><LuRefreshCw aria-hidden="true" /> Retry safely</button></div>
-              ) : null}
-            </article>
-          )) : <EmptyState>No notification logs match these filters.</EmptyState>}
+        <section className="engagement-notification-workspace" aria-labelledby="notification-log-title">
+          <div className="engagement-notification-summary">
+            <div className="engagement-notification-summary-icon"><LuMail aria-hidden="true" /></div>
+            <div>
+              <p>Email delivery</p>
+              <h3 id="notification-log-title">Notification history</h3>
+              <span>Internal alerts are delivered to both MSPixelPulse inboxes. Visitor and subscriber confirmations remain private to their intended recipient.</span>
+            </div>
+            {failedNotificationCount ? <span className="engagement-notification-failure-count">{failedNotificationCount} failed on this page</span> : null}
+          </div>
+
+          <div className="engagement-record-list engagement-record-list--notifications">
+            {records.notifications.length ? records.notifications.map((notification) => {
+              const internalNotification = isInternalNotification(notification);
+              const timestamp = notification.sentAt || notification.createdAt;
+              const retrying = busyId === notification._id;
+
+              return (
+                <article key={notification._id} className={`engagement-record-card engagement-notification-card status-${notification.status}`}>
+                  <div className="engagement-record-head engagement-notification-head">
+                    <div className="engagement-notification-title">
+                      <span className="engagement-notification-icon"><LuBellRing aria-hidden="true" /></span>
+                      <div>
+                        <strong>{formatNotificationType(notification.notificationType)}</strong>
+                        <span>{internalNotification ? "Internal alert" : "Recipient email"} · {notification.relatedEntityType}</span>
+                      </div>
+                    </div>
+                    <StatusPill>{notification.status}</StatusPill>
+                  </div>
+
+                  <dl className="engagement-notification-meta">
+                    <div className="engagement-notification-recipients">
+                      <dt>Recipients</dt>
+                      <dd>{(notification.recipients || []).join(", ") || "No recipient recorded"}</dd>
+                    </div>
+                    <div>
+                      <dt>Attempts</dt>
+                      <dd>{notification.attemptCount || 0}</dd>
+                    </div>
+                    <div>
+                      <dt>Last result</dt>
+                      <dd title={notification.lastError || undefined}>{formatDeliveryResult(notification.lastError)}</dd>
+                    </div>
+                    <div>
+                      <dt>{notification.sentAt ? "Delivered" : "Logged"}</dt>
+                      <dd><time dateTime={timestamp || undefined}>{formatDate(timestamp)}</time></dd>
+                    </div>
+                  </dl>
+
+                  {notification.status === "failed" ? (
+                    <div className="engagement-notification-footer">
+                      <span>Safe to retry after delivery service recovery.</span>
+                      <button type="button" className="btn btn-secondary" onClick={() => runAction(notification._id, () => adminEngagement.retryNotification(notification._id), "Notification delivered successfully.")} disabled={retrying}>
+                        <LuRefreshCw className={retrying ? "is-spinning" : ""} aria-hidden="true" /> {retrying ? "Retrying…" : "Retry safely"}
+                      </button>
+                    </div>
+                  ) : null}
+                </article>
+              );
+            }) : <EmptyState>No notification logs match these filters.</EmptyState>}
+          </div>
         </section>
       ) : null}
 

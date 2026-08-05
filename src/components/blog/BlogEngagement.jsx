@@ -3,7 +3,6 @@ import { LuHeartHandshake } from "react-icons/lu";
 import ReactionButtons from "./ReactionButtons.jsx";
 import ShareMenu from "./ShareMenu.jsx";
 import CommentSection from "./CommentSection.jsx";
-import BlogSubscription from "./BlogSubscription.jsx";
 import { blogEngagement } from "@/lib/blogEngagement.js";
 import { trackEvent } from "@/lib/analytics.js";
 
@@ -106,7 +105,6 @@ export default function BlogEngagement({ article }) {
         approvedCount={data.counts.approvedComments}
         initialHasMore={Boolean(data.pagination?.hasMore)}
       />
-      <BlogSubscription article={article} />
     </section>
   );
 }

@@ -14,6 +14,7 @@ import {
 import Meta from "@/components/Meta.jsx";
 import Container from "@/components/layout/Container.jsx";
 import BlogEngagement from "@/components/blog/BlogEngagement.jsx";
+import BlogSubscription from "@/components/blog/BlogSubscription.jsx";
 import { publishedBlogPosts } from "@/data/blogPosts.js";
 import { blogPostSeo } from "@/data/seoPages.js";
 
@@ -63,6 +64,11 @@ export default function BlogPost() {
     .filter((item) => item.slug !== post.slug && item.pillar === post.pillar)
     .sort((a, b) => (a.popularRank || 99) - (b.popularRank || 99))
     .slice(0, 3);
+  const engagementArticle = {
+    slug: post.slug,
+    title: post.title,
+    url: `https://mspixelpulse.com/blog/${post.slug}`,
+  };
 
   return (
     <section className="blog-article-page">
@@ -311,15 +317,11 @@ export default function BlogPost() {
                 </Link>
               </section>
 
-              <BlogEngagement
-                article={{
-                  slug: post.slug,
-                  title: post.title,
-                  url: `https://mspixelpulse.com/blog/${post.slug}`,
-                }}
-              />
+              <BlogEngagement article={engagementArticle} />
             </div>
           </div>
+
+          <BlogSubscription article={engagementArticle} />
         </article>
       </Container>
     </section>

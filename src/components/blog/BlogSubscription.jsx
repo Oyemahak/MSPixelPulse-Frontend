@@ -47,7 +47,7 @@ export default function BlogSubscription({ article }) {
         <span className="blog-engagement-icon"><LuMail aria-hidden="true" /></span>
         <div>
           <p className="blog-engagement-kicker">Practical ideas, thoughtfully sent</p>
-          <h3 id="blog-subscription-heading">Enjoyed this article?</h3>
+          <h2 id="blog-subscription-heading">Enjoyed this article?</h2>
           <p>Subscribe for website, UX, SEO, development, and small-business growth insights from MSPixelPulse.</p>
         </div>
       </div>

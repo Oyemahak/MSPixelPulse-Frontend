@@ -2,28 +2,48 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import {
   LuBellRing,
+  LuBuilding2,
   LuCheck,
   LuDownload,
   LuExternalLink,
+  LuFilter,
   LuLoaderCircle,
   LuMail,
   LuMessageSquare,
+  LuPhone,
   LuRefreshCw,
   LuSearch,
   LuShare2,
+  LuSlidersHorizontal,
   LuThumbsDown,
   LuThumbsUp,
   LuTrash2,
+  LuUserRound,
   LuUsers,
+  LuX,
 } from "react-icons/lu";
 import { adminEngagement } from "@/lib/api.js";
 
 const tabs = ["overview", "comments", "subscribers", "leads", "notifications"];
+const tabLabels = {
+  overview: "Overview",
+  comments: "Comments",
+  subscribers: "Subscribers",
+  leads: "Contacts",
+  notifications: "Notifications",
+};
 const initialFilters = {
-  comments: { q: "", status: "", blogSlug: "" },
-  subscribers: { q: "", status: "" },
-  leads: { q: "", status: "", source: "" },
-  notifications: { status: "", type: "" },
+  comments: { q: "", status: "", sort: "newest", blogSlug: "", from: "", to: "" },
+  subscribers: { q: "", status: "", sort: "newest", from: "", to: "" },
+  leads: { q: "", status: "", sort: "newest", source: "", inquiryType: "", from: "", to: "" },
+  notifications: { q: "", status: "", sort: "newest", type: "", audience: "", from: "", to: "" },
+};
+
+const searchPlaceholders = {
+  comments: "Search commenter, email, article, or comment",
+  subscribers: "Search email or source article",
+  leads: "Search name, email, phone, business, or message",
+  notifications: "Search type, recipient, entity, or error",
 };
 
 const notificationTypes = [
@@ -59,6 +79,33 @@ function isInternalNotification(notification) {
   return internalNotificationRecipients.every((email) => recipients.includes(email));
 }
 
+function filtersFromParams(tab, params) {
+  const defaults = initialFilters[tab] || {};
+  return Object.fromEntries(Object.entries(defaults).map(([key, fallback]) => [key, params.get(key) || fallback]));
+}
+
+function filterParams(tab, filters) {
+  if (tab === "overview") return new URLSearchParams();
+  const next = new URLSearchParams({ tab });
+  const defaults = initialFilters[tab] || {};
+  Object.entries(filters || {}).forEach(([key, value]) => {
+    if (value && value !== defaults[key]) next.set(key, value);
+  });
+  return next;
+}
+
+function apiFilters(filters) {
+  const query = { ...filters };
+  if (filters?.from) query.from = new Date(`${filters.from}T00:00:00.000`).toISOString();
+  if (filters?.to) query.to = new Date(`${filters.to}T23:59:59.999`).toISOString();
+  return query;
+}
+
+function filterCount(filters, tab, keys = Object.keys(filters || {})) {
+  const defaults = initialFilters[tab] || {};
+  return keys.filter((key) => filters?.[key] && filters[key] !== defaults[key]).length;
+}
+
 function formatDate(value) {
   if (!value) return "—";
   return new Intl.DateTimeFormat("en-CA", {
@@ -83,12 +130,19 @@ function FilterField({ label, children }) {
 export default function BlogEngagementAdmin() {
   const [params, setParams] = useSearchParams();
   const requestedTab = params.get("tab");
-  const [activeTab, setActiveTab] = useState(tabs.includes(requestedTab) ? requestedTab : "overview");
+  const activeTab = tabs.includes(requestedTab) ? requestedTab : "overview";
+  const paramsKey = params.toString();
   const [summary, setSummary] = useState({ metrics: {}, byBlog: [] });
   const [records, setRecords] = useState({ comments: [], subscribers: [], leads: [], notifications: [] });
   const [pagination, setPagination] = useState({});
-  const [draftFilters, setDraftFilters] = useState(initialFilters);
-  const [appliedFilters, setAppliedFilters] = useState(initialFilters);
+  const [draftFilters, setDraftFilters] = useState(() => ({
+    ...initialFilters,
+    ...(activeTab === "overview" ? {} : { [activeTab]: filtersFromParams(activeTab, params) }),
+  }));
+  const [appliedFilters, setAppliedFilters] = useState(() => ({
+    ...initialFilters,
+    ...(activeTab === "overview" ? {} : { [activeTab]: filtersFromParams(activeTab, params) }),
+  }));
   const [loading, setLoading] = useState(true);
   const [busyId, setBusyId] = useState("");
   const [notice, setNotice] = useState({ type: "", message: "" });
@@ -102,7 +156,7 @@ export default function BlogEngagementAdmin() {
 
   const fetchRecords = useCallback(async (tab, page = 1, append = false) => {
     if (tab === "overview") return;
-    const filters = appliedFilters[tab] || {};
+    const filters = apiFilters(appliedFilters[tab] || {});
     const query = { ...filters, page, limit: 50 };
     const loaders = {
       comments: adminEngagement.comments,
@@ -120,6 +174,13 @@ export default function BlogEngagementAdmin() {
   }, [appliedFilters]);
 
   useEffect(() => {
+    if (activeTab === "overview") return;
+    const next = filtersFromParams(activeTab, new URLSearchParams(paramsKey));
+    setDraftFilters((current) => ({ ...current, [activeTab]: next }));
+    setAppliedFilters((current) => ({ ...current, [activeTab]: next }));
+  }, [activeTab, paramsKey]);
+
+  useEffect(() => {
     let active = true;
     setLoading(true);
     setNotice({ type: "", message: "" });
@@ -133,9 +194,17 @@ export default function BlogEngagementAdmin() {
     return () => { active = false; };
   }, [activeTab, fetchRecords, fetchSummary]);
 
+  useEffect(() => {
+    if (loading) return;
+    const currentParams = new URLSearchParams(paramsKey);
+    const selectedId = activeTab === "leads" ? currentParams.get("lead") : activeTab === "comments" ? currentParams.get("comment") : "";
+    if (!selectedId) return;
+    const target = document.getElementById(`${activeTab === "leads" ? "lead" : "comment"}-${selectedId}`);
+    target?.scrollIntoView({ behavior: "smooth", block: "center" });
+  }, [activeTab, loading, paramsKey]);
+
   function chooseTab(tab) {
-    setActiveTab(tab);
-    setParams(tab === "overview" ? {} : { tab });
+    setParams(filterParams(tab, appliedFilters[tab]));
   }
 
   function updateDraft(field, value) {
@@ -147,7 +216,11 @@ export default function BlogEngagementAdmin() {
 
   function applyFilters(event) {
     event.preventDefault();
-    setAppliedFilters((current) => ({ ...current, [activeTab]: { ...draftFilters[activeTab] } }));
+    setParams(filterParams(activeTab, draftFilters[activeTab]));
+  }
+
+  function clearFilters() {
+    setParams(filterParams(activeTab, initialFilters[activeTab]));
   }
 
   async function runAction(id, task, successMessage) {
@@ -194,6 +267,13 @@ export default function BlogEngagementAdmin() {
   ], [summary]);
 
   const currentFilters = draftFilters[activeTab] || {};
+  const activeFilters = appliedFilters[activeTab] || {};
+  const advancedFilterKeys = Object.keys(currentFilters).filter((key) => !["q", "status", "sort"].includes(key));
+  const activeFilterTotal = filterCount(activeFilters, activeTab);
+  const draftFilterTotal = filterCount(currentFilters, activeTab);
+  const advancedFilterTotal = filterCount(currentFilters, activeTab, advancedFilterKeys);
+  const recordCount = records[activeTab]?.length || 0;
+  const totalRecords = pagination[activeTab]?.total ?? recordCount;
   const failedNotificationCount = records.notifications.filter((notification) => notification.status === "failed").length;
 
   return (
@@ -202,7 +282,7 @@ export default function BlogEngagementAdmin() {
         <div>
           <p>Content operations</p>
           <h2>Blog engagement</h2>
-          <span>Moderate comments, manage subscribers and leads, and review email delivery without exposing secure tokens.</span>
+          <span>Moderate comments, manage subscribers and contacts, and review email delivery without exposing secure tokens.</span>
         </div>
         <button type="button" className="btn btn-secondary" onClick={() => Promise.all([fetchSummary(), fetchRecords(activeTab)])} disabled={loading}>
           <LuRefreshCw className={loading ? "is-spinning" : ""} aria-hidden="true" /> Refresh data
@@ -228,57 +308,93 @@ export default function BlogEngagementAdmin() {
             className={activeTab === tab ? "is-active" : ""}
             onClick={() => chooseTab(tab)}
           >
-            {tab[0].toUpperCase() + tab.slice(1)}
+            {tabLabels[tab]}
           </button>
         ))}
       </div>
 
       {activeTab !== "overview" ? (
-        <form className={`engagement-admin-filters${activeTab === "notifications" ? " engagement-admin-filters--notifications" : ""}`} onSubmit={applyFilters}>
-          {Object.prototype.hasOwnProperty.call(currentFilters, "q") ? (
+        <form className="engagement-admin-filters engagement-filter-shell" onSubmit={applyFilters}>
+          <div className="engagement-filter-primary">
             <FilterField label="Search">
-              <span className="engagement-filter-input"><LuSearch aria-hidden="true" /><input value={currentFilters.q} onChange={(event) => updateDraft("q", event.target.value)} /></span>
+              <span className="engagement-filter-input"><LuSearch aria-hidden="true" /><input type="search" placeholder={searchPlaceholders[activeTab]} value={currentFilters.q} onChange={(event) => updateDraft("q", event.target.value)} /></span>
             </FilterField>
-          ) : null}
-          {activeTab === "comments" ? (
-            <FilterField label="Article slug"><input value={currentFilters.blogSlug} onChange={(event) => updateDraft("blogSlug", event.target.value)} /></FilterField>
-          ) : null}
-          {activeTab === "leads" ? (
-            <FilterField label="Source"><input value={currentFilters.source} onChange={(event) => updateDraft("source", event.target.value)} /></FilterField>
-          ) : null}
-          {activeTab === "notifications" ? (
-            <FilterField label="Notification type">
-              <select value={currentFilters.type} onChange={(event) => updateDraft("type", event.target.value)}>
-                <option value="">All notification types</option>
-                {notificationTypes.map((type) => <option key={type} value={type}>{formatNotificationType(type)}</option>)}
+            <FilterField label="Status">
+              <select value={currentFilters.status} onChange={(event) => updateDraft("status", event.target.value)}>
+                <option value="">All statuses</option>
+                {(activeTab === "comments"
+                  ? ["pending", "approved", "rejected", "spam"]
+                  : activeTab === "subscribers"
+                    ? ["pending", "active", "unsubscribed"]
+                    : activeTab === "leads"
+                      ? ["new", "contacted", "qualified", "completed", "spam"]
+                      : ["pending", "sent", "failed", "skipped"]
+                ).map((status) => <option key={status} value={status}>{status[0].toUpperCase() + status.slice(1)}</option>)}
               </select>
             </FilterField>
-          ) : null}
-          <FilterField label="Status">
-            <select value={currentFilters.status} onChange={(event) => updateDraft("status", event.target.value)}>
-              <option value="">All statuses</option>
-              {(activeTab === "comments"
-                ? ["pending", "approved", "rejected", "spam"]
-                : activeTab === "subscribers"
-                  ? ["pending", "active", "unsubscribed"]
-                  : activeTab === "leads"
-                    ? ["new", "contacted", "qualified", "completed", "spam"]
-                    : ["pending", "sent", "failed", "skipped"]
-              ).map((status) => <option key={status} value={status}>{status}</option>)}
-            </select>
-          </FilterField>
-          <button type="submit" className="btn btn-secondary">Apply filters</button>
-          {activeTab === "subscribers" ? (
-            <button type="button" className="btn btn-secondary" onClick={exportCsv} disabled={busyId === "export"}>
-              <LuDownload aria-hidden="true" /> Export CSV
-            </button>
-          ) : null}
+            <FilterField label="Sort">
+              <select value={currentFilters.sort} onChange={(event) => updateDraft("sort", event.target.value)}>
+                <option value="newest">Newest first</option>
+                <option value="oldest">Oldest first</option>
+              </select>
+            </FilterField>
+            <div className="engagement-filter-actions">
+              <button type="submit" className="btn btn-secondary"><LuFilter aria-hidden="true" /> Apply</button>
+              {draftFilterTotal ? <button type="button" className="btn btn-ghost" onClick={clearFilters}><LuX aria-hidden="true" /> Clear</button> : null}
+              {activeTab === "subscribers" ? (
+                <button type="button" className="btn btn-secondary" onClick={exportCsv} disabled={busyId === "export"}>
+                  <LuDownload aria-hidden="true" /> Export CSV
+                </button>
+              ) : null}
+            </div>
+          </div>
+
+          <details className="engagement-filter-more" open={advancedFilterTotal > 0 || undefined}>
+            <summary><LuSlidersHorizontal aria-hidden="true" /> More filters {advancedFilterTotal ? <span>{advancedFilterTotal} active</span> : null}</summary>
+            <div className="engagement-filter-advanced">
+              {activeTab === "comments" ? (
+                <FilterField label="Article"><input placeholder="Title or slug" value={currentFilters.blogSlug} onChange={(event) => updateDraft("blogSlug", event.target.value)} /></FilterField>
+              ) : null}
+              {activeTab === "leads" ? (
+                <>
+                  <FilterField label="Source"><input placeholder="e.g. public-contact" value={currentFilters.source} onChange={(event) => updateDraft("source", event.target.value)} /></FilterField>
+                  <FilterField label="Inquiry type"><input placeholder="e.g. website project" value={currentFilters.inquiryType} onChange={(event) => updateDraft("inquiryType", event.target.value)} /></FilterField>
+                </>
+              ) : null}
+              {activeTab === "notifications" ? (
+                <>
+                  <FilterField label="Notification type">
+                    <select value={currentFilters.type} onChange={(event) => updateDraft("type", event.target.value)}>
+                      <option value="">All notification types</option>
+                      {notificationTypes.map((type) => <option key={type} value={type}>{formatNotificationType(type)}</option>)}
+                    </select>
+                  </FilterField>
+                  <FilterField label="Audience">
+                    <select value={currentFilters.audience} onChange={(event) => updateDraft("audience", event.target.value)}>
+                      <option value="">All audiences</option>
+                      <option value="internal">Internal alerts</option>
+                      <option value="recipient">Visitor/subscriber emails</option>
+                    </select>
+                  </FilterField>
+                </>
+              ) : null}
+              <FilterField label="From date"><input type="date" value={currentFilters.from} onChange={(event) => updateDraft("from", event.target.value)} /></FilterField>
+              <FilterField label="To date"><input type="date" value={currentFilters.to} onChange={(event) => updateDraft("to", event.target.value)} /></FilterField>
+            </div>
+          </details>
         </form>
       ) : null}
 
       <div className={`engagement-admin-notice ${notice.type ? `is-${notice.type}` : ""}`} role={notice.type === "error" ? "alert" : "status"} aria-live="polite">
         {loading ? <><LuLoaderCircle className="is-spinning" aria-hidden="true" /> Loading engagement data…</> : notice.message}
       </div>
+
+      {!loading && activeTab !== "overview" ? (
+        <div className="engagement-results-bar" role="status" aria-live="polite">
+          <div><LuFilter aria-hidden="true" /><strong>{tabLabels[activeTab]}</strong><span>Showing {recordCount} of {totalRecords}</span></div>
+          {activeFilterTotal ? <span>{activeFilterTotal} active {activeFilterTotal === 1 ? "filter" : "filters"}</span> : <span>All records</span>}
+        </div>
+      ) : null}
 
       {!loading && activeTab === "overview" ? (
         <section className="engagement-admin-panel">
@@ -309,7 +425,7 @@ export default function BlogEngagementAdmin() {
       {!loading && activeTab === "comments" ? (
         <section className="engagement-record-list" aria-label="Blog comments">
           {records.comments.length ? records.comments.map((comment) => (
-            <article key={comment._id} className="engagement-record-card">
+            <article id={`comment-${comment._id}`} key={comment._id} className={`engagement-record-card${params.get("comment") === comment._id ? " is-highlighted" : ""}`}>
               <div className="engagement-record-head">
                 <div><strong>{comment.name}</strong><span>{comment.email}</span></div>
                 <StatusPill>{comment.status}</StatusPill>
@@ -367,22 +483,43 @@ export default function BlogEngagementAdmin() {
       ) : null}
 
       {!loading && activeTab === "leads" ? (
-        <section className="engagement-record-list" aria-label="Contact leads">
+        <section className="engagement-record-list engagement-record-list--contacts" aria-label="Contact inquiries">
           {records.leads.length ? records.leads.map((lead) => (
-            <article key={lead._id} className="engagement-record-card">
-              <div className="engagement-record-head"><div><strong>{lead.name}</strong><span>{lead.email}{lead.phone ? ` · ${lead.phone}` : ""}</span></div><StatusPill>{lead.status}</StatusPill></div>
-              <div className="engagement-record-meta"><span>{lead.inquiryType}</span><span>{lead.businessName || "Business not provided"}</span><span>{lead.source}</span><time>{formatDate(lead.createdAt)}</time></div>
+            <article id={`lead-${lead._id}`} key={lead._id} className={`engagement-record-card engagement-contact-card${params.get("lead") === lead._id ? " is-highlighted" : ""}`}>
+              <div className="engagement-record-head engagement-contact-head">
+                <div className="engagement-contact-identity">
+                  <span className="engagement-contact-avatar"><LuUserRound aria-hidden="true" /></span>
+                  <div><strong>{lead.name}</strong><span><LuBuilding2 aria-hidden="true" /> {lead.businessName || "Business not provided"}</span></div>
+                </div>
+                <StatusPill>{lead.status}</StatusPill>
+              </div>
+
+              <div className="engagement-contact-actions" aria-label={`Contact ${lead.name}`}>
+                <a className="btn btn-secondary" href={`mailto:${lead.email}`}><LuMail aria-hidden="true" /> Email</a>
+                {lead.phone ? <a className="btn btn-secondary" href={`tel:${lead.phone.replace(/[^\d+]/g, "")}`}><LuPhone aria-hidden="true" /> Call</a> : null}
+                {lead.sourceUrl ? <a className="btn btn-ghost" href={lead.sourceUrl} target="_blank" rel="noopener noreferrer">Source <LuExternalLink aria-hidden="true" /></a> : null}
+              </div>
+
+              <dl className="engagement-contact-meta">
+                <div><dt>Email</dt><dd><a href={`mailto:${lead.email}`}>{lead.email}</a></dd></div>
+                <div><dt>Phone</dt><dd>{lead.phone || "Not provided"}</dd></div>
+                <div><dt>Inquiry</dt><dd>{lead.inquiryType || "Website inquiry"}</dd></div>
+                <div><dt>Service</dt><dd>{lead.service || "Not specified"}</dd></div>
+                <div><dt>Source</dt><dd>{lead.source || "Not recorded"}</dd></div>
+                <div><dt>Received</dt><dd><time dateTime={lead.createdAt}>{formatDate(lead.createdAt)}</time></dd></div>
+              </dl>
+
               <p className="engagement-record-message">{lead.message}</p>
-              <div className="engagement-delivery-row"><LuMail aria-hidden="true" /> Internal notification: {lead.emailDeliveryStatus} · Visitor confirmation: {lead.confirmationEmailStatus}</div>
-              <div className="engagement-record-actions">
-                <label className="engagement-inline-select">Lead status
+              <div className="engagement-contact-footer">
+                <div className="engagement-delivery-row"><LuMail aria-hidden="true" /> Internal alert: {lead.emailDeliveryStatus} · Visitor confirmation: {lead.confirmationEmailStatus}</div>
+                <label className="engagement-inline-select">Contact status
                   <select value={lead.status} onChange={(event) => runAction(lead._id, () => adminEngagement.updateLead(lead._id, { status: event.target.value }), "Lead status updated.")} disabled={busyId === lead._id}>
                     {["new", "contacted", "qualified", "completed", "spam"].map((status) => <option key={status} value={status}>{status}</option>)}
                   </select>
                 </label>
               </div>
             </article>
-          )) : <EmptyState>No leads match these filters.</EmptyState>}
+          )) : <EmptyState>No contacts match these filters. Try clearing filters or searching by email.</EmptyState>}
         </section>
       ) : null}
 
@@ -452,9 +589,12 @@ export default function BlogEngagementAdmin() {
       ) : null}
 
       {pagination[activeTab]?.hasMore ? (
-        <button type="button" className="btn btn-secondary engagement-load-more" onClick={() => fetchRecords(activeTab, (pagination[activeTab].page || 1) + 1, true)}>
-          Load more records
-        </button>
+        <div className="engagement-load-more-wrap">
+          <span>{recordCount} of {totalRecords} records loaded</span>
+          <button type="button" className="btn btn-secondary engagement-load-more" onClick={() => fetchRecords(activeTab, (pagination[activeTab].page || 1) + 1, true)}>
+            Load more records
+          </button>
+        </div>
       ) : null}
     </div>
   );

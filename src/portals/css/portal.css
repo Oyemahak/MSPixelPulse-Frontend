@@ -2182,15 +2182,79 @@ html:not([data-theme="dark"]) .portal-frame .icon-btn:hover {
 
 .engagement-admin-filters {
     display: grid;
-    grid-template-columns: repeat(3, minmax(10rem, 1fr)) auto auto;
-    align-items: end;
-    gap: 0.7rem;
+    gap: 0.65rem;
     padding: 0.8rem;
     border-radius: 1rem;
 }
 
-.engagement-admin-filters--notifications {
-    grid-template-columns: minmax(14rem, 1fr) minmax(11rem, 0.65fr) auto;
+.engagement-filter-primary {
+    display: grid;
+    grid-template-columns: minmax(17rem, 2fr) minmax(10rem, 0.7fr) minmax(10rem, 0.7fr) auto;
+    align-items: end;
+    gap: 0.65rem;
+}
+
+.engagement-filter-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+}
+
+.engagement-filter-actions .btn {
+    min-height: 2.75rem;
+    height: 2.75rem;
+    padding-inline: 0.85rem;
+    font-size: 0.68rem;
+    white-space: nowrap;
+}
+
+.portal-frame .btn-ghost {
+    border: 1px solid rgba(148, 163, 184, 0.16);
+    background: transparent;
+    color: var(--textSub);
+}
+
+.portal-frame .btn-ghost:hover {
+    border-color: rgba(140, 180, 255, 0.28);
+    background: rgba(140, 180, 255, 0.08);
+    color: var(--textMain);
+}
+
+.engagement-filter-more {
+    border-top: 1px solid rgba(148, 163, 184, 0.13);
+}
+
+.engagement-filter-more summary {
+    display: flex;
+    min-height: 2.75rem;
+    width: fit-content;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.55rem 0.15rem 0.25rem;
+    color: var(--textSub);
+    font-size: 0.68rem;
+    font-weight: 850;
+    cursor: pointer;
+    list-style: none;
+}
+
+.engagement-filter-more summary::-webkit-details-marker {
+    display: none;
+}
+
+.engagement-filter-more summary span {
+    padding: 0.2rem 0.45rem;
+    border-radius: 999px;
+    background: rgba(96, 165, 250, 0.12);
+    color: #8cb4ff;
+    font-size: 0.58rem;
+}
+
+.engagement-filter-advanced {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(10rem, 1fr));
+    gap: 0.65rem;
+    padding-top: 0.55rem;
 }
 
 .engagement-filter-field {
@@ -2237,6 +2301,35 @@ html:not([data-theme="dark"]) .portal-frame .icon-btn:hover {
 
 .engagement-admin-notice.is-error {
     color: #fb7185;
+}
+
+.engagement-results-bar {
+    display: flex;
+    min-height: 2.5rem;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 0.45rem 0.15rem;
+    color: var(--textSub);
+    font-size: 0.67rem;
+}
+
+.engagement-results-bar > div {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+}
+
+.engagement-results-bar strong {
+    color: var(--textMain);
+    font-size: 0.74rem;
+}
+
+.engagement-results-bar > span {
+    padding: 0.28rem 0.55rem;
+    border: 1px solid rgba(148, 163, 184, 0.14);
+    border-radius: 999px;
+    white-space: nowrap;
 }
 
 .engagement-admin-panel {
@@ -2332,6 +2425,105 @@ html:not([data-theme="dark"]) .portal-frame .icon-btn:hover {
     gap: 0.7rem;
     padding: 0.95rem;
     border-radius: 1rem;
+}
+
+.engagement-record-card.is-highlighted {
+    outline: 2px solid rgba(96, 165, 250, 0.72);
+    outline-offset: 2px;
+}
+
+.engagement-record-list--contacts {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
+}
+
+.engagement-contact-card {
+    gap: 0.78rem;
+}
+
+.engagement-contact-identity {
+    display: flex !important;
+    align-items: center;
+    gap: 0.65rem !important;
+}
+
+.engagement-contact-identity > div {
+    display: grid;
+    min-width: 0;
+    gap: 0.12rem;
+}
+
+.engagement-contact-identity > div > span {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.engagement-contact-avatar {
+    display: grid;
+    width: 2.5rem;
+    height: 2.5rem;
+    flex: 0 0 auto;
+    place-items: center;
+    border-radius: 0.75rem;
+    background: rgba(96, 165, 250, 0.12);
+    color: #8cb4ff;
+}
+
+.engagement-contact-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+}
+
+.engagement-contact-actions .btn {
+    min-height: 2.75rem;
+    height: 2.75rem;
+    padding-inline: 0.8rem;
+    font-size: 0.68rem;
+}
+
+.engagement-contact-meta {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.45rem;
+    margin: 0;
+}
+
+.engagement-contact-meta > div {
+    min-width: 0;
+    padding: 0.55rem 0.62rem;
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 0.72rem;
+    background: rgba(255, 255, 255, 0.035);
+}
+
+.engagement-contact-meta dt {
+    color: var(--textSub);
+    font-size: 0.57rem;
+    font-weight: 800;
+}
+
+.engagement-contact-meta dd {
+    margin: 0.12rem 0 0;
+    color: var(--textMain);
+    font-size: 0.67rem;
+    font-weight: 750;
+    line-height: 1.35;
+    overflow-wrap: anywhere;
+}
+
+.engagement-contact-meta a {
+    color: #8cb4ff;
+}
+
+.engagement-contact-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding-top: 0.65rem;
+    border-top: 1px solid rgba(148, 163, 184, 0.13);
 }
 
 .engagement-notification-workspace {
@@ -2649,6 +2841,14 @@ html:not([data-theme="dark"]) .portal-frame .icon-btn:hover {
     justify-self: center;
 }
 
+.engagement-load-more-wrap {
+    display: grid;
+    justify-items: center;
+    gap: 0.45rem;
+    color: var(--textSub);
+    font-size: 0.65rem;
+}
+
 html:not([data-theme="dark"]) :is(
     .engagement-admin-hero,
     .engagement-admin-panel,
@@ -2675,6 +2875,15 @@ html:not([data-theme="dark"]) :is(.engagement-blog-list article, .engagement-blo
 html:not([data-theme="dark"]) .engagement-notification-meta > div {
     border-color: rgba(148, 163, 184, 0.2);
     background: rgba(248, 250, 252, 0.78);
+}
+
+html:not([data-theme="dark"]) .engagement-contact-meta > div {
+    border-color: rgba(148, 163, 184, 0.2);
+    background: rgba(248, 250, 252, 0.78);
+}
+
+html:not([data-theme="dark"]) .engagement-filter-more {
+    border-top-color: rgba(148, 163, 184, 0.2);
 }
 
 html:not([data-theme="dark"]) .engagement-notification-card {
@@ -2719,15 +2928,21 @@ html:not([data-theme="dark"]) .engagement-admin-notice.is-error {
         grid-template-columns: repeat(3, minmax(0, 1fr));
     }
 
-    .engagement-admin-filters {
+    .engagement-filter-primary {
+        grid-template-columns: minmax(15rem, 1.5fr) repeat(2, minmax(9rem, 0.7fr));
+    }
+
+    .engagement-filter-actions {
+        grid-column: 1 / -1;
+        justify-content: flex-end;
+    }
+
+    .engagement-filter-advanced {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
-    .engagement-admin-filters--notifications {
-        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto;
-    }
-
-    .engagement-record-list--notifications {
+    .engagement-record-list--notifications,
+    .engagement-record-list--contacts {
         grid-template-columns: 1fr;
     }
 }
@@ -2748,8 +2963,24 @@ html:not([data-theme="dark"]) .engagement-admin-notice.is-error {
     }
 
     .engagement-metric-grid,
-    .engagement-admin-filters {
+    .engagement-filter-primary,
+    .engagement-filter-advanced {
         grid-template-columns: 1fr;
+    }
+
+    .engagement-filter-actions {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .engagement-filter-actions .btn:last-child:nth-child(3) {
+        grid-column: 1 / -1;
+    }
+
+    .engagement-results-bar,
+    .engagement-contact-footer {
+        align-items: stretch;
+        flex-direction: column;
     }
 
     .engagement-notification-summary {
@@ -2776,9 +3007,19 @@ html:not([data-theme="dark"]) .engagement-admin-notice.is-error {
 
     .engagement-admin-filters .btn,
     .engagement-record-actions .btn,
+    .engagement-contact-actions .btn,
     .engagement-inline-select,
     .engagement-inline-select select {
         width: 100%;
+    }
+
+    .engagement-contact-actions {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .engagement-contact-meta {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 }
 
@@ -2797,6 +3038,12 @@ html:not([data-theme="dark"]) .engagement-admin-notice.is-error {
 
     .engagement-notification-meta .engagement-notification-recipients {
         grid-column: auto;
+    }
+
+    .engagement-filter-actions,
+    .engagement-contact-actions,
+    .engagement-contact-meta {
+        grid-template-columns: 1fr;
     }
 }
 

@@ -1,22 +1,11 @@
 import { useLocation } from "react-router-dom";
 import LeadCaptureDock from "@/components/conversion/LeadCaptureDock.jsx";
 import ExitDemoOffer from "@/components/conversion/ExitDemoOffer.jsx";
+import { isEligibleMarketingPath } from "@/components/conversion/leadCapturePaths.js";
 
-function isEligibleMarketingPath(pathname) {
-  return (
-    pathname === "/" ||
-    pathname === "/about" ||
-    pathname === "/services" ||
-    pathname === "/pricing" ||
-    pathname === "/projects" ||
-    pathname.startsWith("/projects/") ||
-    pathname === "/blog" ||
-    pathname.startsWith("/blog/")
-  );
-}
-
-export default function LeadCaptureTools() {
-  const { pathname } = useLocation();
+export default function LeadCaptureTools({ pathname: currentPathname }) {
+  const location = useLocation();
+  const pathname = currentPathname ?? location.pathname;
   if (!isEligibleMarketingPath(pathname)) return null;
 
   return (

@@ -1,5 +1,6 @@
 import Container from "./Container.jsx";
 import { Link } from "react-router-dom";
+import { LeadCaptureBanner } from "@/components/conversion/LeadCaptureDock.jsx";
 import SocialContactLinks from "@/components/SocialContactLinks.jsx";
 import { site } from "@/data/site.js";
 import { useTheme } from "@/lib/theme.js";
@@ -24,12 +25,12 @@ const serviceLinks = [
   "Website maintenance",
 ];
 
-export default function AppFooter() {
+export default function AppFooter({ showLeadCapture = false }) {
   const { theme } = useTheme();
   const year = new Date().getFullYear();
 
   return (
-    <footer className="app-footer">
+    <footer className={`app-footer${showLeadCapture ? " app-footer--with-lead-capture" : ""}`}>
       <Container>
         <div className="agency-footer-main">
           <div className="agency-footer-brand">
@@ -78,6 +79,8 @@ export default function AppFooter() {
             />
           </div>
         </div>
+
+        {showLeadCapture && <LeadCaptureBanner />}
 
         <div className="agency-footer-bottom">
           <span>© {year} MSPixelPulse. All rights reserved.</span>

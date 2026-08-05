@@ -7,6 +7,7 @@ import AppFooter from "./components/layout/AppFooter.jsx";
 import CookieBanner from "@/components/CookieBanner.jsx";
 import AnalyticsManager from "@/components/AnalyticsManager.jsx";
 import LeadCaptureTools from "@/components/conversion/LeadCaptureTools.jsx";
+import { isEligibleMarketingPath } from "@/components/conversion/leadCapturePaths.js";
 import { useAuth } from "@/context/AuthContext.jsx";
 import { ThemeProvider } from "@/lib/theme.js";
 
@@ -88,6 +89,7 @@ export default function App() {
     pathname.startsWith("/client") ||
     pathname.startsWith("/dev");
   const hidePublicChrome = isPortalRoute;
+  const showLeadCapture = isEligibleMarketingPath(pathname);
   const ContentRoot = hidePublicChrome ? "div" : "main";
 
   return (
@@ -164,8 +166,8 @@ export default function App() {
           </Suspense>
         </ContentRoot>
 
-        {!hidePublicChrome && <AppFooter />}
-        {!hidePublicChrome && <LeadCaptureTools />}
+        {!hidePublicChrome && <AppFooter showLeadCapture={showLeadCapture} />}
+        {!hidePublicChrome && <LeadCaptureTools pathname={pathname} />}
         {!hidePublicChrome && <CookieBanner />}
       </div>
     </ThemeProvider>

@@ -1,14 +1,23 @@
 import { Link } from "react-router-dom";
 import {
   LuArrowUpRight,
+  LuCalendarDays,
   LuClock3,
   LuExternalLink,
-  LuMapPin,
 } from "react-icons/lu";
 
-export default function BlogCard({ post, rank, featured = false }) {
+function formatDate(value) {
+  return new Intl.DateTimeFormat("en-CA", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+    timeZone: "UTC",
+  }).format(new Date(`${value}T00:00:00Z`));
+}
+
+export default function BlogCard({ post, eager = false }) {
   return (
-    <article className={`blog-card ${featured ? "blog-card-featured" : ""}`}>
+    <article className="blog-card">
       <div className="blog-card-media">
         <Link
           to={`/blog/${post.slug}`}
@@ -19,43 +28,40 @@ export default function BlogCard({ post, rank, featured = false }) {
             src={post.coverPreview || post.cover}
             alt={post.coverAlt}
             className="blog-card-image"
-            loading={rank === 1 ? "eager" : "lazy"}
-            fetchPriority={rank === 1 ? "high" : "auto"}
+            loading={eager ? "eager" : "lazy"}
+            fetchPriority={eager ? "high" : "auto"}
+            decoding="async"
             width="640"
             height="360"
           />
         </Link>
-        {rank ? (
-          <span className="blog-popular-rank" aria-label={`Popular pick number ${rank}`}>
-            <strong>{String(rank).padStart(2, "0")}</strong>
-            Popular
-          </span>
-        ) : null}
-        <span className="blog-card-pillar">{post.pillar}</span>
       </div>
 
       <div className="blog-card-content">
         <div className="blog-card-meta">
+          <span className="blog-card-category">{post.pillar}</span>
+          <span>
+            <LuCalendarDays aria-hidden="true" />
+            {formatDate(post.publishedAt)}
+          </span>
           <span>
             <LuClock3 aria-hidden="true" />
             {post.readingTime}
           </span>
-          {post.tags?.some((tag) => ["Toronto", "Brampton", "Mississauga", "Canada"].includes(tag)) ? (
-            <span>
-              <LuMapPin aria-hidden="true" />
-              Canada focused
-            </span>
-          ) : null}
         </div>
 
-        <h3>
+        <h2>
           <Link to={`/blog/${post.slug}`}>{post.title}</Link>
-        </h3>
+        </h2>
         <p>{post.excerpt}</p>
+
+        <div className="blog-card-tags" aria-label="Article topics">
+          {post.tags?.slice(0, 3).map((tag) => <span key={tag}>{tag}</span>)}
+        </div>
 
         <div className="blog-card-footer">
           <Link className="blog-card-read" to={`/blog/${post.slug}`}>
-            Read guide
+            Read post
             <LuArrowUpRight aria-hidden="true" />
           </Link>
           {post.coverCredit ? (
@@ -70,7 +76,7 @@ export default function BlogCard({ post, rank, featured = false }) {
               <LuExternalLink aria-hidden="true" />
             </a>
           ) : (
-            <span className="blog-photo-credit">MSPixelPulse photo</span>
+            <span className="blog-photo-credit">MSPixelPulse visual</span>
           )}
         </div>
       </div>

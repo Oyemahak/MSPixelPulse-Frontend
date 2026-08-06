@@ -1,5 +1,6 @@
 import { humanBlogCoverPhotos } from "./blogCoverPhotos.js";
 import { growthBlogPosts } from "./blogGrowthPosts.js";
+import { trendBlogPosts } from "./blogTrendPosts.js";
 
 const resourceLinks = {
   googleSeoStarter: {
@@ -538,7 +539,7 @@ const popularRanks = {
   "core-web-vitals-small-business-websites": 10,
 };
 
-export const blogPosts = [...coreBlogPosts, ...growthBlogPosts].map((post, index) => {
+export const blogPosts = [...coreBlogPosts, ...growthBlogPosts, ...trendBlogPosts].map((post, index) => {
   const coverPhoto = index === 0 ? null : humanBlogCoverPhotos[index - 1];
 
   return {
@@ -548,7 +549,7 @@ export const blogPosts = [...coreBlogPosts, ...growthBlogPosts].map((post, index
     cover: coverPhoto?.url || post.cover,
     coverPreview: coverPhoto?.previewUrl || post.cover,
     coverAlt: coverPhoto
-      ? `A real small-business professional featured on the cover of ${post.title}`
+      ? `${coverPhoto.description}, illustrating ${post.title}`
       : post.coverAlt,
     coverCredit: coverPhoto
       ? {

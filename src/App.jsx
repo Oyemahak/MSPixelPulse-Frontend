@@ -13,6 +13,7 @@ const Home = lazy(() => import("./pages/Home.jsx"));
 const Projects = lazy(() => import("./pages/Projects.jsx"));
 const ProjectDetail = lazy(() => import("./pages/ProjectDetail.jsx"));
 const Services = lazy(() => import("./pages/Services.jsx"));
+const MoodleLmsDevelopment = lazy(() => import("./pages/MoodleLmsDevelopment.jsx"));
 const Pricing = lazy(() => import("./pages/Pricing.jsx"));
 const Contact = lazy(() => import("./pages/Contact.jsx"));
 const Blog = lazy(() => import("./pages/Blog.jsx"));
@@ -101,6 +102,7 @@ export default function App() {
               <Route path="/projects" element={<Projects />} />
               <Route path="/projects/:id" element={<ProjectDetail />} />
               <Route path="/services" element={<Services />} />
+              <Route path="/services/moodle-lms-development" element={<MoodleLmsDevelopment />} />
               <Route path="/pricing" element={<Pricing />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/blog" element={<Blog />} />

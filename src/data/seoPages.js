@@ -65,9 +65,46 @@ export const seoPages = {
     path: "/services",
     title: "Website Design & Development Services — MSPixelPulse",
     description:
-      "Explore clear website design, online store, redesign, ongoing support, custom tool, and launch services for small businesses.",
+      "Explore website design, e-commerce, redesign, Moodle LMS, ongoing support, custom tools, and launch services for small businesses and education teams.",
     canonical: "/services",
     component: "src/pages/Services.jsx",
+  },
+  moodleLms: {
+    path: "/services/moodle-lms-development",
+    title: "Moodle LMS Development & Support Canada | MSPixelPulse",
+    description:
+      "Custom Moodle LMS development and support for schools and training organizations, including setup, UI, courses, roles, plugins, upgrades, hosting, and administration.",
+    canonical: "/services/moodle-lms-development",
+    component: "src/pages/MoodleLmsDevelopment.jsx",
+    jsonLd: [
+      {
+        "@context": "https://schema.org",
+        "@type": "Service",
+        name: "Moodle LMS Development and Support",
+        serviceType: "Moodle LMS development, customization and support",
+        url: absolute("/services/moodle-lms-development"),
+        description:
+          "Custom Moodle learning management system development, configuration, responsive UI improvement, course and role setup, plugin and integration support, upgrades, hosting planning, and ongoing administration.",
+        provider: {
+          "@type": "Organization",
+          name: site.name,
+          url: site.url,
+        },
+        areaServed: [
+          { "@type": "Country", name: "Canada" },
+          { "@type": "AdministrativeArea", name: "Ontario, Canada" },
+        ],
+        audience: {
+          "@type": "Audience",
+          audienceType: "Schools, training organizations, education teams and organizations using Moodle",
+        },
+      },
+      breadcrumbJsonLd([
+        { name: "Home", path: "/" },
+        { name: "Services", path: "/services" },
+        { name: "Moodle LMS development", path: "/services/moodle-lms-development" },
+      ]),
+    ],
   },
   pricing: {
     path: "/pricing",
@@ -81,7 +118,7 @@ export const seoPages = {
     path: "/contact",
     title: "Contact MSPixelPulse — Start a Website Project",
     description:
-      "Contact MSPixelPulse about website design, redesign, WordPress, React, e-commerce, maintenance, or small-business website support.",
+      "Contact MSPixelPulse about website design, redesign, WordPress, React, Moodle LMS, e-commerce, maintenance, or small-business website support.",
     canonical: "/contact",
     component: "src/pages/Contact.jsx",
     jsonLd: organizationJsonLd,
@@ -90,7 +127,7 @@ export const seoPages = {
     path: "/blog",
     title: "Website & Local SEO Guides for Canadian Businesses — MSPixelPulse",
     description:
-      "Practical website, local SEO, AI search, accessibility, performance, and growth guides for businesses in Toronto, Brampton, Mississauga, and Canada.",
+      "Practical website, local SEO, AI search, accessibility, performance, Moodle LMS, and growth guides for businesses and education teams in Canada.",
     canonical: "/blog",
     image: "/hero/mspixelpulse-web-design-collaboration.webp",
     component: "src/pages/Blog.jsx",
@@ -99,7 +136,7 @@ export const seoPages = {
       "@type": "CollectionPage",
       name: "MSPixelPulse website and digital growth guides",
       description:
-        "People-first website, local SEO, AI search, accessibility, performance, content, and conversion guidance for Canadian small businesses.",
+        "People-first website, local SEO, AI search, accessibility, performance, content, learning platform, and conversion guidance for Canadian organizations.",
       url: absolute("/blog"),
       inLanguage: "en-CA",
       publisher: {
@@ -113,7 +150,7 @@ export const seoPages = {
     path: "/about",
     title: "About MSPixelPulse — Toronto Website Agency",
     description:
-      "Learn about MSPixelPulse, a Toronto website agency focused on clear, responsive, maintainable websites for small businesses.",
+      "Learn about MSPixelPulse, a Toronto website agency focused on clear, responsive, maintainable websites and digital platforms for businesses and education teams.",
     canonical: "/about",
     image: "/about/mahak-patel.webp",
     component: "src/pages/About.jsx",
@@ -216,6 +253,7 @@ export function blogPostSeo(post) {
     image: post.cover,
     type: "article",
     component: "src/pages/BlogPost.jsx",
+    lastModified: post.updatedAt,
     jsonLd: [
       article,
       breadcrumbJsonLd([

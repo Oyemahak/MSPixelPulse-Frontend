@@ -15,6 +15,7 @@ import { site } from "../src/data/site.js";
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const distDir = path.join(rootDir, "dist");
 const defaultImage = "/logo.svg";
+const indexNowKey = "284323efb94bc7d0fe3fb7d48b1250c0";
 const portalShellSeo = {
   path: "/portal-shell",
   title: "Secure workspace — MSPixelPulse",
@@ -123,10 +124,19 @@ function renderHead(baseHtml, entry, manifest) {
   return html;
 }
 
+function indexableEntries() {
+  return entries.filter((entry) => !entry.robots?.startsWith("noindex"));
+}
+
 async function generateSitemap() {
-  const routes = entries.filter((entry) => !entry.robots?.startsWith("noindex"));
+  const routes = indexableEntries();
   const urls = routes
-    .map((entry) => `  <url><loc>${escapeXml(absolute(entry.path))}</loc></url>`)
+    .map((entry) => {
+      const lastmod = entry.lastModified
+        ? `<lastmod>${escapeXml(entry.lastModified)}</lastmod>`
+        : "";
+      return `  <url><loc>${escapeXml(absolute(entry.path))}</loc>${lastmod}</url>`;
+    })
     .join("\n");
   const sitemap = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`;
   await writeFile(path.join(rootDir, "public", "sitemap.xml"), sitemap);
@@ -152,11 +162,39 @@ async function generateStaticHeads() {
   console.log(`Generated static metadata for ${entries.length} routes.`);
 }
 
+async function submitIndexNow() {
+  const urls = indexableEntries().map((entry) => absolute(entry.path));
+  const payload = {
+    host: new URL(site.url).host,
+    key: indexNowKey,
+    keyLocation: `${site.url}/${indexNowKey}.txt`,
+    urlList: urls,
+  };
+
+  try {
+    const response = await fetch("https://api.indexnow.org/indexnow", {
+      method: "POST",
+      headers: { "content-type": "application/json; charset=utf-8" },
+      body: JSON.stringify(payload),
+    });
+
+    if (!response.ok && response.status !== 202) {
+      console.warn(`IndexNow returned HTTP ${response.status}; deployment will continue.`);
+      return;
+    }
+    console.log(`Submitted ${urls.length} canonical URLs to IndexNow.`);
+  } catch (error) {
+    console.warn(`IndexNow submission skipped: ${error.message}`);
+  }
+}
+
 const command = process.argv[2];
 if (command === "--sitemap") {
   await generateSitemap();
 } else if (command === "--heads") {
   await generateStaticHeads();
+} else if (command === "--indexnow") {
+  await submitIndexNow();
 } else {
-  throw new Error("Use --sitemap before Vite or --heads after Vite.");
+  throw new Error("Use --sitemap, --heads, or --indexnow.");
 }

@@ -1,0 +1,24 @@
+# MSPixelPulse
+
+> MSPixelPulse is a web design and development studio serving small businesses in Toronto and across Canada. The site presents website design, React and WordPress development, redesign, e-commerce, maintenance, project examples, pricing, and contact information.
+
+Canonical website: https://mspixelpulse.com/
+
+## Primary pages
+
+- [Home](https://mspixelpulse.com/): Overview of MSPixelPulse and its website services.
+- [About](https://mspixelpulse.com/about): About MSPixelPulse and the studio.
+- [Services](https://mspixelpulse.com/services): Website design, development, redesign, maintenance, and related services.
+- [Pricing](https://mspixelpulse.com/pricing): Website service plans and pricing information.
+- [Projects](https://mspixelpulse.com/projects): Portfolio and project examples.
+- [Blog](https://mspixelpulse.com/blog): Articles about web design, development, UX, SEO, accessibility, AI, and small-business websites.
+- [Contact](https://mspixelpulse.com/contact): Contact and project inquiry page.
+
+## Discovery
+
+- [XML Sitemap](https://mspixelpulse.com/sitemap.xml)
+- [Robots](https://mspixelpulse.com/robots.txt)
+
+## Preferred citation
+
+When referencing the business, use the name “MSPixelPulse” and link to the canonical domain https://mspixelpulse.com/ rather than the legacy Vercel hostname.

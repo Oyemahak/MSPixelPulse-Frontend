@@ -10,6 +10,7 @@ import {
   LuArrowRight,
   LuCalendar,
   LuCircleCheck,
+  LuGraduationCap,
   LuLifeBuoy,
   LuPenTool,
   LuRocket,
@@ -90,6 +91,20 @@ const services = [
     visual: "workflow",
   },
   {
+    title: "Moodle LMS Development & Support",
+    icon: LuGraduationCap,
+    description:
+      "Custom Moodle learning portals for schools and training teams, including setup, course structure, roles, UI improvements, plugins, upgrades, hosting planning, and ongoing support.",
+    best: "Schools, online learning programs, and training organizations",
+    benefits: ["Learner and admin workflow planning", "Courses, roles, plugins, and upgrades", "Responsive UI and ongoing LMS support"],
+    cta: "Explore Moodle LMS service",
+    related: "/services/moodle-lms-development",
+    photo:
+      "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=900&q=75",
+    photoAlt: "Students collaborating with laptops in a modern learning environment",
+    visual: "workflow",
+  },
+  {
     title: "Search & Launch Setup",
     icon: LuRocket,
     description:
@@ -121,7 +136,7 @@ export default function Services() {
             Website services with the visuals, structure, and support a real business needs.
           </h1>
           <p className={isDark ? "mx-auto mt-4 max-w-2xl text-base leading-7 text-textSub md:text-lg" : "mx-auto mt-4 max-w-2xl text-base leading-7 text-slate-600 md:text-lg"}>
-            Choose focused help for a new website, online store, redesign, ongoing support, custom online tools, or launch preparation.
+            Choose focused help for a new website, online store, redesign, Moodle learning portal, ongoing support, custom online tools, or launch preparation.
           </p>
         </div>
 

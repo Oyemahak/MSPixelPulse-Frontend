@@ -1,5 +1,6 @@
 import { humanBlogCoverPhotos } from "./blogCoverPhotos.js";
 import { growthBlogPosts } from "./blogGrowthPosts.js";
+import { leadGenerationBlogPosts } from "./blogLeadGenerationPosts.js";
 
 const resourceLinks = {
   googleSeoStarter: {
@@ -538,18 +539,35 @@ const popularRanks = {
   "core-web-vitals-small-business-websites": 10,
 };
 
-export const blogPosts = [...coreBlogPosts, ...growthBlogPosts].map((post, index) => {
+const fallbackCovers = {
+  "AI & Search": "/blog/wordpress-vs-react.webp",
+  "Content & Brand": "/blog/industry-website-features.webp",
+  "Design & UX": "/hero/mspixelpulse-web-design-collaboration.webp",
+  "Local SEO": "/blog/website-trust-local-business.webp",
+  "Performance & Care": "/blog/website-maintenance-guide.webp",
+  Planning: "/blog/website-redesign-checklist.webp",
+  "Platforms & Growth": "/blog/small-business-website-features.webp",
+  "Website Growth": "/blog/small-business-website-features.webp",
+};
+
+export const blogPosts = [
+  ...coreBlogPosts,
+  ...growthBlogPosts,
+  ...leadGenerationBlogPosts,
+].map((post, index) => {
   const coverPhoto = index === 0 ? null : humanBlogCoverPhotos[index - 1];
+  const pillar = post.pillar || existingPillars[post.category] || "Website Growth";
+  const fallbackCover = fallbackCovers[pillar];
 
   return {
     ...post,
-    pillar: post.pillar || existingPillars[post.category] || "Website Growth",
+    pillar,
     popularRank: popularRanks[post.slug] || null,
-    cover: coverPhoto?.url || post.cover,
-    coverPreview: coverPhoto?.previewUrl || post.cover,
+    cover: coverPhoto?.url || post.cover || fallbackCover,
+    coverPreview: coverPhoto?.previewUrl || post.cover || fallbackCover,
     coverAlt: coverPhoto
       ? `A real small-business professional featured on the cover of ${post.title}`
-      : post.coverAlt,
+      : post.coverAlt || `Editorial website planning cover for ${post.title}`,
     coverCredit: coverPhoto
       ? {
           photographer: coverPhoto.photographer,

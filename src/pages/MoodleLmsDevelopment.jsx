@@ -1,3 +1,4 @@
+import { createElement } from "react";
 import { Link } from "react-router-dom";
 import Container from "../components/layout/Container.jsx";
 import Meta from "@/components/Meta.jsx";
@@ -62,10 +63,10 @@ export default function MoodleLmsDevelopment() {
         </div>
 
         <div className="mt-14 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-          {capabilities.map(([Icon, title, body]) => (
+          {capabilities.map(([icon, title, body]) => (
             <article key={title} className={isDark ? "card-surface rounded-2xl p-6" : "rounded-2xl border border-blue-100 bg-white p-6 shadow-sm"}>
               <span className={isDark ? "grid h-11 w-11 place-items-center rounded-xl bg-primary/20 text-white" : "grid h-11 w-11 place-items-center rounded-xl bg-blue-50 text-blue-700"}>
-                <Icon className="h-5 w-5" aria-hidden="true" />
+                {createElement(icon, { className: "h-5 w-5", "aria-hidden": true })}
               </span>
               <h2 className={isDark ? "mt-4 text-xl font-black text-white" : "mt-4 text-xl font-black text-slate-950"}>{title}</h2>
               <p className={isDark ? "mt-3 text-sm leading-6 text-textSub" : "mt-3 text-sm leading-6 text-slate-600"}>{body}</p>

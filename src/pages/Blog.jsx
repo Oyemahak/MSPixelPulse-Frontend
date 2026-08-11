@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useDeferredValue, useEffect, useMemo, useState } from "react";
 import { AnimatePresence, motion as Motion, useReducedMotion } from "framer-motion";
 import { Link } from "react-router-dom";
 import {
@@ -26,6 +26,7 @@ export default function Blog() {
   const prefersReducedMotion = useReducedMotion();
   const [activePillar, setActivePillar] = useState("All");
   const [search, setSearch] = useState("");
+  const deferredSearch = useDeferredValue(search);
   const [visibleCount, setVisibleCount] = useState(INITIAL_LIBRARY_COUNT);
 
   const pillars = useMemo(
@@ -49,7 +50,7 @@ export default function Blog() {
     [],
   );
 
-  const query = normalizedSearch(search);
+  const query = normalizedSearch(deferredSearch);
   const isBrowsingAll = activePillar === "All" && !query;
 
   const filteredPosts = useMemo(() => {
@@ -70,7 +71,7 @@ export default function Blog() {
         ]
           .join(" ")
           .toLowerCase();
-        return haystack.includes(query);
+        return query.split(/\s+/).every((token) => haystack.includes(token));
       })
       .sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt));
   }, [activePillar, isBrowsingAll, query]);
@@ -94,11 +95,14 @@ export default function Blog() {
               Explore
             </span>
             <div className="blog-section-nav-links">
-              <a href="#popular-guides">Popular 10</a>
-              <a href="#blog-categories">Categories</a>
+              <a href="#popular-guides">Popular</a>
+              <a href="#blog-categories">Topics</a>
               <a href="#article-library">All guides</a>
-              <Link to="/contact?request=free-demo">
-                Free website demo
+              <Link
+                to="/contact?request=free-demo"
+                aria-label="Request a free personalized website demo"
+              >
+                Free demo
                 <LuArrowRight aria-hidden="true" />
               </Link>
             </div>
@@ -115,10 +119,10 @@ export default function Blog() {
                 <LuBookOpen aria-hidden="true" />
                 MSPixelPulse insights
               </p>
-              <h1>Simple ideas to grow your business online.</h1>
+              <h1>Practical guides for growing your business online.</h1>
               <p className="blog-hero-intro">
-                Explore practical, Canada-focused guidance on websites, local SEO,
-                AI search, accessibility, content, and conversion.
+                Clear, Canada-focused guidance on websites, local SEO, AI search,
+                accessibility, content, and conversion.
               </p>
               <div className="blog-hero-actions">
                 <a className="btn btn-primary" href="#article-library">
@@ -212,11 +216,12 @@ export default function Blog() {
                 Article library
               </p>
               <h2 id="article-library-heading">
-                {isBrowsingAll ? "More guides to explore" : "Find the guide you need"}
+                {isBrowsingAll ? "Find the right guide" : "Filtered guides"}
               </h2>
             </div>
             <p>
-              Filter by topic or search across titles, summaries, locations, and tags.
+              Search {publishedBlogPosts.length} practical guides by service, goal,
+              location, or topic.
             </p>
           </div>
 
@@ -231,12 +236,34 @@ export default function Blog() {
                   value={search}
                   onChange={(event) => setSearch(event.target.value)}
                   placeholder="Try “Toronto SEO” or “website speed”"
+                  autoComplete="off"
                 />
               </div>
             </div>
 
             <div className="blog-category-control">
               <span id="blog-category-label">Browse by category</span>
+              <div className="blog-category-select-wrap">
+                <select
+                  aria-labelledby="blog-category-label"
+                  value={activePillar}
+                  onChange={(event) => setActivePillar(event.target.value)}
+                >
+                  {pillars.map((pillar) => {
+                    const count =
+                      pillar === "All"
+                        ? publishedBlogPosts.length
+                        : publishedBlogPosts.filter((post) => post.pillar === pillar).length;
+
+                    return (
+                      <option key={pillar} value={pillar}>
+                        {pillar === "All" ? "All topics" : pillar} ({count})
+                      </option>
+                    );
+                  })}
+                </select>
+                <LuChevronDown aria-hidden="true" />
+              </div>
               <div className="blog-category-switch" aria-labelledby="blog-category-label">
                 {pillars.map((pillar) => {
                   const count =
@@ -321,11 +348,11 @@ export default function Blog() {
           <div className="blog-editorial-note">
             <LuSparkles aria-hidden="true" />
             <div>
-              <strong>Built for useful publishing, not content flooding.</strong>
+              <strong>Six focused topic clusters, built around real customer decisions.</strong>
               <p>
-                Our 1,000-topic roadmap remains in editorial review. New guides are
-                published in focused batches after source, accessibility, image, and
-                quality checks.
+                Every guide has a distinct intent, official reference links where
+                appropriate, transparent AI-assistance disclosure, and a practical path
+                from the question to relevant MSPixelPulse services.
               </p>
             </div>
           </div>

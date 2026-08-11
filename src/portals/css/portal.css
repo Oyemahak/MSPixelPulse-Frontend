@@ -2792,3 +2792,74 @@ html:not([data-theme="dark"]) .portal-frame :is(input, select, textarea) {
         animation: none;
     }
 }
+
+/* Light portal action authority: visible blue controls on pale glass surfaces. */
+html:not([data-theme="dark"]) .portal-frame {
+    --portal-action-blue: #1d4ed8;
+    --portal-action-blue-strong: #1e40af;
+    --portal-action-tint: #dbeafe;
+    --portal-action-border: #93c5fd;
+}
+
+html:not([data-theme="dark"]) .portal-frame :is(
+    .btn-outline:not(.danger):not([class*="text-rose-"]),
+    .portal-icon-button:not(.danger),
+    .icon-btn:not(.danger),
+    .portal-segmented button:not(.is-active),
+    .admin-view-toggle button:not(.is-active)
+) {
+    border-color: var(--portal-action-border) !important;
+    background: linear-gradient(135deg, #eff6ff, var(--portal-action-tint)) !important;
+    color: var(--portal-action-blue-strong) !important;
+    box-shadow:
+        0 10px 24px rgba(37, 99, 235, 0.13),
+        inset 0 1px 0 rgba(255, 255, 255, 0.9) !important;
+}
+
+html:not([data-theme="dark"]) .portal-frame :is(
+    .btn-primary,
+    .btn-outline.is-active,
+    .portal-segmented button.is-active,
+    .admin-view-toggle button.is-active
+) {
+    border-color: #1d4ed8 !important;
+    background: linear-gradient(135deg, #2563eb, #4f46e5) !important;
+    color: #ffffff !important;
+    box-shadow: 0 13px 28px rgba(37, 99, 235, 0.28) !important;
+}
+
+html:not([data-theme="dark"]) .portal-frame :is(
+    .btn-primary,
+    .btn-outline:not(.danger):not([class*="text-rose-"]),
+    .portal-icon-button:not(.danger),
+    .icon-btn:not(.danger),
+    .portal-segmented button,
+    .admin-view-toggle button
+):hover:not(:disabled) {
+    border-color: var(--portal-action-blue) !important;
+    background: linear-gradient(135deg, #1d4ed8, #4338ca) !important;
+    color: #ffffff !important;
+    box-shadow: 0 15px 30px rgba(37, 99, 235, 0.3) !important;
+}
+
+html:not([data-theme="dark"]) .portal-frame :is(
+    .btn-primary,
+    .btn-outline,
+    .portal-icon-button,
+    .icon-btn,
+    .portal-segmented button,
+    .admin-view-toggle button
+) svg {
+    color: currentColor !important;
+}
+
+html:not([data-theme="dark"]) .portal-frame :is(
+    .portal-icon-button.danger,
+    .icon-btn.danger,
+    .btn-outline.danger,
+    .btn-outline[class*="text-rose-"]
+) {
+    border-color: #fda4af !important;
+    background: #fff1f2 !important;
+    color: #be123c !important;
+}

@@ -47,7 +47,7 @@ export default function Meta({
       : `${site.url}${canonical || window.location.pathname}`;
     const absoluteImage = image?.startsWith("http")
       ? image
-      : `${site.url}${image || "/logo.svg?v=white-theme-aware-v8"}`;
+      : `${site.url}${image || "/logo.svg?v=black-light-mark-v9"}`;
 
     setMeta('meta[property="og:title"]', { property: "og:title" }, title);
     setMeta('meta[property="og:description"]', { property: "og:description" }, description);

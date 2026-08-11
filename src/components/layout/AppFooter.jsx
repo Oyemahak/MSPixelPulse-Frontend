@@ -33,7 +33,7 @@ export default function AppFooter() {
           <div className="agency-footer-brand">
             <div className="agency-footer-logo">
               <img
-                src={theme === "dark" ? "/icon-dark.svg?v=white-theme-aware-v8" : "/icon-light.svg?v=white-theme-aware-v8"}
+                src={theme === "dark" ? "/icon-dark.svg?v=black-light-mark-v9" : "/icon-light.svg?v=black-light-mark-v9"}
                 alt=""
                 aria-hidden="true"
                 className="brand-logo-mark"

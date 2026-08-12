@@ -24,16 +24,17 @@ function normalize(value) {
   return String(value || "").toLowerCase();
 }
 
+function projectGroup(project) {
+  return project.classification === "live" ? "live" : "demo";
+}
+
 function ProjectCard({ project, isDark }) {
+  const isLive = projectGroup(project) === "live";
   const badgeClass =
-    project.classification === "live"
+    isLive
       ? isDark
         ? "bg-emerald-500/15 text-emerald-200 border-emerald-300/20"
         : "bg-emerald-50 text-emerald-700 border-emerald-200"
-      : project.classification === "technical"
-        ? isDark
-          ? "bg-cyan-500/15 text-cyan-100 border-cyan-300/20"
-          : "bg-cyan-50 text-cyan-800 border-cyan-200"
       : isDark
         ? "bg-primary/15 text-blue-100 border-primary/30"
         : "bg-blue-50 text-blue-700 border-blue-200";
@@ -72,7 +73,7 @@ function ProjectCard({ project, isDark }) {
       <div className="project-showcase-copy p-5">
         <div className="mb-3 flex flex-wrap items-center gap-2">
           <span className={`inline-flex rounded-full border px-3 py-1 text-xs font-bold ${badgeClass}`}>
-            {project.label}
+            {isLive ? "Live Website" : "Demo Project"}
           </span>
           <span className={isDark ? "badge" : "rounded-full bg-slate-100 px-3 py-1 text-xs font-bold text-slate-600"}>
             {project.industry}
@@ -172,16 +173,13 @@ export default function Projects() {
         (!q || haystack.includes(q)) &&
         (industry === allOption || project.industry === industry) &&
         (type === allOption || project.websiteType === type) &&
-        (classification === allOption || project.classification === classification)
+        (classification === allOption || projectGroup(project) === classification)
       );
     });
   }, [classification, industry, publishedProjects, query, type]);
 
-  const featured = filtered.filter((project) => project.featured).slice(0, 4);
-  const live = filtered.filter((project) => project.classification === "live");
-  const demos = filtered.filter((project) => project.classification === "demo");
-  const technical = filtered.filter((project) => project.classification === "technical");
-  const concepts = filtered.filter((project) => project.classification === "concept");
+  const live = filtered.filter((project) => projectGroup(project) === "live");
+  const demos = filtered.filter((project) => projectGroup(project) === "demo");
   const liveCount = live.length;
   const hasActiveFilters = Boolean(
     query || industry !== allOption || type !== allOption || classification !== allOption
@@ -204,10 +202,10 @@ export default function Projects() {
             <LuSparkles className="h-4 w-4" /> Portfolio
           </div>
           <h1 className={isDark ? "max-w-full break-words text-3xl font-extrabold leading-[1.08] sm:text-[2.5rem] md:text-[2.75rem]" : "max-w-full break-words text-3xl font-extrabold leading-[1.08] text-slate-950 sm:text-[2.5rem] md:text-[2.75rem]"}>
-            Website work, organized by what is live and what is a concept.
+            Website work, organized into live websites and demos.
           </h1>
           <p className={isDark ? "mt-4 max-w-full break-words text-base leading-7 text-textSub sm:text-lg sm:leading-8" : "mt-4 max-w-full break-words text-base leading-7 text-slate-600 sm:text-lg sm:leading-8"}>
-            Live work is separated from concept examples, so every card is clear about what it represents.
+            Browse launched website work and agency demos, with every project clearly labeled.
           </p>
         </div>
 
@@ -219,11 +217,11 @@ export default function Projects() {
             </div>
             <output className="project-filter-summary" aria-live="polite" aria-atomic="true">
               <strong>{filtered.length}</strong> project{filtered.length === 1 ? "" : "s"}
-              <span>{liveCount} live · {demos.length} demo · {technical.length} technical · {concepts.length} concept</span>
+              <span>{liveCount} live · {demos.length} demo</span>
             </output>
           </div>
 
-          <div className="project-filter-main">
+          <div className="project-filter-row">
             <SearchField
               className="project-search-field"
               label="Search website projects"
@@ -236,9 +234,7 @@ export default function Projects() {
               {[
                 [allOption, "All"],
                 ["live", "Live"],
-                ["demo", "Demos"],
-                ["technical", "Technical"],
-                ["concept", "Concepts"],
+                ["demo", "Demo"],
               ].map(([value, label]) => (
                 <button
                   key={value}
@@ -251,11 +247,9 @@ export default function Projects() {
                 </button>
               ))}
             </div>
-          </div>
 
-          <div className="project-filter-options">
             <label className="project-filter-control">
-              <span>Industry</span>
+              <span className="sr-only">Industry</span>
               <select value={industry} onChange={(event) => setIndustry(event.target.value)}>
                 {industries.map((item) => (
                   <option key={item} value={item}>{item === allOption ? "All industries" : item}</option>
@@ -264,7 +258,7 @@ export default function Projects() {
             </label>
 
             <label className="project-filter-control">
-              <span>Website type</span>
+              <span className="sr-only">Website type</span>
               <select value={type} onChange={(event) => setType(event.target.value)}>
                 {websiteTypes.map((item) => (
                   <option key={item} value={item}>{item === allOption ? "All website types" : item}</option>
@@ -285,40 +279,17 @@ export default function Projects() {
           <div className="text-muted-xs mt-3" role="status">Showing the last published portfolio snapshot while the project service reconnects.</div>
         )}
 
-        {!!featured.length && (
-          <ProjectSection
-            title="Featured Work"
-            description="A quick scan of representative live and concept website examples."
-            projects={featured}
-            isDark={isDark}
-          />
-        )}
-
         <ProjectSection
-          title="Live Website Work"
+          title="Live Websites"
           description="Published work and active website entries; live links are shown where currently available."
           projects={live}
           isDark={isDark}
         />
 
         <ProjectSection
-          title="Agency Demos"
-          description="Fictional industry examples that demonstrate agency design and development capability."
+          title="Demos"
+          description="Agency demo work that demonstrates design and development capability."
           projects={demos}
-          isDark={isDark}
-        />
-
-        <ProjectSection
-          title="Technical Projects"
-          description="Engineering work that is portfolio-ready without being presented as a public live website."
-          projects={technical}
-          isDark={isDark}
-        />
-
-        <ProjectSection
-          title="Website Concepts"
-          description="Early concept examples, clearly labeled so they are never presented as paid client work."
-          projects={concepts}
           isDark={isDark}
         />
 

@@ -63,7 +63,7 @@ export const projects = [
     features: ["Service overview", "Local SEO positioning", "Trust-first page structure"],
     overview: "A healthcare website built around clarity, reassurance, and local search intent.",
     result: "Listed website work; public live link is paused until the domain certificate mismatch is fixed.",
-    published: false,
+    published: true,
   },
   {
     id: "bloom-by-maryam-flower-boutique",

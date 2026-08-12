@@ -6734,8 +6734,7 @@ html:not([data-theme="dark"]) .project-filter-bar {
     minmax(13rem, 1.5fr)
     minmax(12.5rem, auto)
     minmax(9rem, 0.72fr)
-    minmax(9rem, 0.72fr)
-    auto;
+    minmax(9rem, 0.72fr);
   gap: 0.75rem;
   align-items: center;
 }
@@ -6800,30 +6799,6 @@ html:not([data-theme="dark"]) .project-type-switch {
   height: 2.75rem;
 }
 
-.project-filter-clear {
-  display: inline-flex;
-  min-height: 2.75rem;
-  align-self: center;
-  align-items: center;
-  justify-content: center;
-  gap: 0.4rem;
-  border-radius: 0.82rem;
-  padding: 0 0.85rem;
-  color: var(--textSub);
-  font-size: 0.8rem;
-  font-weight: 850;
-}
-
-.project-filter-clear:hover {
-  background: rgba(148, 163, 184, 0.12);
-  color: var(--textMain);
-}
-
-.project-filter-clear svg {
-  width: 1rem;
-  height: 1rem;
-}
-
 @media (max-width: 920px) {
   .project-filter-row {
     grid-template-columns: minmax(13rem, 1fr) minmax(12.5rem, auto);
@@ -6831,10 +6806,6 @@ html:not([data-theme="dark"]) .project-type-switch {
 
   .project-filter-control {
     width: 100%;
-  }
-
-  .project-filter-clear {
-    justify-self: start;
   }
 }
 
@@ -6881,8 +6852,7 @@ html:not([data-theme="dark"]) .project-type-switch {
     display: none;
   }
 
-  .project-filter-control,
-  .project-filter-clear {
+  .project-filter-control {
     width: 100%;
     flex-basis: 100%;
   }
@@ -7361,10 +7331,10 @@ html:not([data-theme="dark"]) .blog-article-page {
   max-width: 37rem;
   margin: 0;
   color: var(--blog-ink);
-  font-size: clamp(2.15rem, 4vw, 3.65rem);
-  font-weight: 870;
-  letter-spacing: -0.045em;
-  line-height: 1.07;
+  font-size: clamp(1.75rem, 3vw, 2rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.14;
 }
 
 .blog-hero-intro {
@@ -8105,10 +8075,10 @@ html:not([data-theme="dark"]) #main-content .blog-page :is(
   max-width: 63rem;
   margin: 0 auto;
   color: var(--blog-ink);
-  font-size: clamp(2.35rem, 6vw, 5rem);
-  font-weight: 950;
-  letter-spacing: -0.055em;
-  line-height: 1.01;
+  font-size: clamp(1.75rem, 3vw, 2rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
 }
 
 .blog-article-deck {
@@ -8518,6 +8488,7 @@ html:not([data-theme="dark"]) #main-content .blog-page :is(
 .blog-article-not-found h1 {
   color: var(--blog-ink);
   font-size: 2rem;
+  font-weight: 700;
 }
 
 @media (min-width: 768px) {
@@ -8595,9 +8566,9 @@ html:not([data-theme="dark"]) #main-content .blog-page :is(
 
   .blog-hero-copy h1 {
     max-width: 31rem;
-    font-size: clamp(2rem, 8.8vw, 2.65rem);
-    letter-spacing: -0.04em;
-    line-height: 1.04;
+    font-size: clamp(1.75rem, 8vw, 2rem);
+    letter-spacing: -0.03em;
+    line-height: 1.14;
   }
 
   .blog-hero-intro {

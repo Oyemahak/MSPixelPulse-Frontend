@@ -66,9 +66,10 @@
 
   .blog-page .blog-hero-copy h1 {
     max-width: 14ch;
-    font-size: clamp(2rem, 9.2vw, 2.6rem);
-    line-height: 1.03;
-    letter-spacing: -0.045em;
+    font-size: clamp(1.75rem, 8vw, 2rem);
+    font-weight: 700;
+    line-height: 1.14;
+    letter-spacing: -0.03em;
     text-wrap: balance;
   }
 
@@ -265,7 +266,7 @@
   }
 
   .blog-page .blog-hero-copy h1 {
-    font-size: clamp(1.95rem, 9.4vw, 2.25rem);
+    font-size: clamp(1.75rem, 8vw, 2rem);
   }
 
   .blog-page .blog-hero-meta li {

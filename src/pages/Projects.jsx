@@ -10,7 +10,6 @@ import {
   LuExternalLink,
   LuSlidersHorizontal,
   LuSparkles,
-  LuX,
 } from "react-icons/lu";
 import { seoPages } from "@/data/seoPages.js";
 
@@ -181,9 +180,6 @@ export default function Projects() {
   const live = filtered.filter((project) => projectGroup(project) === "live");
   const demos = filtered.filter((project) => projectGroup(project) === "demo");
   const liveCount = live.length;
-  const hasActiveFilters = Boolean(
-    query || industry !== allOption || type !== allOption || classification !== allOption
-  );
 
   function reset() {
     setQuery("");
@@ -266,11 +262,6 @@ export default function Projects() {
               </select>
             </label>
 
-            {hasActiveFilters && (
-              <button type="button" onClick={reset} className="project-filter-clear">
-                <LuX aria-hidden="true" /> Clear filters
-              </button>
-            )}
           </div>
         </section>
 

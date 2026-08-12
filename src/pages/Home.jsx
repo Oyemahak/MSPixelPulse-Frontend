@@ -19,7 +19,7 @@ import Container from "../components/layout/Container.jsx";
 import SectionTitle from "../components/SectionTitle.jsx";
 import Feedback from "@/components/Feedback.jsx";
 import { useTheme } from "@/lib/theme.js";
-import { projects } from "../data/projects.js";
+import { usePublicPortfolio } from "@/hooks/usePublicPortfolio.js";
 import { blogPosts } from "@/data/blogPosts.js";
 import Meta from "@/components/Meta.jsx";
 import ContactActions from "@/components/ContactActions.jsx";
@@ -76,11 +76,12 @@ const process = [
 export default function Home() {
   const { theme } = useTheme();
   const isDark = theme === "dark";
-  const liveProjects = projects.filter((project) => project.classification === "live").slice(0, 3);
-  const conceptProjects = projects.filter((project) => project.classification !== "live").slice(0, 3);
-  const liveProjectCount = projects.filter((project) => project.classification === "live").length;
-  const conceptProjectCount = projects.filter((project) => project.classification !== "live").length;
-  const totalProjectCount = projects.length;
+  const { projects: portfolioProjects } = usePublicPortfolio();
+  const liveProjects = portfolioProjects.filter((project) => project.classification === "live" && project.live).slice(0, 3);
+  const conceptProjects = portfolioProjects.filter((project) => project.classification !== "live").slice(0, 3);
+  const liveProjectCount = portfolioProjects.filter((project) => project.classification === "live" && project.live).length;
+  const conceptProjectCount = portfolioProjects.filter((project) => project.classification !== "live").length;
+  const totalProjectCount = portfolioProjects.length;
   const muted = isDark ? "text-textSub" : "text-slate-600";
   const surface = isDark
     ? "dark-neutral-surface border-white/10 text-white"

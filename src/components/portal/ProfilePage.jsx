@@ -151,6 +151,17 @@ export default function ProfilePage() {
   function onPick(event) {
     const file = (event.target.files || [])[0];
     if (!file) return;
+    setError("");
+    if (!["image/png", "image/jpeg", "image/webp"].includes(file.type)) {
+      setError("Profile image must be a PNG, JPEG, or WebP file.");
+      event.target.value = "";
+      return;
+    }
+    if (file.size > 5 * 1024 * 1024) {
+      setError("Profile image must be 5 MB or smaller.");
+      event.target.value = "";
+      return;
+    }
     if (revokeRef.current) URL.revokeObjectURL(revokeRef.current);
     const url = URL.createObjectURL(file);
     revokeRef.current = url;
@@ -220,7 +231,7 @@ export default function ProfilePage() {
         </div>
 
         <div className="portal-profile-actions">
-          <input ref={pickRef} type="file" accept="image/*" className="sr-only" onChange={onPick} />
+          <input ref={pickRef} type="file" accept="image/png,image/jpeg,image/webp" className="sr-only" onChange={onPick} />
           <button type="button" className="btn btn-outline btn-sm" onClick={() => pickRef.current?.click()}>
             <LuUpload className="mr-2 h-4 w-4" aria-hidden="true" />
             Upload

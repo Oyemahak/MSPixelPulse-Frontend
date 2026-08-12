@@ -57,7 +57,7 @@ function Preview({ file }) {
 }
 
 /* File picker */
-function FilePicker({ id, label = "Upload invoice (PDF or image)", onPick, disabled, value }) {
+function FilePicker({ id, label = "Upload invoice (PDF, PNG, or JPG — max 15 MB)", onPick, disabled, value }) {
   return (
     <div className="space-y-2">
       <div className="form-label">{label}</div>
@@ -65,7 +65,7 @@ function FilePicker({ id, label = "Upload invoice (PDF or image)", onPick, disab
         <input
           id={id}
           type="file"
-          accept="application/pdf,image/*"
+          accept="application/pdf,image/png,image/jpeg"
           className="sr-only"
           onChange={(e) => onPick(e.target.files?.[0] || null)}
           disabled={disabled}
@@ -90,6 +90,7 @@ export default function Billings() {
   const [openEditId, setOpenEditId] = useState(null);
   const [busyId, setBusyId] = useState("");
   const [tick, setTick] = useState(0);
+  const [notice, setNotice] = useState("");
 
   async function load() {
     setLoading(true);
@@ -137,13 +138,16 @@ export default function Billings() {
     async function handlePick(kind, file) {
       if (!file) return;
       setBusyId(p._id);
+      setErr("");
+      setNotice("");
       try {
         // 1) upload the raw file to supabase via backend
-        const up = await fileApi.upload(file); // { file: { name,type,size,path,url } }
+        const up = await fileApi.upload(file, { purpose: "invoice", projectId: p._id });
         // 2) create invoice row
         await invApi.create(p._id, { kind, file: up.file });
         await refresh();
         setTick((t) => t + 1);
+        setNotice(`${file.name} was uploaded and saved.`);
       } catch (e) {
         setErr(e.message || "Upload failed");
       } finally {
@@ -159,20 +163,29 @@ export default function Billings() {
         await invApi.updateStatus(p._id, id, "paid");
         await refresh();
         setTick((t) => t + 1);
+        setNotice("Billing status saved.");
+      } catch (e) {
+        setErr(e.message || "Billing status could not be saved");
       } finally {
         setBusyId("");
       }
     }
 
     async function clearFile(kind) {
-      const id = kind === "advance" ? advance?._id : finalInv?._id;
-      if (!id) return;
-      if (!confirm("Archive this invoice?")) return;
+      const invoice = kind === "advance" ? advance : finalInv;
+      if (!invoice?._id) return;
+      const name = invoice.file?.name || invoice.invoiceNumber || `${kind} invoice`;
+      if (!confirm(`Permanently delete "${name}" from billing and file storage? This cannot be undone.`)) return;
       setBusyId(p._id);
+      setErr("");
+      setNotice("");
       try {
-        await invApi.remove(p._id, id);
+        await invApi.remove(p._id, invoice._id);
         await refresh();
         setTick((t) => t + 1);
+        setNotice(`${name} was deleted. You can upload a replacement now.`);
+      } catch (e) {
+        setErr(e.message || "Invoice could not be deleted");
       } finally {
         setBusyId("");
       }
@@ -210,8 +223,8 @@ export default function Billings() {
                         Mark as paid
                       </button>
                     )}
-                    <button className="btn btn-outline" onClick={() => clearFile("advance")} disabled={busyId === p._id}>
-                      Archive
+                    <button className="btn btn-outline text-rose-600" onClick={() => clearFile("advance")} disabled={busyId === p._id}>
+                      Delete
                     </button>
                   </div>
                 </>
@@ -246,8 +259,8 @@ export default function Billings() {
                         Mark as paid
                       </button>
                     )}
-                    <button className="btn btn-outline" onClick={() => clearFile("final")} disabled={busyId === p._id}>
-                      Archive
+                    <button className="btn btn-outline text-rose-600" onClick={() => clearFile("final")} disabled={busyId === p._id}>
+                      Delete
                     </button>
                   </div>
                 </>
@@ -284,6 +297,7 @@ export default function Billings() {
       </div>
 
       {err && <div className="text-error">{err}</div>}
+      {notice && <div className="text-success" role="status">{notice}</div>}
 
       <div className="card-surface overflow-hidden">
         <table className="table">
@@ -299,7 +313,7 @@ export default function Billings() {
           <tbody key={tick}>
             {filtered.map((p) => (
               <Fragment key={p._id}>
-                <BillingRow p={p} openEditId={openEditId} setOpenEditId={setOpenEditId} />
+                <BillingRow p={p} openEditId={openEditId} setOpenEditId={setOpenEditId} refreshKey={tick} />
               </Fragment>
             ))}
             {!filtered.length && (
@@ -311,7 +325,7 @@ export default function Billings() {
     </div>
   );
 
-  function BillingRow({ p, openEditId, setOpenEditId }) {
+  function BillingRow({ p, openEditId, setOpenEditId, refreshKey }) {
     const [snap, setSnap] = useState({ advance: null, final: null });
     useEffect(() => {
       (async () => {
@@ -321,7 +335,7 @@ export default function Billings() {
           setSnap({ advance: null, final: null });
         }
       })();
-    }, [tick]);
+    }, [p._id, refreshKey]);
 
     return (
       <>

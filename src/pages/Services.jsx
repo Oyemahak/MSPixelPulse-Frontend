@@ -5,6 +5,8 @@ import Meta from "@/components/Meta.jsx";
 import ContactActions from "@/components/ContactActions.jsx";
 import DemoOffer from "@/components/DemoOffer.jsx";
 import { seoPages } from "@/data/seoPages.js";
+import { serviceCatalog } from "@/data/serviceCatalog.js";
+import { usePublicContent } from "@/hooks/usePublicContent.js";
 
 import {
   LuArrowRight,
@@ -19,110 +21,11 @@ import {
   LuWorkflow,
 } from "react-icons/lu";
 
-const services = [
-  {
-    title: "Website Design & Development",
-    icon: LuPenTool,
-    description:
-      "Custom business websites, landing pages, and redesigns built around clear services, easy-to-follow pages, and real launch needs.",
-    best: "New launches, redesigns, and service websites",
-    benefits: ["Works on phones, tablets, and computers", "Clear next-step buttons", "Basic search setup"],
-    cta: "View related work",
-    related: "/projects?service=design",
-    photo:
-      "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=900&q=75",
-    photoAlt: "Illustrative photo of a professional team reviewing website planning notes",
-    visual: "design",
-  },
-  {
-    title: "E-commerce",
-    icon: LuShoppingCart,
-    description:
-      "Storefront structure, product pages, checkout guidance, and shopping flows that make buying feel simple and trustworthy.",
-    best: "Product catalogs, boutique shops, and order inquiries",
-    benefits: ["Product-card hierarchy", "Checkout-path review", "Mobile shopping flow"],
-    cta: "See website examples",
-    related: "/projects?type=E-commerce",
-    photo:
-      "https://images.unsplash.com/photo-1556745757-8d76bdb6984b?auto=format&fit=crop&w=900&q=75",
-    photoAlt: "Illustrative photo of a person using a laptop for an online storefront workflow",
-    visual: "commerce",
-  },
-  {
-    title: "Website Improvements",
-    icon: LuShieldCheck,
-    description:
-      "We improve confusing layouts, slow pages, hard-to-use forms, mobile issues, accessibility, and search setup on an existing website.",
-    best: "Older sites, confusing pages, and mobile friction",
-    benefits: ["Before/after layout review", "Accessibility and speed basics", "Clearer content paths"],
-    cta: "Explore this service",
-    related: "/contact?service=website-improvements",
-    photo:
-      "https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&w=900&q=75",
-    photoAlt: "Illustrative photo of a professional reviewing analytics and interface improvements on a laptop",
-    visual: "improve",
-  },
-  {
-    title: "Ongoing Support",
-    icon: LuLifeBuoy,
-    description:
-      "Maintenance, content updates, technical support, backups, and practical post-launch care for steady business changes.",
-    best: "Businesses that need reliable updates after launch",
-    benefits: ["Update planning", "Form and link checks", "Backup and health reminders"],
-    cta: "Discuss support",
-    related: "/contact?service=ongoing-support",
-    photo:
-      "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=900&q=75",
-    photoAlt: "Illustrative photo of a support professional working at a computer",
-    visual: "support",
-  },
-  {
-    title: "Custom Solutions",
-    icon: LuWorkflow,
-    description:
-      "Client portals, dashboards, custom forms, booking flows, and integrations for workflows that need more than a brochure site.",
-    best: "Portal, dashboard, and custom workflow ideas",
-    benefits: ["Role-aware UI planning", "Form and data-flow mapping", "API-connected interfaces"],
-    cta: "Discuss your project",
-    related: "/contact?service=custom-solutions",
-    photo:
-      "https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=900&q=75",
-    photoAlt: "Illustrative photo of professionals collaborating on a dashboard workflow",
-    visual: "workflow",
-  },
-  {
-    title: "Moodle LMS Development & Support",
-    icon: LuGraduationCap,
-    description:
-      "Custom Moodle learning portals for schools and training teams, including setup, course structure, roles, UI improvements, plugins, upgrades, hosting planning, and ongoing support.",
-    best: "Schools, online learning programs, and training organizations",
-    benefits: ["Learner and admin workflow planning", "Courses, roles, plugins, and upgrades", "Responsive UI and ongoing LMS support"],
-    cta: "Explore Moodle LMS service",
-    related: "/services/moodle-lms-development",
-    photo:
-      "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=900&q=75",
-    photoAlt: "Students collaborating with laptops in a modern learning environment",
-    visual: "workflow",
-  },
-  {
-    title: "Search & Launch Setup",
-    icon: LuRocket,
-    description:
-      "We prepare page titles and descriptions, the sitemap, local search topics, analytics setup, and a launch checklist before your website goes public.",
-    best: "Pre-launch QA, redesign launches, and local SEO basics",
-    benefits: ["Metadata and sitemap checks", "Launch QA checklist", "Local search structure"],
-    cta: "Plan your launch",
-    related: "/contact?service=seo-launch",
-    photo:
-      "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=900&q=75",
-    photoAlt: "Illustrative photo of a person reviewing search and launch readiness on a laptop",
-    visual: "launch",
-  },
-];
-
 export default function Services() {
   const { theme } = useTheme();
   const isDark = theme === "dark";
+  const { items: persistedServices } = usePublicContent('service', serviceCatalog);
+  const services = persistedServices;
 
   return (
     <section className="section overflow-x-hidden">
@@ -181,7 +84,16 @@ export default function Services() {
 }
 
 function ServiceModule({ service, isDark, priority }) {
-  const Icon = service.icon;
+  const iconMap = {
+    design: LuPenTool,
+    commerce: LuShoppingCart,
+    improve: LuShieldCheck,
+    support: LuLifeBuoy,
+    workflow: LuWorkflow,
+    education: LuGraduationCap,
+    launch: LuRocket,
+  };
+  const Icon = service.icon || iconMap[service.iconKey] || iconMap[service.visual] || LuPenTool;
 
   return (
     <article className={isDark ? "service-module service-module-dark" : "service-module"}>

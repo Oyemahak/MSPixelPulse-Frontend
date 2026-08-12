@@ -1,5 +1,5 @@
 // src/portals/dev/Requirements.jsx
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { projects as api, requirements as reqApi } from "@/lib/api.js";
 import RequirementsViewer from "@/components/requirements/RequirementsViewer.jsx";
@@ -12,7 +12,7 @@ export default function DevRequirements() {
   const [ok, setOk] = useState("");
   const [busy, setBusy] = useState(false);
 
-  async function load() {
+  const load = useCallback(async () => {
     setErr("");
     try {
       const [p, r] = await Promise.all([
@@ -22,9 +22,9 @@ export default function DevRequirements() {
       setProj(p.project || p);
       setReq(r.requirement || null);
     } catch (e) { setErr(e.message || "Failed to load"); }
-  }
+  }, [projectId]);
 
-  useEffect(() => { load(); }, [projectId]);
+  useEffect(() => { load(); }, [load]);
 
   async function markReviewed() {
     setBusy(true); setOk(""); setErr("");

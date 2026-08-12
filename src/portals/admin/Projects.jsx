@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { admin, projects as api } from "@/lib/api.js";
+import { admin, files, projects as api } from "@/lib/api.js";
 import SearchField from "@/components/ui/SearchField.jsx";
 import {
   LuArchive,
@@ -15,6 +15,8 @@ import {
   LuPenLine,
   LuPlus,
   LuRefreshCw,
+  LuTrash2,
+  LuUpload,
   LuSlidersHorizontal,
   LuSparkles,
   LuStar,
@@ -45,6 +47,7 @@ const classificationOptions = [
   ["", "All work types"],
   ["live", "Live website work"],
   ["demo", "Industry concept"],
+  ["technical", "Technical project"],
   ["concept", "Concept project"],
 ];
 
@@ -69,6 +72,7 @@ function labelFor(value, options) {
 function classificationLabel(value) {
   if (value === "live") return "Live website work";
   if (value === "demo") return "Industry concept";
+  if (value === "technical") return "Technical project";
   if (value === "concept") return "Concept project";
   return "Unclassified";
 }
@@ -104,9 +108,12 @@ function emptyForm() {
     websiteType: "",
     platform: "",
     technologies: "",
+    categories: "",
     liveUrl: "",
     repositoryUrl: "",
+    repositoryFullName: "",
     thumbnail: "",
+    coverImage: null,
     clientName: "",
     client: "",
     developer: "",
@@ -129,9 +136,12 @@ function formFromProject(project = {}) {
     websiteType: project.websiteType || "",
     platform: project.platform || "",
     technologies: listText(project.technologies),
+    categories: listText(project.categories),
     liveUrl: project.liveUrl || "",
     repositoryUrl: project.repositoryUrl || "",
+    repositoryFullName: project.repositoryFullName || "",
     thumbnail: project.thumbnail || "",
+    coverImage: project.coverImage || null,
     clientName: project.clientName || "",
     client: project.client?._id || project.client || "",
     developer: project.developer?._id || project.developer || "",
@@ -152,8 +162,10 @@ function payloadFromForm(form) {
     websiteType: form.websiteType.trim(),
     platform: form.platform.trim(),
     technologies: parseList(form.technologies),
+    categories: parseList(form.categories),
     liveUrl: form.liveUrl.trim(),
     repositoryUrl: form.repositoryUrl.trim(),
+    repositoryFullName: form.repositoryFullName.trim(),
     thumbnail: form.thumbnail.trim(),
     clientName: form.clientName.trim(),
     client: form.client || null,
@@ -173,7 +185,17 @@ function Stat({ label, value, tone }) {
   );
 }
 
-function ProjectEditor({ form, setForm, users, onClose, onSave, saving }) {
+function ProjectEditor({
+  form,
+  setForm,
+  users,
+  onClose,
+  onSave,
+  saving,
+  coverBusy,
+  onCoverUpload,
+  onCoverDelete,
+}) {
   const clients = useMemo(() => users.filter((user) => user.role === "client"), [users]);
   const developers = useMemo(() => users.filter((user) => user.role === "developer"), [users]);
   const set = (key, value) => setForm((current) => ({ ...current, [key]: value }));
@@ -245,6 +267,11 @@ function ProjectEditor({ form, setForm, users, onClose, onSave, saving }) {
         </label>
 
         <label className="form-field">
+          <div className="form-label">Categories</div>
+          <input value={form.categories} onChange={(event) => set("categories", event.target.value)} placeholder="Home care, Accessibility" />
+        </label>
+
+        <label className="form-field">
           <div className="form-label">Live URL</div>
           <input value={form.liveUrl} onChange={(event) => set("liveUrl", event.target.value)} inputMode="url" />
         </label>
@@ -255,9 +282,40 @@ function ProjectEditor({ form, setForm, users, onClose, onSave, saving }) {
         </label>
 
         <label className="form-field form-span-2">
+          <div className="form-label">Repository identity</div>
+          <input value={form.repositoryFullName} onChange={(event) => set("repositoryFullName", event.target.value)} placeholder="mspixelpulseagency/repository-name" />
+        </label>
+
+        <label className="form-field form-span-2">
           <div className="form-label">Cover mockup URL</div>
           <input value={form.thumbnail} onChange={(event) => set("thumbnail", event.target.value)} placeholder="https://mspixelpulse.com/projects/mockups/..." />
         </label>
+
+        <div className="form-field form-span-2 admin-project-cover-controls">
+          <div className="form-label">Uploaded cover image</div>
+          {form._id ? (
+            <div className="form-actions">
+              <label className="btn btn-outline admin-project-cover-upload">
+                <LuUpload className="h-4 w-4" aria-hidden="true" />
+                {coverBusy ? "Uploading..." : form.coverImage?.path ? "Replace cover" : "Upload cover"}
+                <input
+                  type="file"
+                  accept="image/png,image/jpeg,image/webp"
+                  onChange={onCoverUpload}
+                  disabled={coverBusy}
+                />
+              </label>
+              {form.coverImage?.path && (
+                <button type="button" className="btn btn-outline danger" onClick={onCoverDelete} disabled={coverBusy}>
+                  <LuTrash2 className="h-4 w-4" aria-hidden="true" />
+                  Delete uploaded cover
+                </button>
+              )}
+            </div>
+          ) : (
+            <p className="field-help">Create the project first, then reopen it to upload a managed cover.</p>
+          )}
+        </div>
 
         <label className="form-field">
           <div className="form-label">Client display name</div>
@@ -487,6 +545,7 @@ export default function Projects() {
   const [editorOpen, setEditorOpen] = useState(false);
   const [editorForm, setEditorForm] = useState(emptyForm);
   const [saving, setSaving] = useState(false);
+  const [coverBusy, setCoverBusy] = useState(false);
 
   const query = useMemo(() => ({
     q: filters.q,
@@ -602,6 +661,57 @@ export default function Projects() {
     }
   }
 
+  async function uploadCover(event) {
+    const file = event.target.files?.[0];
+    event.target.value = "";
+    if (!file || !editorForm._id) return;
+    if (!["image/png", "image/jpeg", "image/webp"].includes(file.type)) {
+      setErr("Cover must be a PNG, JPEG, or WebP image.");
+      return;
+    }
+    if (file.size > 8 * 1024 * 1024) {
+      setErr("Cover must be 8 MB or smaller.");
+      return;
+    }
+
+    setCoverBusy(true);
+    setErr("");
+    setOk("");
+    try {
+      const uploaded = await files.upload(file, { purpose: "cover", projectId: editorForm._id });
+      const data = await api.update(editorForm._id, {
+        coverImage: uploaded.file,
+        thumbnail: uploaded.file.url,
+        coverSource: "repository-asset",
+      });
+      setEditorForm(formFromProject(data.project));
+      setOk("Project cover uploaded.");
+      await load();
+    } catch (error) {
+      setErr(error?.message || "Project cover could not be uploaded.");
+    } finally {
+      setCoverBusy(false);
+    }
+  }
+
+  async function deleteCover() {
+    if (!editorForm._id || !editorForm.coverImage?.path) return;
+    if (!confirm(`Permanently delete the uploaded cover for "${editorForm.title}"? The storage object will also be removed.`)) return;
+    setCoverBusy(true);
+    setErr("");
+    setOk("");
+    try {
+      const data = await api.deleteCover(editorForm._id);
+      setEditorForm(formFromProject(data.project));
+      setOk("Uploaded cover deleted. You can upload a replacement now.");
+      await load();
+    } catch (error) {
+      setErr(error?.message || "Project cover could not be deleted.");
+    } finally {
+      setCoverBusy(false);
+    }
+  }
+
   async function quickAction(project, action, nextValue, successMessage) {
     setBusyId(project._id);
     setErr("");
@@ -681,6 +791,9 @@ export default function Projects() {
           onClose={() => setEditorOpen(false)}
           onSave={saveProject}
           saving={saving}
+          coverBusy={coverBusy}
+          onCoverUpload={uploadCover}
+          onCoverDelete={deleteCover}
         />
       )}
 

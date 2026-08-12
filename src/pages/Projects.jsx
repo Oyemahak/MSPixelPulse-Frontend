@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import Meta from "../components/Meta.jsx";
 import SearchField from "../components/ui/SearchField.jsx";
 import DemoOffer from "@/components/DemoOffer.jsx";
-import { publishedProjects } from "../data/projects.js";
+import { usePublicPortfolio } from "@/hooks/usePublicPortfolio.js";
 import { useTheme } from "@/lib/theme.js";
 import {
   LuArrowRight,
@@ -30,6 +30,10 @@ function ProjectCard({ project, isDark }) {
       ? isDark
         ? "bg-emerald-500/15 text-emerald-200 border-emerald-300/20"
         : "bg-emerald-50 text-emerald-700 border-emerald-200"
+      : project.classification === "technical"
+        ? isDark
+          ? "bg-cyan-500/15 text-cyan-100 border-cyan-300/20"
+          : "bg-cyan-50 text-cyan-800 border-cyan-200"
       : isDark
         ? "bg-primary/15 text-blue-100 border-primary/30"
         : "bg-blue-50 text-blue-700 border-blue-200";
@@ -146,9 +150,10 @@ export default function Projects() {
   const [industry, setIndustry] = useState(allOption);
   const [type, setType] = useState(allOption);
   const [classification, setClassification] = useState(allOption);
+  const { projects: publishedProjects, loading, source } = usePublicPortfolio();
 
-  const industries = useMemo(() => unique(publishedProjects, "industry"), []);
-  const websiteTypes = useMemo(() => unique(publishedProjects, "websiteType"), []);
+  const industries = useMemo(() => unique(publishedProjects, "industry"), [publishedProjects]);
+  const websiteTypes = useMemo(() => unique(publishedProjects, "websiteType"), [publishedProjects]);
 
   const filtered = useMemo(() => {
     const q = normalize(query);
@@ -167,19 +172,17 @@ export default function Projects() {
         (!q || haystack.includes(q)) &&
         (industry === allOption || project.industry === industry) &&
         (type === allOption || project.websiteType === type) &&
-        (classification === allOption ||
-          (classification === "concept"
-            ? project.classification !== "live"
-            : project.classification === classification))
+        (classification === allOption || project.classification === classification)
       );
     });
-  }, [classification, industry, query, type]);
+  }, [classification, industry, publishedProjects, query, type]);
 
   const featured = filtered.filter((project) => project.featured).slice(0, 4);
   const live = filtered.filter((project) => project.classification === "live");
-  const concepts = filtered.filter((project) => project.classification !== "live");
+  const demos = filtered.filter((project) => project.classification === "demo");
+  const technical = filtered.filter((project) => project.classification === "technical");
+  const concepts = filtered.filter((project) => project.classification === "concept");
   const liveCount = live.length;
-  const conceptCount = filtered.length - liveCount;
   const hasActiveFilters = Boolean(
     query || industry !== allOption || type !== allOption || classification !== allOption
   );
@@ -216,7 +219,7 @@ export default function Projects() {
             </div>
             <output className="project-filter-summary" aria-live="polite" aria-atomic="true">
               <strong>{filtered.length}</strong> project{filtered.length === 1 ? "" : "s"}
-              <span>{liveCount} live · {conceptCount} concept</span>
+              <span>{liveCount} live · {demos.length} demo · {technical.length} technical · {concepts.length} concept</span>
             </output>
           </div>
 
@@ -233,6 +236,8 @@ export default function Projects() {
               {[
                 [allOption, "All"],
                 ["live", "Live"],
+                ["demo", "Demos"],
+                ["technical", "Technical"],
                 ["concept", "Concepts"],
               ].map(([value, label]) => (
                 <button
@@ -275,6 +280,11 @@ export default function Projects() {
           </div>
         </section>
 
+        {loading && <div className="text-muted-xs mt-3" role="status">Refreshing published projects…</div>}
+        {!loading && source === "fallback" && (
+          <div className="text-muted-xs mt-3" role="status">Showing the last published portfolio snapshot while the project service reconnects.</div>
+        )}
+
         {!!featured.length && (
           <ProjectSection
             title="Featured Work"
@@ -292,8 +302,22 @@ export default function Projects() {
         />
 
         <ProjectSection
+          title="Agency Demos"
+          description="Fictional industry examples that demonstrate agency design and development capability."
+          projects={demos}
+          isDark={isDark}
+        />
+
+        <ProjectSection
+          title="Technical Projects"
+          description="Engineering work that is portfolio-ready without being presented as a public live website."
+          projects={technical}
+          isDark={isDark}
+        />
+
+        <ProjectSection
           title="Website Concepts"
-          description="Concept examples, clearly labeled so they are never presented as paid client work."
+          description="Early concept examples, clearly labeled so they are never presented as paid client work."
           projects={concepts}
           isDark={isDark}
         />

@@ -34,6 +34,8 @@ export default function Discussions() {
   const [roomId, setRoomId] = useState("");
   const [msgs, setMsgs] = useState([]);
   const [text, setText] = useState("");
+  const [sending, setSending] = useState(false);
+  const [sendError, setSendError] = useState("");
 
   const listRef = useRef(null);
 
@@ -64,11 +66,19 @@ export default function Discussions() {
   }, [rows, q]);
 
   async function send() {
-    if (!text.trim() || !curr) return;
-    const { message } = await rooms.send(curr, { text: text.trim(), attachments: [] });
-    setMsgs(prev => [...prev, message]);
-    setText("");
-    setTimeout(() => listRef.current?.scrollTo({ top: 9e9, behavior: "smooth" }), 0);
+    if (!text.trim() || !curr || sending) return;
+    setSending(true);
+    setSendError("");
+    try {
+      const { message } = await rooms.send(curr, { text: text.trim(), attachments: [] });
+      setMsgs(prev => [...prev, message]);
+      setText("");
+      setTimeout(() => listRef.current?.scrollTo({ top: 9e9, behavior: "smooth" }), 0);
+    } catch (error) {
+      setSendError(error?.message || "Message could not be sent.");
+    } finally {
+      setSending(false);
+    }
   }
 
   return (
@@ -128,18 +138,21 @@ export default function Discussions() {
           {msgs.map((m) => <Bubble key={m._id || m.id} me={user} m={m} />)}
         </div>
 
-        <div className="border-t border-white/10 p-3 flex gap-2">
+        <div className="border-t border-white/10 p-3">
+          {sendError && <div className="text-error mb-2" role="alert">{sendError}</div>}
+          <div className="flex gap-2">
           <input
             className="form-input flex-1"
             placeholder="Write a message…"
             value={text}
             onChange={(e) => setText(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && send()}
-            disabled={!roomId}
+            disabled={!roomId || sending}
           />
-          <button className="btn btn-primary" onClick={send} disabled={!roomId || !text.trim()}>
-            Send
+          <button className="btn btn-primary" onClick={send} disabled={!roomId || !text.trim() || sending}>
+            {sending ? "Sending..." : "Send"}
           </button>
+          </div>
         </div>
       </div>
     </div>

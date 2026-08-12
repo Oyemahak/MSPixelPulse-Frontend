@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { admin } from "@/lib/api.js";
 
@@ -9,11 +9,11 @@ export default function UserDetail() {
   const [err, setErr] = useState("");
   const [ok, setOk] = useState("");
 
-  async function load() {
+  const load = useCallback(async () => {
     try { const d = await admin.user(userId); setUser(d.user || d); setErr(""); }
     catch (e) { setErr(e.message); }
-  }
-  useEffect(() => { load(); }, [userId]);
+  }, [userId]);
+  useEffect(() => { load(); }, [load]);
 
   async function patch(next) {
     try {
@@ -24,7 +24,7 @@ export default function UserDetail() {
   }
 
   async function remove() {
-    if (!confirm("Delete this user?")) return;
+    if (!confirm(`Permanently delete ${user.name || user.email}? Accounts with workspace history cannot be deleted and should be suspended instead.`)) return;
     try { await admin.deleteUser(userId); nav("/admin/users", { replace: true }); }
     catch (e) { setErr(e.message); }
   }
@@ -97,6 +97,44 @@ export default function UserDetail() {
             <div>Status: <code>{user.status}</code></div>
             <div>Created: <code>{new Date(user.createdAt).toLocaleString()}</code></div>
             <div>Updated: <code>{new Date(user.updatedAt).toLocaleString()}</code></div>
+          </div>
+        </div>
+
+        <div className="card card-pad-lg form-stack">
+          <div>
+            <div className="text-muted">Access application</div>
+            <h3 className="card-title">Applicant requirements</h3>
+          </div>
+          <div>
+            <div className="form-label">Application status</div>
+            <div className="font-medium capitalize">{user.accessApplication?.status || user.status}</div>
+          </div>
+          <div>
+            <div className="form-label">Business or organization</div>
+            <div className="font-medium">{user.businessName || "Not provided"}</div>
+          </div>
+          <div>
+            <div className="form-label">Industry</div>
+            <div className="font-medium">{user.industry || "Not provided"}</div>
+          </div>
+          <div>
+            <div className="form-label">Phone</div>
+            <div className="font-medium">{user.phone || "Not provided"}</div>
+          </div>
+          <div>
+            <div className="form-label">Current website</div>
+            {user.businessWebsite ? (
+              <a className="subtle-link" href={user.businessWebsite} target="_blank" rel="noreferrer">{user.businessWebsite}</a>
+            ) : (
+              <div className="font-medium">Not provided</div>
+            )}
+          </div>
+          <div>
+            <div className="form-label">Project request</div>
+            <p className="text-muted whitespace-pre-wrap">{user.projectContactPreference || "Not provided"}</p>
+          </div>
+          <div className="text-muted-xs">
+            Submitted {user.accessApplication?.submittedAt ? new Date(user.accessApplication.submittedAt).toLocaleString() : "date unavailable"}
           </div>
         </div>
       </div>

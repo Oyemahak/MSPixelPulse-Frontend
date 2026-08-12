@@ -58,7 +58,7 @@ export default function Team() {
       try {
         if (user?.role === "admin") {
           // Admins can see the full team list from the admin endpoint
-          const d = await admin.users(q);
+          const d = await admin.users();
           if (!live) return;
           const onlyNeeded = (d.users || []).filter((u) =>
             ["admin", "developer"].includes(u.role)

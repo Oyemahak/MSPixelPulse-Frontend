@@ -88,7 +88,7 @@ export default function DemoOffer({ compact = false, className = "" }) {
                   <strong />
                   <strong className="short" />
                   <span />
-                  <button type="button" tabIndex="-1">Your main action</button>
+                  <span className="demo-browser-action">Your main action</span>
                 </div>
                 <div className="demo-browser-visual">
                   <LuLayoutTemplate />

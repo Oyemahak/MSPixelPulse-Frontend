@@ -6,18 +6,20 @@ import Meta from "@/components/Meta.jsx";
 import { seoPages } from "@/data/seoPages.js";
 import { useAuth } from "@/context/AuthContext.jsx";
 
-const TABS = [
-  { key: "client", label: "Client" },
-  { key: "developer", label: "Developer" },
-  { key: "admin", label: "Admin" },
-];
-
 export default function Register() {
   const { register } = useAuth();
   const nav = useNavigate();
 
-  const [tab, setTab] = useState("client");
-  const [form, setForm] = useState({ name: "", email: "", password: "" });
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    password: "",
+    phone: "",
+    businessName: "",
+    businessWebsite: "",
+    industry: "",
+    projectContactPreference: "",
+  });
   const [err, setErr] = useState("");
   const [ok, setOk] = useState("");
   const [loading, setLoading] = useState(false);
@@ -26,7 +28,10 @@ export default function Register() {
     () =>
       !form.name.trim() ||
       !form.email.trim() ||
-      form.password.length < 4 ||
+      !form.businessName.trim() ||
+      !form.industry.trim() ||
+      !form.projectContactPreference.trim() ||
+      form.password.length < 8 ||
       loading,
     [form, loading]
   );
@@ -41,7 +46,7 @@ export default function Register() {
     setOk("");
     setLoading(true);
     try {
-      await register({ ...form, role: tab });
+      await register(form);
       setOk("Your access request was sent for admin review.");
       setTimeout(() => nav("/login", { replace: true }), 900);
     } catch (error) {
@@ -65,27 +70,9 @@ export default function Register() {
           </div>
           <h1 id="register-heading">Request access to an MSPixelPulse portal.</h1>
           <p>
-            Choose the workspace role you were invited to use. An administrator
-            reviews every request before access becomes active.
+            Request client workspace access. An administrator reviews every
+            application before access becomes active.
           </p>
-
-          <div className="register-role-tabs" role="tablist" aria-label="Requested portal role">
-            {TABS.map((item) => {
-              const selected = item.key === tab;
-              return (
-                <button
-                  key={item.key}
-                  type="button"
-                  role="tab"
-                  aria-selected={selected}
-                  className={selected ? "is-active" : ""}
-                  onClick={() => setTab(item.key)}
-                >
-                  {item.label}
-                </button>
-              );
-            })}
-          </div>
 
           <form onSubmit={onSubmit} className="auth-form register-form">
             <div className="auth-form-field">
@@ -125,11 +112,82 @@ export default function Register() {
                 name="password"
                 type="password"
                 className="auth-input register-input"
-                placeholder="At least 4 characters"
+                placeholder="At least 8 characters"
                 value={form.password}
                 onChange={change("password")}
                 autoComplete="new-password"
-                minLength={4}
+                minLength={8}
+                required
+              />
+            </div>
+
+            <div className="auth-form-field">
+              <label htmlFor="register-business">Business or organization name</label>
+              <input
+                id="register-business"
+                name="businessName"
+                className="auth-input register-input"
+                placeholder="Your business name"
+                value={form.businessName}
+                onChange={change("businessName")}
+                autoComplete="organization"
+                required
+              />
+            </div>
+
+            <div className="auth-form-field">
+              <label htmlFor="register-industry">Industry</label>
+              <input
+                id="register-industry"
+                name="industry"
+                className="auth-input register-input"
+                placeholder="For example, home services"
+                value={form.industry}
+                onChange={change("industry")}
+                required
+              />
+            </div>
+
+            <div className="auth-form-field">
+              <label htmlFor="register-phone">Phone <span className="text-muted-xs">(optional)</span></label>
+              <input
+                id="register-phone"
+                name="phone"
+                type="tel"
+                className="auth-input register-input"
+                placeholder="Your preferred contact number"
+                value={form.phone}
+                onChange={change("phone")}
+                autoComplete="tel"
+              />
+            </div>
+
+            <div className="auth-form-field">
+              <label htmlFor="register-website">Current website <span className="text-muted-xs">(optional)</span></label>
+              <input
+                id="register-website"
+                name="businessWebsite"
+                type="url"
+                className="auth-input register-input"
+                placeholder="https://example.com"
+                value={form.businessWebsite}
+                onChange={change("businessWebsite")}
+                inputMode="url"
+                autoComplete="url"
+              />
+            </div>
+
+            <div className="auth-form-field">
+              <label htmlFor="register-project">What do you need help with?</label>
+              <textarea
+                id="register-project"
+                name="projectContactPreference"
+                className="auth-input register-input"
+                placeholder="Briefly describe the website, portal, or digital project you are planning."
+                value={form.projectContactPreference}
+                onChange={change("projectContactPreference")}
+                rows={4}
+                maxLength={2000}
                 required
               />
             </div>

@@ -1,5 +1,5 @@
 // src/portals/admin/Requirements.jsx
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { projects as api, requirements as reqApi } from "@/lib/api.js";
 import RequirementsViewer from "@/components/requirements/RequirementsViewer.jsx";
@@ -12,7 +12,7 @@ export default function AdminRequirements() {
   const [ok, setOk] = useState("");
   const [busy, setBusy] = useState(false);
 
-  async function load() {
+  const load = useCallback(async () => {
     setErr("");
     try {
       const [p, r] = await Promise.all([
@@ -22,9 +22,9 @@ export default function AdminRequirements() {
       setProj(p.project || p);
       setReq(r.requirement || null);
     } catch (e) { setErr(e.message || "Failed to load"); }
-  }
+  }, [projectId]);
 
-  useEffect(() => { load(); }, [projectId]);
+  useEffect(() => { load(); }, [load]);
 
   async function clearAll() {
     if (!confirm("Delete all uploaded requirements for this project? This cannot be undone.")) return;

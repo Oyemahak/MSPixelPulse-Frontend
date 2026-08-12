@@ -118,6 +118,13 @@ export const admin = {
   approveUser: (id) => http(`/admin/users/${id}/approve`, { method: "PATCH" }),
   rejectUser: (id) => http(`/admin/users/${id}/reject`, { method: "PATCH" }),
   stats: () => http("/admin/stats"),
+  leads: (params = {}) => http(`/admin/leads${qs(params)}`),
+  updateLead: (id, status) => http(`/admin/leads/${id}`, { method: "PATCH", body: { status } }),
+  archiveLead: (id) => http(`/admin/leads/${id}`, { method: "DELETE" }),
+  content: (kind) => http(`/admin/content/${encodeURIComponent(kind)}`),
+  createContent: (kind, payload) => http(`/admin/content/${encodeURIComponent(kind)}`, { method: "POST", body: payload }),
+  updateContent: (kind, id, payload) => http(`/admin/content/${encodeURIComponent(kind)}/${id}`, { method: "PATCH", body: payload }),
+  archiveContent: (kind, id) => http(`/admin/content/${encodeURIComponent(kind)}/${id}`, { method: "DELETE" }),
 };
 
 export const projects = {
@@ -131,6 +138,7 @@ export const projects = {
     http(`/projects/${id}/publish`, { method: "PATCH", body: { published } }),
   feature: (id, featured) =>
     http(`/projects/${id}/feature`, { method: "PATCH", body: { featured } }),
+  deleteCover: (id) => http(`/projects/${id}/cover`, { method: "DELETE" }),
 
   // Evidence: dedicated endpoint
   addEvidence: (id, entry) => http(`/projects/${id}/evidence`, { method: "POST", body: entry }),
@@ -139,6 +147,15 @@ export const projects = {
   listAnnouncements: (id) => http(`/projects/${id}/announcements`),            // { ok, items }
   createAnnouncement: (id, payload) => http(`/projects/${id}/announcements`, { method: "POST", body: payload }),
   deleteAnnouncement: (id, idx) => http(`/projects/${id}/announcements/${idx}`, { method: "DELETE" }),
+};
+
+export const portfolio = {
+  list: (params = {}) => http(`/public/projects${qs(params)}`),
+  one: (slug) => http(`/public/projects/${encodeURIComponent(slug)}`),
+};
+
+export const siteContent = {
+  list: (kind) => http(`/content/${encodeURIComponent(kind)}`),
 };
 
 export const debug = {
@@ -210,11 +227,13 @@ export const requirements = {
 
 /* ---------- Files: Supabase uploader endpoint ---------- */
 export const files = {
-  upload: async (file) => {
+  upload: async (file, { purpose, projectId } = {}) => {
     const token = getToken();
     const headers = token ? { Authorization: `Bearer ${token}` } : undefined;
     const fd = new FormData();
     fd.append("file", file);
+    fd.append("purpose", purpose || "");
+    fd.append("projectId", projectId || "");
     const res = await fetch(`${API_BASE}/files/upload`, {
       method: "POST",
       credentials: "include",

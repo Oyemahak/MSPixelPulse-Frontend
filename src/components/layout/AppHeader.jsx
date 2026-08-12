@@ -211,8 +211,8 @@ export default function AppHeader() {
           <div
             className={
               isDark
-                ? "flex h-10 items-center gap-1 rounded-full border border-white/10 bg-white/5 p-1"
-                : "flex h-10 items-center gap-1 rounded-full border border-slate-200 bg-slate-100 p-1"
+                ? "flex h-[3.25rem] items-center gap-1 rounded-full border border-white/10 bg-white/5 p-1"
+                : "flex h-[3.25rem] items-center gap-1 rounded-full border border-slate-200 bg-slate-100 p-1"
             }
           >
             {/* Dark button */}
@@ -221,8 +221,8 @@ export default function AppHeader() {
               onClick={() => setTheme("dark")}
               className={
                 actualIsDark
-                  ? "h-8 w-8 rounded-full bg-slate-950 text-white inline-grid place-items-center shadow-sm"
-                  : "h-8 w-8 rounded-full text-slate-500 inline-grid place-items-center hover:bg-slate-200/70 hover:text-slate-800"
+                  ? "h-11 w-11 rounded-full bg-slate-950 text-white inline-grid place-items-center shadow-sm"
+                  : "h-11 w-11 rounded-full text-slate-500 inline-grid place-items-center hover:bg-slate-200/70 hover:text-slate-800"
               }
               aria-pressed={actualIsDark}
               aria-label="Dark mode"
@@ -237,8 +237,8 @@ export default function AppHeader() {
               onClick={() => setTheme("light")}
               className={
                 !actualIsDark
-                  ? "h-8 w-8 rounded-full bg-white text-slate-900 inline-grid place-items-center shadow-sm"
-                  : "h-8 w-8 rounded-full text-white/70 inline-grid place-items-center hover:bg-white/10"
+                  ? "h-11 w-11 rounded-full bg-white text-slate-900 inline-grid place-items-center shadow-sm"
+                  : "h-11 w-11 rounded-full text-white/70 inline-grid place-items-center hover:bg-white/10"
               }
               aria-pressed={!actualIsDark}
               aria-label="Light mode"

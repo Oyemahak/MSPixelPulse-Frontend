@@ -1,7 +1,7 @@
 import { Link, useParams } from "react-router-dom";
 import Container from "../components/layout/Container.jsx";
 import Meta from "../components/Meta.jsx";
-import { publishedProjects } from "../data/projects.js";
+import { usePublicPortfolio } from "@/hooks/usePublicPortfolio.js";
 import { useTheme } from "@/lib/theme.js";
 import { LuArrowLeft, LuExternalLink, LuGithub } from "react-icons/lu";
 import ContactActions from "@/components/ContactActions.jsx";
@@ -12,7 +12,12 @@ export default function ProjectDetail() {
   const { id } = useParams();
   const { theme } = useTheme();
   const isDark = theme === "dark";
+  const { projects: publishedProjects, loading } = usePublicPortfolio();
   const project = publishedProjects.find((item) => item.slug === id || item.id === id);
+
+  if (!project && loading) {
+    return <section className="section"><Container><div className="card-surface p-8" role="status">Loading project…</div></Container></section>;
+  }
 
   if (!project) {
     return (
@@ -118,7 +123,7 @@ export default function ProjectDetail() {
           {[
             ["Overview", project.overview],
             ["Result", project.result],
-            ["Platform", `${project.platform} · ${project.stack.join(", ")}`],
+            ["Platform", [project.platform, ...(project.stack || [])].filter(Boolean).join(" · ")],
           ].map(([title, value]) => (
             <div key={title} className={isDark ? "card-surface p-6" : "rounded-2xl border border-slate-200 bg-white p-6 shadow-sm"}>
               <h2 className={isDark ? "font-black" : "font-black text-slate-950"}>{title}</h2>

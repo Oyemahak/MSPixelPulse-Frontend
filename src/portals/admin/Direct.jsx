@@ -13,6 +13,8 @@ export default function Direct() {
   const [peer, setPeer] = useState(null);
   const [msgs, setMsgs] = useState([]);
   const [text, setText] = useState("");
+  const [sending, setSending] = useState(false);
+  const [sendError, setSendError] = useState("");
   const boxRef = useRef(null);
 
   useEffect(() => {
@@ -27,14 +29,19 @@ export default function Direct() {
   }, [peerId, state?.peerEmail, state?.peerName]);
 
   async function send() {
-    if (!text.trim() || !threadId) return;
-    const { message } = await dm.send(threadId, { text });
-    setMsgs((m) => [...m, message]);
-    setText("");
-    setTimeout(
-      () => boxRef.current?.scrollTo({ top: 999999, behavior: "smooth" }),
-      0
-    );
+    if (!text.trim() || !threadId || sending) return;
+    setSending(true);
+    setSendError("");
+    try {
+      const { message } = await dm.send(threadId, { text: text.trim(), attachments: [] });
+      setMsgs((messages) => [...messages, message]);
+      setText("");
+      setTimeout(() => boxRef.current?.scrollTo({ top: 999999, behavior: "smooth" }), 0);
+    } catch (error) {
+      setSendError(error?.message || "Message could not be sent.");
+    } finally {
+      setSending(false);
+    }
   }
 
   return (
@@ -62,17 +69,21 @@ export default function Direct() {
           })}
         </div>
 
-        <div className="border-t border-white/10 p-3 flex gap-2">
+        <div className="border-t border-white/10 p-3">
+          {sendError && <div className="text-error mb-2" role="alert">{sendError}</div>}
+          <div className="flex gap-2">
           <input
             className="form-input flex-1"
             placeholder="Message…"
             value={text}
             onChange={(e) => setText(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && send()}
+            disabled={!threadId || sending}
           />
-          <button className="btn btn-primary" onClick={send} disabled={!text.trim()}>
-            Send
+          <button className="btn btn-primary" onClick={send} disabled={!threadId || !text.trim() || sending}>
+            {sending ? "Sending..." : "Send"}
           </button>
+          </div>
         </div>
       </div>
     </div>

@@ -1,5 +1,5 @@
 // src/portals/dev/Projects.jsx
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { projects as api } from "@/lib/api.js";
 import { useAuth } from "@/context/AuthContext.jsx";
@@ -13,7 +13,7 @@ export default function DevProjects() {
   const [err, setErr] = useState("");
   const [loading, setLoading] = useState(false);
 
-  async function load() {
+  const load = useCallback(async () => {
     setLoading(true);
     setErr("");
     try {
@@ -21,9 +21,9 @@ export default function DevProjects() {
       setRows((d.projects || []).filter(p => p.developer?._id === user?._id));
     } catch (e) { setErr(e.message || "Failed to fetch"); }
     finally { setLoading(false); }
-  }
+  }, [user?._id]);
 
-  useEffect(() => { load(); }, [user?._id]);
+  useEffect(() => { load(); }, [load]);
 
   const filtered = useMemo(() => {
     const n = q.trim().toLowerCase();

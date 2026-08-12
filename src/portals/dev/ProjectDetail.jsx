@@ -97,10 +97,11 @@ export default function DevProjectDetail() {
       // upload images to storage
       const uploaded = [];
       for (const f of evFiles) {
-        const up = await fileApi.upload(f);
+        const up = await fileApi.upload(f, { purpose: "evidence", projectId });
         uploaded.push({
           name: up.file?.name || f.name,
           type: up.file?.type || f.type,
+          path: up.file?.path,
           url: up.file?.url,
         });
       }

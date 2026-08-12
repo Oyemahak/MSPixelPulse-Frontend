@@ -1,5 +1,5 @@
 // src/portals/admin/Users.jsx
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { admin } from "@/lib/api.js";
 import SearchField from "@/components/ui/SearchField.jsx";
@@ -12,10 +12,10 @@ export default function Users() {
   const [err, setErr] = useState("");
   const [loading, setLoading] = useState(false);
 
-  async function load() {
+  const load = useCallback(async (query = "") => {
     setLoading(true);
     try {
-      const d = await admin.users(q);
+      const d = await admin.users(query);
       setRows(d.users || []);
       setErr("");
     } catch (e) {
@@ -24,8 +24,8 @@ export default function Users() {
     } finally {
       setLoading(false);
     }
-  }
-  useEffect(() => { load(); }, []);
+  }, []);
+  useEffect(() => { load(); }, [load]);
 
   const grouped = useMemo(() => {
     const base = { admin: [], developer: [], client: [] };
@@ -77,7 +77,7 @@ export default function Users() {
                     <button
                       type="button"
                       className="icon-btn mr-1"
-                      onClick={async () => { await admin.approveUser(u._id); load(); }}
+                      onClick={async () => { await admin.approveUser(u._id); load(q); }}
                       title={`Approve ${u.name || u.email}`}
                       aria-label={`Approve ${u.name || u.email}`}
                     >
@@ -91,7 +91,7 @@ export default function Users() {
                     onClick={async () => {
                       if (!confirm("Delete user?")) return;
                       await admin.deleteUser(u._id);
-                      load();
+                      load(q);
                     }}
                     title={`Delete ${u.name || u.email}`}
                     aria-label={`Delete ${u.name || u.email}`}
@@ -118,7 +118,7 @@ export default function Users() {
         <div />
       </div>
 
-      <form className="card card-pad filters-grid portal-search-row" onSubmit={(event) => { event.preventDefault(); load(); }}>
+      <form className="card card-pad filters-grid portal-search-row" onSubmit={(event) => { event.preventDefault(); load(q); }}>
         <SearchField
           label="Search users by name or email"
           placeholder="Search by name or email"

@@ -106,8 +106,8 @@ export default function AdminProjectDetail() {
       setEvBusy(true);
       const uploaded = [];
       for (const f of evFiles) {
-        const up = await fileApi.upload(f);
-        uploaded.push({ name: up.file?.name || f.name, type: up.file?.type || f.type, url: up.file?.url });
+        const up = await fileApi.upload(f, { purpose: "evidence", projectId });
+        uploaded.push({ name: up.file?.name || f.name, type: up.file?.type || f.type, path: up.file?.path, url: up.file?.url });
       }
       await api.addEvidence(projectId, {
         title: evTitle.trim() || "Update",

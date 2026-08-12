@@ -1,5 +1,5 @@
 // src/portals/client/Billings.jsx
-import { Fragment, useEffect, useMemo, useState } from "react";
+import { Fragment, useCallback, useEffect, useMemo, useState } from "react";
 import { projects as api, invoices as invApi } from "@/lib/api.js";
 import { useAuth } from "@/context/AuthContext.jsx";
 
@@ -112,7 +112,7 @@ export default function ClientBillings() {
 
   const [openId, setOpenId] = useState(null);
 
-  async function load() {
+  const load = useCallback(async () => {
     setLoading(true);
     setErr("");
     try {
@@ -121,8 +121,8 @@ export default function ClientBillings() {
       setRows(mine);
     } catch (e) { setErr(e.message || "Failed to fetch projects"); }
     finally { setLoading(false); }
-  }
-  useEffect(() => { load(); }, [user?._id]);
+  }, [user?._id]);
+  useEffect(() => { load(); }, [load]);
 
   const filtered = useMemo(() => rows || [], [rows]);
 

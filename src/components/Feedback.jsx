@@ -4,52 +4,14 @@ import Container from "@/components/layout/Container.jsx";
 import SectionTitle from "@/components/SectionTitle.jsx";
 import { FORMS_BASE } from "@/lib/forms.js";
 import { useTheme } from "@/lib/theme.js";
-
-/** Public proof notes, not invented testimonials. */
-const FALLBACK = [
-  {
-    name: "Live website work",
-    business: "CanSTEM Education",
-    message:
-      "A public school website entry listed for review with program-focused structure, admissions CTAs, and mobile-friendly content.",
-  },
-  {
-    name: "Live website work",
-    business: "Aimze Studio Salon & Spa",
-    message:
-      "A public salon website entry structured around services, appointment interest, and a clearer contact path.",
-  },
-  {
-    name: "Website concept",
-    business: "Home Services",
-    message:
-      "A demo-safe local service concept built around quote CTAs, trust sections, and responsive customer flow.",
-  },
-  {
-    name: "Website concept",
-    business: "Flower Boutique",
-    message:
-      "A polished storefront concept with product discovery, occasion landing pages, and order inquiry paths.",
-  },
-  {
-    name: "Website concept",
-    business: "Real Estate",
-    message:
-      "A premium real estate concept with buyer and seller CTAs, listing-style sections, and local trust signals.",
-  },
-  {
-    name: "Portal workflow",
-    business: "Client workspace",
-    message:
-      "Project rooms, files, approvals, messages, billing, and handoff notes can stay organized in one private workspace.",
-  },
-];
+import { proofNotes } from "@/data/proofNotes.js";
+import { usePublicContent } from "@/hooks/usePublicContent.js";
 
 export default function Feedback() {
   const { theme } = useTheme();
   const isDark = theme === "dark";
 
-  const [items] = useState(FALLBACK);
+  const { items } = usePublicContent('proof', proofNotes);
   const [idx, setIdx] = useState(0);
 
   // manual prev/next only (no autoplay)
@@ -279,11 +241,11 @@ export default function Feedback() {
                   className={
                     isDark
                       ? [
-                          "grid h-11 w-11 place-items-center rounded-full transition",
+                          "grid h-12 w-12 shrink-0 place-items-center rounded-full transition",
                           isActive ? "text-white/90" : "text-white/30 hover:text-white/50",
                         ].join(" ")
                       : [
-                          "grid h-11 w-11 place-items-center rounded-full transition",
+                          "grid h-12 w-12 shrink-0 place-items-center rounded-full transition",
                           isActive ? "text-slate-900" : "text-slate-500 hover:text-slate-700",
                         ].join(" ")
                   }
@@ -307,7 +269,7 @@ export default function Feedback() {
               className={
                 isDark
                   ? "btn btn-outline"
-                  : "inline-flex items-center gap-2 h-10 px-4 rounded-xl bg-white border border-slate-200 text-slate-900 font-semibold shadow-sm hover:bg-slate-50"
+                  : "inline-flex min-h-11 items-center gap-2 px-4 rounded-xl bg-white border border-slate-200 text-slate-900 font-semibold shadow-sm hover:bg-slate-50"
               }
               type="button"
             >

@@ -24,6 +24,7 @@ import {
   pricingIncluded,
   pricingPlans,
 } from "@/data/plans.js";
+import { usePublicContent } from "@/hooks/usePublicContent.js";
 
 const planIcons = {
   "one-page": LuLayoutTemplate,
@@ -47,10 +48,11 @@ const CAD = (value) =>
 export default function Pricing() {
   const nav = useNavigate();
   const [activeCategory, setActiveCategory] = useState(pricingCategories[0].key);
+  const { items: persistedPlans } = usePublicContent('pricing', pricingPlans);
   const selectedCategory =
     pricingCategories.find((category) => category.key === activeCategory) ??
     pricingCategories[0];
-  const visiblePlans = pricingPlans.filter(
+  const visiblePlans = persistedPlans.filter(
     (plan) => plan.category === selectedCategory.key,
   );
 

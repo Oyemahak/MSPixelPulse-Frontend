@@ -3498,7 +3498,10 @@ select:-webkit-autofill {
   height: 0.45rem;
 }
 
-.demo-browser-copy button {
+.demo-browser-copy .demo-browser-action {
+  display: inline-flex;
+  align-items: center;
+  height: auto;
   width: fit-content;
   margin-top: 0.3rem;
   border-radius: 0.6rem;
@@ -4660,7 +4663,7 @@ html:not([data-theme="dark"]) .app-footer {
 .cookie-link,
 .cookie-accept,
 .cookie-close {
-  min-height: 2.4rem;
+  min-height: 2.75rem;
   border-radius: 0.8rem;
   font-size: 0.82rem;
   font-weight: 850;
@@ -4690,7 +4693,7 @@ html:not([data-theme="dark"]) .app-footer {
 
 .cookie-close {
   display: grid;
-  width: 2.4rem;
+  width: 2.75rem;
   place-items: center;
   color: #64748b;
 }
@@ -6245,10 +6248,14 @@ html:not([data-theme="dark"]) #main-content .contact-page .consent-field input[t
     inset 0 1px 0 rgba(255, 255, 255, 0.07);
 }
 
-.agency-collaboration-frame > :is(img, video) {
+.agency-collaboration-frame > picture,
+.agency-collaboration-frame > picture > img {
   display: block;
   width: 100%;
   height: 100%;
+}
+
+.agency-collaboration-frame > picture > img {
   object-fit: cover;
   object-position: 50% center;
   filter: saturate(0.94) contrast(1.02);
@@ -6456,7 +6463,7 @@ html:not([data-theme="dark"]) #main-content .contact-page .consent-field input[t
     border-radius: 1.35rem;
   }
 
-  .agency-collaboration-frame > :is(img, video) {
+  .agency-collaboration-frame > picture > img {
     object-position: 54% center;
   }
 
@@ -8754,4 +8761,21 @@ html:not([data-theme="dark"]) .public-header-shell img.brand-logo-mark,
   filter: none;
   transform: none;
   transition: none;
+}
+.admin-project-cover-upload {
+  position: relative;
+  overflow: hidden;
+}
+
+.admin-project-cover-upload input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.admin-project-cover-controls .form-actions {
+  margin-top: 0;
 }

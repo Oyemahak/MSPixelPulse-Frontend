@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
-import { projects as api, rooms } from "@/lib/api.js";
+import { files as fileApi, portalErrorMessage, projects as api, rooms } from "@/lib/api.js";
 import { useAuth } from "@/context/AuthContext.jsx";
 import SearchField from "@/components/ui/SearchField.jsx";
 
@@ -11,6 +11,18 @@ function Bubble({ me, m }) {
       <div className={`max-w-[80%] rounded-2xl px-4 py-2 text-sm ${mine ? "bg-primary text-white" : "bg-white/10"}`}>
         {!mine && <div className="text-xs text-white/60 mb-0.5">{m.authorRoleAtSend}</div>}
         <div>{m.text}</div>
+        {(m.attachments || []).map((attachment) => (
+          <a
+            key={attachment.path || attachment.url || attachment.name}
+            className="mt-2 block underline underline-offset-2"
+            href={attachment.url}
+            target="_blank"
+            rel="noreferrer"
+            download={attachment.name || undefined}
+          >
+            {attachment.name || "Download attachment"}
+          </a>
+        ))}
         <div className="text-[10px] opacity-70 mt-1">{new Date(m.sentAt || m.ts).toLocaleString()}</div>
       </div>
     </div>
@@ -28,16 +40,21 @@ export default function Discussions() {
   const [roomId, setRoomId] = useState("");
   const [msgs, setMsgs] = useState([]);
   const [text, setText] = useState("");
+  const [pendingFiles, setPendingFiles] = useState([]);
   const [sending, setSending] = useState(false);
   const [sendError, setSendError] = useState("");
+  const [loadError, setLoadError] = useState("");
   const listRef = useRef(null);
 
   // Client sees only their projects
   useEffect(() => {
     (async () => {
-      const d = await api.list();
-      const mine = (d.projects || []).filter(p => p.client?._id === user?._id);
-      setRows(mine);
+      try {
+        const d = await api.list();
+        setRows(d.projects || []);
+      } catch (error) {
+        setLoadError(portalErrorMessage(error, "project room"));
+      }
     })();
   }, [user?._id]);
 
@@ -45,10 +62,17 @@ export default function Discussions() {
   useEffect(() => {
     (async () => {
       if (!curr) { setMsgs([]); setRoomId(""); return; }
-      const { roomId: rid, messages } = await rooms.get(curr);
-      setRoomId(rid);
-      setMsgs(messages || []);
-      setTimeout(() => listRef.current?.scrollTo({ top: 9e9, behavior: "smooth" }), 0);
+      setLoadError("");
+      try {
+        const { roomId: rid, messages } = await rooms.get(curr);
+        setRoomId(rid);
+        setMsgs(messages || []);
+        setTimeout(() => listRef.current?.scrollTo({ top: 9e9, behavior: "smooth" }), 0);
+      } catch (error) {
+        setRoomId("");
+        setMsgs([]);
+        setLoadError(portalErrorMessage(error, "project room"));
+      }
     })();
   }, [curr]);
 
@@ -60,16 +84,23 @@ export default function Discussions() {
   }, [rows, q]);
 
   async function send() {
-    if (!text.trim() || !curr || sending) return;
+    if ((!text.trim() && !pendingFiles.length) || !curr || sending) return;
     setSending(true);
     setSendError("");
     try {
-      const { message } = await rooms.send(curr, { text: text.trim(), attachments: [] });
+      const uploaded = await Promise.all(
+        pendingFiles.map(async (file) => {
+          const result = await fileApi.upload(file, { purpose: "message", projectId: curr });
+          return result.file;
+        })
+      );
+      const { message } = await rooms.send(curr, { text: text.trim(), attachments: uploaded });
       setMsgs(prev => [...prev, message]);
       setText("");
+      setPendingFiles([]);
       setTimeout(() => listRef.current?.scrollTo({ top: 9e9, behavior: "smooth" }), 0);
     } catch (error) {
-      setSendError(error?.message || "Message could not be sent.");
+      setSendError(portalErrorMessage(error, "project room"));
     } finally {
       setSending(false);
     }
@@ -111,6 +142,7 @@ export default function Discussions() {
         </div>
 
         <div ref={listRef} className="flex-1 overflow-y-auto p-4 space-y-3">
+          {loadError && <div className="text-error" role="alert">{loadError}</div>}
           {!curr && <div className="empty-note">Pick a project on the left.</div>}
           {curr && !msgs.length && <div className="empty-note">No messages yet.</div>}
           {msgs.map(m => <Bubble key={m._id || m.id} me={user} m={m} />)}
@@ -124,11 +156,33 @@ export default function Discussions() {
             placeholder="Write a message…"
             value={text}
             onChange={(e)=>setText(e.target.value)}
-            onKeyDown={(e)=> e.key==="Enter" && send()}
+            onKeyDown={(event) => {
+              if (event.key === "Enter" && !event.shiftKey) {
+                event.preventDefault();
+                send();
+              }
+            }}
             disabled={!roomId || sending}
           />
-          <button className="btn btn-primary" onClick={send} disabled={!roomId || !text.trim() || sending}>{sending ? "Sending..." : "Send"}</button>
+          <label className="btn btn-outline cursor-pointer">
+            Attach
+            <input
+              className="sr-only"
+              type="file"
+              multiple
+              accept=".pdf,.doc,.docx,.txt,image/jpeg,image/png,image/webp"
+              onChange={(event) => setPendingFiles(Array.from(event.target.files || []).slice(0, 5))}
+              disabled={!roomId || sending}
+            />
+          </label>
+          <button className="btn btn-primary" onClick={send} disabled={!roomId || (!text.trim() && !pendingFiles.length) || sending}>{sending ? "Sending..." : "Send"}</button>
           </div>
+          {pendingFiles.length ? (
+            <div className="text-muted-xs mt-2">
+              {pendingFiles.map((file) => file.name).join(", ")}
+              <button type="button" className="subtle-link ml-2" onClick={() => setPendingFiles([])}>Clear</button>
+            </div>
+          ) : null}
         </div>
       </div>
     </div>

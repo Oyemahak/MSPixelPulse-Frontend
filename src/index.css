@@ -280,6 +280,19 @@ textarea {
   transition: border 0.12s ease, background 0.12s ease, box-shadow 0.12s ease;
 }
 
+/* Keep visually hidden file inputs from inheriting the portal's full-width form rule. */
+.portal-frame input.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
 textarea,
 .form-textarea {
   @apply h-40 py-3 resize-y;

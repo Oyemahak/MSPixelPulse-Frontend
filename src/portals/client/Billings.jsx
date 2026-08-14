@@ -1,7 +1,6 @@
 // src/portals/client/Billings.jsx
 import { Fragment, useCallback, useEffect, useMemo, useState } from "react";
-import { projects as api, invoices as invApi } from "@/lib/api.js";
-import { useAuth } from "@/context/AuthContext.jsx";
+import { portalErrorMessage, projects as api, invoices as invApi } from "@/lib/api.js";
 
 function StatusBadge({ inv }) {
   if (!inv) return <span className="text-muted-xs">—</span>;
@@ -72,6 +71,7 @@ function InvoiceCard({ title, inv }) {
 
 function ReadonlyRow({ p }) {
   const [snap, setSnap] = useState({ advance: null, final: null });
+  const [error, setError] = useState("");
 
   useEffect(() => {
     (async () => {
@@ -82,8 +82,10 @@ function ReadonlyRow({ p }) {
           advance: list.find((x) => x.kind === "advance") || null,
           final: list.find((x) => x.kind === "final") || null,
         });
-      } catch {
+        setError("");
+      } catch (requestError) {
         setSnap({ advance: null, final: null });
+        setError(portalErrorMessage(requestError, "billing record"));
       }
     })();
   }, [p._id]);
@@ -91,6 +93,7 @@ function ReadonlyRow({ p }) {
   return (
     <tr className="row-edit">
       <td colSpan={5}>
+        {error ? <div className="text-error mb-3">{error}</div> : null}
         <div className="grid md:grid-cols-2 gap-5">
           <InvoiceCard title="Advance payment (50%)" inv={snap.advance} />
           <InvoiceCard title="Final invoice (after delivery)" inv={snap.final} />
@@ -104,8 +107,6 @@ function ReadonlyRow({ p }) {
 }
 
 export default function ClientBillings() {
-  const { user } = useAuth();
-
   const [rows, setRows] = useState([]);
   const [err, setErr] = useState("");
   const [loading, setLoading] = useState(false);
@@ -117,11 +118,10 @@ export default function ClientBillings() {
     setErr("");
     try {
       const d = await api.list();
-      const mine = (d.projects || []).filter((p) => String(p.client?._id) === String(user?._id));
-      setRows(mine);
-    } catch (e) { setErr(e.message || "Failed to fetch projects"); }
+      setRows(d.projects || []);
+    } catch (e) { setErr(portalErrorMessage(e, "billing record")); }
     finally { setLoading(false); }
-  }, [user?._id]);
+  }, []);
   useEffect(() => { load(); }, [load]);
 
   const filtered = useMemo(() => rows || [], [rows]);

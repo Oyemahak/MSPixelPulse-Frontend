@@ -71,7 +71,7 @@ function normalizeProfile(user = {}) {
   };
 }
 
-function profilePayload(form) {
+function profilePayload(form, themePreference) {
   return {
     ...form,
     specialties: fromTextList(form.specialties),
@@ -81,6 +81,7 @@ function profilePayload(form) {
       emailUpdates: !!form.notificationPreferences.emailUpdates,
       billingAlerts: !!form.notificationPreferences.billingAlerts,
     },
+    themePreference,
   };
 }
 
@@ -114,6 +115,7 @@ export default function ProfilePage() {
         updateUser(fresh);
         setForm(normalizeProfile(fresh));
         setPreviewUrl(fresh.avatarUrl || "");
+        if (fresh.themePreference) setTheme(fresh.themePreference);
         setFileBlob(null);
         setFileMeta(null);
       } catch {
@@ -146,6 +148,17 @@ export default function ProfilePage() {
         [key]: value,
       },
     }));
+  }
+
+  async function changeTheme(value) {
+    setTheme(value);
+    setError("");
+    try {
+      const data = await users.updateMe({ themePreference: value });
+      updateUser(data.user || { themePreference: value });
+    } catch (requestError) {
+      setError(requestError?.message || "Theme preference could not be saved.");
+    }
   }
 
   function onPick(event) {
@@ -183,7 +196,7 @@ export default function ProfilePage() {
     setError("");
 
     try {
-      const profile = await users.updateMe(profilePayload(form));
+      const profile = await users.updateMe(profilePayload(form, theme));
       let nextUser = profile.user || user || {};
 
       if (fileBlob) {
@@ -384,10 +397,10 @@ export default function ProfilePage() {
               <div className="row-sub">Applies across public pages and portals.</div>
             </div>
             <div className="portal-segmented" role="group" aria-label="Theme">
-              <button type="button" className={theme === "light" ? "is-active" : ""} onClick={() => setTheme("light")}>
+              <button type="button" className={theme === "light" ? "is-active" : ""} onClick={() => changeTheme("light")}>
                 Light
               </button>
-              <button type="button" className={theme === "dark" ? "is-active" : ""} onClick={() => setTheme("dark")}>
+              <button type="button" className={theme === "dark" ? "is-active" : ""} onClick={() => changeTheme("dark")}>
                 Dark
               </button>
             </div>

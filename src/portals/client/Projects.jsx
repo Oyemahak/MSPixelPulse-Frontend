@@ -1,12 +1,10 @@
 // src/portals/client/Projects.jsx
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { projects as api } from "@/lib/api.js";
-import { useAuth } from "@/context/AuthContext.jsx";
+import { portalErrorMessage, projects as api } from "@/lib/api.js";
 import SearchField from "@/components/ui/SearchField.jsx";
 
 export default function Projects() {
-  const { user } = useAuth();
   const [rows, setRows] = useState([]);
   const [q, setQ] = useState("");
   const [err, setErr] = useState("");
@@ -17,10 +15,9 @@ export default function Projects() {
     setErr("");
     try {
       const d = await api.list();
-      const mine = (d.projects || []).filter((p) => p.client?._id === user?._id);
-      setRows(mine);
+      setRows(d.projects || []);
     } catch (e) {
-      setErr(e.message || "Failed to load");
+      setErr(portalErrorMessage(e, "project"));
     } finally {
       setLoading(false);
     }
@@ -28,8 +25,7 @@ export default function Projects() {
 
   useEffect(() => {
     load();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user?._id]);
+  }, []);
 
   const filtered = useMemo(() => {
     const n = q.trim().toLowerCase();

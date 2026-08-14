@@ -1,7 +1,7 @@
 // frontend/src/portals/client/ProjectDetail.jsx
 import { useEffect, useMemo, useRef, useState, useCallback } from "react";
-import { useParams } from "react-router-dom";
-import { projects as api, requirements as reqApi } from "@/lib/api.js";
+import { useParams, useSearchParams } from "react-router-dom";
+import { portalErrorMessage, projects as api, requirements as reqApi } from "@/lib/api.js";
 
 /**
  * ClientProjectDetail
@@ -12,10 +12,11 @@ import { projects as api, requirements as reqApi } from "@/lib/api.js";
  */
 export default function ClientProjectDetail() {
   const { projectId } = useParams();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const [project, setProject] = useState(null);
   const [fatalErr, setFatalErr] = useState("");
-  const [tab, setTab] = useState("overview"); // overview | requirements | evidence | updates
+  const [tab, setTab] = useState(() => searchParams.get("tab") || "overview"); // overview | requirements | evidence | updates
 
   // Requirements snapshot
   const [reqSnap, setReqSnap] = useState(null);
@@ -37,7 +38,7 @@ export default function ClientProjectDetail() {
       setProject(proj);
       setTimeline(Array.isArray(proj.evidence) ? proj.evidence : []);
     } catch (e) {
-      setFatalErr(e?.message || "Failed to load project");
+      setFatalErr(portalErrorMessage(e, "project"));
     }
   }, [projectId]);
 
@@ -48,7 +49,7 @@ export default function ClientProjectDetail() {
       const d = await reqApi.get(projectId);
       setReqSnap(d.requirement || null);
     } catch (e) {
-      setReqErr(e?.message || "Failed to load requirements");
+      setReqErr(portalErrorMessage(e, "project"));
       setReqSnap(null);
     } finally {
       setReqBusy(false);
@@ -63,7 +64,7 @@ export default function ClientProjectDetail() {
       const d = await api.listAnnouncements(projectId); // { ok, items }
       setAnn(d.items || []);
     } catch (e) {
-      setAnnErr(e?.message || "Failed to load announcements");
+      setAnnErr(portalErrorMessage(e, "project"));
     } finally {
       setAnnBusy(false);
     }
@@ -74,6 +75,11 @@ export default function ClientProjectDetail() {
     loadReq();
     loadAnnouncements();
   }, [projectId, loadProject, loadReq, loadAnnouncements]);
+
+  useEffect(() => {
+    const requested = searchParams.get("tab");
+    if (["overview", "requirements", "evidence", "updates"].includes(requested)) setTab(requested);
+  }, [searchParams]);
 
   const clientName = useMemo(() => project?.client?.name || "—", [project]);
 
@@ -100,7 +106,10 @@ export default function ClientProjectDetail() {
             <button
               key={k}
               className={`btn h-10 px-4 rounded-lg ${tab === k ? "btn-primary" : "btn-outline"}`}
-              onClick={() => setTab(k)}
+              onClick={() => {
+                setTab(k);
+                setSearchParams(k === "overview" ? {} : { tab: k }, { replace: true });
+              }}
             >
               {k === "overview"
                 ? "Overview"
@@ -293,23 +302,6 @@ function ClientRequirementsEditor({ projectId, snapshot, busy, error, onReload }
       setSaving(true);
       await reqApi.upsert(projectId, payload);
 
-      // best-effort audit entry
-      try {
-        const changed = [];
-        if (payload.files?.logo) changed.push("logo");
-        if (payload.files?.brief) changed.push("brief");
-        if (payload.files?.supporting) changed.push("supporting docs");
-        const pageCount =
-          (payload.pages || []).length +
-          (payload.files?.pageFiles ? Object.keys(payload.files.pageFiles).length : 0);
-        if (pageCount) changed.push(`${pageCount} page item(s)`);
-
-        const title = "Client updated requirements" + (changed.length ? `: ${changed.join(", ")}` : "");
-        await api.addEvidence(projectId, { title, links: [], images: [], ts: Date.now() });
-      } catch {
-        // ignore
-      }
-
       // reset transient picks
       setLogo(null);
       setBrief(null);
@@ -320,7 +312,7 @@ function ClientRequirementsEditor({ projectId, snapshot, busy, error, onReload }
       setTimeout(() => setOk(""), 1200);
       await onReload?.();
     } catch (e) {
-      setErr(e?.message || "Failed to save");
+      setErr(portalErrorMessage(e, "project"));
     } finally {
       setSaving(false);
     }
@@ -351,9 +343,9 @@ function ClientRequirementsEditor({ projectId, snapshot, busy, error, onReload }
       <ExistingRequirements req={snapshot} emptyMsg={hasExisting ? "" : "Nothing uploaded yet."} />
 
       {/* Editor */}
-      <div className="mt-2 grid gap-6">
+      <div className="mt-2 grid min-w-0 grid-cols-[minmax(0,1fr)] gap-6">
         {/* Core */}
-        <section className="bg-white/5 rounded-xl p-4 space-stack">
+        <section className="min-w-0 bg-white/5 rounded-xl p-4 space-stack">
           <div className="font-extrabold">Core</div>
           <div className="grid md:grid-cols-2 gap-4">
             <div>
@@ -396,7 +388,7 @@ function ClientRequirementsEditor({ projectId, snapshot, busy, error, onReload }
         </section>
 
         {/* Supporting */}
-        <section className="bg-white/5 rounded-xl p-4 space-stack">
+        <section className="min-w-0 bg-white/5 rounded-xl p-4 space-stack">
           <div className="font-extrabold">Supporting documents</div>
           <div className="text-muted-xs">
             Add references (screenshots, PDFs, brand files). These append to what’s already there — nothing is removed.
@@ -412,7 +404,7 @@ function ClientRequirementsEditor({ projectId, snapshot, busy, error, onReload }
         </section>
 
         {/* Pages */}
-        <section className="bg-white/5 rounded-xl p-4 space-stack">
+        <section className="min-w-0 bg-white/5 rounded-xl p-4 space-stack">
           <div className="font-extrabold">Website pages</div>
           <div className="text-muted-xs">
             Create/update by page name (e.g., <i>Home</i>, <i>Services</i>, <i>Contact</i>). Files you attach here merge

@@ -1,5 +1,5 @@
 // src/lib/theme.js
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
 
 const ThemeContext = createContext({
   theme: "light",
@@ -40,23 +40,21 @@ export function ThemeProvider({ children }) {
     window.localStorage.setItem("mspixelpulse-theme", theme);
   }, [theme]);
 
-  const setTheme = (value) => {
+  const setTheme = useCallback((value) => {
     if (value !== "dark" && value !== "light") return;
     setThemeState(value);
-  };
+  }, []);
 
-  const toggleTheme = () => {
+  const toggleTheme = useCallback(() => {
     setThemeState((prev) => (prev === "dark" ? "light" : "dark"));
-  };
+  }, []);
+
+  const value = useMemo(() => ({ theme, setTheme, toggleTheme }), [setTheme, theme, toggleTheme]);
 
   return React.createElement(
     ThemeContext.Provider,
     {
-      value: {
-        theme,
-        setTheme,
-        toggleTheme,
-      },
+      value,
     },
     children
   );

@@ -1,22 +1,9 @@
 // frontend/src/portals/client/ClientDashboard.jsx
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { projects as api } from "@/lib/api.js";
-import { useAuth } from "@/context/AuthContext.jsx";
-
-/* read client's per-project requirements (same key used in ProjectDetail) */
-const LSK = (pid) => `client:req:${pid}`;
-const readReq = (pid) => {
-  try {
-    return JSON.parse(localStorage.getItem(LSK(pid)) || "{}");
-  } catch {
-    return {};
-  }
-};
+import { portalErrorMessage, projects as api } from "@/lib/api.js";
 
 export default function ClientDashboard() {
-  const { user } = useAuth();
-
   const [rows, setRows] = useState([]);
   const [err, setErr] = useState("");
   const [loading, setLoading] = useState(false);
@@ -26,10 +13,9 @@ export default function ClientDashboard() {
     setErr("");
     try {
       const d = await api.list();
-      const mine = (d.projects || []).filter((p) => p.client?._id === user?._id);
-      setRows(mine);
+      setRows(d.projects || []);
     } catch (e) {
-      setErr(e.message || "Failed to load");
+      setErr(portalErrorMessage(e, "project"));
     } finally {
       setLoading(false);
     }
@@ -37,8 +23,7 @@ export default function ClientDashboard() {
 
   useEffect(() => {
     load();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user?._id]);
+  }, []);
 
   /* KPIs (simplified: no local requirements/file counts) */
   const kpis = useMemo(() => {
@@ -48,21 +33,20 @@ export default function ClientDashboard() {
     return { total, active, completed };
   }, [rows]);
 
-  /* recent projects decorated with local requirement info (for "last saved") */
+  /* Requirements activity comes from the database-backed requirement record. */
   const recent = useMemo(() => {
     return [...rows]
       .map((p) => {
-        const r = readReq(p._id) || {};
-        const savedAt = r.savedAt ? new Date(r.savedAt) : null;
+        const savedAt = p.requirementsUpdatedAt ? new Date(p.requirementsUpdatedAt) : null;
         return { ...p, _savedAt: savedAt };
       })
       .sort((a, b) => (b._savedAt?.getTime() || 0) - (a._savedAt?.getTime() || 0))
       .slice(0, 6);
   }, [rows]);
 
-  const hasAnyLocalReqSave = useMemo(
-    () => recent.some((r) => !!r._savedAt),
-    [recent]
+  const hasAnyRequirementSave = useMemo(
+    () => rows.some((row) => row.hasRequirements),
+    [rows]
   );
 
   return (
@@ -155,7 +139,7 @@ export default function ClientDashboard() {
       </div>
 
       {/* Gentle nudge to add requirements (shows only when user has projects but no local saves yet) */}
-      {!!rows.length && !hasAnyLocalReqSave && (
+      {!!rows.length && !hasAnyRequirementSave && (
         <div className="card-surface card-pad">
           <div className="card-title mb-2">Get started with Requirements</div>
           <div className="text-white/80 mb-3">
@@ -166,7 +150,7 @@ export default function ClientDashboard() {
             {rows.slice(0, 3).map((p) => (
               <Link
                 key={p._id}
-                to={`/client/projects/${p._id}`}
+                to={`/client/projects/${p._id}?tab=requirements`}
                 className="btn btn-outline btn-sm"
               >
                 {p.title}

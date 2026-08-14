@@ -6,7 +6,7 @@ import AppHeader from "./components/layout/AppHeader.jsx";
 import AppFooter from "./components/layout/AppFooter.jsx";
 import CookieBanner from "@/components/CookieBanner.jsx";
 import { useAuth } from "@/context/AuthContext.jsx";
-import { ThemeProvider } from "@/lib/theme.js";
+import { ThemeProvider, useTheme } from "@/lib/theme.js";
 
 /** Public pages */
 const Home = lazy(() => import("./pages/Home.jsx"));
@@ -78,6 +78,17 @@ function ProtectedLayout() {
   return <Outlet />;
 }
 
+function AccountThemeSync() {
+  const { user } = useAuth();
+  const { setTheme } = useTheme();
+
+  useEffect(() => {
+    if (user?.themePreference) setTheme(user.themePreference);
+  }, [setTheme, user?.themePreference]);
+
+  return null;
+}
+
 export default function App() {
   const { pathname } = useLocation();
   const isPortalRoute =
@@ -89,6 +100,7 @@ export default function App() {
 
   return (
     <ThemeProvider>
+      <AccountThemeSync />
       <div className="app-shell min-h-screen flex flex-col bg-transparent">
         <a className="skip-link" href="#main-content">Skip to main content</a>
         {!hidePublicChrome && <AppHeader />}

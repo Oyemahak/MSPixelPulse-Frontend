@@ -113,6 +113,8 @@ export const admin = {
   user: (id) => http(`/admin/users/${id}`),
   createUser: (payload) => http("/admin/users", { method: "POST", body: payload }),
   updateUser: (id, payload) => http(`/admin/users/${id}`, { method: "PATCH", body: payload }),
+  setUserPassword: (id, password) =>
+    http(`/admin/users/${id}/password`, { method: "PATCH", body: { password } }),
   deleteUser: (id) => http(`/admin/users/${id}`, { method: "DELETE" }),
   pending: () => http("/admin/users?status=pending"),
   approveUser: (id) => http(`/admin/users/${id}/approve`, { method: "PATCH" }),
@@ -287,3 +289,20 @@ export const users = {
     return http("/users/me/avatar", { method: "DELETE" });
   },
 };
+
+export const supportTickets = {
+  list: () => http("/support"),
+  one: (ticketId) => http(`/support/${ticketId}`),
+  create: (payload) => http("/support", { method: "POST", body: payload }),
+  reply: (ticketId, message) =>
+    http(`/support/${ticketId}/replies`, { method: "POST", body: { message } }),
+  updateStatus: (ticketId, status) =>
+    http(`/support/${ticketId}`, { method: "PATCH", body: { status } }),
+};
+
+export function portalErrorMessage(error, resource = "resource") {
+  if (error?.status === 403) return `You don't have access to this ${resource}.`;
+  if (error?.status === 404) return `${resource[0]?.toUpperCase() || "R"}${resource.slice(1)} not found.`;
+  if (error?.status >= 500) return "Something went wrong. Please try again.";
+  return error?.message || "Something went wrong. Please try again.";
+}

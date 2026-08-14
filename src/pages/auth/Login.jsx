@@ -72,7 +72,7 @@ export default function Login() {
     setErr("");
     setLoading(true);
     try {
-      const user = await login(email, password);
+      const user = await login(email.trim().toLowerCase(), password);
       if (!user) throw new Error("Login failed");
       nav(portalPathForRole(user.role), { replace: true });
     } catch (error) {

@@ -13,15 +13,15 @@ https://mspixelpulse.com
 ## Architecture
 
 - Vercel hosts the React frontend.
-- Render hosts the Express backend.
-- MongoDB Atlas is the primary database for users, authentication data, and business data.
-- Supabase is file storage only.
+- Vercel hosts the Express API.
+- Google Sheets is the production data source.
+- Google Drive is the production file-storage provider.
 - Authentication is custom JWT auth through the backend.
 
 Production API base:
 
 ```text
-https://capstone-backend-o3o2.onrender.com/api
+https://api.mspixelpulse.com/api
 ```
 
 ## Stack
@@ -62,18 +62,15 @@ http://localhost:5173
 Development example:
 
 ```text
-VITE_API_BASE=http://localhost:5000/api
+VITE_API_BASE=http://localhost:4000/api
 VITE_SITE_URL=https://mspixelpulse.com
-VITE_SUPABASE_URL=https://PROJECT_REF.supabase.co
-VITE_SUPABASE_ANON_KEY=replace-with-public-anon-key
-VITE_SUPABASE_BUCKET=uploads
 VITE_SUPPORT_EMAIL=info@mspixelpulse.com
 ```
 
 Production Vercel variable:
 
 ```text
-VITE_API_BASE=https://capstone-backend-o3o2.onrender.com/api
+VITE_API_BASE=https://api.mspixelpulse.com/api
 VITE_SITE_URL=https://mspixelpulse.com
 VITE_SUPPORT_EMAIL=info@mspixelpulse.com
 ```
@@ -91,10 +88,9 @@ environment variable. Preserve the configured values when updating the site.
 
 Never add backend-only secrets to Vercel frontend variables:
 
-- `MONGO_URI`
 - `JWT_SECRET`
-- `SUPABASE_SERVICE_ROLE_KEY`
-- `SMTP_PASS`
+- `GOOGLE_CLIENT_SECRET`
+- `GOOGLE_REFRESH_TOKEN`
 
 ## Development
 
@@ -110,7 +106,7 @@ The app uses `VITE_API_BASE` when provided. In development only, it falls back t
 npm run build
 ```
 
-Production builds require `VITE_API_BASE`. This prevents accidental same-origin `/api` calls when the backend is hosted separately on Render.
+Production builds require `VITE_API_BASE`. This prevents accidental same-origin `/api` calls when the API is hosted as a separate Vercel project.
 
 ## Vercel Deployment
 
@@ -138,7 +134,7 @@ Login posts to:
 POST /api/auth/login
 ```
 
-The backend validates MongoDB users, checks bcrypt passwords, issues JWTs, and returns a user role. The frontend redirects:
+The backend validates Google Sheets users, checks bcrypt password hashes, issues JWTs, and returns a user role. The frontend redirects:
 
 - `admin` -> `/admin`
 - `developer` -> `/dev`
@@ -158,15 +154,14 @@ Production builds do not expose demo password autofill.
 
 ## Troubleshooting
 
-- Login network error: verify `VITE_API_BASE` and Render `/health`.
+- Login network error: verify `VITE_API_BASE` and the Vercel API `/health` endpoint.
 - CORS error: confirm backend `CORS_ORIGIN` includes the deployed Vercel origin.
-- Invalid credentials: verify the MongoDB user exists and status is `active`.
-- Upload failures: check backend Supabase storage variables and `SUPABASE_BUCKET=uploads`.
-- Render cold start: wait and retry after health endpoints respond.
+- Invalid credentials: verify the Google Sheets user exists and status is `active`.
+- Upload failures: check backend Google OAuth and Drive environment variables.
 
 ## Security Notes
 
 - Do not commit `.env`.
-- Do not ship Supabase service role keys to the frontend.
+- Do not ship Google OAuth secrets or refresh tokens to the frontend.
 - Do not expose real production passwords in UI or docs.
 - Debug tooling is development-only on the frontend.

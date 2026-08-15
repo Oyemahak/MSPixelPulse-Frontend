@@ -8,7 +8,6 @@ Read [SHARED-CONTEXT.md](../SHARED-CONTEXT.md), [BUSINESS-GOALS.md](../BUSINESS-
 
 ## Responsibilities
 - Vercel
-- Render
 - production URLs
 - env names
 - build commands

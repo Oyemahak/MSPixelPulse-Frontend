@@ -170,8 +170,8 @@ export default function ProfilePage() {
       event.target.value = "";
       return;
     }
-    if (file.size > 5 * 1024 * 1024) {
-      setError("Profile image must be 5 MB or smaller.");
+    if (file.size > 4 * 1024 * 1024) {
+      setError("Profile image must be 4 MB or smaller.");
       event.target.value = "";
       return;
     }

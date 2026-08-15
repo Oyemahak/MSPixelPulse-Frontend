@@ -91,6 +91,38 @@ function qs(obj = {}) {
   return s ? `?${s}` : "";
 }
 
+async function directGoogleUpload(file, { purpose, projectId = "", requirementField = "" } = {}) {
+  const session = await http("/files/upload-session", {
+    method: "POST",
+    body: {
+      name: file.name,
+      type: file.type || "application/octet-stream",
+      size: file.size,
+      purpose,
+      projectId,
+      requirementField,
+    },
+  });
+  const upload = session?.upload;
+  if (!upload?.url || !upload?.completionToken) throw new Error("Upload session could not be created");
+  const response = await fetch(upload.url, {
+    method: upload.method || "PUT",
+    headers: { "Content-Type": file.type || "application/octet-stream" },
+    body: file,
+    credentials: "omit",
+  });
+  const result = await response.json().catch(() => ({}));
+  if (!response.ok || !result?.id) {
+    const error = new Error("Google Drive upload failed. Please try again.");
+    error.status = response.status;
+    throw error;
+  }
+  return http("/files/upload-complete", {
+    method: "POST",
+    body: { driveFileId: result.id, completionToken: upload.completionToken },
+  });
+}
+
 /* ---------- High-level helpers ---------- */
 export const auth = {
   login: (email, password) =>
@@ -195,6 +227,31 @@ export const rooms = {
 export const requirements = {
   get: (projectId) => http(`/projects/${projectId}/requirements`),
   async upsert(projectId, payload) {
+    const uploadOne = (file, requirementField) => directGoogleUpload(file, {
+      purpose: "requirement",
+      projectId,
+      requirementField,
+    }).then((result) => result.file);
+    try {
+      const uploadedFiles = { supporting: [], pageFiles: {} };
+      if (payload.files?.logo) uploadedFiles.logo = await uploadOne(payload.files.logo, "logo");
+      if (payload.files?.brief) uploadedFiles.brief = await uploadOne(payload.files.brief, "brief");
+      for (const file of payload.files?.supporting || []) {
+        uploadedFiles.supporting.push(await uploadOne(file, "supporting"));
+      }
+      for (const [name, list] of Object.entries(payload.files?.pageFiles || {})) {
+        uploadedFiles.pageFiles[name] = [];
+        for (const file of list || []) uploadedFiles.pageFiles[name].push(await uploadOne(file, `page:${name}`));
+      }
+      return http(`/projects/${projectId}/requirements`, {
+        method: "PUT",
+        body: { pages: payload.pages || [], uploadedFiles },
+      });
+    } catch (error) {
+      if (error?.status !== 409) throw error;
+    }
+
+    // Supabase rollback compatibility: its legacy backend accepts multipart.
     const token = getToken();
     const headers = token ? { Authorization: `Bearer ${token}` } : undefined;
     const fd = new FormData();
@@ -229,7 +286,13 @@ export const requirements = {
 
 /* ---------- Files: Supabase uploader endpoint ---------- */
 export const files = {
-  upload: async (file, { purpose, projectId } = {}) => {
+  upload: async (file, { purpose, projectId, requirementField } = {}) => {
+    try {
+      return await directGoogleUpload(file, { purpose, projectId, requirementField });
+    } catch (error) {
+      if (error?.status !== 409) throw error;
+    }
+    // Supabase rollback compatibility.
     const token = getToken();
     const headers = token ? { Authorization: `Bearer ${token}` } : undefined;
     const fd = new FormData();
@@ -268,6 +331,12 @@ export const users = {
   me: () => http("/users/me"),
   updateMe: (payload) => http("/users/me", { method: "PATCH", body: payload }),
   async uploadMyAvatar(file) {
+    try {
+      return await directGoogleUpload(file, { purpose: "avatar" });
+    } catch (error) {
+      if (error?.status !== 409) throw error;
+    }
+    // Supabase rollback compatibility.
     const token = getToken();
     const headers = token ? { Authorization: `Bearer ${token}` } : undefined;
     const fd = new FormData();

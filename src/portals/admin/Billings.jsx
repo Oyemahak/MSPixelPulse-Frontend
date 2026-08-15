@@ -1,9 +1,13 @@
 // src/portals/admin/Billings.jsx
+
 import { Fragment, useEffect, useMemo, useState } from "react";
-import { projects as api, invoices as invApi, files as fileApi } from "@/lib/api.js";
+import {
+  projects as api,
+  invoices as invApi,
+  files as fileApi,
+} from "@/lib/api.js";
 import SearchField from "@/components/ui/SearchField.jsx";
 
-/* Small badge renderer */
 function StatusBadge({ inv }) {
   if (!inv) return <span className="text-muted-xs">—</span>;
   if (inv.status === "draft") return <span className="badge">Draft</span>;
@@ -15,77 +19,133 @@ function StatusBadge({ inv }) {
 
 function formatMoney(value, currency = "CAD") {
   if (!Number.isFinite(Number(value))) return "";
-  return new Intl.NumberFormat("en-CA", { style: "currency", currency }).format(Number(value));
+
+  return new Intl.NumberFormat("en-CA", {
+    style: "currency",
+    currency,
+  }).format(Number(value));
 }
 
 function formatDate(value) {
   if (!value) return "";
-  return new Intl.DateTimeFormat("en-CA", { month: "short", day: "numeric", year: "numeric" }).format(new Date(value));
+
+  return new Intl.DateTimeFormat("en-CA", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  }).format(new Date(value));
 }
 
 function InvoiceDetails({ inv }) {
   if (!inv) return null;
+
   return (
     <div className="grid gap-2 text-sm text-white/70">
       <div className="flex flex-wrap items-center gap-2">
         <StatusBadge inv={inv} />
+
         <span className="font-semibold text-white/85">
-          {inv.invoiceNumber || inv.file?.name || inv.title || "Invoice details"}
+          {inv.invoiceNumber ||
+            inv.file?.name ||
+            inv.title ||
+            "Invoice details"}
         </span>
+
         {inv.isDemo && <span className="badge">Sample</span>}
       </div>
+
       {inv.title && <div>{inv.title}</div>}
+
       <div className="flex flex-wrap gap-x-4 gap-y-1 text-muted-xs">
-        {inv.issueDate && <span>Issued {formatDate(inv.issueDate)}</span>}
-        {inv.dueDate && <span>Due {formatDate(inv.dueDate)}</span>}
-        {Number(inv.total) > 0 && <span>Total {formatMoney(inv.total, inv.currency)}</span>}
+        {inv.issueDate && (
+          <span>Issued {formatDate(inv.issueDate)}</span>
+        )}
+
+        {inv.dueDate && (
+          <span>Due {formatDate(inv.dueDate)}</span>
+        )}
+
+        {Number(inv.total) > 0 && (
+          <span>Total {formatMoney(inv.total, inv.currency)}</span>
+        )}
       </div>
-      {inv.notes && <div className="text-muted-xs">{inv.notes}</div>}
+
+      {inv.notes && (
+        <div className="text-muted-xs">
+          {inv.notes}
+        </div>
+      )}
     </div>
   );
 }
 
-/* Preview for PDF/image */
 function Preview({ file }) {
   if (!file?.url) return null;
+
   const isPDF = file.type?.includes("pdf");
+
   return isPDF ? (
-    <iframe title={file.name || "invoice"} className="w-full h-64 rounded-xl border border-white/10" src={file.url} />
+    <iframe
+      title={file.name || "invoice"}
+      className="w-full h-64 rounded-xl border border-white/10"
+      src={file.url}
+    />
   ) : (
-    <img alt={file.name || "invoice"} className="w-full rounded-xl border border-white/10" src={file.url} />
+    <img
+      alt={file.name || "invoice"}
+      className="w-full rounded-xl border border-white/10"
+      src={file.url}
+    />
   );
 }
 
-/* File picker */
-function FilePicker({ id, label = "Upload invoice (PDF, PNG, or JPG — max 15 MB)", onPick, disabled, value }) {
+function FilePicker({
+  id,
+  label = "Upload invoice (PDF, PNG, or JPG — max 15 MB)",
+  onPick,
+  disabled,
+  value,
+}) {
   return (
     <div className="space-y-2">
       <div className="form-label">{label}</div>
+
       <div className="flex items-center gap-2">
         <input
           id={id}
           type="file"
           accept="application/pdf,image/png,image/jpeg"
           className="sr-only"
-          onChange={(e) => onPick(e.target.files?.[0] || null)}
+          onChange={(event) =>
+            onPick(event.target.files?.[0] || null)
+          }
           disabled={disabled}
         />
-        <label htmlFor={id} className={`btn btn-outline btn-sm ${disabled ? "opacity-60 cursor-not-allowed" : "cursor-pointer"}`}>
+
+        <label
+          htmlFor={id}
+          className={`btn btn-outline btn-sm ${
+            disabled
+              ? "opacity-60 cursor-not-allowed"
+              : "cursor-pointer"
+          }`}
+        >
           Choose file
         </label>
-        <span className="text-sm text-white/70 truncate max-w-[260px]">{value?.name || "No file chosen"}</span>
+
+        <span className="text-sm text-white/70 truncate max-w-[260px]">
+          {value?.name || "No file chosen"}
+        </span>
       </div>
     </div>
   );
 }
 
 export default function Billings() {
-  // data
   const [rows, setRows] = useState([]);
   const [err, setErr] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // ui
   const [q, setQ] = useState("");
   const [openEditId, setOpenEditId] = useState(null);
   const [busyId, setBusyId] = useState("");
@@ -95,61 +155,118 @@ export default function Billings() {
   async function load() {
     setLoading(true);
     setErr("");
+
     try {
-      const d = await api.list();
-      setRows(d.projects || []);
-    } catch (e) {
-      setErr(e.message || "Failed to fetch projects");
+      const data = await api.list();
+      setRows(data.projects || []);
+    } catch (error) {
+      setErr(error.message || "Failed to fetch projects");
     } finally {
       setLoading(false);
     }
   }
-  useEffect(() => { load(); }, []);
+
+  useEffect(() => {
+    load();
+  }, []);
 
   const filtered = useMemo(() => {
     const needle = q.trim().toLowerCase();
-    return (rows || []).filter((p) => !needle || `${p.title} ${p.summary}`.toLowerCase().includes(needle));
+
+    return (rows || []).filter(
+      (project) =>
+        !needle ||
+        `${project.title || ""} ${project.summary || ""}`
+          .toLowerCase()
+          .includes(needle),
+    );
   }, [rows, q]);
 
-  /* Fetch invoices for one project */
   async function loadBilling(projectId) {
-    const d = await invApi.list(projectId);
-    const list = d.invoices || [];
-    const advance = list.find((x) => x.kind === "advance") || null;
-    const finalInv = list.find((x) => x.kind === "final") || null;
-    return { advance, final: finalInv };
+    const data = await invApi.list(projectId);
+    const list = data.invoices || [];
+
+    const advance =
+      list.find((invoice) => invoice.kind === "advance") || null;
+
+    const finalInvoice =
+      list.find((invoice) => invoice.kind === "final") || null;
+
+    return {
+      advance,
+      final: finalInvoice,
+    };
   }
 
-  /* Inline editor row */
   function EditorRow({ p }) {
     const [advance, setAdvance] = useState(null);
     const [finalInv, setFinalInv] = useState(null);
     const [loaded, setLoaded] = useState(false);
 
     async function refresh() {
-      const snap = await loadBilling(p._id);
-      setAdvance(snap.advance);
-      setFinalInv(snap.final);
+      const snapshot = await loadBilling(p._id);
+
+      setAdvance(snapshot.advance);
+      setFinalInv(snapshot.final);
       setLoaded(true);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    useEffect(() => { refresh(); }, []);
+
+    useEffect(() => {
+      let active = true;
+
+      async function loadInvoices() {
+        try {
+          const snapshot = await loadBilling(p._id);
+
+          if (!active) return;
+
+          setAdvance(snapshot.advance);
+          setFinalInv(snapshot.final);
+          setLoaded(true);
+        } catch (error) {
+          if (!active) return;
+
+          setErr(
+            error?.message ||
+              "Billing information could not be loaded",
+          );
+
+          setLoaded(true);
+        }
+      }
+
+      loadInvoices();
+
+      return () => {
+        active = false;
+      };
+    }, [p._id]);
 
     async function handlePick(kind, file) {
       if (!file) return;
+
       setBusyId(p._id);
       setErr("");
       setNotice("");
+
       try {
-        // 1) upload the raw file to supabase via backend
-        const up = await fileApi.upload(file, { purpose: "invoice", projectId: p._id });
-        // 2) create invoice row
-        await invApi.create(p._id, { kind, file: up.file });
+        // Upload the invoice through the backend to Google Drive.
+        const uploaded = await fileApi.upload(file, {
+          purpose: "invoice",
+          projectId: p._id,
+        });
+
+        await invApi.create(p._id, {
+          kind,
+          file: uploaded.file,
+        });
+
         await refresh();
-        setTick((t) => t + 1);
+
+        setTick((value) => value + 1);
         setNotice(`${file.name} was uploaded and saved.`);
-      } catch (e) {
-        setErr(e.message || "Upload failed");
+      } catch (error) {
+        setErr(error.message || "Upload failed");
       } finally {
         setBusyId("");
       }
@@ -157,35 +274,76 @@ export default function Billings() {
 
     async function markPaid(kind) {
       try {
-        const id = kind === "advance" ? advance?._id : finalInv?._id;
+        const id =
+          kind === "advance"
+            ? advance?._id
+            : finalInv?._id;
+
         if (!id) return;
+
         setBusyId(p._id);
-        await invApi.updateStatus(p._id, id, "paid");
+
+        await invApi.updateStatus(
+          p._id,
+          id,
+          "paid",
+        );
+
         await refresh();
-        setTick((t) => t + 1);
+
+        setTick((value) => value + 1);
         setNotice("Billing status saved.");
-      } catch (e) {
-        setErr(e.message || "Billing status could not be saved");
+      } catch (error) {
+        setErr(
+          error.message ||
+            "Billing status could not be saved",
+        );
       } finally {
         setBusyId("");
       }
     }
 
     async function clearFile(kind) {
-      const invoice = kind === "advance" ? advance : finalInv;
+      const invoice =
+        kind === "advance"
+          ? advance
+          : finalInv;
+
       if (!invoice?._id) return;
-      const name = invoice.file?.name || invoice.invoiceNumber || `${kind} invoice`;
-      if (!confirm(`Permanently delete "${name}" from billing and file storage? This cannot be undone.`)) return;
+
+      const name =
+        invoice.file?.name ||
+        invoice.invoiceNumber ||
+        `${kind} invoice`;
+
+      const confirmed = window.confirm(
+        `Permanently delete "${name}" from billing and Google Drive storage? This cannot be undone.`,
+      );
+
+      if (!confirmed) return;
+
       setBusyId(p._id);
       setErr("");
       setNotice("");
+
       try {
-        await invApi.remove(p._id, invoice._id);
+        await invApi.remove(
+          p._id,
+          invoice._id,
+        );
+
         await refresh();
-        setTick((t) => t + 1);
-        setNotice(`${name} was deleted. You can upload a replacement now.`);
-      } catch (e) {
-        setErr(e.message || "Invoice could not be deleted");
+
+        setTick((value) => value + 1);
+
+        setNotice(
+          `${name} was deleted. You can upload a replacement now.`,
+        );
+      } catch (error) {
+        setErr(
+          error.message ||
+            "Invoice could not be deleted",
+        );
       } finally {
         setBusyId("");
       }
@@ -195,35 +353,63 @@ export default function Billings() {
       <tr className="row-edit">
         <td colSpan={5}>
           <div className="grid md:grid-cols-2 gap-5">
-            {/* Advance */}
             <div className="card-surface p-5 space-y-3">
-              <div className="card-title">Advance payment (50%)</div>
+              <div className="card-title">
+                Advance payment (50%)
+              </div>
 
               {!advance ? (
                 <FilePicker
                   id={`adv-${p._id}`}
                   value={null}
-                  onPick={(file) => handlePick("advance", file)}
+                  onPick={(file) =>
+                    handlePick("advance", file)
+                  }
                   disabled={busyId === p._id}
                 />
               ) : (
                 <>
                   <InvoiceDetails inv={advance} />
                   <Preview file={advance.file} />
+
                   <div className="form-actions">
                     {advance.file?.url ? (
-                      <a className="btn btn-outline" href={advance.file.url} download={advance.file?.name || "invoice"}>
+                      <a
+                        className="btn btn-outline"
+                        href={advance.file.url}
+                        download={
+                          advance.file?.name ||
+                          "invoice"
+                        }
+                      >
                         Download
                       </a>
                     ) : (
-                      <span className="text-muted-xs">No export file attached.</span>
+                      <span className="text-muted-xs">
+                        No export file attached.
+                      </span>
                     )}
-                    {advance.status !== "paid" && advance.status !== "archived" && (
-                      <button className="btn btn-primary" onClick={() => markPaid("advance")} disabled={busyId === p._id}>
-                        Mark as paid
-                      </button>
-                    )}
-                    <button className="btn btn-outline text-rose-600" onClick={() => clearFile("advance")} disabled={busyId === p._id}>
+
+                    {advance.status !== "paid" &&
+                      advance.status !== "archived" && (
+                        <button
+                          className="btn btn-primary"
+                          onClick={() =>
+                            markPaid("advance")
+                          }
+                          disabled={busyId === p._id}
+                        >
+                          Mark as paid
+                        </button>
+                      )}
+
+                    <button
+                      className="btn btn-outline text-rose-600"
+                      onClick={() =>
+                        clearFile("advance")
+                      }
+                      disabled={busyId === p._id}
+                    >
                       Delete
                     </button>
                   </div>
@@ -231,35 +417,63 @@ export default function Billings() {
               )}
             </div>
 
-            {/* Final */}
             <div className="card-surface p-5 space-y-3">
-              <div className="card-title">Final invoice (after delivery)</div>
+              <div className="card-title">
+                Final invoice (after delivery)
+              </div>
 
               {!finalInv ? (
                 <FilePicker
                   id={`fin-${p._id}`}
                   value={null}
-                  onPick={(file) => handlePick("final", file)}
+                  onPick={(file) =>
+                    handlePick("final", file)
+                  }
                   disabled={busyId === p._id}
                 />
               ) : (
                 <>
                   <InvoiceDetails inv={finalInv} />
                   <Preview file={finalInv.file} />
+
                   <div className="form-actions">
                     {finalInv.file?.url ? (
-                      <a className="btn btn-outline" href={finalInv.file.url} download={finalInv.file?.name || "invoice"}>
+                      <a
+                        className="btn btn-outline"
+                        href={finalInv.file.url}
+                        download={
+                          finalInv.file?.name ||
+                          "invoice"
+                        }
+                      >
                         Download
                       </a>
                     ) : (
-                      <span className="text-muted-xs">No export file attached.</span>
+                      <span className="text-muted-xs">
+                        No export file attached.
+                      </span>
                     )}
-                    {finalInv.status !== "paid" && finalInv.status !== "archived" && (
-                      <button className="btn btn-primary" onClick={() => markPaid("final")} disabled={busyId === p._id}>
-                        Mark as paid
-                      </button>
-                    )}
-                    <button className="btn btn-outline text-rose-600" onClick={() => clearFile("final")} disabled={busyId === p._id}>
+
+                    {finalInv.status !== "paid" &&
+                      finalInv.status !== "archived" && (
+                        <button
+                          className="btn btn-primary"
+                          onClick={() =>
+                            markPaid("final")
+                          }
+                          disabled={busyId === p._id}
+                        >
+                          Mark as paid
+                        </button>
+                      )}
+
+                    <button
+                      className="btn btn-outline text-rose-600"
+                      onClick={() =>
+                        clearFile("final")
+                      }
+                      disabled={busyId === p._id}
+                    >
                       Delete
                     </button>
                   </div>
@@ -270,17 +484,127 @@ export default function Billings() {
 
           <div className="text-muted-xs mt-4">
             {loaded ? "Updated —" : "Loading…"}{" "}
-            <button className="subtle-link" onClick={() => (refresh(), setTick(t => t + 1))}>Refresh</button>
+
+            <button
+              className="subtle-link"
+              onClick={async () => {
+                try {
+                  await refresh();
+                  setTick((value) => value + 1);
+                } catch (error) {
+                  setErr(
+                    error?.message ||
+                      "Billing information could not be refreshed",
+                  );
+                }
+              }}
+            >
+              Refresh
+            </button>
           </div>
         </td>
       </tr>
     );
   }
 
+  function BillingRow({
+    p,
+    openEditId: currentOpenEditId,
+    setOpenEditId: updateOpenEditId,
+    refreshKey,
+  }) {
+    const [snapshot, setSnapshot] = useState({
+      advance: null,
+      final: null,
+    });
+
+    useEffect(() => {
+      let active = true;
+
+      async function loadRowBilling() {
+        try {
+          const billing = await loadBilling(p._id);
+
+          if (active) {
+            setSnapshot(billing);
+          }
+        } catch {
+          if (active) {
+            setSnapshot({
+              advance: null,
+              final: null,
+            });
+          }
+        }
+      }
+
+      loadRowBilling();
+
+      return () => {
+        active = false;
+      };
+    }, [p._id, refreshKey]);
+
+    return (
+      <>
+        <tr className="table-row-hover">
+          <td>
+            <div className="font-medium">
+              {p.title}
+            </div>
+
+            {p.summary && (
+              <div className="row-sub line-clamp-1">
+                {p.summary}
+              </div>
+            )}
+          </td>
+
+          <td className="text-white/80">
+            {p.client?.name || "—"}
+          </td>
+
+          <td>
+            <StatusBadge inv={snapshot.advance} />
+          </td>
+
+          <td>
+            <StatusBadge inv={snapshot.final} />
+          </td>
+
+          <td className="actions-cell">
+            <button
+              className="btn btn-outline"
+              onClick={() =>
+                updateOpenEditId((value) =>
+                  value === p._id
+                    ? null
+                    : p._id,
+                )
+              }
+              disabled={busyId === p._id}
+              title="Upload invoices, preview, download, mark as paid"
+            >
+              {currentOpenEditId === p._id
+                ? "Close"
+                : "Manage billing"}
+            </button>
+          </td>
+        </tr>
+
+        {currentOpenEditId === p._id && (
+          <EditorRow p={p} />
+        )}
+      </>
+    );
+  }
+
   return (
     <div className="page-shell space-y-5">
       <div className="page-header">
-        <h2 className="page-title">Billing</h2>
+        <h2 className="page-title">
+          Billing
+        </h2>
         <div />
       </div>
 
@@ -291,75 +615,82 @@ export default function Billings() {
           value={q}
           onValueChange={setQ}
         />
-        <button className="btn btn-outline" onClick={load} disabled={loading}>
-          {loading ? "Refreshing…" : "Refresh"}
+
+        <button
+          className="btn btn-outline"
+          onClick={load}
+          disabled={loading}
+        >
+          {loading
+            ? "Refreshing…"
+            : "Refresh"}
         </button>
       </div>
 
-      {err && <div className="text-error">{err}</div>}
-      {notice && <div className="text-success" role="status">{notice}</div>}
+      {err && (
+        <div className="text-error">
+          {err}
+        </div>
+      )}
+
+      {notice && (
+        <div
+          className="text-success"
+          role="status"
+        >
+          {notice}
+        </div>
+      )}
 
       <div className="card-surface overflow-hidden">
         <table className="table">
           <thead>
             <tr>
-              <th className="w-42">Project</th>
-              <th className="w-24">Client</th>
-              <th className="w-20">Advance</th>
-              <th className="w-20">Final</th>
-              <th className="actions-head">Actions</th>
+              <th className="w-42">
+                Project
+              </th>
+              <th className="w-24">
+                Client
+              </th>
+              <th className="w-20">
+                Advance
+              </th>
+              <th className="w-20">
+                Final
+              </th>
+              <th className="actions-head">
+                Actions
+              </th>
             </tr>
           </thead>
+
           <tbody key={tick}>
-            {filtered.map((p) => (
-              <Fragment key={p._id}>
-                <BillingRow p={p} openEditId={openEditId} setOpenEditId={setOpenEditId} refreshKey={tick} />
+            {filtered.map((project) => (
+              <Fragment key={project._id}>
+                <BillingRow
+                  p={project}
+                  openEditId={openEditId}
+                  setOpenEditId={setOpenEditId}
+                  refreshKey={tick}
+                />
               </Fragment>
             ))}
+
             {!filtered.length && (
-              <tr><td colSpan="5" className="empty-cell">{loading ? "Loading…" : "No projects found."}</td></tr>
+              <tr>
+                <td
+                  colSpan="5"
+                  className="empty-cell"
+                >
+                  {loading
+                    ? "Loading…"
+                    : "No projects found."}
+                </td>
+              </tr>
             )}
           </tbody>
         </table>
       </div>
     </div>
   );
-
-  function BillingRow({ p, openEditId, setOpenEditId, refreshKey }) {
-    const [snap, setSnap] = useState({ advance: null, final: null });
-    useEffect(() => {
-      (async () => {
-        try {
-          setSnap(await loadBilling(p._id));
-        } catch {
-          setSnap({ advance: null, final: null });
-        }
-      })();
-    }, [p._id, refreshKey]);
-
-    return (
-      <>
-        <tr className="table-row-hover">
-          <td>
-            <div className="font-medium">{p.title}</div>
-            {p.summary && <div className="row-sub line-clamp-1">{p.summary}</div>}
-          </td>
-          <td className="text-white/80">{p.client?.name || "—"}</td>
-          <td><StatusBadge inv={snap.advance} /></td>
-          <td><StatusBadge inv={snap.final} /></td>
-          <td className="actions-cell">
-            <button
-              className="btn btn-outline"
-              onClick={() => setOpenEditId((v) => (v === p._id ? null : p._id))}
-              disabled={busyId === p._id}
-              title="Upload invoices, preview, download, mark as paid"
-            >
-              {openEditId === p._id ? "Close" : "Manage billing"}
-            </button>
-          </td>
-        </tr>
-        {openEditId === p._id && <EditorRow p={p} />}
-      </>
-    );
-  }
 }

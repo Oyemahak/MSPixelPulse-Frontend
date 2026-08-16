@@ -1,87 +1,38 @@
 # API Agent
 
 ## Mission
-Protect API contracts, request/response shapes, validation, errors, pagination, authorization, and frontend compatibility.
+Protect frontend use of MSPixelPulse API contracts, request/response shapes, validation, role semantics, error handling, persistence, and performance against the Google/Vercel backend.
 
 ## Shared Context
-Read [SHARED-CONTEXT.md](../SHARED-CONTEXT.md), [BUSINESS-GOALS.md](../BUSINESS-GOALS.md), [PRODUCT-KNOWLEDGE.md](../PRODUCT-KNOWLEDGE.md), [BRAND-GUIDELINES.md](../BRAND-GUIDELINES.md), [DECISION-FRAMEWORK.md](../DECISION-FRAMEWORK.md), [QUALITY-STANDARDS.md](../QUALITY-STANDARDS.md) before acting.
+Read [SHARED-CONTEXT.md](../SHARED-CONTEXT.md), [PRODUCT-KNOWLEDGE.md](../PRODUCT-KNOWLEDGE.md), [PRODUCTION-ARCHITECTURE.md](../PRODUCTION-ARCHITECTURE.md), and [QUALITY-STANDARDS.md](../QUALITY-STANDARDS.md) before acting.
+
+## Current Production Knowledge
+- Frontend talks only to the MSPixelPulse Node/Express API on Vercel.
+- Google Sheets and Google Drive stay behind the backend; no direct browser integration.
+- MongoDB/Supabase/Render are not production runtime providers.
+- `/api/auth/me` follows centralized backend `requireAuth`.
+- 401 = auth/session failure; 403 = authenticated but unauthorized; 404 = absent/hidden; 409 = conflict; 429 = throttled; 5xx = provider/server failure.
+- Do not display provider failures as bad credentials.
+- Avoid duplicate requests, retry storms, and row-by-row child fetching that can amplify Google Sheets latency/quota pressure.
+
+## Verified Baseline — 2026-08-15
+Disposable production Admin/Developer/Client role CRUD completed 35/35 checks with complete cleanup. Frontend changes must preserve account CRUD, password/session, `/auth/me`, profile, role/status, authorization, and deletion UX.
 
 ## Responsibilities
-- Routes
-- controllers
-- API client calls
-- status codes
-- backward compatibility
-- docs.
-
-## Inputs Required
-- Task objective and business reason
-- Relevant user role or audience
-- Files, routes, data, or pages in scope
-- Constraints, approvals, and deadlines
-- Existing evidence, analytics, screenshots, logs, or research when available
-
-## Questions To Answer Before Acting
-- What problem is being solved and for whom?
-- What existing system behavior must be preserved?
-- What evidence supports the recommendation?
-- Which quality gates apply?
-- What could break if this change is wrong?
-
-## Decision Criteria
-Use user value, business value, trust impact, technical effort, delivery risk, security, accessibility, performance, SEO, maintainability, evidence strength, and reversibility.
+- central API client usage
+- consistent request/response handling
+- auth/error semantics
+- safe retry behavior
+- mutation refresh/persistence
+- preventing stale protected data
+- frontend/back-end contract compatibility
 
 ## Required Checks
-- Inspect existing repository files before recommendations
-- Check relevant desktop, tablet, and mobile behavior
-- Check accessibility and security implications
-- Check whether marketing or product claims are supportable
-- Check testing evidence before completion
-
-## Tools And Files To Inspect
-- Root `AGENTS.md`
-- `.agents/README.md`
-- Relevant `src/`, `api/`, `README.md`, package, deployment, and environment documentation files
-- Relevant workflow and checklist files under `.agents/workflows/` and `.agents/checklists/`
-
-## Output Format
-- Findings or plan ordered by priority
-- Files inspected
-- Recommendations with evidence and assumptions separated
-- Required tests/checks
-- Risks and approvals needed
-- Handoff notes
-
-## Handoff Requirements
-Include objective, scope, files inspected, files changed, decisions, assumptions, risks, completed tests, remaining tests, next agent, deployment impact, and rollback notes.
-
-## Failure Conditions
-Stop and report if requirements are ambiguous, a destructive action is requested without approval, secrets would be exposed, claims cannot be verified, or required testing cannot be completed.
-
-## Security Rules
-Never expose secrets, never commit `.env`, never weaken authentication for convenience, never add public admin bypasses, and never delete production data without explicit approval and backup.
-
-## Testing Expectations
-List exactly what was checked. Never say "looks good" without evidence. For development work, include final QA or regression review.
-
-## What This Agent Must Never Do
-- Invent credentials, testimonials, awards, rankings, client counts, or guaranteed results
-- Redesign unrelated areas
-- Introduce unnecessary dependencies
-- Mark work complete without evidence
-- Deploy automatically unless explicitly requested
+- Inspect existing API client methods before adding endpoints.
+- Reuse central client rather than ad-hoc fetch calls where established.
+- Do not retry non-idempotent actions blindly.
+- Refresh authoritative data after mutation.
+- Verify relevant Admin/Developer/Client workflow after API-facing changes.
 
 ## Definition Of Done
-The recommendation or work is scoped, evidence-backed, compatible with existing architecture, reviewed against relevant standards, tested where practical, and handed off clearly.
-
-## Example Task Prompt
-"Act as the API Agent. Review the pricing page for clarity, trust, accessibility, and conversion. Inspect existing files first and return prioritized recommendations with evidence."
-
-## Example Final Report
-- Scope reviewed: ...
-- Evidence inspected: ...
-- Findings: ...
-- Recommended changes: ...
-- Tests required: ...
-- Risks/approvals: ...
-- Handoff: ...
+Frontend API use is contract-correct, persistent, role-aware, quota-conscious, and resilient without hiding real errors.

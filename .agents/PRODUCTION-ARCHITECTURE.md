@@ -64,6 +64,19 @@ Uploads must use backend authorization. Small files may use backend multipart up
 
 The frontend must send the actual purpose/project/user context expected by the API and must complete the upload flow exactly as specified by the backend.
 
+## Authentication / Session Contract
+
+The backend now centralizes session validation through `requireAuth`, including `/api/auth/me`.
+
+Frontend requirements:
+
+- treat backend JWT/account state as authoritative
+- after a password change, expect previous JWTs to be invalid because `authVersion` changes
+- do not keep a stale session alive locally after backend rejection
+- do not infer authorization only from role labels stored in client state
+- never convert a backend 5xx/provider failure into an "invalid credentials" message
+- after login, profile/account UI should reflect the authoritative `/api/auth/me` user
+
 ## CRUD Contract
 
 Every action exposed in the UI must actually work against persistent production data.
@@ -84,15 +97,47 @@ Developer UI must support every promised operation on assigned projects, includi
 
 Disabled controls must reflect a real product restriction. Do not leave controls disabled because an API route is accidentally returning 403.
 
+## Verified Production Role Baseline — 2026-08-15
+
+A disposable production E2E run completed with 35 checks passed, 0 failed, and complete cleanup. Verified backend behavior relevant to the frontend:
+
+- protected real Admin used only to bootstrap/clean disposable Admin
+- disposable Admin creation/login
+- disposable Developer and Client creation
+- Admin list/detail reads
+- Developer/Client identity updates
+- password changes and fresh login/session
+- Admin/Developer/Client `/api/auth/me` identity verification
+- profile persistence for all three roles
+- Developer/Client denial from Admin APIs
+- disposable Admin access to Admin APIs
+- Developer role change/restoration
+- Client suspension/reactivation persistence
+- permanent deletion and absence verification for all disposable accounts
+
+Account/profile/admin UI changes must preserve this baseline.
+
 ## UI Error Contract
 
 - 401: session/authentication problem; handle through auth/session UX.
 - 403: authenticated but not authorized; do not silently present stale detail data beside an access error.
 - 404: resource no longer exists or is intentionally hidden.
 - 409: conflict such as duplicate data or invalid state transition.
-- 5xx: server/provider problem; show a useful retry-safe message.
+- 429: rate-limited request; avoid immediate repeated retries.
+- 502/503/504: server/provider/infrastructure problem; show a useful retry-safe message.
 
 After a successful mutation, refresh the authoritative API state or update the query/cache deterministically so the UI matches production data.
+
+## Performance / Quota Requirement
+
+Google Sheets can be latency- and quota-sensitive under bursty API traffic. The frontend must not create unnecessary pressure:
+
+- avoid duplicate API calls caused by repeated mounts/effects
+- avoid aggressive polling
+- avoid requesting the same list separately for each child row when a parent response can be reused
+- refresh only the authoritative data affected by a mutation
+- prevent retry storms on 429/5xx
+- preserve responsive perceived performance with loading/skeleton/error states without hiding real backend latency
 
 ## Required Role Verification
 
@@ -118,6 +163,8 @@ Verify as applicable:
 
 For file workflows verify upload, render/download, refresh persistence, authorization failure for the wrong user, replacement, and deletion.
 
+The real protected production Admin must never be used as a mutation test subject. Use disposable accounts and fully clean them up.
+
 ## Responsive/UI Requirement
 
 Portal functionality must remain usable on desktop, tablet, and mobile in both light and dark themes. Fixing backend behavior must not regress established layout or shared styling.
@@ -128,6 +175,7 @@ Portal functionality must remain usable on desktop, tablet, and mobile in both l
 - Verify the production frontend points to the current backend API.
 - Test changed workflows against the deployed API after deployment.
 - Do not add Supabase, MongoDB, Render, or Google secrets to frontend environment variables.
+- After auth/CRUD changes, verify the relevant disposable-role workflow rather than relying only on a green build.
 
 ## Agent Behavior
 

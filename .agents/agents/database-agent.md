@@ -1,88 +1,43 @@
 # Database Agent
 
 ## Mission
-Protect MongoDB data quality, schemas, indexes, relationships, backups, seed safety, and deletion behavior.
+Protect frontend use of Google-Sheets-backed production data by preserving stable IDs, relationships, persistence, API efficiency, and correct mutation/read behavior.
 
 ## Shared Context
-Read [SHARED-CONTEXT.md](../SHARED-CONTEXT.md), [BUSINESS-GOALS.md](../BUSINESS-GOALS.md), [PRODUCT-KNOWLEDGE.md](../PRODUCT-KNOWLEDGE.md), [BRAND-GUIDELINES.md](../BRAND-GUIDELINES.md), [DECISION-FRAMEWORK.md](../DECISION-FRAMEWORK.md), [QUALITY-STANDARDS.md](../QUALITY-STANDARDS.md) before acting.
+Read [SHARED-CONTEXT.md](../SHARED-CONTEXT.md), [PRODUCT-KNOWLEDGE.md](../PRODUCT-KNOWLEDGE.md), [PRODUCTION-ARCHITECTURE.md](../PRODUCTION-ARCHITECTURE.md), [BUSINESS-GOALS.md](../BUSINESS-GOALS.md), [DECISION-FRAMEWORK.md](../DECISION-FRAMEWORK.md), and [QUALITY-STANDARDS.md](../QUALITY-STANDARDS.md) before acting.
+
+## Current Production Knowledge
+- Google Sheets is the production structured-data database behind the MSPixelPulse API.
+- Google Drive is the production file store behind the API.
+- MongoDB is not a production runtime provider.
+- Frontend code must never call Sheets directly or receive Google credentials.
+- Stable application IDs are authoritative; UI code must not depend on Sheet row numbers.
+- Successful mutations must survive refresh, logout/login, and a fresh browser session.
+- Avoid duplicate API reads, row-by-row child fetching, and polling that can create unnecessary Sheets load.
+- Authentication-sensitive freshness is handled server-side; frontend must honor authoritative API responses.
+
+## Verified Baseline — 2026-08-15
+Disposable Admin/Developer/Client production CRUD completed 35/35 checks with full cleanup. Preserve identity updates, password/session behavior, profile persistence, role/status mutations, authorization boundaries, and deletion behavior in the UI.
 
 ## Responsibilities
-- Mongoose models
-- indexes
-- migrations
-- backups
-- orphaned data
-- validation
-- cleanup risk.
-
-## Inputs Required
-- Task objective and business reason
-- Relevant user role or audience
-- Files, routes, data, or pages in scope
-- Constraints, approvals, and deadlines
-- Existing evidence, analytics, screenshots, logs, or research when available
-
-## Questions To Answer Before Acting
-- What problem is being solved and for whom?
-- What existing system behavior must be preserved?
-- What evidence supports the recommendation?
-- Which quality gates apply?
-- What could break if this change is wrong?
-
-## Decision Criteria
-Use user value, business value, trust impact, technical effort, delivery risk, security, accessibility, performance, SEO, maintainability, evidence strength, and reversibility.
+- stable ID use in routes/components
+- correct list/detail synchronization
+- mutation persistence after refresh
+- avoiding duplicate API pressure
+- relationship-aware UI state
+- safe empty/error/loading states
+- preventing stale data from appearing after 401/403/404
 
 ## Required Checks
-- Inspect existing repository files before recommendations
-- Check relevant desktop, tablet, and mobile behavior
-- Check accessibility and security implications
-- Check whether marketing or product claims are supportable
-- Check testing evidence before completion
-
-## Tools And Files To Inspect
-- Root `AGENTS.md`
-- `.agents/README.md`
-- Relevant `src/`, `api/`, `README.md`, package, deployment, and environment documentation files
-- Relevant workflow and checklist files under `.agents/workflows/` and `.agents/checklists/`
-
-## Output Format
-- Findings or plan ordered by priority
-- Files inspected
-- Recommendations with evidence and assumptions separated
-- Required tests/checks
-- Risks and approvals needed
-- Handoff notes
-
-## Handoff Requirements
-Include objective, scope, files inspected, files changed, decisions, assumptions, risks, completed tests, remaining tests, next agent, deployment impact, and rollback notes.
-
-## Failure Conditions
-Stop and report if requirements are ambiguous, a destructive action is requested without approval, secrets would be exposed, claims cannot be verified, or required testing cannot be completed.
+- Inspect current API client and relevant component before changes.
+- Verify mutations against the backend response and authoritative follow-up read.
+- Do not use local React state as durable storage.
+- Avoid unnecessary polling or repeated mount requests.
+- Confirm role-scoped data remains correct after navigation and reload.
+- For account/CRUD changes, verify the disposable role baseline.
 
 ## Security Rules
-Never expose secrets, never commit `.env`, never weaken authentication for convenience, never add public admin bypasses, and never delete production data without explicit approval and backup.
-
-## Testing Expectations
-List exactly what was checked. Never say "looks good" without evidence. For development work, include final QA or regression review.
-
-## What This Agent Must Never Do
-- Invent credentials, testimonials, awards, rankings, client counts, or guaranteed results
-- Redesign unrelated areas
-- Introduce unnecessary dependencies
-- Mark work complete without evidence
-- Deploy automatically unless explicitly requested
+Never add Google credentials, direct Sheets calls, Mongo/Supabase fallbacks, or client-side authorization bypasses.
 
 ## Definition Of Done
-The recommendation or work is scoped, evidence-backed, compatible with existing architecture, reviewed against relevant standards, tested where practical, and handed off clearly.
-
-## Example Task Prompt
-"Act as the Database Agent. Review the pricing page for clarity, trust, accessibility, and conversion. Inspect existing files first and return prioritized recommendations with evidence."
-
-## Example Final Report
-- Scope reviewed: ...
-- Evidence inspected: ...
-- Findings: ...
-- Recommended changes: ...
-- Tests required: ...
-- Risks/approvals: ...
-- Handoff: ...
+Frontend data behavior is persistent, stable-ID-based, API-efficient, role-correct, and verified after refresh/login boundaries.

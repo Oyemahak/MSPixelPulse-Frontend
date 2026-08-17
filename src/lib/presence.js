@@ -1,124 +1,220 @@
 // src/lib/presence.js
 
-export const PRESENCE_ONLINE_WINDOW_MS = 2 * 60 * 1000;
+export const PRESENCE_ONLINE_WINDOW_MS =
+  2 * 60 * 1000;
 
-export function normalizePresenceTime(value) {
-  if (value === null || value === undefined || value === "") {
+export function normalizePresenceTime(
+  value,
+) {
+  if (
+    value === null ||
+    value === undefined ||
+    value === ""
+  ) {
+    return null;
+  }
+
+  const raw =
+    typeof value ===
+    "object" &&
+    !(value instanceof Date)
+      ? (
+          value.lastSeenAt ||
+          value.presence
+            ?.lastSeenAt ||
+          null
+        )
+      : value;
+
+  if (!raw) {
     return null;
   }
 
   let date;
 
-  if (value instanceof Date) {
-    date = value;
-  } else if (typeof value === "number") {
-    const timestamp =
-      value > 0 && value < 10_000_000_000
-        ? value * 1000
-        : value;
-
-    date = new Date(timestamp);
+  if (
+    raw instanceof Date
+  ) {
+    date = raw;
+  } else if (
+    typeof raw ===
+    "number"
+  ) {
+    date =
+      new Date(
+        raw <
+          10_000_000_000
+          ? raw * 1000
+          : raw,
+      );
   } else {
-    const raw = String(value).trim();
+    const text =
+      String(raw).trim();
 
-    if (!raw) return null;
+    if (
+      /^\d+$/.test(text)
+    ) {
+      const number =
+        Number(text);
 
-    if (/^\d+$/.test(raw)) {
-      const numeric = Number(raw);
-
-      const timestamp =
-        numeric > 0 && numeric < 10_000_000_000
-          ? numeric * 1000
-          : numeric;
-
-      date = new Date(timestamp);
+      date =
+        new Date(
+          number <
+            10_000_000_000
+            ? number * 1000
+            : number,
+        );
     } else {
-      date = new Date(raw);
+      date =
+        new Date(text);
     }
   }
 
-  if (Number.isNaN(date.getTime())) {
-    return null;
-  }
-
-  return date;
+  return Number.isNaN(
+    date.getTime(),
+  )
+    ? null
+    : date;
 }
 
-export function presenceLastSeen(userOrPresence) {
-  if (!userOrPresence) return null;
-
-  if (
-    typeof userOrPresence === "object" &&
-    !(userOrPresence instanceof Date)
-  ) {
-    return (
-      userOrPresence.lastSeenAt ||
-      userOrPresence.presence?.lastSeenAt ||
-      null
+export function isPresenceOnline(
+  value,
+  now = Date.now(),
+) {
+  const date =
+    normalizePresenceTime(
+      value,
     );
+
+  if (!date) {
+    return false;
   }
-
-  return userOrPresence;
-}
-
-export function isPresenceOnline(userOrPresence, now = Date.now()) {
-  if (
-    userOrPresence?.online === true ||
-    userOrPresence?.presence?.online === true
-  ) {
-    return true;
-  }
-
-  const date = normalizePresenceTime(
-    presenceLastSeen(userOrPresence),
-  );
-
-  if (!date) return false;
 
   const current =
     now instanceof Date
       ? now.getTime()
       : Number(now);
 
-  if (!Number.isFinite(current)) {
+  if (
+    !Number.isFinite(
+      current,
+    )
+  ) {
     return false;
   }
 
-  const elapsed = current - date.getTime();
+  const elapsed =
+    current -
+    date.getTime();
 
-  if (elapsed < -5 * 60 * 1000) {
+  if (
+    elapsed <
+    -5 * 60 * 1000
+  ) {
     return false;
   }
 
-  return elapsed <= PRESENCE_ONLINE_WINDOW_MS;
+  return (
+    elapsed <=
+    PRESENCE_ONLINE_WINDOW_MS
+  );
 }
 
-export function formatLastActive(value) {
-  const date = normalizePresenceTime(
-    presenceLastSeen(value),
-  );
+export function formatLastSeen(
+  value,
+) {
+  const date =
+    normalizePresenceTime(
+      value,
+    );
 
   if (!date) {
-    return "Offline";
+    return "No activity yet";
+  }
+
+  const elapsed =
+    Math.max(
+      0,
+      Date.now() -
+        date.getTime(),
+    );
+
+  const minutes =
+    Math.floor(
+      elapsed / 60_000,
+    );
+
+  if (minutes < 1) {
+    return "Last seen just now";
+  }
+
+  if (minutes < 60) {
+    return `Last seen ${minutes}m ago`;
+  }
+
+  const hours =
+    Math.floor(
+      minutes / 60,
+    );
+
+  if (hours < 24) {
+    return `Last seen ${hours}h ago`;
+  }
+
+  const days =
+    Math.floor(
+      hours / 24,
+    );
+
+  if (days < 7) {
+    return `Last seen ${days}d ago`;
   }
 
   try {
-    const formatted = new Intl.DateTimeFormat(
+    return `Last seen ${new Intl.DateTimeFormat(
       undefined,
       {
-        dateStyle: "medium",
-        timeStyle: "short",
-      },
-    ).format(date);
+        dateStyle:
+          "medium",
 
-    return `Last active ${formatted}`;
+        timeStyle:
+          "short",
+      },
+    ).format(date)}`;
   } catch {
     return "Offline";
   }
 }
 
-export function presenceLabel(value) {
-  return isPresenceOnline(value)
-    ? "Online"
-    : formatLastActive(value);
+export function presenceStatus(
+  value,
+) {
+  const online =
+    isPresenceOnline(
+      value,
+    );
+
+  return {
+    online,
+
+    label:
+      online
+        ? "Online"
+        : "Offline",
+
+    detail:
+      online
+        ? "Active now"
+        : formatLastSeen(
+            value,
+          ),
+  };
+}
+
+export function presenceLabel(
+  value,
+) {
+  return presenceStatus(
+    value,
+  ).label;
 }

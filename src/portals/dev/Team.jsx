@@ -1,156 +1,245 @@
 // src/portals/dev/Team.jsx
-import { useEffect, useMemo, useState } from "react";
-import { admin, projects as api } from "@/lib/api.js";
-import { Link } from "react-router-dom";
-import { useAuth } from "@/context/AuthContext.jsx";
-import { MessageSquare } from "lucide-react";
-import SearchField from "@/components/ui/SearchField.jsx";
 
-const SUPPORT_EMAIL =
-  import.meta.env.VITE_SUPPORT_EMAIL || "Portal support";
+import {
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
+
+import { Link } from "react-router-dom";
+import { MessageSquare } from "lucide-react";
+
+import { directory } from "@/lib/api.js";
+import { useAuth } from "@/context/AuthContext.jsx";
+import SearchField from "@/components/ui/SearchField.jsx";
+import PresenceIndicator from "@/components/portal/PresenceIndicator.jsx";
 
 export default function Team() {
   const { user } = useAuth();
 
-  const [rows, setRows] = useState([]);     // unified list of admins + developers
+  const [rows, setRows] = useState([]);
   const [q, setQ] = useState("");
   const [err, setErr] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] =
+    useState(false);
 
   useEffect(() => {
-    let live = true;
-
-    const deriveFromProjects = async () => {
-      const p = await api.list();
-      const map = new Map();
-
-      (p.projects || []).forEach((pr) => {
-        const dev = pr.developer;
-        if (dev?._id && dev?.email) {
-          map.set(dev._id, {
-            _id: dev._id,
-            name: dev.name || "Developer",
-            email: dev.email,
-            role: "developer",
-            status: dev.status || "active",
-          });
-        }
-      });
-
-      // Always include a support/admin contact
-      const derived = [
-        {
-          _id: "admin-support",
-          name: "Admin Support",
-          email: SUPPORT_EMAIL,
-          role: "admin",
-          status: "active",
-        },
-        ...Array.from(map.values()),
-      ];
-
-      return derived;
-    };
+    let alive = true;
 
     (async () => {
       setLoading(true);
       setErr("");
+
       try {
-        if (user?.role === "admin") {
-          // Admins can see the full team list from the admin endpoint
-          const d = await admin.users();
-          if (!live) return;
-          const onlyNeeded = (d.users || []).filter((u) =>
-            ["admin", "developer"].includes(u.role)
-          );
-          setRows(onlyNeeded);
-        } else {
-          // Developers don’t call the admin endpoint (avoid 403s).
-          const derived = await deriveFromProjects();
-          if (!live) return;
-          setRows(derived);
-          // NOTE: we intentionally do NOT set any “no permission” message here.
-        }
-      } catch (e) {
-        // Hard failures only (network/server). Permission issues won’t appear here.
-        if (!live) return;
-        setErr(e.message || "Failed to load team");
+        const data =
+          await directory.list();
+
+        if (!alive) return;
+
+        const members = (
+          data.users || []
+        ).filter((member) =>
+          [
+            "admin",
+            "developer",
+          ].includes(member.role),
+        );
+
+        setRows(members);
+      } catch (error) {
+        if (!alive) return;
+
+        setErr(
+          error?.message ||
+            "Team could not be loaded.",
+        );
+
         setRows([]);
       } finally {
-        if (live) setLoading(false);
+        if (alive) {
+          setLoading(false);
+        }
       }
     })();
 
     return () => {
-      live = false;
+      alive = false;
     };
-  }, [user?.role]);
+  }, []);
 
-  // Search
   const filtered = useMemo(() => {
-    const n = q.trim().toLowerCase();
-    return (rows || []).filter(
-      (u) => !n || `${u.name} ${u.email} ${u.role}`.toLowerCase().includes(n)
+    const needle =
+      q.trim().toLowerCase();
+
+    return rows.filter(
+      (member) =>
+        !needle ||
+        `${member.name} ${member.email} ${member.role}`
+          .toLowerCase()
+          .includes(needle),
     );
   }, [rows, q]);
 
-  // Group like the Admin Users page (but only Admins + Developers)
   const grouped = useMemo(() => {
-    const base = { admin: [], developer: [] };
-    for (const u of filtered) (base[u.role] || base.developer).push(u);
-    return base;
+    const groups = {
+      admin: [],
+      developer: [],
+    };
+
+    for (const member of filtered) {
+      (
+        groups[member.role] ||
+        groups.developer
+      ).push(member);
+    }
+
+    return groups;
   }, [filtered]);
 
-  function Section({ title, items }) {
+  function Section({
+    title,
+    items,
+  }) {
     return (
       <div className="card overflow-hidden">
         <div className="card-strip between">
-          <div className="font-semibold">{title}</div>
+          <div className="font-semibold">
+            {title}
+          </div>
+
           <div className="text-muted-xs">
-            {items.length} member{items.length !== 1 ? "s" : ""}
+            {items.length} member
+            {items.length !== 1
+              ? "s"
+              : ""}
           </div>
         </div>
 
         <table className="table">
           <thead>
             <tr>
-              <th className="w-34">Member</th>
-              <th className="w-34">Email</th>
-              <th className="w-20">Status</th>
-              <th className="w-20">Role</th>
-              <th className="actions-head">Actions</th>
+              <th className="w-34">
+                Member
+              </th>
+
+              <th className="w-34">
+                Email
+              </th>
+
+              <th className="w-24">
+                Presence
+              </th>
+
+              <th className="w-20">
+                Role
+              </th>
+
+              <th className="actions-head">
+                Actions
+              </th>
             </tr>
           </thead>
+
           <tbody>
-            {items.map((u) => (
-              <tr key={`${u.role}-${u._id}`} className="table-row-hover">
-                <td className="font-medium">{u.name || "—"}</td>
-                <td className="text-muted">{u.email}</td>
-                <td className="capitalize">
-                  <span className="badge">{u.status || "active"}</span>
-                </td>
-                <td className="capitalize">
-                  <span className="badge">{u.role}</span>
-                </td>
-                <td className="actions-cell">
-                  {/* Developers can message, but no create/edit/delete UI */}
-                  <Link
-                    to={`/dev/direct/${u._id}`}
-                    state={{ peerEmail: u.email, peerName: u.name }}
-                    className="icon-btn"
-                    title={`Message ${u.name || u.email}`}
-                    aria-label={`Message ${u.name || u.email}`}
+            {items.map(
+              (member) => {
+                const isMe =
+                  String(
+                    member._id,
+                  ) ===
+                  String(
+                    user?._id,
+                  );
+
+                return (
+                  <tr
+                    key={`${member.role}-${member._id}`}
+                    className="table-row-hover"
                   >
-                    <MessageSquare size={16} aria-hidden="true" />
-                  </Link>
-                </td>
-              </tr>
-            ))}
+                    <td>
+                      <div className="flex items-center gap-2">
+                        <PresenceIndicator
+                          user={member}
+                          compact
+                        />
+
+                        <span className="font-medium">
+                          {member.name ||
+                            "—"}
+                        </span>
+
+                        {isMe && (
+                          <span className="badge">
+                            You
+                          </span>
+                        )}
+                      </div>
+                    </td>
+
+                    <td className="text-muted">
+                      {member.email}
+                    </td>
+
+                    <td>
+                      <PresenceIndicator
+                        user={member}
+                      />
+                    </td>
+
+                    <td className="capitalize">
+                      <span className="badge">
+                        {member.role}
+                      </span>
+                    </td>
+
+                    <td className="actions-cell">
+                      {!isMe && (
+                        <Link
+                          to={`/dev/direct/${member._id}`}
+                          state={{
+                            peerEmail:
+                              member.email,
+
+                            peerName:
+                              member.name,
+
+                            peerLastSeenAt:
+                              member.lastSeenAt,
+
+                            peerPresence:
+                              member.presence,
+                          }}
+                          className="icon-btn"
+                          title={`Message ${
+                            member.name ||
+                            member.email
+                          }`}
+                          aria-label={`Message ${
+                            member.name ||
+                            member.email
+                          }`}
+                        >
+                          <MessageSquare
+                            size={16}
+                            aria-hidden="true"
+                          />
+                        </Link>
+                      )}
+                    </td>
+                  </tr>
+                );
+              },
+            )}
 
             {!items.length && (
               <tr>
-                <td colSpan="5" className="empty-cell">
-                  {loading ? "Loading…" : "No members."}
+                <td
+                  colSpan="5"
+                  className="empty-cell"
+                >
+                  {loading
+                    ? "Loading…"
+                    : "No members."}
                 </td>
               </tr>
             )}
@@ -163,12 +252,18 @@ export default function Team() {
   return (
     <div className="page-shell space-stack">
       <div className="page-header">
-        <h2 className="page-title">Team</h2>
+        <h2 className="page-title">
+          Team
+        </h2>
+
         <div />
       </div>
 
-      {/* Only show actual errors (network/server). No permission banner for devs. */}
-      {err && <div className="text-error">{err}</div>}
+      {err && (
+        <div className="text-error">
+          {err}
+        </div>
+      )}
 
       <div className="card card-pad filters-grid portal-search-row">
         <SearchField
@@ -180,8 +275,15 @@ export default function Team() {
       </div>
 
       <div className="stack">
-        <Section title={`Admins (${grouped.admin.length})`} items={grouped.admin} />
-        <Section title={`Developers (${grouped.developer.length})`} items={grouped.developer} />
+        <Section
+          title={`Admins (${grouped.admin.length})`}
+          items={grouped.admin}
+        />
+
+        <Section
+          title={`Developers (${grouped.developer.length})`}
+          items={grouped.developer}
+        />
       </div>
     </div>
   );

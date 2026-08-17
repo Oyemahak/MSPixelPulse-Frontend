@@ -1,95 +1,288 @@
-import { useEffect, useMemo, useRef, useState } from "react";
-import { useParams, useNavigate, Link } from "react-router-dom";
-import { projects as api, rooms } from "@/lib/api.js";
+// src/portals/dev/Direct.jsx
+
+import {
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
+
+import {
+  Link,
+  useLocation,
+  useParams,
+} from "react-router-dom";
+
+import {
+  directory,
+  dm,
+} from "@/lib/api.js";
+
 import { useAuth } from "@/context/AuthContext.jsx";
 import SearchField from "@/components/ui/SearchField.jsx";
+import PresenceIndicator from "@/components/portal/PresenceIndicator.jsx";
+import { formatMessageTime } from "@/lib/messageTime.js";
 
-function Bubble({ me, m }) {
-  const mine = String(m.author) === String(me?._id);
-  return (
-    <div className={`flex ${mine ? "justify-end" : "justify-start"}`}>
-      <div className={`max-w-[80%] rounded-2xl px-4 py-2 text-sm ${mine ? "bg-primary text-white" : "bg-white/10"}`}>
-        {!mine && (
-          <div className="text-xs text-white/60 mb-0.5">
-            {m.authorRoleAtSend || "user"}
-          </div>
-        )}
-        <div>{m.text}</div>
-        <div className="text-[10px] opacity-70 mt-1">
-          {new Date(m.sentAt || m.createdAt || m.ts).toLocaleString()}
-        </div>
-      </div>
-    </div>
-  );
-}
-
-export default function Discussions() {
+export default function Direct() {
   const { user } = useAuth();
-  const nav = useNavigate();
-  const { projectId } = useParams();
 
-  const [rows, setRows] = useState([]);
-  const [q, setQ] = useState("");
-  const [curr, setCurr] = useState(projectId || "");
-  const [roomId, setRoomId] = useState("");
-  const [msgs, setMsgs] = useState([]);
-  const [text, setText] = useState("");
-  const [sending, setSending] = useState(false);
-  const [sendError, setSendError] = useState("");
+  const { peerId } =
+    useParams();
 
-  const listRef = useRef(null);
+  const { state } =
+    useLocation();
 
-  // Admin sees all projects
+  const [people, setPeople] =
+    useState([]);
+
+  const [q, setQ] =
+    useState("");
+
+  const [peer, setPeer] =
+    useState(null);
+
+  const [threadId, setThreadId] =
+    useState("");
+
+  const [msgs, setMsgs] =
+    useState([]);
+
+  const [text, setText] =
+    useState("");
+
+  const [sending, setSending] =
+    useState(false);
+
+  const [sendError, setSendError] =
+    useState("");
+
+  const boxRef =
+    useRef(null);
+
   useEffect(() => {
-    (async () => {
-      const d = await api.list();
-      setRows(d.projects || []);
-    })();
-  }, []);
+    let alive = true;
 
-  // Load messages when project changes (always from backend)
+    (async () => {
+      try {
+        const data =
+          await directory.list();
+
+        if (!alive) return;
+
+        setPeople(
+          (
+            data.users || []
+          ).filter(
+            (person) =>
+              String(
+                person._id,
+              ) !==
+              String(
+                user?._id,
+              ),
+          ),
+        );
+      } catch {
+        if (alive) {
+          setPeople([]);
+        }
+      }
+    })();
+
+    return () => {
+      alive = false;
+    };
+  }, [user?._id]);
+
   useEffect(() => {
+    let alive = true;
+
     (async () => {
-      if (!curr) { setMsgs([]); setRoomId(""); return; }
-      const { roomId: rid, messages } = await rooms.get(curr);
-      setRoomId(rid);
-      setMsgs(messages || []);
-      setTimeout(() => listRef.current?.scrollTo({ top: 9e9, behavior: "smooth" }), 0);
+      setMsgs([]);
+      setThreadId("");
+      setSendError("");
+
+      if (!peerId) {
+        setPeer(null);
+        return;
+      }
+
+      const found =
+        people.find(
+          (person) =>
+            String(
+              person._id,
+            ) ===
+            String(
+              peerId,
+            ),
+        ) ||
+        (
+          state?.peerEmail
+            ? {
+                _id:
+                  peerId,
+
+                name:
+                  state.peerName,
+
+                email:
+                  state.peerEmail,
+
+                lastSeenAt:
+                  state.peerLastSeenAt,
+
+                presence:
+                  state.peerPresence,
+              }
+            : null
+        );
+
+      if (!found) {
+        setPeer(null);
+        return;
+      }
+
+      setPeer(found);
+
+      try {
+        const opened =
+          await dm.open(
+            found._id,
+          );
+
+        if (!alive) return;
+
+        setThreadId(
+          opened.threadId,
+        );
+
+        const response =
+          await dm.get(
+            opened.threadId,
+          );
+
+        if (!alive) return;
+
+        setMsgs(
+          response.messages ||
+            [],
+        );
+
+        window.setTimeout(
+          () =>
+            boxRef.current?.scrollTo({
+              top:
+                999999,
+
+              behavior:
+                "smooth",
+            }),
+          0,
+        );
+      } catch (error) {
+        if (!alive) return;
+
+        setSendError(
+          error?.message ||
+            "Conversation could not be loaded.",
+        );
+      }
     })();
-  }, [curr]);
 
-  useEffect(() => { if (projectId) setCurr(projectId); }, [projectId]);
-
-  const filtered = useMemo(() => {
-    const n = q.trim().toLowerCase();
-    return (rows || []).filter(p => !n || `${p.title} ${p.summary}`.toLowerCase().includes(n));
-  }, [rows, q]);
+    return () => {
+      alive = false;
+    };
+  }, [
+    peerId,
+    people,
+    state?.peerEmail,
+    state?.peerName,
+    state?.peerLastSeenAt,
+    state?.peerPresence,
+  ]);
 
   async function send() {
-    if (!text.trim() || !curr || sending) return;
+    if (
+      !text.trim() ||
+      !threadId ||
+      sending
+    ) {
+      return;
+    }
+
     setSending(true);
     setSendError("");
+
     try {
-      const { message } = await rooms.send(curr, { text: text.trim(), attachments: [] });
-      setMsgs(prev => [...prev, message]);
+      const { message } =
+        await dm.send(
+          threadId,
+          {
+            text:
+              text.trim(),
+
+            attachments: [],
+          },
+        );
+
+      setMsgs(
+        (previous) => [
+          ...previous,
+          message,
+        ],
+      );
+
       setText("");
-      setTimeout(() => listRef.current?.scrollTo({ top: 9e9, behavior: "smooth" }), 0);
+
+      window.setTimeout(
+        () =>
+          boxRef.current?.scrollTo({
+            top:
+              999999,
+
+            behavior:
+              "smooth",
+          }),
+        0,
+      );
     } catch (error) {
-      setSendError(error?.message || "Message could not be sent.");
+      setSendError(
+        error?.message ||
+          "Message could not be sent.",
+      );
     } finally {
       setSending(false);
     }
   }
 
+  const filtered =
+    useMemo(() => {
+      const needle =
+        q.trim().toLowerCase();
+
+      return people.filter(
+        (person) =>
+          !needle ||
+          `${person.name} ${person.email} ${person.role}`
+            .toLowerCase()
+            .includes(
+              needle,
+            ),
+      );
+    }, [people, q]);
+
   return (
     <div className="page-shell grid gap-5 md:grid-cols-[320px_1fr]">
-      {/* Left: projects */}
       <div>
         <div className="card-surface p-4 mb-3">
-          <div className="card-title">Projects</div>
+          <div className="card-title mb-2">
+            People
+          </div>
+
           <SearchField
-            label="Search project rooms"
-            placeholder="Search project rooms"
+            label="Search people"
+            placeholder="Search people"
             value={q}
             onValueChange={setQ}
           />
@@ -97,61 +290,216 @@ export default function Discussions() {
 
         <div className="card-surface">
           <div className="list">
-            {filtered.map((p) => (
-              <div key={p._id} className={`px-4 py-3 ${curr === p._id ? "bg-white/10" : "hover:bg-white/5"}`}>
-                {/* Title navigates to project details */}
-                <div className="font-semibold line-clamp-1">
-                  <Link to={`/admin/projects/${p._id}`} className="row-link">{p.title}</Link>
-                </div>
-                {p.summary && (
-                  <div className="row-sub line-clamp-1">{p.summary}</div>
-                )}
-                <div className="mt-2 flex gap-2">
-                  <button
-                    className="btn btn-outline btn-sm"
-                    onClick={() => { setCurr(p._id); nav(`/admin/discussions/${p._id}`, { replace: true }); }}
-                    title="Open discussion"
-                  >
-                    Open room
-                  </button>
-                  <Link className="btn btn-outline btn-sm" to={`/admin/projects/${p._id}`}>
-                    Open project
-                  </Link>
-                </div>
+            {filtered.map(
+              (person) => (
+                <Link
+                  key={
+                    person._id
+                  }
+                  to={`/dev/direct/${person._id}`}
+                  state={{
+                    peerEmail:
+                      person.email,
+
+                    peerName:
+                      person.name,
+
+                    peerLastSeenAt:
+                      person.lastSeenAt,
+
+                    peerPresence:
+                      person.presence,
+                  }}
+                  className={`block px-4 py-3 hover:bg-white/5 ${
+                    peerId ===
+                    person._id
+                      ? "bg-white/10"
+                      : ""
+                  }`}
+                >
+                  <div className="flex items-center gap-2">
+                    <PresenceIndicator
+                      user={person}
+                      compact
+                    />
+
+                    <div className="font-semibold line-clamp-1">
+                      {person.name ||
+                        "—"}
+                    </div>
+                  </div>
+
+                  <div className="row-sub">
+                    {person.email} ·{" "}
+                    <span className="capitalize">
+                      {
+                        person.role
+                      }
+                    </span>
+                  </div>
+
+                  <div className="mt-1">
+                    <PresenceIndicator
+                      user={person}
+                    />
+                  </div>
+                </Link>
+              ),
+            )}
+
+            {!filtered.length && (
+              <div className="empty-cell">
+                No users.
               </div>
-            ))}
-            {!filtered.length && <div className="empty-cell">No projects.</div>}
+            )}
           </div>
         </div>
       </div>
 
-      {/* Right: room */}
       <div className="card-surface flex flex-col h-[70vh]">
-        <div className="card-strip between">
-          <div className="card-title">Room</div>
-          {curr && <Link className="subtle-link" to={`/admin/projects/${curr}`}>Open project</Link>}
+        <div className="card-strip">
+          <div>
+            <div className="card-title">
+              {peer
+                ? peer.name ||
+                  peer.email ||
+                  "Direct"
+                : "Direct"}
+            </div>
+
+            {peer && (
+              <div className="mt-1">
+                <PresenceIndicator
+                  user={peer}
+                />
+              </div>
+            )}
+          </div>
         </div>
 
-        <div ref={listRef} className="flex-1 overflow-y-auto p-4 space-y-3">
-          {!curr && <div className="empty-note">Pick a project on the left.</div>}
-          {curr && !msgs.length && <div className="empty-note">No messages yet.</div>}
-          {msgs.map((m) => <Bubble key={m._id || m.id} me={user} m={m} />)}
+        <div
+          ref={boxRef}
+          className="flex-1 overflow-y-auto p-4 space-y-3"
+        >
+          {!peer && (
+            <div className="empty-note">
+              Pick someone on the left.
+            </div>
+          )}
+
+          {peer &&
+            !msgs.length && (
+              <div className="empty-note">
+                No messages yet.
+              </div>
+            )}
+
+          {msgs.map(
+            (message) => {
+              const mine =
+                String(
+                  message.author,
+                ) ===
+                String(
+                  user?._id,
+                );
+
+              return (
+                <div
+                  key={
+                    message._id ||
+                    message.id
+                  }
+                  className={`flex ${
+                    mine
+                      ? "justify-end"
+                      : "justify-start"
+                  }`}
+                >
+                  <div
+                    className={`max-w-[80%] rounded-2xl px-4 py-2 text-sm ${
+                      mine
+                        ? "bg-primary text-white"
+                        : "bg-white/10"
+                    }`}
+                  >
+                    {!mine &&
+                      message.authorNameAtSend && (
+                        <div className="text-xs text-white/60 mb-0.5">
+                          {
+                            message.authorNameAtSend
+                          }
+                        </div>
+                      )}
+
+                    <div className="whitespace-pre-wrap break-words">
+                      {
+                        message.text
+                      }
+                    </div>
+
+                    <div className="text-[10px] opacity-70 mt-1">
+                      {formatMessageTime(
+                        message,
+                      )}
+                    </div>
+                  </div>
+                </div>
+              );
+            },
+          )}
         </div>
 
         <div className="border-t border-white/10 p-3">
-          {sendError && <div className="text-error mb-2" role="alert">{sendError}</div>}
+          {sendError && (
+            <div
+              className="text-error mb-2"
+              role="alert"
+            >
+              {sendError}
+            </div>
+          )}
+
           <div className="flex gap-2">
-          <input
-            className="form-input flex-1"
-            placeholder="Write a message…"
-            value={text}
-            onChange={(e) => setText(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && send()}
-            disabled={!roomId || sending}
-          />
-          <button className="btn btn-primary" onClick={send} disabled={!roomId || !text.trim() || sending}>
-            {sending ? "Sending..." : "Send"}
-          </button>
+            <input
+              className="form-input flex-1"
+              placeholder="Message…"
+              value={text}
+              onChange={(event) =>
+                setText(
+                  event.target
+                    .value,
+                )
+              }
+              onKeyDown={(event) => {
+                if (
+                  event.key ===
+                    "Enter" &&
+                  !event.shiftKey
+                ) {
+                  event.preventDefault();
+                  send();
+                }
+              }}
+              disabled={
+                !threadId ||
+                sending
+              }
+            />
+
+            <button
+              className="btn btn-primary"
+              onClick={send}
+              disabled={
+                !threadId ||
+                !text.trim() ||
+                sending
+              }
+            >
+              {sending
+                ? "Sending..."
+                : "Send"}
+            </button>
           </div>
         </div>
       </div>

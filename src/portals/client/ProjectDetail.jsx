@@ -2,6 +2,7 @@
 import { useEffect, useMemo, useRef, useState, useCallback } from "react";
 import { useParams, useSearchParams } from "react-router-dom";
 import { portalErrorMessage, projects as api, requirements as reqApi } from "@/lib/api.js";
+import { formatLocalDateTime } from "@/lib/messageTime.js";
 
 /**
  * ClientProjectDetail
@@ -183,7 +184,7 @@ function OverviewCard({ project, clientName, announcements }) {
             <li key={i} className="bg-white/5 rounded-xl p-3">
               <div className="font-medium">{a.title}</div>
               {a.body && <div className="text-muted mt-1">{a.body}</div>}
-              <div className="text-muted-xs mt-1">{a.ts ? new Date(a.ts).toLocaleString() : "—"}</div>
+              <div className="text-muted-xs mt-1">{formatLocalDateTime(a.ts, "—")}</div>
             </li>
           ))}
           {!(announcements || []).length && <li className="text-muted-xs">No announcements yet.</li>}
@@ -665,7 +666,7 @@ function EvidenceTimeline({ timeline = [], onRefresh }) {
                   ))}
                 </div>
               )}
-              <div className="text-muted-xs mt-1">{it.ts ? new Date(it.ts).toLocaleString() : "—"}</div>
+              <div className="text-muted-xs mt-1">{formatLocalDateTime(it.ts, "—")}</div>
             </div>
           ))}
           {!((timeline || []).length) && <div className="text-muted-xs">No evidence yet.</div>}
@@ -707,7 +708,7 @@ function AnnouncementsPanel({ announcements = [], busy, error, onRefresh }) {
           <div key={i} className="bg-white/5 rounded-xl p-3">
             <div className="font-extrabold">{a.title}</div>
             {a.body && <div className="text-muted mt-1 whitespace-pre-wrap">{a.body}</div>}
-            <div className="text-muted-xs mt-1">{a.ts ? new Date(a.ts).toLocaleString() : "—"}</div>
+            <div className="text-muted-xs mt-1">{formatLocalDateTime(a.ts, "—")}</div>
           </div>
         ))}
         {!(announcements || []).length && (

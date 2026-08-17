@@ -2,6 +2,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import { LuX } from "react-icons/lu";
+import { formatLocalDateTime } from "@/lib/messageTime.js";
 import {
   admin,
   projects as api,
@@ -329,7 +330,7 @@ export default function AdminProjectDetail() {
               </div>
 
               <div className="text-muted-xs">
-                Updated: {reqSnap.updatedAt ? new Date(reqSnap.updatedAt).toLocaleString() : "—"}
+                Updated: {formatLocalDateTime(reqSnap.updatedAt, "—")}
                 {reqSnap.reviewedByDev ? " · Reviewed" : ""}
               </div>
             </>
@@ -363,7 +364,7 @@ export default function AdminProjectDetail() {
                     <div>
                       <div className="font-extrabold">{a.title}</div>
                       {a.body && <div className="text-muted mt-1 whitespace-pre-wrap">{a.body}</div>}
-                      <div className="text-muted-xs mt-1">{new Date(a.ts).toLocaleString()}</div>
+                      <div className="text-muted-xs mt-1">{formatLocalDateTime(a.ts, "—")}</div>
                     </div>
                     <button className="btn btn-outline btn-xs" onClick={() => removeAnnouncement(i)}>Delete</button>
                   </div>
@@ -449,7 +450,7 @@ export default function AdminProjectDetail() {
                       ))}
                     </div>
                   )}
-                  <div className="text-muted-xs mt-1">{new Date(it.ts).toLocaleString()}</div>
+                  <div className="text-muted-xs mt-1">{formatLocalDateTime(it.ts, "—")}</div>
                 </div>
               ))}
               {!((project.evidence || []).length) && <div className="text-muted-xs">No evidence yet.</div>}

@@ -143,7 +143,7 @@ function ContentEditor({ kind, item, onClose, onSaved }) {
       <form className="portal-content-drawer" role="dialog" aria-modal="true" aria-labelledby="content-editor-title" onSubmit={save} tabIndex="-1" autoFocus>
         <header className="portal-detail-head">
           <div><div className="text-muted-xs">{item?._id ? "Edit persisted record" : "Create draft record"}</div><h2 id="content-editor-title" className="card-title">{item?._id ? draft.title : `New ${kind}`}</h2></div>
-          <button type="button" className="portal-icon-button" onClick={onClose} disabled={busy} aria-label="Close content editor"><LuX aria-hidden="true" /></button>
+          <button type="button" className="portal-icon-button" onClick={onClose} disabled={busy} aria-label="Close content editor" autoFocus><LuX aria-hidden="true" /></button>
         </header>
 
         <div className="content-editor-grid">

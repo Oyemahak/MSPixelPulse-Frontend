@@ -36,7 +36,7 @@ function LeadDetails({ lead, onClose }) {
             <div className="text-muted-xs">Lead details</div>
             <h2 id="lead-detail-title" className="card-title">{lead.name || "Unnamed inquiry"}</h2>
           </div>
-          <button type="button" className="portal-icon-button" onClick={onClose} aria-label="Close lead details"><LuX aria-hidden="true" /></button>
+          <button type="button" className="portal-icon-button" onClick={onClose} aria-label="Close lead details" autoFocus><LuX aria-hidden="true" /></button>
         </header>
         <dl className="lead-detail-list">
           <div><dt>Email</dt><dd><a className="subtle-link" href={`mailto:${lead.email}`}>{lead.email || "Not provided"}</a></dd></div>

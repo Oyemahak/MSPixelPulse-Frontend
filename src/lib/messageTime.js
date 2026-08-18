@@ -75,7 +75,7 @@ export function formatLocalDateTime(
 
 export function formatMessageTime(
   message,
-  fallback = "Timestamp pending",
+  fallback = "Historical message",
 ) {
   const date = messageDate(message);
 

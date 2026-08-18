@@ -10,12 +10,13 @@
   "scripts": {
     "dev": "vite",
     "blog:catalog": "node scripts/generate-blog-catalog.mjs",
-    "build": "node scripts/generate-seo.mjs --sitemap && vite build && node scripts/generate-seo.mjs --heads && node scripts/generate-seo.mjs --indexnow",
+    "build": "node scripts/generate-seo.mjs --sitemap && vite build && node scripts/generate-seo.mjs --heads && node scripts/seo-hardening.mjs && node scripts/generate-seo.mjs --indexnow",
     "preview": "vite preview --port 4173 --strictPort",
     "lint": "eslint .",
     "start": "vite preview --port 4173 --strictPort",
-    "vercel-build": "node scripts/generate-seo.mjs --sitemap && vite build && node scripts/generate-seo.mjs --heads && node scripts/generate-seo.mjs --indexnow",
-    "seo:indexnow": "node scripts/generate-seo.mjs --indexnow"
+    "vercel-build": "node scripts/generate-seo.mjs --sitemap && vite build && node scripts/generate-seo.mjs --heads && node scripts/seo-hardening.mjs && node scripts/generate-seo.mjs --indexnow",
+    "seo:indexnow": "node scripts/generate-seo.mjs --indexnow",
+    "seo:harden": "node scripts/seo-hardening.mjs"
   },
   "dependencies": {
     "framer-motion": "^12.23.13",

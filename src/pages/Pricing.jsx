@@ -14,7 +14,6 @@ import {
   LuStore,
 } from "react-icons/lu";
 import Container from "@/components/layout/Container.jsx";
-import SectionTitle from "@/components/SectionTitle.jsx";
 import Meta from "@/components/Meta.jsx";
 import DemoOffer from "@/components/DemoOffer.jsx";
 import Button from "@/components/ui/Button.jsx";
@@ -25,6 +24,7 @@ import {
   pricingPlans,
 } from "@/data/plans.js";
 import { usePublicContent } from "@/hooks/usePublicContent.js";
+import { PageHero } from "@/components/public/PublicPageHeader.jsx";
 
 const planIcons = {
   "one-page": LuLayoutTemplate,
@@ -69,16 +69,12 @@ export default function Pricing() {
     <section className="section pricing-page">
       <Container>
         <Meta {...seoPages.pricing} />
-        <SectionTitle
+        <PageHero
           eyebrow="Pricing"
-          title="Clear starting points for your business website"
+          title="Clear starting points for your business website."
+          description="Compare practical starting prices for responsive small-business website design, e-commerce, custom applications, and ongoing website maintenance."
           align="center"
-          as="h1"
         />
-        <p className="pricing-intro">
-          Choose the closest starting point. We will confirm the pages, content,
-          features, timeline, and final price with you before any paid work begins.
-        </p>
 
         <div className="pricing-include-strip">
           <span>Every website build includes:</span>

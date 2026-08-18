@@ -2,7 +2,6 @@ import { useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { LuCalendar, LuChevronDown, LuSend, LuSparkles } from "react-icons/lu";
 import Container from "@/components/layout/Container.jsx";
-import SectionTitle from "@/components/SectionTitle.jsx";
 import { FloatingField, StandardField } from "@/components/ui/FormField.jsx";
 import Button from "@/components/ui/Button.jsx";
 import { FORMS_BASE } from "@/lib/forms.js";
@@ -10,6 +9,7 @@ import Meta from "@/components/Meta.jsx";
 import { seoPages } from "@/data/seoPages.js";
 import ContactActions from "@/components/ContactActions.jsx";
 import SocialContactLinks from "@/components/SocialContactLinks.jsx";
+import { PageHero } from "@/components/public/PublicPageHeader.jsx";
 
 const emptyForm = {
   name: "",
@@ -168,8 +168,11 @@ export default function Contact() {
           canonical="/contact"
         />
 
-        <SectionTitle eyebrow={pageCopy.eyebrow} title={pageCopy.title} align="left" as="h1" />
-        <p className="contact-intro">{pageCopy.intro}</p>
+        <PageHero
+          eyebrow={pageCopy.eyebrow}
+          title={pageCopy.title}
+          description={pageCopy.intro}
+        />
 
         {demoMode && (
           <aside className="demo-form-note">

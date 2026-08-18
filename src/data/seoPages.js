@@ -54,20 +54,28 @@ export const seoPages = {
   },
   projects: {
     path: "/projects",
-    title: "Website Projects — MSPixelPulse",
+    title: "Toronto Web Design Projects & Website Examples | MSPixelPulse",
     description:
-      "Explore live MSPixelPulse website work and clearly labeled industry concept websites by industry, platform, and website type.",
+      "Explore live MSPixelPulse web design work and clearly labeled website demos for small businesses, service brands, and education teams.",
     canonical: "/projects",
     image: "/projects/mockups/canstem-education.webp",
     component: "src/pages/Projects.jsx",
+    jsonLd: breadcrumbJsonLd([
+      { name: "Home", path: "/" },
+      { name: "Website projects", path: "/projects" },
+    ]),
   },
   services: {
     path: "/services",
-    title: "Website Design & Development Services — MSPixelPulse",
+    title: "Web Design & Development Services Toronto | MSPixelPulse",
     description:
-      "Explore website design, e-commerce, redesign, Moodle LMS, ongoing support, custom tools, and launch services for small businesses and education teams.",
+      "Toronto web design and development for small businesses: WordPress, React, e-commerce, redesign, maintenance, Moodle LMS, portals, and custom web applications.",
     canonical: "/services",
     component: "src/pages/Services.jsx",
+    jsonLd: breadcrumbJsonLd([
+      { name: "Home", path: "/" },
+      { name: "Services", path: "/services" },
+    ]),
   },
   moodleLms: {
     path: "/services/moodle-lms-development",
@@ -108,20 +116,30 @@ export const seoPages = {
   },
   pricing: {
     path: "/pricing",
-    title: "Website Pricing & Project Options — MSPixelPulse",
+    title: "Website Design Pricing Toronto | MSPixelPulse",
     description:
-      "Compare MSPixelPulse website plans in CAD, including one-page, business, growth, e-commerce, custom application, and monthly support options.",
+      "Compare MSPixelPulse website design starting prices in CAD for one-page, business, e-commerce, custom application, redesign, and maintenance work.",
     canonical: "/pricing",
     component: "src/pages/Pricing.jsx",
+    jsonLd: breadcrumbJsonLd([
+      { name: "Home", path: "/" },
+      { name: "Website pricing", path: "/pricing" },
+    ]),
   },
   contact: {
     path: "/contact",
-    title: "Contact MSPixelPulse — Start a Website Project",
+    title: "Contact a Toronto Web Design Studio | MSPixelPulse",
     description:
       "Contact MSPixelPulse about website design, redesign, WordPress, React, Moodle LMS, e-commerce, maintenance, or small-business website support.",
     canonical: "/contact",
     component: "src/pages/Contact.jsx",
-    jsonLd: organizationJsonLd,
+    jsonLd: [
+      organizationJsonLd,
+      breadcrumbJsonLd([
+        { name: "Home", path: "/" },
+        { name: "Contact", path: "/contact" },
+      ]),
+    ],
   },
   blog: {
     path: "/blog",
@@ -148,13 +166,19 @@ export const seoPages = {
   },
   about: {
     path: "/about",
-    title: "About MSPixelPulse — Toronto Website Agency",
+    title: "About MSPixelPulse | Toronto Web Design Studio",
     description:
       "Learn about MSPixelPulse, a Toronto website agency focused on clear, responsive, maintainable websites and digital platforms for businesses and education teams.",
     canonical: "/about",
     image: "/about/mahak-patel.webp",
     component: "src/pages/About.jsx",
-    jsonLd: organizationJsonLd,
+    jsonLd: [
+      organizationJsonLd,
+      breadcrumbJsonLd([
+        { name: "Home", path: "/" },
+        { name: "About MSPixelPulse", path: "/about" },
+      ]),
+    ],
   },
   login: {
     path: "/login",

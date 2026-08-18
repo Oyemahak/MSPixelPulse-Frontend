@@ -72,6 +72,18 @@ Private Drive files are rendered/downloaded only through backend-authorized URLs
 
 Small uploads may use the API multipart flow within platform limits. Larger uploads may use backend-authorized resumable Drive sessions. Invoice files use the dedicated backend relay endpoints so the browser communicates only with the MSPixelPulse API and never receives a Google upload URL. The frontend must send the required user/project/purpose metadata and complete the flow exactly as defined by the API.
 
+## Billing And Invoice Contract
+
+Admin billing is invoice-first rather than limited to advance/final project stages. Admins can generate a branded Letter or A4 PDF, upload an existing PDF or supported image, edit invoice metadata, record payments, track paid and outstanding balances, and manage invoice status. Generated and external invoice files remain private and use the existing backend-authorized Google Drive relay and signed read/download URLs.
+
+Invoice defaults are private Admin configuration. Sender identity, client details, currency, paper size, payment terms, notes, and optional tax fields are configurable. Tax is off by default; agents must never copy a sample GST/HST registration, small-supplier statement, legal claim, or tax status into production defaults without explicit business-owner input.
+
+Clients receive a compact read-only invoice list for only their assigned projects. Client responses must never expose `internalNotes`, draft invoices, archived invoices, Admin controls, raw Drive URLs, or storage credentials.
+
+## Presence Contract
+
+Presence persists `lastActivityAt`, `lastSeenAt`, and an explicit `presenceState`. Successful login and the authenticated 30-to-60-second heartbeat mark the user online; authenticated logout marks the user offline immediately. A recent timestamp alone must not override an explicit offline state. When no valid activity exists, show a clear offline/no-recorded-activity state instead of inventing a timestamp.
+
 ## Testing Rule
 
 A green lint/build is not enough for portal work. For changes affecting roles, auth, persistence, files, or CRUD, verify the corresponding Admin/Developer/Client flow against the deployed API and confirm state after refresh/logout/login.

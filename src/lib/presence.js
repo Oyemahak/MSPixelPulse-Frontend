@@ -19,7 +19,10 @@ export function normalizePresenceTime(
     "object" &&
     !(value instanceof Date)
       ? (
+          value.lastActivityAt ||
           value.lastSeenAt ||
+          value.presence
+            ?.lastActivityAt ||
           value.presence
             ?.lastSeenAt ||
           null
@@ -81,6 +84,18 @@ export function isPresenceOnline(
   value,
   now = Date.now(),
 ) {
+  if (
+    value &&
+    typeof value === "object" &&
+    String(
+      value.presenceState ||
+        value.presence?.state ||
+        "",
+    ).toLowerCase() === "offline"
+  ) {
+    return false;
+  }
+
   const date =
     normalizePresenceTime(
       value,
@@ -129,7 +144,7 @@ export function formatLastSeen(
     );
 
   if (!date) {
-    return "No activity yet";
+    return "No recorded activity";
   }
 
   const elapsed =

@@ -13,6 +13,14 @@ Use the Knowledge Update Protocol before editing this file.
 
 ## Entries
 
+- Date: 2026-08-18
+- Source: Public UI and billing implementation
+- Decision or note: Reuse `PublicPageHeader.jsx` for public page/section hierarchy and the `components/billing` workspace for invoice editing, preview, settings, uploads, payments, and accessible drawers.
+- Evidence: The shared public primitives now serve Projects, About, Services, Pricing, Contact, Blog, and existing `SectionTitle` consumers; billing components produce matching on-screen and PDF invoice data without exposing storage credentials.
+- Affected areas: Public routes, Admin Billing, Client Billing, future invoice maintenance
+- Confidence: High
+- Reviewer: Responsive, accessibility, PDF render, and role-isolation review required for future variants
+
 - Date: 2026-07-25
 - Source: Blog library implementation
 - Decision or note: Reuse `src/components/blog/BlogCard.jsx` for published guide cards with preview images, category, reading time, rank, CTA, and photo attribution.

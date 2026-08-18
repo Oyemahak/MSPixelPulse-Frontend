@@ -1,5 +1,10 @@
 # Agent System Changelog
 
+## 2026-08-18
+- Added the production billing contract for generated branded PDFs, external invoice uploads, configurable private defaults, payment tracking, client-safe reads, and secure Drive relay storage.
+- Added the durable presence contract covering login, heartbeat, explicit logout, last-activity persistence, and truthful offline fallback behavior.
+- Recorded the shared public page header system and light/dark token boundary so semantic page headers do not inherit navigation-only theme rules.
+
 ## 2026-08-15
 - Refreshed shared frontend agent knowledge for the completed Google Sheets + Google Drive + Vercel production architecture.
 - Removed stale MongoDB/Supabase assumptions from the Agent Roster and specialist guidance.

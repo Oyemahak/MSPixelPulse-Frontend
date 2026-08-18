@@ -104,6 +104,13 @@ export function AuthProvider({ children }) {
                     result.presence.lastSeenAt ||
                     previous.lastSeenAt ||
                     "",
+                  lastActivityAt:
+                    result.presence.lastActivityAt ||
+                    result.presence.lastSeenAt ||
+                    previous.lastActivityAt ||
+                    "",
+                  presenceState:
+                    "online",
                   online: true,
                   presence: {
                     ...(previous.presence || {}),

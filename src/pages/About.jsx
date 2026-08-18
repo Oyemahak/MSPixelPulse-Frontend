@@ -15,6 +15,7 @@ import SocialContactLinks from "@/components/SocialContactLinks.jsx";
 import { site } from "@/data/site.js";
 import { useTheme } from "@/lib/theme.js";
 import { seoPages } from "@/data/seoPages.js";
+import { PageHero } from "@/components/public/PublicPageHeader.jsx";
 
 const principles = [
   "Clear website structure before decoration",
@@ -43,18 +44,13 @@ export default function About() {
     <section className="section">
       <Meta {...seoPages.about} />
       <Container>
-        <section className="about-hero-grid grid gap-10 lg:grid-cols-[minmax(0,1.18fr)_minmax(20rem,.62fr)] lg:items-center">
-          <div>
-            <p className="mb-4 inline-flex rounded-full bg-blue-600/10 px-3 py-1 text-xs font-black uppercase tracking-wide text-blue-500">
-              About MSPixelPulse
-            </p>
-            <h1 className={isDark ? "text-3xl font-extrabold leading-[1.08] md:text-[2.75rem]" : "text-3xl font-extrabold leading-[1.08] text-slate-950 md:text-[2.75rem]"}>
-              Let’s shake hands and make your website part of your business growth.
-            </h1>
-            <p className={`mt-5 max-w-2xl text-lg leading-8 ${muted}`}>
-              MSPixelPulse helps business owners turn scattered service details into a clear website experience: what you offer, why it matters, how customers can trust you, and how they can contact you without friction.
-            </p>
-            <div className="mt-7 flex flex-wrap gap-3">
+        <PageHero
+          eyebrow="About MSPixelPulse"
+          eyebrowIcon={LuHeartHandshake}
+          title="A Toronto web studio built around clear, useful customer journeys."
+          description="MSPixelPulse helps small businesses turn scattered service details into responsive websites that explain what they offer, build trust, and make the next step easy."
+          actions={
+            <>
               <Link className="btn btn-primary" to="/contact">
                 Start a project
               </Link>
@@ -67,10 +63,10 @@ export default function About() {
                 Founder portfolio
                 <LuArrowUpRight className="h-4 w-4" aria-hidden="true" />
               </a>
-            </div>
-          </div>
-
-          <div className={`about-founder-card border ${surface}`}>
+            </>
+          }
+          visual={
+            <div className={`about-founder-card border ${surface}`}>
             <div className="about-founder-card-intro">
               <div className="about-founder-photo-wrap">
                 <img
@@ -97,8 +93,9 @@ export default function About() {
               className="about-founder-socials"
               include={["linkedin", "github", "portfolio"]}
             />
-          </div>
-        </section>
+            </div>
+          }
+        />
 
         <section className="mt-12 grid gap-5 lg:grid-cols-3">
           <InfoCard

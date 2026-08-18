@@ -1,294 +1,77 @@
-import { Fragment, useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import {
+  LuCircleDollarSign,
   LuDownload,
   LuExternalLink,
-  LuFilePenLine,
+  LuFilePlus2,
+  LuMail,
+  LuPencil,
+  LuPlus,
   LuRefreshCw,
+  LuSearch,
+  LuSettings2,
   LuTrash2,
   LuUpload,
 } from "react-icons/lu";
 
-import SearchField from "@/components/ui/SearchField.jsx";
+import InvoiceDrawer from "@/components/billing/InvoiceDrawer.jsx";
+import InvoiceEditor from "@/components/billing/InvoiceEditor.jsx";
+import {
+  InvoiceSettingsForm,
+  PaymentForm,
+  UploadInvoiceForm,
+} from "@/components/billing/InvoiceForms.jsx";
+import {
+  formatDate,
+  formatMoney,
+  invoiceStatuses,
+  projectIdOf,
+  statusLabel,
+} from "@/components/billing/invoiceShared.js";
 import { invoices as invApi, projects as projectApi } from "@/lib/api.js";
-
-const invoiceStatuses = ["draft", "sent", "uploaded", "paid", "archived"];
-
-function StatusBadge({ invoice }) {
-  return <span className={`badge invoice-status is-${invoice?.status || "missing"}`}>{invoice?.status || "Not added"}</span>;
-}
-
-function dateInput(value) {
-  if (!value) return "";
-  const date = new Date(value);
-  return Number.isNaN(date.getTime()) ? "" : date.toISOString().slice(0, 10);
-}
-
-function invoiceForm(invoice, kind) {
-  return {
-    kind,
-    invoiceNumber: invoice?.invoiceNumber || "",
-    title: invoice?.title || "",
-    status: invoice?.status || "uploaded",
-    issueDate: dateInput(invoice?.issueDate),
-    dueDate: dateInput(invoice?.dueDate),
-    total: Number(invoice?.total || 0) || "",
-    currency: invoice?.currency || "CAD",
-    notes: invoice?.notes || "",
-    isDemo: Boolean(invoice?.isDemo),
-  };
-}
-
-function payloadFromForm(form) {
-  return {
-    invoiceNumber: form.invoiceNumber.trim(),
-    title: form.title.trim(),
-    status: form.status,
-    issueDate: form.issueDate || null,
-    dueDate: form.dueDate || null,
-    total: form.total === "" ? 0 : Number(form.total),
-    currency: form.currency.trim().toUpperCase() || "CAD",
-    notes: form.notes.trim(),
-    isDemo: Boolean(form.isDemo),
-  };
-}
+import "../css/billing.css";
 
 function downloadUrl(url) {
   if (!url) return "";
   return `${url}${url.includes("?") ? "&" : "?"}download=1`;
 }
 
-function InvoiceEditor({
-  project,
-  kind,
-  invoice,
-  busy,
-  onChanged,
-  onError,
-  onNotice,
-}) {
-  const [form, setForm] = useState(() => invoiceForm(invoice, kind));
-  const [file, setFile] = useState(null);
-  const [progress, setProgress] = useState(0);
-  const [working, setWorking] = useState(false);
+function StatusBadge({ status }) {
+  return <span className={`invoice-status-badge is-${status || "draft"}`}>{statusLabel(status)}</span>;
+}
 
-  useEffect(() => {
-    setForm(invoiceForm(invoice, kind));
-    setFile(null);
-    setProgress(0);
-  }, [invoice, kind]);
-
-  function setField(key, value) {
-    setForm((current) => ({ ...current, [key]: value }));
-  }
-
-  async function saveMetadata(event) {
-    event.preventDefault();
-    onError("");
-    onNotice("");
-    setWorking(true);
-
-    try {
-      const payload = payloadFromForm(form);
-
-      if (invoice?._id) {
-        await invApi.update(project._id, invoice._id, payload);
-      } else {
-        await invApi.create(project._id, { ...payload, kind });
-      }
-
-      onNotice(`${kind === "advance" ? "Advance" : "Final"} invoice details saved.`);
-      await onChanged();
-    } catch (error) {
-      onError(error?.message || "Invoice details could not be saved.");
-    } finally {
-      setWorking(false);
-    }
-  }
-
-  async function uploadFile() {
-    if (!file) {
-      onError("Choose a PDF or supported invoice image first.");
-      return;
-    }
-
-    onError("");
-    onNotice("");
-    setProgress(1);
-    setWorking(true);
-
-    try {
-      await invApi.upload(file, {
-        projectId: project._id,
-        kind,
-        invoiceId: invoice?._id || "",
-        invoice: payloadFromForm(form),
-        onProgress: setProgress,
-      });
-
-      onNotice(`${file.name} was securely uploaded through the MSPixelPulse API.`);
-      setFile(null);
-      await onChanged();
-    } catch (error) {
-      onError(error?.message || "Invoice upload failed.");
-    } finally {
-      setProgress(0);
-      setWorking(false);
-    }
-  }
-
-  async function removeInvoice() {
-    if (!invoice?._id) return;
-
-    const name = invoice.file?.name || invoice.invoiceNumber || `${kind} invoice`;
-    const confirmed = window.confirm(
-      `Permanently delete "${name}" and its stored Google Drive file? This cannot be undone.`,
-    );
-
-    if (!confirmed) return;
-
-    onError("");
-    onNotice("");
-    setWorking(true);
-
-    try {
-      await invApi.remove(project._id, invoice._id);
-      onNotice(`${name} was permanently deleted.`);
-      await onChanged();
-    } catch (error) {
-      onError(error?.message || "Invoice could not be deleted.");
-    } finally {
-      setWorking(false);
-    }
-  }
-
-  const inputId = `invoice-file-${project._id}-${kind}`;
-  const actionBusy = busy || working;
-
-  return (
-    <form className="invoice-editor-card" onSubmit={saveMetadata}>
-      <div className="between gap-3">
-        <div>
-          <div className="text-muted-xs">{kind === "advance" ? "Advance payment" : "Final invoice"}</div>
-          <h3 className="card-title">{invoice?.invoiceNumber || invoice?.file?.name || "New invoice"}</h3>
-        </div>
-        <StatusBadge invoice={invoice} />
-      </div>
-
-      <div className="invoice-editor-grid">
-        <label className="form-field">
-          <span className="form-label">Invoice number</span>
-          <input value={form.invoiceNumber} onChange={(event) => setField("invoiceNumber", event.target.value)} placeholder="INV-2026-001" />
-        </label>
-        <label className="form-field">
-          <span className="form-label">Title</span>
-          <input value={form.title} onChange={(event) => setField("title", event.target.value)} placeholder="Website project invoice" />
-        </label>
-        <label className="form-field">
-          <span className="form-label">Status</span>
-          <select value={form.status} onChange={(event) => setField("status", event.target.value)}>
-            {invoiceStatuses.map((status) => <option key={status} value={status}>{status}</option>)}
-          </select>
-        </label>
-        <label className="form-field">
-          <span className="form-label">Issue date</span>
-          <input type="date" value={form.issueDate} onChange={(event) => setField("issueDate", event.target.value)} />
-        </label>
-        <label className="form-field">
-          <span className="form-label">Due date</span>
-          <input type="date" value={form.dueDate} onChange={(event) => setField("dueDate", event.target.value)} />
-        </label>
-        <label className="form-field">
-          <span className="form-label">Total</span>
-          <input type="number" min="0" step="0.01" inputMode="decimal" value={form.total} onChange={(event) => setField("total", event.target.value)} />
-        </label>
-        <label className="form-field">
-          <span className="form-label">Currency</span>
-          <input maxLength="3" value={form.currency} onChange={(event) => setField("currency", event.target.value)} />
-        </label>
-        <label className="form-field invoice-notes-field">
-          <span className="form-label">Notes</span>
-          <textarea rows="3" value={form.notes} onChange={(event) => setField("notes", event.target.value)} placeholder="Optional client-facing notes" />
-        </label>
-        <label className="portal-toggle-row invoice-demo-toggle">
-          <input type="checkbox" checked={form.isDemo} onChange={(event) => setField("isDemo", event.target.checked)} />
-          <span>Mark as sample/demo</span>
-        </label>
-      </div>
-
-      <div className="invoice-file-zone">
-        <div>
-          <div className="form-label">{invoice?.file ? "Replace invoice file" : "Upload invoice file"}</div>
-          <div className="text-muted-xs">PDF, JPG, PNG, or WebP · maximum 15 MB · relayed securely through the backend</div>
-        </div>
-        <input
-          id={inputId}
-          type="file"
-          className="sr-only"
-          accept="application/pdf,image/jpeg,image/png,image/webp"
-          onChange={(event) => setFile(event.target.files?.[0] || null)}
-          disabled={actionBusy}
-        />
-        <label className="btn btn-outline cursor-pointer" htmlFor={inputId}>
-          <LuFilePenLine className="h-4 w-4" aria-hidden="true" />
-          {file?.name || "Choose file"}
-        </label>
-        <button type="button" className="btn btn-primary" onClick={uploadFile} disabled={actionBusy || !file}>
-          <LuUpload className="h-4 w-4" aria-hidden="true" />
-          {progress ? `Uploading ${progress}%` : invoice?.file ? "Replace file" : "Upload file"}
-        </button>
-      </div>
-
-      {progress ? <progress className="invoice-upload-progress" max="100" value={progress}>{progress}%</progress> : null}
-
-      <div className="form-actions">
-        <button className="btn btn-primary" disabled={actionBusy}>Save details</button>
-        {invoice?.file?.url ? (
-          <>
-            <a className="btn btn-outline" href={invoice.file.url} target="_blank" rel="noreferrer">
-              <LuExternalLink className="h-4 w-4" aria-hidden="true" /> View
-            </a>
-            <a className="btn btn-outline" href={downloadUrl(invoice.file.url)}>
-              <LuDownload className="h-4 w-4" aria-hidden="true" /> Download
-            </a>
-          </>
-        ) : null}
-        {invoice?._id ? (
-          <button type="button" className="btn btn-outline danger" onClick={removeInvoice} disabled={actionBusy}>
-            <LuTrash2 className="h-4 w-4" aria-hidden="true" /> Delete permanently
-          </button>
-        ) : null}
-      </div>
-    </form>
-  );
+function projectForInvoice(invoice, projects) {
+  const id = projectIdOf(invoice);
+  return projects.find((project) => String(project._id) === id);
 }
 
 export default function Billings() {
   const [projects, setProjects] = useState([]);
   const [invoices, setInvoices] = useState([]);
+  const [settings, setSettings] = useState(null);
+  const [invoiceNumber, setInvoiceNumber] = useState("");
   const [query, setQuery] = useState("");
   const [status, setStatus] = useState("");
-  const [openProjectId, setOpenProjectId] = useState("");
+  const [drawer, setDrawer] = useState(null);
   const [loading, setLoading] = useState(true);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const [notice, setNotice] = useState("");
 
-  const refreshInvoices = useCallback(async () => {
-    const data = await invApi.all();
-    setInvoices(data.invoices || []);
-  }, []);
-
-  const load = useCallback(async () => {
-    setLoading(true);
+  const load = useCallback(async ({ quiet = false } = {}) => {
+    if (!quiet) setLoading(true);
     setError("");
-
     try {
-      const [projectData, invoiceData] = await Promise.all([
+      const [projectData, invoiceData, settingsData, numberData] = await Promise.all([
         projectApi.list(),
         invApi.all(),
+        invApi.settings(),
+        invApi.nextNumber(),
       ]);
       setProjects(projectData.projects || []);
       setInvoices(invoiceData.invoices || []);
+      setSettings(settingsData.settings || {});
+      setInvoiceNumber(numberData.invoiceNumber || "");
     } catch (requestError) {
       setError(requestError?.message || "Billing records could not be loaded.");
     } finally {
@@ -298,114 +81,209 @@ export default function Billings() {
 
   useEffect(() => { void load(); }, [load]);
 
-  const byProject = useMemo(() => {
-    const grouped = new Map();
-    invoices.forEach((invoice) => {
-      const projectId = String(invoice.project?._id || invoice.project || "");
-      if (!grouped.has(projectId)) grouped.set(projectId, []);
-      grouped.get(projectId).push(invoice);
-    });
-    return grouped;
-  }, [invoices]);
-
-  const visibleProjects = useMemo(() => {
+  const visibleInvoices = useMemo(() => {
     const needle = query.trim().toLowerCase();
-
-    return projects.filter((project) => {
-      const projectInvoices = byProject.get(String(project._id)) || [];
-      const matchesSearch = !needle || `${project.title || ""} ${project.client?.name || ""} ${project.client?.email || ""}`.toLowerCase().includes(needle);
-      const matchesStatus = !status || projectInvoices.some((invoice) => invoice.status === status);
-      return matchesSearch && matchesStatus;
+    return invoices.filter((invoice) => {
+      const project = projectForInvoice(invoice, projects);
+      const client = invoice.clientDetails || project?.client || {};
+      const haystack = [
+        invoice.invoiceNumber,
+        invoice.title,
+        project?.title,
+        client.contactName,
+        client.name,
+        client.businessName,
+        client.email,
+      ].filter(Boolean).join(" ").toLowerCase();
+      return (!needle || haystack.includes(needle)) && (!status || invoice.status === status);
     });
-  }, [byProject, projects, query, status]);
+  }, [invoices, projects, query, status]);
 
-  async function handleChanged() {
+  const summary = useMemo(() => invoices.reduce((result, invoice) => {
+    const total = Number(invoice.total || 0);
+    const balance = Number(invoice.balanceDue ?? Math.max(total - Number(invoice.amountPaid || 0), 0));
+    result.invoiced += total;
+    result.outstanding += balance;
+    if (invoice.status === "overdue") result.overdue += balance;
+    return result;
+  }, { invoiced: 0, outstanding: 0, overdue: 0 }), [invoices]);
+
+  function openDrawer(type, invoice = null) {
+    setError("");
+    setNotice("");
+    setDrawer({ type, invoice });
+  }
+
+  async function finish(message) {
+    setNotice(message);
+    setDrawer(null);
+    await load({ quiet: true });
+  }
+
+  async function saveGenerated({ draft, payload, file, invoice }) {
     setBusy(true);
     try {
-      await refreshInvoices();
+      const projectId = draft?.projectId || projectIdOf(invoice);
+      if (!projectId) throw new Error("Choose a client project.");
+      if (file) {
+        await invApi.upload(file, {
+          projectId,
+          kind: payload.kind || "other",
+          invoiceId: invoice?._id || "",
+          invoice: payload,
+        });
+      } else if (invoice?._id) {
+        await invApi.update(projectId, invoice._id, payload);
+      } else {
+        await invApi.create(projectId, payload);
+      }
+      await finish(invoice ? "Invoice updated." : "Invoice created and securely uploaded.");
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function uploadExisting({ file, projectId, invoiceId, payload }) {
+    setBusy(true);
+    try {
+      await invApi.upload(file, { projectId, kind: "other", invoiceId, invoice: payload });
+      await finish(invoiceId ? "Invoice file replaced." : "Existing invoice uploaded.");
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function recordPayment(payload) {
+    const invoice = drawer?.invoice;
+    setBusy(true);
+    try {
+      await invApi.update(projectIdOf(invoice), invoice._id, payload);
+      await finish("Payment recorded and balance updated.");
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function saveSettings(payload) {
+    setBusy(true);
+    try {
+      await invApi.updateSettings(payload);
+      await finish("Invoice defaults saved.");
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function sendInvoice(invoice) {
+    const project = projectForInvoice(invoice, projects);
+    const email = invoice.clientDetails?.email || project?.client?.email || "";
+    if (!email) {
+      setError("Add a client email before preparing the invoice message.");
+      return;
+    }
+    setBusy(true);
+    try {
+      if (invoice.status === "draft") {
+        await invApi.update(projectIdOf(invoice), invoice._id, { status: "sent", sentAt: new Date().toISOString() });
+        await load({ quiet: true });
+      }
+      const subject = encodeURIComponent(`Invoice ${invoice.invoiceNumber || "from MSPixelPulse"}`);
+      const body = encodeURIComponent("Your MSPixelPulse invoice is available securely in your client portal. Please sign in to view or download it.");
+      window.location.href = `mailto:${encodeURIComponent(email)}?subject=${subject}&body=${body}`;
+    } catch (requestError) {
+      setError(requestError?.message || "Invoice status could not be updated.");
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function removeInvoice(invoice) {
+    const label = invoice.invoiceNumber || invoice.file?.name || "this invoice";
+    if (!window.confirm(`Permanently delete ${label} and its stored file? This cannot be undone.`)) return;
+    setBusy(true);
+    setError("");
+    try {
+      await invApi.remove(projectIdOf(invoice), invoice._id);
+      setNotice(`${label} was permanently deleted.`);
+      await load({ quiet: true });
+    } catch (requestError) {
+      setError(requestError?.message || "Invoice could not be deleted.");
     } finally {
       setBusy(false);
     }
   }
 
   return (
-    <div className="page-shell space-stack">
-      <div className="page-header">
+    <div className="page-shell space-stack billing-page">
+      <header className="page-header billing-page-header">
         <div>
-          <div className="text-muted-xs">Secure Google Drive billing</div>
-          <h2 className="page-title">Billing and invoices</h2>
-          <p className="text-muted">Upload, replace, edit, view, download, and permanently delete project invoices.</p>
+          <div className="text-muted-xs">Client billing workspace</div>
+          <h1 className="page-title">Invoices</h1>
+          <p className="text-muted">Create polished PDFs, upload external invoices, and track balances in one place.</p>
         </div>
-        <button type="button" className="btn btn-outline" onClick={load} disabled={loading || busy}>
-          <LuRefreshCw className={loading ? "h-4 w-4 animate-spin" : "h-4 w-4"} aria-hidden="true" />
-          Refresh
-        </button>
-      </div>
+        <div className="billing-primary-actions">
+          <button type="button" className="btn btn-outline" onClick={() => openDrawer("settings")} disabled={!settings || loading}><LuSettings2 aria-hidden="true" /> Defaults</button>
+          <button type="button" className="btn btn-outline" onClick={() => openDrawer("upload")} disabled={loading}><LuUpload aria-hidden="true" /> Upload existing</button>
+          <button type="button" className="btn btn-primary" onClick={() => openDrawer("create")} disabled={!settings || loading}><LuPlus aria-hidden="true" /> Create invoice</button>
+        </div>
+      </header>
 
-      <div className="card-surface p-4 billing-filter-row">
-        <SearchField label="Search billing projects" placeholder="Search project or client" value={query} onValueChange={setQuery} />
-        <label className="form-field">
-          <span className="form-label">Invoice status</span>
-          <select value={status} onChange={(event) => setStatus(event.target.value)}>
-            <option value="">All statuses</option>
-            {invoiceStatuses.map((item) => <option key={item} value={item}>{item}</option>)}
-          </select>
-        </label>
-      </div>
+      <section className="billing-summary-grid" aria-label="Billing summary">
+        <article><span>Total invoiced</span><strong>{formatMoney(summary.invoiced)}</strong><LuFilePlus2 aria-hidden="true" /></article>
+        <article><span>Outstanding</span><strong>{formatMoney(summary.outstanding)}</strong><LuCircleDollarSign aria-hidden="true" /></article>
+        <article><span>Overdue</span><strong>{formatMoney(summary.overdue)}</strong><LuCircleDollarSign aria-hidden="true" /></article>
+      </section>
 
-      {error ? <div className="text-error" role="alert">{error}</div> : null}
-      {notice ? <div className="text-success" role="status">{notice}</div> : null}
+      <section className="card-surface billing-list-card">
+        <div className="billing-toolbar">
+          <label className="billing-search">
+            <span className="sr-only">Search invoices</span>
+            <LuSearch aria-hidden="true" />
+            <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search invoice, project, or client" />
+          </label>
+          <label className="billing-status-filter"><span className="sr-only">Filter by invoice status</span><select value={status} onChange={(event) => setStatus(event.target.value)}><option value="">All statuses</option>{invoiceStatuses.map((item) => <option key={item} value={item}>{statusLabel(item)}</option>)}</select></label>
+          <button type="button" className="portal-icon-button" onClick={() => load()} disabled={loading || busy} aria-label="Refresh invoices"><LuRefreshCw className={loading ? "animate-spin" : ""} aria-hidden="true" /></button>
+        </div>
 
-      <div className="card-surface overflow-hidden">
-        <table className="table billing-table">
-          <thead>
-            <tr>
-              <th>Project</th>
-              <th>Client</th>
-              <th>Advance</th>
-              <th>Final</th>
-              <th className="actions-head">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {visibleProjects.map((project) => {
-              const projectInvoices = byProject.get(String(project._id)) || [];
-              const advance = projectInvoices.find((invoice) => invoice.kind === "advance") || null;
-              const finalInvoice = projectInvoices.find((invoice) => invoice.kind === "final") || null;
-              const open = openProjectId === String(project._id);
+        {error ? <div className="billing-message is-error" role="alert">{error}</div> : null}
+        {notice ? <div className="billing-message is-success" role="status">{notice}</div> : null}
 
-              return (
-                <Fragment key={project._id}>
-                  <tr className="table-row-hover">
-                    <td><div className="font-medium">{project.title}</div><div className="row-sub">{project.summary || "No project summary"}</div></td>
-                    <td>{project.client?.name || project.clientName || "Unassigned"}</td>
-                    <td><StatusBadge invoice={advance} /></td>
-                    <td><StatusBadge invoice={finalInvoice} /></td>
-                    <td className="actions-cell">
-                      <button type="button" className="btn btn-outline" aria-expanded={open} onClick={() => setOpenProjectId(open ? "" : String(project._id))}>
-                        {open ? "Close" : "Manage invoices"}
-                      </button>
+        <div className="billing-table-scroll">
+          <table className="table billing-invoice-table">
+            <thead><tr><th>Invoice</th><th>Project / client</th><th>Issued / due</th><th>Total / balance</th><th>Status</th><th><span className="sr-only">Actions</span></th></tr></thead>
+            <tbody>
+              {visibleInvoices.map((invoice) => {
+                const project = projectForInvoice(invoice, projects);
+                const client = invoice.clientDetails || project?.client || {};
+                return (
+                  <tr key={invoice._id}>
+                    <td data-label="Invoice"><strong>{invoice.invoiceNumber || "Unnumbered"}</strong><span>{invoice.sourceType === "generated" ? "Generated PDF" : "Uploaded file"}</span></td>
+                    <td data-label="Project / client"><strong>{project?.title || invoice.title || "Project invoice"}</strong><span>{client.contactName || client.name || client.businessName || "Unassigned client"}</span></td>
+                    <td data-label="Issued / due"><strong>{formatDate(invoice.issueDate)}</strong><span>Due {formatDate(invoice.dueDate)}</span></td>
+                    <td data-label="Total / balance"><strong>{formatMoney(invoice.total, invoice.currency)}</strong><span>{formatMoney(invoice.balanceDue, invoice.currency)} due</span></td>
+                    <td data-label="Status"><StatusBadge status={invoice.status} /></td>
+                    <td className="billing-row-actions">
+                      {invoice.file?.url ? <a className="portal-icon-button" href={invoice.file.url} target="_blank" rel="noreferrer" aria-label={`View ${invoice.invoiceNumber || "invoice"}`}><LuExternalLink aria-hidden="true" /></a> : null}
+                      {invoice.file?.url ? <a className="portal-icon-button" href={downloadUrl(invoice.file.url)} aria-label={`Download ${invoice.invoiceNumber || "invoice"}`}><LuDownload aria-hidden="true" /></a> : null}
+                      <button type="button" className="portal-icon-button" onClick={() => openDrawer("edit", invoice)} aria-label={`Edit ${invoice.invoiceNumber || "invoice"}`}><LuPencil aria-hidden="true" /></button>
+                      <button type="button" className="portal-icon-button" onClick={() => openDrawer("payment", invoice)} aria-label={`Record payment for ${invoice.invoiceNumber || "invoice"}`}><LuCircleDollarSign aria-hidden="true" /></button>
+                      <button type="button" className="portal-icon-button" onClick={() => sendInvoice(invoice)} disabled={busy} aria-label={`Send ${invoice.invoiceNumber || "invoice"}`}><LuMail aria-hidden="true" /></button>
+                      <button type="button" className="portal-icon-button danger" onClick={() => removeInvoice(invoice)} disabled={busy} aria-label={`Delete ${invoice.invoiceNumber || "invoice"}`}><LuTrash2 aria-hidden="true" /></button>
                     </td>
                   </tr>
-                  {open ? (
-                    <tr className="row-edit">
-                      <td colSpan="5">
-                        <div className="invoice-editor-columns">
-                          <InvoiceEditor project={project} kind="advance" invoice={advance} busy={busy} onChanged={handleChanged} onError={setError} onNotice={setNotice} />
-                          <InvoiceEditor project={project} kind="final" invoice={finalInvoice} busy={busy} onChanged={handleChanged} onError={setError} onNotice={setNotice} />
-                        </div>
-                      </td>
-                    </tr>
-                  ) : null}
-                </Fragment>
-              );
-            })}
-            {!visibleProjects.length ? (
-              <tr><td colSpan="5" className="empty-cell">{loading ? "Loading billing records…" : "No billing projects match these filters."}</td></tr>
-            ) : null}
-          </tbody>
-        </table>
-      </div>
+                );
+              })}
+              {!visibleInvoices.length ? <tr><td className="billing-empty" colSpan="6">{loading ? "Loading invoices…" : "No invoices match these filters."}</td></tr> : null}
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      {drawer?.type === "create" ? <InvoiceDrawer wide title="Create invoice" description="Build, preview, download, and securely add a branded invoice." onClose={() => setDrawer(null)}><InvoiceEditor projects={projects} settings={settings} invoiceNumber={invoiceNumber} busy={busy} onSubmit={saveGenerated} /></InvoiceDrawer> : null}
+      {drawer?.type === "edit" ? <InvoiceDrawer wide title={`Edit ${drawer.invoice.invoiceNumber || "invoice"}`} description="Update billing details or replace the generated PDF." onClose={() => setDrawer(null)}><InvoiceEditor projects={projects} settings={settings} invoiceNumber={invoiceNumber} invoice={drawer.invoice} busy={busy} onSubmit={saveGenerated} /></InvoiceDrawer> : null}
+      {drawer?.type === "upload" ? <InvoiceDrawer title="Upload existing invoice" description="Attach a PDF or supported image and add its billing details." onClose={() => setDrawer(null)}><UploadInvoiceForm projects={projects} invoiceNumber={invoiceNumber} busy={busy} onSubmit={uploadExisting} /></InvoiceDrawer> : null}
+      {drawer?.type === "payment" ? <InvoiceDrawer title="Record payment" description={`${drawer.invoice.invoiceNumber || "Invoice"} · ${formatMoney(drawer.invoice.balanceDue, drawer.invoice.currency)} outstanding`} onClose={() => setDrawer(null)}><PaymentForm invoice={drawer.invoice} busy={busy} onSubmit={recordPayment} /></InvoiceDrawer> : null}
+      {drawer?.type === "settings" && settings ? <InvoiceDrawer title="Invoice defaults" description="Set sender identity, paper size, optional tax, and standard payment notes." onClose={() => setDrawer(null)}><InvoiceSettingsForm settings={settings} busy={busy} onSubmit={saveSettings} /></InvoiceDrawer> : null}
     </div>
   );
 }

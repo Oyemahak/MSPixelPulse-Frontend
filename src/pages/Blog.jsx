@@ -16,6 +16,7 @@ import BlogCard from "@/components/blog/BlogCard.jsx";
 import Container from "@/components/layout/Container.jsx";
 import { publishedBlogPosts } from "@/data/blogPosts.js";
 import { seoPages } from "@/data/seoPages.js";
+import { PageEyebrow } from "@/components/public/PublicPageHeader.jsx";
 
 const INITIAL_LIBRARY_COUNT = 9;
 const LOAD_INCREMENT = 9;
@@ -115,12 +116,11 @@ export default function Blog() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.35, ease: "easeOut" }}
             >
-              <p className="blog-eyebrow">
-                <LuBookOpen aria-hidden="true" />
+              <PageEyebrow icon={LuBookOpen} className="blog-eyebrow">
                 MSPixelPulse insights
-              </p>
-              <h1>Practical guides for growing your business online.</h1>
-              <p className="blog-hero-intro">
+              </PageEyebrow>
+              <h1 className="public-page-title">Practical guides for growing your business online.</h1>
+              <p className="public-page-description blog-hero-intro">
                 Clear, Canada-focused guidance on websites, local SEO, AI search,
                 accessibility, content, and conversion.
               </p>

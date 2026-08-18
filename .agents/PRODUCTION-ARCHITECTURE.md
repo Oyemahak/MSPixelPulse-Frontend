@@ -156,12 +156,15 @@ Verify as applicable:
 - avatar upload/replace/delete
 - project CRUD and assignments
 - requirements/files
-- invoice upload/read/status/delete/re-upload
+- generated invoice PDF creation, existing invoice upload, read/download, metadata/status/payment updates, delete/re-upload, and client isolation
+- persisted login/heartbeat/logout presence with explicit offline precedence and truthful last-activity display
 - rooms/messages persistence
 - message attachments
 - support/task/content flows
 
 For file workflows verify upload, render/download, refresh persistence, authorization failure for the wrong user, replacement, and deletion.
+
+For invoice generation verify both Letter and A4 sizing, multi-page line items, totals/discount/optional-tax math, payment balances, client-safe fields, and the final rendered PDF. Tax defaults must remain off unless the business owner deliberately configures them.
 
 The real protected production Admin must never be used as a mutation test subject. Use disposable accounts and fully clean them up.
 

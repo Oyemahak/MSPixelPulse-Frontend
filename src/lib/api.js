@@ -1098,6 +1098,18 @@ export const invoices = {
   all: () =>
     http("/invoices"),
 
+  nextNumber: () =>
+    http("/invoices/next-number"),
+
+  settings: () =>
+    http("/invoice-settings"),
+
+  updateSettings: (payload) =>
+    http("/invoice-settings", {
+      method: "PATCH",
+      body: payload,
+    }),
+
   list: (projectId) =>
     http(
       `/projects/${projectId}/invoices`,

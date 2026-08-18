@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import Meta from "../components/Meta.jsx";
 import SearchField from "../components/ui/SearchField.jsx";
 import DemoOffer from "@/components/DemoOffer.jsx";
+import Container from "@/components/layout/Container.jsx";
+import { PageHero } from "@/components/public/PublicPageHeader.jsx";
 import { usePublicPortfolio } from "@/hooks/usePublicPortfolio.js";
 import { useTheme } from "@/lib/theme.js";
 import {
@@ -192,18 +194,13 @@ export default function Projects() {
     <section className="section overflow-x-hidden">
       <Meta {...seoPages.projects} />
 
-      <div className="mx-auto w-[calc(100vw-2rem)] max-w-7xl sm:w-auto sm:px-6 lg:px-8">
-        <div className="max-w-[20rem] min-w-0 sm:max-w-3xl">
-          <div className={isDark ? "badge mb-4" : "mb-4 inline-flex rounded-full bg-blue-50 px-3 py-1 text-xs font-bold text-blue-700"}>
-            <LuSparkles className="h-4 w-4" /> Portfolio
-          </div>
-          <h1 className={isDark ? "max-w-full break-words text-3xl font-extrabold leading-[1.08] sm:text-[2.5rem] md:text-[2.75rem]" : "max-w-full break-words text-3xl font-extrabold leading-[1.08] text-slate-950 sm:text-[2.5rem] md:text-[2.75rem]"}>
-            Website work, organized into live websites and demos.
-          </h1>
-          <p className={isDark ? "mt-4 max-w-full break-words text-base leading-7 text-textSub sm:text-lg sm:leading-8" : "mt-4 max-w-full break-words text-base leading-7 text-slate-600 sm:text-lg sm:leading-8"}>
-            Browse launched website work and agency demos, with every project clearly labeled.
-          </p>
-        </div>
+      <Container>
+        <PageHero
+          eyebrow="Portfolio"
+          eyebrowIcon={LuSparkles}
+          title="Web design work and demos for small businesses."
+          description="Explore live websites and clearly labeled agency demos across service businesses, education, e-commerce, and custom React development."
+        />
 
         <section className="project-filter-bar" aria-labelledby="project-filter-heading">
           <div className="project-filter-topline">
@@ -295,7 +292,7 @@ export default function Projects() {
         )}
 
         <DemoOffer compact className="mt-12" />
-      </div>
+      </Container>
     </section>
   );
 }

@@ -23,9 +23,11 @@ import {
 import { admin } from "@/lib/api.js";
 import SearchField from "@/components/ui/SearchField.jsx";
 import PresenceIndicator from "@/components/portal/PresenceIndicator.jsx";
+import { useAuth } from "@/context/AuthContext.jsx";
 
 export default function Users() {
   const nav = useNavigate();
+  const { user: currentUser } = useAuth();
 
   const [rows, setRows] = useState([]);
   const [q, setQ] = useState("");
@@ -61,6 +63,39 @@ export default function Users() {
     load();
   }, [load]);
 
+  const visibleRows = useMemo(
+    () => rows.map((row) => {
+      if (
+        String(row._id) !==
+        String(currentUser?._id || currentUser?.id || "")
+      ) {
+        return row;
+      }
+
+      return {
+        ...row,
+        lastSeenAt:
+          currentUser.lastSeenAt ||
+          currentUser.lastActivityAt ||
+          row.lastSeenAt,
+        lastActivityAt:
+          currentUser.lastActivityAt ||
+          currentUser.lastSeenAt ||
+          row.lastActivityAt,
+        presenceState:
+          "online",
+        online: true,
+        presence: {
+          ...(row.presence || {}),
+          ...(currentUser.presence || {}),
+          state: "online",
+          online: true,
+        },
+      };
+    }),
+    [currentUser, rows],
+  );
+
   const grouped = useMemo(() => {
     const base = {
       admin: [],
@@ -68,7 +103,7 @@ export default function Users() {
       client: [],
     };
 
-    for (const user of rows) {
+    for (const user of visibleRows) {
       (
         base[user.role] ||
         base.client
@@ -76,7 +111,7 @@ export default function Users() {
     }
 
     return base;
-  }, [rows]);
+  }, [visibleRows]);
 
   function Section({
     title,

@@ -31,14 +31,14 @@ export default function Services() {
     <section className="section overflow-x-hidden">
       <Meta {...seoPages.services} />
       <Container>
-        <div className="mx-auto max-w-3xl text-center">
+        <div className="mx-auto w-full text-center">
           <span className={isDark ? "badge mb-4" : "mb-4 inline-flex rounded-full bg-blue-50 px-3 py-1 text-xs font-black text-blue-700"}>
             Services
           </span>
-          <h1 className={isDark ? "text-3xl font-extrabold leading-[1.08] text-white md:text-[2.75rem]" : "text-3xl font-extrabold leading-[1.08] text-slate-950 md:text-[2.75rem]"}>
+          <h1 className={isDark ? "mx-auto max-w-5xl text-[1.85rem] font-extrabold leading-[1.1] text-white sm:text-3xl md:text-[2.35rem] lg:text-[2.55rem]" : "mx-auto max-w-5xl text-[1.85rem] font-extrabold leading-[1.1] text-slate-950 sm:text-3xl md:text-[2.35rem] lg:text-[2.55rem]"}>
             Website services with the visuals, structure, and support a real business needs.
           </h1>
-          <p className={isDark ? "mx-auto mt-4 max-w-2xl text-base leading-7 text-textSub md:text-lg" : "mx-auto mt-4 max-w-2xl text-base leading-7 text-slate-600 md:text-lg"}>
+          <p className={isDark ? "mx-auto mt-4 max-w-3xl text-base leading-7 text-textSub md:text-[1.05rem]" : "mx-auto mt-4 max-w-3xl text-base leading-7 text-slate-600 md:text-[1.05rem]"}>
             Choose focused help for a new website, online store, redesign, Moodle learning portal, ongoing support, custom online tools, or launch preparation.
           </p>
         </div>

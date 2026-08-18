@@ -153,6 +153,7 @@ export default function Login() {
                   <button
                     type="button"
                     className="auth-password-toggle liquid-glass-button"
+                    style={{ transform: "translateY(-50%)" }}
                     onClick={() => setShowPassword((value) => !value)}
                     aria-label={showPassword ? "Hide password" : "Show password"}
                     title={showPassword ? "Hide password" : "Show password"}

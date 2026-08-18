@@ -70,6 +70,7 @@ const roleMeta = {
       { to: "/client/dashboard", label: "Dashboard", icon: LuLayoutDashboard, end: true },
       { to: "/client/projects", label: "Projects", icon: LuFolderKanban },
       { to: "/client/discussions", label: "Project rooms", icon: LuMessageSquare },
+      { to: "/client/messages", label: "Messages", icon: LuBell, aliases: ["/client/direct"] },
       { to: "/client/billing", label: "Billing", icon: LuCreditCard },
       { to: "/client/support", label: "Support", icon: LuShieldCheck },
       { to: "/client/profile", label: "Profile", icon: LuUserRound, aliases: ["/client/my-account"] },

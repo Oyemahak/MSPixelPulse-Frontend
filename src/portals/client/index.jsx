@@ -8,6 +8,7 @@ import ClientDashboard from "./ClientDashboard.jsx";
 const Projects = lazy(() => import("./Projects.jsx"));
 const ProjectDetail = lazy(() => import("./ProjectDetail.jsx"));
 const Discussions = lazy(() => import("./Discussions.jsx"));
+const Direct = lazy(() => import("./Direct.jsx"));
 const Billings = lazy(() => import("./Billings.jsx"));
 const Support = lazy(() => import("./Support.jsx"));
 const MyAccount = lazy(() => import("./MyAccount.jsx"));
@@ -25,8 +26,10 @@ export default function ClientPortal() {
 
         <Route path="discussions" element={<Discussions />} />
         <Route path="discussions/:projectId" element={<Discussions />} />
-        <Route path="messages" element={<Discussions />} />
-        <Route path="messages/:projectId" element={<Discussions />} />
+        <Route path="messages" element={<Direct />} />
+        <Route path="messages/:peerId" element={<Direct />} />
+        <Route path="direct" element={<Navigate to="../messages" replace />} />
+        <Route path="direct/:peerId" element={<Direct />} />
 
         <Route path="billing" element={<Billings />} />
         <Route path="support" element={<Support />} />

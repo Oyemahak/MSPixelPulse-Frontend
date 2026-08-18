@@ -54,7 +54,7 @@ export function messageDate(message = {}) {
 
 export function formatLocalDateTime(
   value,
-  fallback = "Time unavailable",
+  fallback = "Timestamp pending",
 ) {
   const date = normalizeMessageTime(value);
 
@@ -75,7 +75,7 @@ export function formatLocalDateTime(
 
 export function formatMessageTime(
   message,
-  fallback = "Time unavailable",
+  fallback = "Timestamp pending",
 ) {
   const date = messageDate(message);
 

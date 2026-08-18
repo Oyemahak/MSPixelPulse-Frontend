@@ -2,7 +2,7 @@
 
 import {
   isPresenceOnline,
-  presenceLabel,
+  presenceStatus,
 } from "@/lib/presence.js";
 
 export default function PresenceIndicator({
@@ -11,7 +11,8 @@ export default function PresenceIndicator({
   className = "",
 }) {
   const online = isPresenceOnline(user);
-  const label = presenceLabel(user);
+  const status = presenceStatus(user);
+  const label = online ? status.label : status.detail;
 
   return (
     <span

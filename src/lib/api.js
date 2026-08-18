@@ -1095,6 +1095,9 @@ export const files = {
    --------------------------------------------------------- */
 
 export const invoices = {
+  all: () =>
+    http("/invoices"),
+
   list: (projectId) =>
     http(
       `/projects/${projectId}/invoices`,
@@ -1126,6 +1129,128 @@ export const invoices = {
         },
       },
     ),
+
+  update: (
+    projectId,
+    invoiceId,
+    payload,
+  ) =>
+    http(
+      `/projects/${projectId}/invoices/${invoiceId}`,
+      {
+        method: "PATCH",
+        body: payload,
+      },
+    ),
+
+  async upload(
+    file,
+    {
+      projectId,
+      kind,
+      invoiceId = "",
+      invoice = {},
+      onProgress,
+    } = {},
+  ) {
+    if (!file || !projectId || !kind) {
+      throw new Error("Select an invoice file and project.");
+    }
+
+    const extension = String(file.name || "")
+      .split(".")
+      .pop()
+      ?.toLowerCase();
+    const typeByExtension = {
+      pdf: "application/pdf",
+      jpg: "image/jpeg",
+      jpeg: "image/jpeg",
+      png: "image/png",
+      webp: "image/webp",
+    };
+    const contentType = file.type || typeByExtension[extension] || "";
+    const allowedTypes = new Set(Object.values(typeByExtension));
+    const maxBytes = 15 * 1024 * 1024;
+
+    if (!allowedTypes.has(contentType)) {
+      const error = new Error("Invoice must be a PDF, JPG, PNG, or WebP file.");
+      error.status = 415;
+      throw error;
+    }
+
+    if (!Number.isFinite(file.size) || file.size <= 0 || file.size > maxBytes) {
+      const error = new Error("Invoice must be 15 MB or smaller.");
+      error.status = 413;
+      throw error;
+    }
+
+    const session = await http(
+      `/projects/${projectId}/invoices/upload-session`,
+      {
+        method: "POST",
+        body: {
+          name: file.name,
+          type: contentType,
+          size: file.size,
+          kind,
+          invoiceId,
+          invoice,
+        },
+      },
+    );
+    const token = session?.upload?.token;
+    const chunkSize = Number(session?.upload?.chunkSize || 2 * 1024 * 1024);
+
+    if (!token || !Number.isFinite(chunkSize) || chunkSize <= 0) {
+      throw new Error("Invoice upload session could not be created.");
+    }
+
+    let offset = 0;
+
+    while (offset < file.size) {
+      const endExclusive = Math.min(offset + chunkSize, file.size);
+      const chunk = file.slice(offset, endExclusive);
+      const authToken = getToken();
+      const headers = {
+        "Content-Type": "application/octet-stream",
+        "Content-Range": `bytes ${offset}-${endExclusive - 1}/${file.size}`,
+        "X-Upload-Token": token,
+      };
+
+      if (authToken) headers.Authorization = `Bearer ${authToken}`;
+
+      const response = await fetch(
+        `${API_BASE}/projects/${projectId}/invoices/upload-chunk`,
+        {
+          method: "POST",
+          credentials: "include",
+          headers,
+          body: chunk,
+        },
+      );
+      const data = await readResponse(response);
+
+      if (!response.ok) {
+        throw errorFromResponse(data, response.status);
+      }
+
+      if (data?.complete && data?.invoice) {
+        onProgress?.(100);
+        return data;
+      }
+
+      const nextOffset = Number(data?.nextOffset || endExclusive);
+
+      if (!Number.isFinite(nextOffset) || nextOffset <= offset || nextOffset > file.size) {
+        throw new Error("Invoice upload did not advance. Please try again.");
+      }
+
+      offset = nextOffset;
+      onProgress?.(Math.min(99, Math.round((offset / file.size) * 100)));
+    }
+
+    throw new Error("Invoice upload did not complete. Please try again.");
+  },
 
   remove: (
     projectId,

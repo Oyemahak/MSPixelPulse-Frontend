@@ -1,693 +1,408 @@
-// src/portals/admin/Billings.jsx
-
-import { Fragment, useEffect, useMemo, useState } from "react";
+import { Fragment, useCallback, useEffect, useMemo, useState } from "react";
 import {
-  projects as api,
-  invoices as invApi,
-  files as fileApi,
-} from "@/lib/api.js";
+  LuDownload,
+  LuExternalLink,
+  LuFilePenLine,
+  LuRefreshCw,
+  LuTrash2,
+  LuUpload,
+} from "react-icons/lu";
+
 import SearchField from "@/components/ui/SearchField.jsx";
+import { invoices as invApi, projects as projectApi } from "@/lib/api.js";
 
-function StatusBadge({ inv }) {
-  if (!inv) return <span className="text-muted-xs">—</span>;
-  if (inv.status === "draft") return <span className="badge">Draft</span>;
-  if (inv.status === "sent") return <span className="badge">Sent</span>;
-  if (inv.status === "paid") return <span className="badge">Paid</span>;
-  if (inv.status === "archived") return <span className="badge">Archived</span>;
-  return <span className="badge">Uploaded</span>;
+const invoiceStatuses = ["draft", "sent", "uploaded", "paid", "archived"];
+
+function StatusBadge({ invoice }) {
+  return <span className={`badge invoice-status is-${invoice?.status || "missing"}`}>{invoice?.status || "Not added"}</span>;
 }
 
-function formatMoney(value, currency = "CAD") {
-  if (!Number.isFinite(Number(value))) return "";
-
-  return new Intl.NumberFormat("en-CA", {
-    style: "currency",
-    currency,
-  }).format(Number(value));
-}
-
-function formatDate(value) {
+function dateInput(value) {
   if (!value) return "";
-
-  return new Intl.DateTimeFormat("en-CA", {
-    month: "short",
-    day: "numeric",
-    year: "numeric",
-  }).format(new Date(value));
+  const date = new Date(value);
+  return Number.isNaN(date.getTime()) ? "" : date.toISOString().slice(0, 10);
 }
 
-function InvoiceDetails({ inv }) {
-  if (!inv) return null;
-
-  return (
-    <div className="grid gap-2 text-sm text-white/70">
-      <div className="flex flex-wrap items-center gap-2">
-        <StatusBadge inv={inv} />
-
-        <span className="font-semibold text-white/85">
-          {inv.invoiceNumber ||
-            inv.file?.name ||
-            inv.title ||
-            "Invoice details"}
-        </span>
-
-        {inv.isDemo && <span className="badge">Sample</span>}
-      </div>
-
-      {inv.title && <div>{inv.title}</div>}
-
-      <div className="flex flex-wrap gap-x-4 gap-y-1 text-muted-xs">
-        {inv.issueDate && (
-          <span>Issued {formatDate(inv.issueDate)}</span>
-        )}
-
-        {inv.dueDate && (
-          <span>Due {formatDate(inv.dueDate)}</span>
-        )}
-
-        {Number(inv.total) > 0 && (
-          <span>Total {formatMoney(inv.total, inv.currency)}</span>
-        )}
-      </div>
-
-      {inv.notes && (
-        <div className="text-muted-xs">
-          {inv.notes}
-        </div>
-      )}
-    </div>
-  );
+function invoiceForm(invoice, kind) {
+  return {
+    kind,
+    invoiceNumber: invoice?.invoiceNumber || "",
+    title: invoice?.title || "",
+    status: invoice?.status || "uploaded",
+    issueDate: dateInput(invoice?.issueDate),
+    dueDate: dateInput(invoice?.dueDate),
+    total: Number(invoice?.total || 0) || "",
+    currency: invoice?.currency || "CAD",
+    notes: invoice?.notes || "",
+    isDemo: Boolean(invoice?.isDemo),
+  };
 }
 
-function Preview({ file }) {
-  if (!file?.url) return null;
-
-  const isPDF = file.type?.includes("pdf");
-
-  return isPDF ? (
-    <iframe
-      title={file.name || "invoice"}
-      className="w-full h-64 rounded-xl border border-white/10"
-      src={file.url}
-    />
-  ) : (
-    <img
-      alt={file.name || "invoice"}
-      className="w-full rounded-xl border border-white/10"
-      src={file.url}
-    />
-  );
+function payloadFromForm(form) {
+  return {
+    invoiceNumber: form.invoiceNumber.trim(),
+    title: form.title.trim(),
+    status: form.status,
+    issueDate: form.issueDate || null,
+    dueDate: form.dueDate || null,
+    total: form.total === "" ? 0 : Number(form.total),
+    currency: form.currency.trim().toUpperCase() || "CAD",
+    notes: form.notes.trim(),
+    isDemo: Boolean(form.isDemo),
+  };
 }
 
-function FilePicker({
-  id,
-  label = "Upload invoice (PDF, PNG, or JPG — max 15 MB)",
-  onPick,
-  disabled,
-  value,
+function downloadUrl(url) {
+  if (!url) return "";
+  return `${url}${url.includes("?") ? "&" : "?"}download=1`;
+}
+
+function InvoiceEditor({
+  project,
+  kind,
+  invoice,
+  busy,
+  onChanged,
+  onError,
+  onNotice,
 }) {
+  const [form, setForm] = useState(() => invoiceForm(invoice, kind));
+  const [file, setFile] = useState(null);
+  const [progress, setProgress] = useState(0);
+  const [working, setWorking] = useState(false);
+
+  useEffect(() => {
+    setForm(invoiceForm(invoice, kind));
+    setFile(null);
+    setProgress(0);
+  }, [invoice, kind]);
+
+  function setField(key, value) {
+    setForm((current) => ({ ...current, [key]: value }));
+  }
+
+  async function saveMetadata(event) {
+    event.preventDefault();
+    onError("");
+    onNotice("");
+    setWorking(true);
+
+    try {
+      const payload = payloadFromForm(form);
+
+      if (invoice?._id) {
+        await invApi.update(project._id, invoice._id, payload);
+      } else {
+        await invApi.create(project._id, { ...payload, kind });
+      }
+
+      onNotice(`${kind === "advance" ? "Advance" : "Final"} invoice details saved.`);
+      await onChanged();
+    } catch (error) {
+      onError(error?.message || "Invoice details could not be saved.");
+    } finally {
+      setWorking(false);
+    }
+  }
+
+  async function uploadFile() {
+    if (!file) {
+      onError("Choose a PDF or supported invoice image first.");
+      return;
+    }
+
+    onError("");
+    onNotice("");
+    setProgress(1);
+    setWorking(true);
+
+    try {
+      await invApi.upload(file, {
+        projectId: project._id,
+        kind,
+        invoiceId: invoice?._id || "",
+        invoice: payloadFromForm(form),
+        onProgress: setProgress,
+      });
+
+      onNotice(`${file.name} was securely uploaded through the MSPixelPulse API.`);
+      setFile(null);
+      await onChanged();
+    } catch (error) {
+      onError(error?.message || "Invoice upload failed.");
+    } finally {
+      setProgress(0);
+      setWorking(false);
+    }
+  }
+
+  async function removeInvoice() {
+    if (!invoice?._id) return;
+
+    const name = invoice.file?.name || invoice.invoiceNumber || `${kind} invoice`;
+    const confirmed = window.confirm(
+      `Permanently delete "${name}" and its stored Google Drive file? This cannot be undone.`,
+    );
+
+    if (!confirmed) return;
+
+    onError("");
+    onNotice("");
+    setWorking(true);
+
+    try {
+      await invApi.remove(project._id, invoice._id);
+      onNotice(`${name} was permanently deleted.`);
+      await onChanged();
+    } catch (error) {
+      onError(error?.message || "Invoice could not be deleted.");
+    } finally {
+      setWorking(false);
+    }
+  }
+
+  const inputId = `invoice-file-${project._id}-${kind}`;
+  const actionBusy = busy || working;
+
   return (
-    <div className="space-y-2">
-      <div className="form-label">{label}</div>
-
-      <div className="flex items-center gap-2">
-        <input
-          id={id}
-          type="file"
-          accept="application/pdf,image/png,image/jpeg"
-          className="sr-only"
-          onChange={(event) =>
-            onPick(event.target.files?.[0] || null)
-          }
-          disabled={disabled}
-        />
-
-        <label
-          htmlFor={id}
-          className={`btn btn-outline btn-sm ${
-            disabled
-              ? "opacity-60 cursor-not-allowed"
-              : "cursor-pointer"
-          }`}
-        >
-          Choose file
-        </label>
-
-        <span className="text-sm text-white/70 truncate max-w-[260px]">
-          {value?.name || "No file chosen"}
-        </span>
+    <form className="invoice-editor-card" onSubmit={saveMetadata}>
+      <div className="between gap-3">
+        <div>
+          <div className="text-muted-xs">{kind === "advance" ? "Advance payment" : "Final invoice"}</div>
+          <h3 className="card-title">{invoice?.invoiceNumber || invoice?.file?.name || "New invoice"}</h3>
+        </div>
+        <StatusBadge invoice={invoice} />
       </div>
-    </div>
+
+      <div className="invoice-editor-grid">
+        <label className="form-field">
+          <span className="form-label">Invoice number</span>
+          <input value={form.invoiceNumber} onChange={(event) => setField("invoiceNumber", event.target.value)} placeholder="INV-2026-001" />
+        </label>
+        <label className="form-field">
+          <span className="form-label">Title</span>
+          <input value={form.title} onChange={(event) => setField("title", event.target.value)} placeholder="Website project invoice" />
+        </label>
+        <label className="form-field">
+          <span className="form-label">Status</span>
+          <select value={form.status} onChange={(event) => setField("status", event.target.value)}>
+            {invoiceStatuses.map((status) => <option key={status} value={status}>{status}</option>)}
+          </select>
+        </label>
+        <label className="form-field">
+          <span className="form-label">Issue date</span>
+          <input type="date" value={form.issueDate} onChange={(event) => setField("issueDate", event.target.value)} />
+        </label>
+        <label className="form-field">
+          <span className="form-label">Due date</span>
+          <input type="date" value={form.dueDate} onChange={(event) => setField("dueDate", event.target.value)} />
+        </label>
+        <label className="form-field">
+          <span className="form-label">Total</span>
+          <input type="number" min="0" step="0.01" inputMode="decimal" value={form.total} onChange={(event) => setField("total", event.target.value)} />
+        </label>
+        <label className="form-field">
+          <span className="form-label">Currency</span>
+          <input maxLength="3" value={form.currency} onChange={(event) => setField("currency", event.target.value)} />
+        </label>
+        <label className="form-field invoice-notes-field">
+          <span className="form-label">Notes</span>
+          <textarea rows="3" value={form.notes} onChange={(event) => setField("notes", event.target.value)} placeholder="Optional client-facing notes" />
+        </label>
+        <label className="portal-toggle-row invoice-demo-toggle">
+          <input type="checkbox" checked={form.isDemo} onChange={(event) => setField("isDemo", event.target.checked)} />
+          <span>Mark as sample/demo</span>
+        </label>
+      </div>
+
+      <div className="invoice-file-zone">
+        <div>
+          <div className="form-label">{invoice?.file ? "Replace invoice file" : "Upload invoice file"}</div>
+          <div className="text-muted-xs">PDF, JPG, PNG, or WebP · maximum 15 MB · relayed securely through the backend</div>
+        </div>
+        <input
+          id={inputId}
+          type="file"
+          className="sr-only"
+          accept="application/pdf,image/jpeg,image/png,image/webp"
+          onChange={(event) => setFile(event.target.files?.[0] || null)}
+          disabled={actionBusy}
+        />
+        <label className="btn btn-outline cursor-pointer" htmlFor={inputId}>
+          <LuFilePenLine className="h-4 w-4" aria-hidden="true" />
+          {file?.name || "Choose file"}
+        </label>
+        <button type="button" className="btn btn-primary" onClick={uploadFile} disabled={actionBusy || !file}>
+          <LuUpload className="h-4 w-4" aria-hidden="true" />
+          {progress ? `Uploading ${progress}%` : invoice?.file ? "Replace file" : "Upload file"}
+        </button>
+      </div>
+
+      {progress ? <progress className="invoice-upload-progress" max="100" value={progress}>{progress}%</progress> : null}
+
+      <div className="form-actions">
+        <button className="btn btn-primary" disabled={actionBusy}>Save details</button>
+        {invoice?.file?.url ? (
+          <>
+            <a className="btn btn-outline" href={invoice.file.url} target="_blank" rel="noreferrer">
+              <LuExternalLink className="h-4 w-4" aria-hidden="true" /> View
+            </a>
+            <a className="btn btn-outline" href={downloadUrl(invoice.file.url)}>
+              <LuDownload className="h-4 w-4" aria-hidden="true" /> Download
+            </a>
+          </>
+        ) : null}
+        {invoice?._id ? (
+          <button type="button" className="btn btn-outline danger" onClick={removeInvoice} disabled={actionBusy}>
+            <LuTrash2 className="h-4 w-4" aria-hidden="true" /> Delete permanently
+          </button>
+        ) : null}
+      </div>
+    </form>
   );
 }
 
 export default function Billings() {
-  const [rows, setRows] = useState([]);
-  const [err, setErr] = useState("");
-  const [loading, setLoading] = useState(false);
-
-  const [q, setQ] = useState("");
-  const [openEditId, setOpenEditId] = useState(null);
-  const [busyId, setBusyId] = useState("");
-  const [tick, setTick] = useState(0);
+  const [projects, setProjects] = useState([]);
+  const [invoices, setInvoices] = useState([]);
+  const [query, setQuery] = useState("");
+  const [status, setStatus] = useState("");
+  const [openProjectId, setOpenProjectId] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState("");
   const [notice, setNotice] = useState("");
 
-  async function load() {
+  const refreshInvoices = useCallback(async () => {
+    const data = await invApi.all();
+    setInvoices(data.invoices || []);
+  }, []);
+
+  const load = useCallback(async () => {
     setLoading(true);
-    setErr("");
+    setError("");
 
     try {
-      const data = await api.list();
-      setRows(data.projects || []);
-    } catch (error) {
-      setErr(error.message || "Failed to fetch projects");
+      const [projectData, invoiceData] = await Promise.all([
+        projectApi.list(),
+        invApi.all(),
+      ]);
+      setProjects(projectData.projects || []);
+      setInvoices(invoiceData.invoices || []);
+    } catch (requestError) {
+      setError(requestError?.message || "Billing records could not be loaded.");
     } finally {
       setLoading(false);
     }
-  }
-
-  useEffect(() => {
-    load();
   }, []);
 
-  const filtered = useMemo(() => {
-    const needle = q.trim().toLowerCase();
+  useEffect(() => { void load(); }, [load]);
 
-    return (rows || []).filter(
-      (project) =>
-        !needle ||
-        `${project.title || ""} ${project.summary || ""}`
-          .toLowerCase()
-          .includes(needle),
-    );
-  }, [rows, q]);
-
-  async function loadBilling(projectId) {
-    const data = await invApi.list(projectId);
-    const list = data.invoices || [];
-
-    const advance =
-      list.find((invoice) => invoice.kind === "advance") || null;
-
-    const finalInvoice =
-      list.find((invoice) => invoice.kind === "final") || null;
-
-    return {
-      advance,
-      final: finalInvoice,
-    };
-  }
-
-  function EditorRow({ p }) {
-    const [advance, setAdvance] = useState(null);
-    const [finalInv, setFinalInv] = useState(null);
-    const [loaded, setLoaded] = useState(false);
-
-    async function refresh() {
-      const snapshot = await loadBilling(p._id);
-
-      setAdvance(snapshot.advance);
-      setFinalInv(snapshot.final);
-      setLoaded(true);
-    }
-
-    useEffect(() => {
-      let active = true;
-
-      async function loadInvoices() {
-        try {
-          const snapshot = await loadBilling(p._id);
-
-          if (!active) return;
-
-          setAdvance(snapshot.advance);
-          setFinalInv(snapshot.final);
-          setLoaded(true);
-        } catch (error) {
-          if (!active) return;
-
-          setErr(
-            error?.message ||
-              "Billing information could not be loaded",
-          );
-
-          setLoaded(true);
-        }
-      }
-
-      loadInvoices();
-
-      return () => {
-        active = false;
-      };
-    }, [p._id]);
-
-    async function handlePick(kind, file) {
-      if (!file) return;
-
-      setBusyId(p._id);
-      setErr("");
-      setNotice("");
-
-      try {
-        // Upload the invoice through the backend to Google Drive.
-        const uploaded = await fileApi.upload(file, {
-          purpose: "invoice",
-          projectId: p._id,
-        });
-
-        await invApi.create(p._id, {
-          kind,
-          file: uploaded.file,
-        });
-
-        await refresh();
-
-        setTick((value) => value + 1);
-        setNotice(`${file.name} was uploaded and saved.`);
-      } catch (error) {
-        setErr(error.message || "Upload failed");
-      } finally {
-        setBusyId("");
-      }
-    }
-
-    async function markPaid(kind) {
-      try {
-        const id =
-          kind === "advance"
-            ? advance?._id
-            : finalInv?._id;
-
-        if (!id) return;
-
-        setBusyId(p._id);
-
-        await invApi.updateStatus(
-          p._id,
-          id,
-          "paid",
-        );
-
-        await refresh();
-
-        setTick((value) => value + 1);
-        setNotice("Billing status saved.");
-      } catch (error) {
-        setErr(
-          error.message ||
-            "Billing status could not be saved",
-        );
-      } finally {
-        setBusyId("");
-      }
-    }
-
-    async function clearFile(kind) {
-      const invoice =
-        kind === "advance"
-          ? advance
-          : finalInv;
-
-      if (!invoice?._id) return;
-
-      const name =
-        invoice.file?.name ||
-        invoice.invoiceNumber ||
-        `${kind} invoice`;
-
-      const confirmed = window.confirm(
-        `Permanently delete "${name}" from billing and Google Drive storage? This cannot be undone.`,
-      );
-
-      if (!confirmed) return;
-
-      setBusyId(p._id);
-      setErr("");
-      setNotice("");
-
-      try {
-        await invApi.remove(
-          p._id,
-          invoice._id,
-        );
-
-        await refresh();
-
-        setTick((value) => value + 1);
-
-        setNotice(
-          `${name} was deleted. You can upload a replacement now.`,
-        );
-      } catch (error) {
-        setErr(
-          error.message ||
-            "Invoice could not be deleted",
-        );
-      } finally {
-        setBusyId("");
-      }
-    }
-
-    return (
-      <tr className="row-edit">
-        <td colSpan={5}>
-          <div className="grid md:grid-cols-2 gap-5">
-            <div className="card-surface p-5 space-y-3">
-              <div className="card-title">
-                Advance payment (50%)
-              </div>
-
-              {!advance ? (
-                <FilePicker
-                  id={`adv-${p._id}`}
-                  value={null}
-                  onPick={(file) =>
-                    handlePick("advance", file)
-                  }
-                  disabled={busyId === p._id}
-                />
-              ) : (
-                <>
-                  <InvoiceDetails inv={advance} />
-                  <Preview file={advance.file} />
-
-                  <div className="form-actions">
-                    {advance.file?.url ? (
-                      <a
-                        className="btn btn-outline"
-                        href={advance.file.url}
-                        download={
-                          advance.file?.name ||
-                          "invoice"
-                        }
-                      >
-                        Download
-                      </a>
-                    ) : (
-                      <span className="text-muted-xs">
-                        No export file attached.
-                      </span>
-                    )}
-
-                    {advance.status !== "paid" &&
-                      advance.status !== "archived" && (
-                        <button
-                          className="btn btn-primary"
-                          onClick={() =>
-                            markPaid("advance")
-                          }
-                          disabled={busyId === p._id}
-                        >
-                          Mark as paid
-                        </button>
-                      )}
-
-                    <button
-                      className="btn btn-outline text-rose-600"
-                      onClick={() =>
-                        clearFile("advance")
-                      }
-                      disabled={busyId === p._id}
-                    >
-                      Delete
-                    </button>
-                  </div>
-                </>
-              )}
-            </div>
-
-            <div className="card-surface p-5 space-y-3">
-              <div className="card-title">
-                Final invoice (after delivery)
-              </div>
-
-              {!finalInv ? (
-                <FilePicker
-                  id={`fin-${p._id}`}
-                  value={null}
-                  onPick={(file) =>
-                    handlePick("final", file)
-                  }
-                  disabled={busyId === p._id}
-                />
-              ) : (
-                <>
-                  <InvoiceDetails inv={finalInv} />
-                  <Preview file={finalInv.file} />
-
-                  <div className="form-actions">
-                    {finalInv.file?.url ? (
-                      <a
-                        className="btn btn-outline"
-                        href={finalInv.file.url}
-                        download={
-                          finalInv.file?.name ||
-                          "invoice"
-                        }
-                      >
-                        Download
-                      </a>
-                    ) : (
-                      <span className="text-muted-xs">
-                        No export file attached.
-                      </span>
-                    )}
-
-                    {finalInv.status !== "paid" &&
-                      finalInv.status !== "archived" && (
-                        <button
-                          className="btn btn-primary"
-                          onClick={() =>
-                            markPaid("final")
-                          }
-                          disabled={busyId === p._id}
-                        >
-                          Mark as paid
-                        </button>
-                      )}
-
-                    <button
-                      className="btn btn-outline text-rose-600"
-                      onClick={() =>
-                        clearFile("final")
-                      }
-                      disabled={busyId === p._id}
-                    >
-                      Delete
-                    </button>
-                  </div>
-                </>
-              )}
-            </div>
-          </div>
-
-          <div className="text-muted-xs mt-4">
-            {loaded ? "Updated —" : "Loading…"}{" "}
-
-            <button
-              className="subtle-link"
-              onClick={async () => {
-                try {
-                  await refresh();
-                  setTick((value) => value + 1);
-                } catch (error) {
-                  setErr(
-                    error?.message ||
-                      "Billing information could not be refreshed",
-                  );
-                }
-              }}
-            >
-              Refresh
-            </button>
-          </div>
-        </td>
-      </tr>
-    );
-  }
-
-  function BillingRow({
-    p,
-    openEditId: currentOpenEditId,
-    setOpenEditId: updateOpenEditId,
-    refreshKey,
-  }) {
-    const [snapshot, setSnapshot] = useState({
-      advance: null,
-      final: null,
+  const byProject = useMemo(() => {
+    const grouped = new Map();
+    invoices.forEach((invoice) => {
+      const projectId = String(invoice.project?._id || invoice.project || "");
+      if (!grouped.has(projectId)) grouped.set(projectId, []);
+      grouped.get(projectId).push(invoice);
     });
+    return grouped;
+  }, [invoices]);
 
-    useEffect(() => {
-      let active = true;
+  const visibleProjects = useMemo(() => {
+    const needle = query.trim().toLowerCase();
 
-      async function loadRowBilling() {
-        try {
-          const billing = await loadBilling(p._id);
+    return projects.filter((project) => {
+      const projectInvoices = byProject.get(String(project._id)) || [];
+      const matchesSearch = !needle || `${project.title || ""} ${project.client?.name || ""} ${project.client?.email || ""}`.toLowerCase().includes(needle);
+      const matchesStatus = !status || projectInvoices.some((invoice) => invoice.status === status);
+      return matchesSearch && matchesStatus;
+    });
+  }, [byProject, projects, query, status]);
 
-          if (active) {
-            setSnapshot(billing);
-          }
-        } catch {
-          if (active) {
-            setSnapshot({
-              advance: null,
-              final: null,
-            });
-          }
-        }
-      }
-
-      loadRowBilling();
-
-      return () => {
-        active = false;
-      };
-    }, [p._id, refreshKey]);
-
-    return (
-      <>
-        <tr className="table-row-hover">
-          <td>
-            <div className="font-medium">
-              {p.title}
-            </div>
-
-            {p.summary && (
-              <div className="row-sub line-clamp-1">
-                {p.summary}
-              </div>
-            )}
-          </td>
-
-          <td className="text-white/80">
-            {p.client?.name || "—"}
-          </td>
-
-          <td>
-            <StatusBadge inv={snapshot.advance} />
-          </td>
-
-          <td>
-            <StatusBadge inv={snapshot.final} />
-          </td>
-
-          <td className="actions-cell">
-            <button
-              className="btn btn-outline"
-              onClick={() =>
-                updateOpenEditId((value) =>
-                  value === p._id
-                    ? null
-                    : p._id,
-                )
-              }
-              disabled={busyId === p._id}
-              title="Upload invoices, preview, download, mark as paid"
-            >
-              {currentOpenEditId === p._id
-                ? "Close"
-                : "Manage billing"}
-            </button>
-          </td>
-        </tr>
-
-        {currentOpenEditId === p._id && (
-          <EditorRow p={p} />
-        )}
-      </>
-    );
+  async function handleChanged() {
+    setBusy(true);
+    try {
+      await refreshInvoices();
+    } finally {
+      setBusy(false);
+    }
   }
 
   return (
-    <div className="page-shell space-y-5">
+    <div className="page-shell space-stack">
       <div className="page-header">
-        <h2 className="page-title">
-          Billing
-        </h2>
-        <div />
-      </div>
-
-      <div className="card card-pad filters-grid portal-search-row">
-        <SearchField
-          label="Search billing projects"
-          placeholder="Search billing projects"
-          value={q}
-          onValueChange={setQ}
-        />
-
-        <button
-          className="btn btn-outline"
-          onClick={load}
-          disabled={loading}
-        >
-          {loading
-            ? "Refreshing…"
-            : "Refresh"}
+        <div>
+          <div className="text-muted-xs">Secure Google Drive billing</div>
+          <h2 className="page-title">Billing and invoices</h2>
+          <p className="text-muted">Upload, replace, edit, view, download, and permanently delete project invoices.</p>
+        </div>
+        <button type="button" className="btn btn-outline" onClick={load} disabled={loading || busy}>
+          <LuRefreshCw className={loading ? "h-4 w-4 animate-spin" : "h-4 w-4"} aria-hidden="true" />
+          Refresh
         </button>
       </div>
 
-      {err && (
-        <div className="text-error">
-          {err}
-        </div>
-      )}
+      <div className="card-surface p-4 billing-filter-row">
+        <SearchField label="Search billing projects" placeholder="Search project or client" value={query} onValueChange={setQuery} />
+        <label className="form-field">
+          <span className="form-label">Invoice status</span>
+          <select value={status} onChange={(event) => setStatus(event.target.value)}>
+            <option value="">All statuses</option>
+            {invoiceStatuses.map((item) => <option key={item} value={item}>{item}</option>)}
+          </select>
+        </label>
+      </div>
 
-      {notice && (
-        <div
-          className="text-success"
-          role="status"
-        >
-          {notice}
-        </div>
-      )}
+      {error ? <div className="text-error" role="alert">{error}</div> : null}
+      {notice ? <div className="text-success" role="status">{notice}</div> : null}
 
       <div className="card-surface overflow-hidden">
-        <table className="table">
+        <table className="table billing-table">
           <thead>
             <tr>
-              <th className="w-42">
-                Project
-              </th>
-              <th className="w-24">
-                Client
-              </th>
-              <th className="w-20">
-                Advance
-              </th>
-              <th className="w-20">
-                Final
-              </th>
-              <th className="actions-head">
-                Actions
-              </th>
+              <th>Project</th>
+              <th>Client</th>
+              <th>Advance</th>
+              <th>Final</th>
+              <th className="actions-head">Actions</th>
             </tr>
           </thead>
+          <tbody>
+            {visibleProjects.map((project) => {
+              const projectInvoices = byProject.get(String(project._id)) || [];
+              const advance = projectInvoices.find((invoice) => invoice.kind === "advance") || null;
+              const finalInvoice = projectInvoices.find((invoice) => invoice.kind === "final") || null;
+              const open = openProjectId === String(project._id);
 
-          <tbody key={tick}>
-            {filtered.map((project) => (
-              <Fragment key={project._id}>
-                <BillingRow
-                  p={project}
-                  openEditId={openEditId}
-                  setOpenEditId={setOpenEditId}
-                  refreshKey={tick}
-                />
-              </Fragment>
-            ))}
-
-            {!filtered.length && (
-              <tr>
-                <td
-                  colSpan="5"
-                  className="empty-cell"
-                >
-                  {loading
-                    ? "Loading…"
-                    : "No projects found."}
-                </td>
-              </tr>
-            )}
+              return (
+                <Fragment key={project._id}>
+                  <tr className="table-row-hover">
+                    <td><div className="font-medium">{project.title}</div><div className="row-sub">{project.summary || "No project summary"}</div></td>
+                    <td>{project.client?.name || project.clientName || "Unassigned"}</td>
+                    <td><StatusBadge invoice={advance} /></td>
+                    <td><StatusBadge invoice={finalInvoice} /></td>
+                    <td className="actions-cell">
+                      <button type="button" className="btn btn-outline" aria-expanded={open} onClick={() => setOpenProjectId(open ? "" : String(project._id))}>
+                        {open ? "Close" : "Manage invoices"}
+                      </button>
+                    </td>
+                  </tr>
+                  {open ? (
+                    <tr className="row-edit">
+                      <td colSpan="5">
+                        <div className="invoice-editor-columns">
+                          <InvoiceEditor project={project} kind="advance" invoice={advance} busy={busy} onChanged={handleChanged} onError={setError} onNotice={setNotice} />
+                          <InvoiceEditor project={project} kind="final" invoice={finalInvoice} busy={busy} onChanged={handleChanged} onError={setError} onNotice={setNotice} />
+                        </div>
+                      </td>
+                    </tr>
+                  ) : null}
+                </Fragment>
+              );
+            })}
+            {!visibleProjects.length ? (
+              <tr><td colSpan="5" className="empty-cell">{loading ? "Loading billing records…" : "No billing projects match these filters."}</td></tr>
+            ) : null}
           </tbody>
         </table>
       </div>

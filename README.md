@@ -113,7 +113,7 @@ Production builds require `VITE_API_BASE`. This prevents accidental same-origin 
 Vercel project:
 
 ```text
-capstone-frontend
+mspixelpulse-frontend
 ```
 
 Build settings:

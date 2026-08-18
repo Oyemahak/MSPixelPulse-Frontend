@@ -60,7 +60,7 @@ Do not make Drive folders public to fix a browser access problem. A 401/403 must
 
 ## Upload Authorization
 
-Uploads must use backend authorization. Small files may use backend multipart upload. Larger files may use an authorized resumable Drive session returned by the backend.
+Uploads must use backend authorization. Small files may use backend multipart upload. Larger files may use an authorized resumable Drive session returned by the backend. Invoice uploads are stricter: the frontend sends bounded chunks only to the MSPixelPulse API, which relays them to Google Drive; Google upload session URLs and privileged storage details are never exposed to browser code.
 
 The frontend must send the actual purpose/project/user context expected by the API and must complete the upload flow exactly as specified by the backend.
 

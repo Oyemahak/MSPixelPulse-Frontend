@@ -70,7 +70,7 @@ Google Sheets is the durable backend data store and can show latency under burst
 
 Private Drive files are rendered/downloaded only through backend-authorized URLs or authenticated proxy requests. Never create raw public Drive links or make folders public to solve frontend access problems.
 
-Small uploads may use the API multipart flow within platform limits. Larger uploads may use backend-authorized resumable Drive sessions. The frontend must send the required user/project/purpose metadata and complete the flow exactly as defined by the API.
+Small uploads may use the API multipart flow within platform limits. Larger uploads may use backend-authorized resumable Drive sessions. Invoice files use the dedicated backend relay endpoints so the browser communicates only with the MSPixelPulse API and never receives a Google upload URL. The frontend must send the required user/project/purpose metadata and complete the flow exactly as defined by the API.
 
 ## Testing Rule
 

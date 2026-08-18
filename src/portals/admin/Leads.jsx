@@ -1,41 +1,106 @@
-import { useEffect, useMemo, useState } from "react";
-import { LuArchive, LuRefreshCw } from "react-icons/lu";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { LuArchive, LuEye, LuMail, LuRefreshCw, LuX } from "react-icons/lu";
+
 import SearchField from "@/components/ui/SearchField.jsx";
 import { admin } from "@/lib/api.js";
+import { formatLocalDateTime } from "@/lib/messageTime.js";
 
 const statuses = ["new", "contacted", "qualified", "completed", "spam", "archived"];
+const closedStatuses = new Set(["completed", "spam", "archived"]);
+
+function leadTimestamp(lead) {
+  const date = new Date(lead?.createdAt || lead?.submittedAt || 0);
+  return Number.isNaN(date.getTime()) ? 0 : date.getTime();
+}
+
+function inquiryLabel(lead) {
+  return lead?.service || lead?.inquiryType || "General inquiry";
+}
+
+function LeadDetails({ lead, onClose }) {
+  useEffect(() => {
+    function closeOnEscape(event) {
+      if (event.key === "Escape") onClose();
+    }
+    document.addEventListener("keydown", closeOnEscape);
+    return () => document.removeEventListener("keydown", closeOnEscape);
+  }, [onClose]);
+
+  if (!lead) return null;
+
+  return (
+    <div className="portal-modal-backdrop" role="presentation" onMouseDown={(event) => event.target === event.currentTarget && onClose()}>
+      <section className="portal-detail-drawer" role="dialog" aria-modal="true" aria-labelledby="lead-detail-title" tabIndex="-1" autoFocus>
+        <header className="portal-detail-head">
+          <div>
+            <div className="text-muted-xs">Lead details</div>
+            <h2 id="lead-detail-title" className="card-title">{lead.name || "Unnamed inquiry"}</h2>
+          </div>
+          <button type="button" className="portal-icon-button" onClick={onClose} aria-label="Close lead details"><LuX aria-hidden="true" /></button>
+        </header>
+        <dl className="lead-detail-list">
+          <div><dt>Email</dt><dd><a className="subtle-link" href={`mailto:${lead.email}`}>{lead.email || "Not provided"}</a></dd></div>
+          <div><dt>Business</dt><dd>{lead.businessName || "Not provided"}</dd></div>
+          <div><dt>Inquiry</dt><dd>{inquiryLabel(lead)}</dd></div>
+          <div><dt>Status</dt><dd><span className={`badge lead-status is-${lead.status || "new"}`}>{lead.status || "new"}</span></dd></div>
+          <div><dt>Received</dt><dd>{formatLocalDateTime(lead.createdAt || lead.submittedAt, "Timestamp pending")}</dd></div>
+        </dl>
+        <div className="lead-message-panel">
+          <div className="form-label">Message</div>
+          <p>{lead.message || "No message was provided."}</p>
+        </div>
+        {lead.email ? <a className="btn btn-primary" href={`mailto:${lead.email}`}><LuMail aria-hidden="true" /> Email lead</a> : null}
+      </section>
+    </div>
+  );
+}
 
 export default function Leads() {
   const [leads, setLeads] = useState([]);
   const [query, setQuery] = useState("");
   const [status, setStatus] = useState("");
+  const [inquiry, setInquiry] = useState("");
+  const [selected, setSelected] = useState(null);
   const [loading, setLoading] = useState(true);
   const [busyId, setBusyId] = useState("");
   const [error, setError] = useState("");
   const [notice, setNotice] = useState("");
 
-  async function load() {
+  const load = useCallback(async () => {
     setLoading(true);
     setError("");
     try {
-      const data = await admin.leads({ q: query, status });
+      const data = await admin.leads();
       setLeads(data.leads || []);
-    } catch (err) {
-      setError(err?.message || "Leads could not be loaded.");
+    } catch (requestError) {
+      setError(requestError?.message || "Leads could not be loaded.");
     } finally {
       setLoading(false);
     }
-  }
+  }, []);
 
-  useEffect(() => {
-    const timer = window.setTimeout(load, 280);
-    return () => window.clearTimeout(timer);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [query, status]);
+  useEffect(() => { void load(); }, [load]);
+
+  const inquiryOptions = useMemo(
+    () => Array.from(new Set(leads.map(inquiryLabel).filter(Boolean))).sort(),
+    [leads],
+  );
+
+  const visibleLeads = useMemo(() => {
+    const needle = query.trim().toLowerCase();
+    return leads
+      .filter((lead) => (
+        (!status || lead.status === status) &&
+        (!inquiry || inquiryLabel(lead) === inquiry) &&
+        (!needle || `${lead.name || ""} ${lead.email || ""} ${lead.businessName || ""} ${inquiryLabel(lead)} ${lead.message || ""}`.toLowerCase().includes(needle))
+      ))
+      .slice()
+      .sort((left, right) => leadTimestamp(right) - leadTimestamp(left));
+  }, [inquiry, leads, query, status]);
 
   const activeCount = useMemo(
-    () => leads.filter((lead) => !["completed", "spam", "archived"].includes(lead.status)).length,
-    [leads]
+    () => leads.filter((lead) => !closedStatuses.has(lead.status)).length,
+    [leads],
   );
 
   async function changeStatus(lead, nextStatus) {
@@ -44,26 +109,27 @@ export default function Leads() {
     setNotice("");
     try {
       await admin.updateLead(lead._id, nextStatus);
+      setLeads((current) => current.map((item) => item._id === lead._id ? { ...item, status: nextStatus } : item));
+      setSelected((current) => current?._id === lead._id ? { ...current, status: nextStatus } : current);
       setNotice(`Lead marked ${nextStatus}.`);
-      await load();
-    } catch (err) {
-      setError(err?.message || "Lead status could not be saved.");
+    } catch (requestError) {
+      setError(requestError?.message || "Lead status could not be saved.");
     } finally {
       setBusyId("");
     }
   }
 
   async function archive(lead) {
-    if (!confirm(`Archive the inquiry from ${lead.name || lead.email}? It remains in the database for business history.`)) return;
+    if (!window.confirm(`Archive the inquiry from ${lead.name || lead.email}? It remains in the database for business history.`)) return;
     setBusyId(lead._id);
     setError("");
     setNotice("");
     try {
       await admin.archiveLead(lead._id);
+      setLeads((current) => current.map((item) => item._id === lead._id ? { ...item, status: "archived" } : item));
       setNotice("Lead archived.");
-      await load();
-    } catch (err) {
-      setError(err?.message || "Lead could not be archived.");
+    } catch (requestError) {
+      setError(requestError?.message || "Lead could not be archived.");
     } finally {
       setBusyId("");
     }
@@ -75,60 +141,59 @@ export default function Leads() {
         <div>
           <div className="text-muted-xs">Persisted public inquiries</div>
           <h2 className="page-title">Leads</h2>
-          <p className="text-muted">{activeCount} active of {leads.length} loaded inquiries.</p>
+          <p className="text-muted">{activeCount} active of {leads.length} inquiries · newest first</p>
         </div>
         <button type="button" className="btn btn-outline" onClick={load} disabled={loading}>
-          <LuRefreshCw className={loading ? "h-4 w-4 animate-spin" : "h-4 w-4"} aria-hidden="true" />
-          Refresh
+          <LuRefreshCw className={loading ? "h-4 w-4 animate-spin" : "h-4 w-4"} aria-hidden="true" /> Refresh
         </button>
       </div>
 
-      <div className="card-surface p-4 form-grid-2">
-        <SearchField label="Search inquiries" placeholder="Name, email, business, service, or message" value={query} onValueChange={setQuery} />
-        <label className="form-field">
-          <span className="form-label">Status</span>
-          <select value={status} onChange={(event) => setStatus(event.target.value)}>
+      <div className="card-surface lead-filter-row">
+        <SearchField label="Search inquiries" placeholder="Search name, email, business, service, or message" value={query} onValueChange={setQuery} />
+        <label className="form-field"><span className="sr-only">Filter by inquiry type</span>
+          <select value={inquiry} onChange={(event) => setInquiry(event.target.value)} aria-label="Filter by inquiry type">
+            <option value="">All inquiry types</option>
+            {inquiryOptions.map((item) => <option key={item} value={item}>{item}</option>)}
+          </select>
+        </label>
+        <label className="form-field"><span className="sr-only">Filter by status</span>
+          <select value={status} onChange={(event) => setStatus(event.target.value)} aria-label="Filter by status">
             <option value="">All statuses</option>
             {statuses.map((item) => <option key={item} value={item}>{item}</option>)}
           </select>
         </label>
       </div>
 
-      {error && <div className="text-error" role="alert">{error}</div>}
-      {notice && <div className="text-success" role="status">{notice}</div>}
+      {error ? <div className="text-error" role="alert">{error}</div> : null}
+      {notice ? <div className="text-success" role="status">{notice}</div> : null}
 
-      <div className="grid gap-4 xl:grid-cols-2">
-        {leads.map((lead) => (
-          <article key={lead._id} className="card-surface p-5">
-            <div className="between gap-4">
-              <div>
-                <h3 className="card-title">{lead.name}</h3>
-                <a className="subtle-link" href={`mailto:${lead.email}`}>{lead.email}</a>
-              </div>
-              <select
-                aria-label={`Status for ${lead.name}`}
-                value={lead.status}
-                disabled={busyId === lead._id}
-                onChange={(event) => changeStatus(lead, event.target.value)}
-              >
-                {statuses.map((item) => <option key={item} value={item}>{item}</option>)}
-              </select>
-            </div>
-            <div className="mt-3 text-muted-xs">{lead.businessName || "No business name"} · {lead.service || lead.inquiryType}</div>
-            <p className="mt-3 whitespace-pre-wrap text-muted">{lead.message}</p>
-            <div className="mt-4 between gap-4">
-              <span className="text-muted-xs">Received {new Date(lead.createdAt).toLocaleString()}</span>
-              {lead.status !== "archived" && (
-                <button type="button" className="btn btn-outline btn-sm" onClick={() => archive(lead)} disabled={busyId === lead._id}>
-                  <LuArchive className="h-4 w-4" aria-hidden="true" /> Archive
-                </button>
-              )}
-            </div>
-          </article>
-        ))}
+      <div className="card-surface overflow-hidden">
+        <table className="table leads-table">
+          <thead><tr><th>Name / business</th><th>Email</th><th>Inquiry</th><th>Status</th><th>Received</th><th className="actions-head">Actions</th></tr></thead>
+          <tbody>
+            {visibleLeads.map((lead) => (
+              <tr key={lead._id} className="table-row-hover">
+                <td><strong>{lead.name || "Unnamed inquiry"}</strong><div className="row-sub">{lead.businessName || "No business name"}</div></td>
+                <td><a className="subtle-link" href={`mailto:${lead.email}`}>{lead.email || "—"}</a></td>
+                <td>{inquiryLabel(lead)}</td>
+                <td>
+                  <select aria-label={`Status for ${lead.name || lead.email}`} value={lead.status || "new"} disabled={busyId === lead._id} onChange={(event) => void changeStatus(lead, event.target.value)}>
+                    {statuses.map((item) => <option key={item} value={item}>{item}</option>)}
+                  </select>
+                </td>
+                <td><span className="lead-received">{formatLocalDateTime(lead.createdAt || lead.submittedAt, "Timestamp pending")}</span></td>
+                <td className="actions-cell">
+                  <button type="button" className="icon-btn" onClick={() => setSelected(lead)} title="View details" aria-label={`View details for ${lead.name || lead.email}`}><LuEye aria-hidden="true" /></button>
+                  {lead.email ? <a className="icon-btn" href={`mailto:${lead.email}`} title="Email lead" aria-label={`Email ${lead.name || lead.email}`}><LuMail aria-hidden="true" /></a> : null}
+                  {lead.status !== "archived" ? <button type="button" className="icon-btn" onClick={() => void archive(lead)} disabled={busyId === lead._id} title="Archive lead" aria-label={`Archive ${lead.name || lead.email}`}><LuArchive aria-hidden="true" /></button> : null}
+                </td>
+              </tr>
+            ))}
+            {!visibleLeads.length ? <tr><td colSpan="6" className="empty-cell">{loading ? "Loading inquiries…" : "No inquiries match these filters."}</td></tr> : null}
+          </tbody>
+        </table>
       </div>
-
-      {!loading && !leads.length && <div className="empty-note">No inquiries match this search.</div>}
+      <LeadDetails lead={selected} onClose={() => setSelected(null)} />
     </div>
   );
 }

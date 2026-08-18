@@ -1458,11 +1458,14 @@ function projectComparator(sort) {
 
   /*
    * Default/display order:
-   * featured first,
+   * active work first,
+   * then featured,
    * then explicit displayOrder,
    * then most recently updated.
    */
   return (a, b) =>
+    Number(b.status === "active") -
+      Number(a.status === "active") ||
     Number(Boolean(b.featured)) -
       Number(Boolean(a.featured)) ||
     Number(
@@ -1505,8 +1508,8 @@ export default function Projects() {
     useState(
       () =>
         localStorage.getItem(
-          "admin-project-view",
-        ) || "grid",
+          "admin-project-view-v2",
+        ) || "list",
     );
 
   const [loading, setLoading] =
@@ -1629,7 +1632,7 @@ export default function Projects() {
 
   useEffect(() => {
     localStorage.setItem(
-      "admin-project-view",
+      "admin-project-view-v2",
       view,
     );
   }, [view]);

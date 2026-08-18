@@ -1,14 +1,10 @@
-// src/portals/client/Billings.jsx
 import { Fragment, useCallback, useEffect, useMemo, useState } from "react";
-import { portalErrorMessage, projects as api, invoices as invApi } from "@/lib/api.js";
+import { LuDownload, LuExternalLink, LuRefreshCw } from "react-icons/lu";
 
-function StatusBadge({ inv }) {
-  if (!inv) return <span className="text-muted-xs">—</span>;
-  if (inv.status === "draft") return <span className="badge">Draft</span>;
-  if (inv.status === "sent") return <span className="badge">Sent</span>;
-  if (inv.status === "paid") return <span className="badge">Paid</span>;
-  if (inv.status === "archived") return <span className="badge">Archived</span>;
-  return <span className="badge">Uploaded</span>;
+import { invoices as invApi, portalErrorMessage, projects as projectApi } from "@/lib/api.js";
+
+function StatusBadge({ invoice }) {
+  return <span className={`badge invoice-status is-${invoice?.status || "missing"}`}>{invoice?.status || "Not available"}</span>;
 }
 
 function formatMoney(value, currency = "CAD") {
@@ -17,188 +13,140 @@ function formatMoney(value, currency = "CAD") {
 }
 
 function formatDate(value) {
-  if (!value) return "";
-  return new Intl.DateTimeFormat("en-CA", { month: "short", day: "numeric", year: "numeric" }).format(new Date(value));
+  const date = value ? new Date(value) : null;
+  if (!date || Number.isNaN(date.getTime())) return "";
+  return new Intl.DateTimeFormat("en-CA", { dateStyle: "medium" }).format(date);
 }
 
-function Preview({ file }) {
-  if (!file?.url) return null;
-  const isPDF = file.type?.includes("pdf");
-  return isPDF ? (
-    <iframe title={file.name || "invoice"} className="w-full h-64 rounded-xl border border-white/10" src={file.url} />
-  ) : (
-    <img alt={file.name || "invoice"} className="w-full rounded-xl border border-white/10" src={file.url} />
-  );
+function downloadUrl(url) {
+  if (!url) return "";
+  return `${url}${url.includes("?") ? "&" : "?"}download=1`;
 }
 
-function InvoiceCard({ title, inv }) {
+function InvoiceCard({ title, invoice }) {
   return (
-    <div className="card-surface p-5 space-y-3">
-      <div className="card-title">{title}</div>
-      {!inv ? (
-        <div className="text-muted-xs">No invoice uploaded yet.</div>
-      ) : (
+    <article className="client-invoice-card">
+      <div className="between gap-3">
+        <div>
+          <div className="text-muted-xs">{title}</div>
+          <h3 className="card-title">{invoice?.invoiceNumber || invoice?.title || invoice?.file?.name || "Not available"}</h3>
+        </div>
+        <StatusBadge invoice={invoice} />
+      </div>
+
+      {invoice ? (
         <>
-          <div className="grid gap-2 text-sm text-white/70">
-            <StatusBadge inv={inv} />
-            <span className="font-semibold text-white/85">
-              {inv.invoiceNumber || inv.file?.name || inv.title || "Invoice"}
-            </span>
-            {inv.title && <span>{inv.title}</span>}
-            <span className="text-muted-xs">
-              {[
-                inv.dueDate ? `Due ${formatDate(inv.dueDate)}` : "",
-                Number(inv.total) > 0 ? `Total ${formatMoney(inv.total, inv.currency)}` : "",
-                inv.isDemo ? "Sample" : "",
-              ].filter(Boolean).join(" | ")}
-            </span>
-          </div>
-          <Preview file={inv.file} />
+          <dl className="invoice-summary-grid">
+            <div><dt>Issued</dt><dd>{formatDate(invoice.issueDate) || "—"}</dd></div>
+            <div><dt>Due</dt><dd>{formatDate(invoice.dueDate) || "—"}</dd></div>
+            <div><dt>Total</dt><dd>{Number(invoice.total) > 0 ? formatMoney(invoice.total, invoice.currency) : "—"}</dd></div>
+          </dl>
+          {invoice.notes ? <p className="text-muted">{invoice.notes}</p> : null}
           <div className="form-actions">
-            {inv.file?.url ? (
-              <a className="btn btn-outline" href={inv.file.url} download={inv.file?.name || "invoice"}>
-                Download
-              </a>
-            ) : (
-              <span className="text-muted-xs">Download available when a file export is attached.</span>
-            )}
+            {invoice.file?.url ? (
+              <>
+                <a className="btn btn-outline" href={invoice.file.url} target="_blank" rel="noreferrer">
+                  <LuExternalLink className="h-4 w-4" aria-hidden="true" /> View
+                </a>
+                <a className="btn btn-primary" href={downloadUrl(invoice.file.url)}>
+                  <LuDownload className="h-4 w-4" aria-hidden="true" /> Download
+                </a>
+              </>
+            ) : <span className="text-muted-xs">A file has not been attached to this invoice.</span>}
           </div>
         </>
-      )}
-    </div>
-  );
-}
-
-function ReadonlyRow({ p }) {
-  const [snap, setSnap] = useState({ advance: null, final: null });
-  const [error, setError] = useState("");
-
-  useEffect(() => {
-    (async () => {
-      try {
-        const d = await invApi.list(p._id);
-        const list = d.invoices || [];
-        setSnap({
-          advance: list.find((x) => x.kind === "advance") || null,
-          final: list.find((x) => x.kind === "final") || null,
-        });
-        setError("");
-      } catch (requestError) {
-        setSnap({ advance: null, final: null });
-        setError(portalErrorMessage(requestError, "billing record"));
-      }
-    })();
-  }, [p._id]);
-
-  return (
-    <tr className="row-edit">
-      <td colSpan={5}>
-        {error ? <div className="text-error mb-3">{error}</div> : null}
-        <div className="grid md:grid-cols-2 gap-5">
-          <InvoiceCard title="Advance payment (50%)" inv={snap.advance} />
-          <InvoiceCard title="Final invoice (after delivery)" inv={snap.final} />
-        </div>
-        <div className="text-muted-xs mt-4">
-          If anything is missing or incorrect, please contact support.
-        </div>
-      </td>
-    </tr>
+      ) : <p className="empty-note">No invoice has been issued for this stage.</p>}
+    </article>
   );
 }
 
 export default function ClientBillings() {
-  const [rows, setRows] = useState([]);
-  const [err, setErr] = useState("");
-  const [loading, setLoading] = useState(false);
-
-  const [openId, setOpenId] = useState(null);
+  const [projects, setProjects] = useState([]);
+  const [invoices, setInvoices] = useState([]);
+  const [openProjectId, setOpenProjectId] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   const load = useCallback(async () => {
     setLoading(true);
-    setErr("");
-    try {
-      const d = await api.list();
-      setRows(d.projects || []);
-    } catch (e) { setErr(portalErrorMessage(e, "billing record")); }
-    finally { setLoading(false); }
-  }, []);
-  useEffect(() => { load(); }, [load]);
+    setError("");
 
-  const filtered = useMemo(() => rows || [], [rows]);
+    try {
+      const [projectData, invoiceData] = await Promise.all([
+        projectApi.list(),
+        invApi.all(),
+      ]);
+      setProjects(projectData.projects || []);
+      setInvoices(invoiceData.invoices || []);
+    } catch (requestError) {
+      setError(portalErrorMessage(requestError, "billing record"));
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => { void load(); }, [load]);
+
+  const byProject = useMemo(() => {
+    const grouped = new Map();
+    invoices.forEach((invoice) => {
+      const projectId = String(invoice.project?._id || invoice.project || "");
+      if (!grouped.has(projectId)) grouped.set(projectId, []);
+      grouped.get(projectId).push(invoice);
+    });
+    return grouped;
+  }, [invoices]);
 
   return (
-    <div className="page-shell space-y-5">
+    <div className="page-shell space-stack">
       <div className="page-header">
-        <h2 className="page-title">Billing</h2>
-        <div />
+        <div>
+          <div className="text-muted-xs">Your project billing</div>
+          <h2 className="page-title">Invoices</h2>
+          <p className="text-muted">View or download only the invoices assigned to your projects.</p>
+        </div>
+        <button type="button" className="btn btn-outline" onClick={load} disabled={loading}>
+          <LuRefreshCw className={loading ? "h-4 w-4 animate-spin" : "h-4 w-4"} aria-hidden="true" /> Refresh
+        </button>
       </div>
 
-      {err && <div className="text-error">{err}</div>}
+      {error ? <div className="text-error" role="alert">{error}</div> : null}
 
       <div className="card-surface overflow-hidden">
-        <table className="table">
+        <table className="table billing-table">
           <thead>
-            <tr>
-              <th className="w-42">Project</th>
-              <th className="w-24">Manager</th>
-              <th className="w-20">Advance</th>
-              <th className="w-20">Final</th>
-              <th className="actions-head">Actions</th>
-            </tr>
+            <tr><th>Project</th><th>Project contact</th><th>Advance</th><th>Final</th><th className="actions-head">Actions</th></tr>
           </thead>
           <tbody>
-            {filtered.map((p) => (
-              <Fragment key={p._id}>
-                <tr className="table-row-hover">
-                  <td>
-                    <div className="font-medium">{p.title}</div>
-                    {p.summary && <div className="row-sub line-clamp-1">{p.summary}</div>}
-                  </td>
-                  <td className="text-white/80">{p.developer?.name || "—"}</td>
-                  <ClientBadges projectId={p._id} />
-                  <td className="actions-cell">
-                    <button
-                      className="btn btn-outline"
-                      onClick={() => setOpenId((v) => (v === p._id ? null : p._id))}
-                      title="View invoices & download"
-                    >
-                      {openId === p._id ? "Close" : "View invoices"}
-                    </button>
-                  </td>
-                </tr>
-                {openId === p._id && <ReadonlyRow p={p} />}
-              </Fragment>
-            ))}
-            {!filtered.length && (
-              <tr><td colSpan="5" className="empty-cell">{loading ? "Loading…" : "No projects found."}</td></tr>
-            )}
+            {projects.map((project) => {
+              const projectInvoices = byProject.get(String(project._id)) || [];
+              const advance = projectInvoices.find((invoice) => invoice.kind === "advance") || null;
+              const finalInvoice = projectInvoices.find((invoice) => invoice.kind === "final") || null;
+              const open = openProjectId === String(project._id);
+
+              return (
+                <Fragment key={project._id}>
+                  <tr className="table-row-hover">
+                    <td><div className="font-medium">{project.title}</div><div className="row-sub">{project.summary || "Project billing"}</div></td>
+                    <td>{project.developer?.name || "MSPixelPulse team"}</td>
+                    <td><StatusBadge invoice={advance} /></td>
+                    <td><StatusBadge invoice={finalInvoice} /></td>
+                    <td className="actions-cell">
+                      <button type="button" className="btn btn-outline" aria-expanded={open} onClick={() => setOpenProjectId(open ? "" : String(project._id))}>
+                        {open ? "Close" : "View invoices"}
+                      </button>
+                    </td>
+                  </tr>
+                  {open ? (
+                    <tr className="row-edit"><td colSpan="5"><div className="invoice-editor-columns"><InvoiceCard title="Advance payment" invoice={advance} /><InvoiceCard title="Final invoice" invoice={finalInvoice} /></div></td></tr>
+                  ) : null}
+                </Fragment>
+              );
+            })}
+            {!projects.length ? <tr><td colSpan="5" className="empty-cell">{loading ? "Loading invoices…" : "No project invoices are available."}</td></tr> : null}
           </tbody>
         </table>
       </div>
     </div>
   );
-
-  function ClientBadges({ projectId }) {
-    const [snap, setSnap] = useState({ advance: null, final: null });
-    useEffect(() => {
-      (async () => {
-        try {
-          const d = await invApi.list(projectId);
-          const list = d.invoices || [];
-          setSnap({
-            advance: list.find((x) => x.kind === "advance") || null,
-            final: list.find((x) => x.kind === "final") || null,
-          });
-        } catch {
-          setSnap({ advance: null, final: null });
-        }
-      })();
-    }, [projectId]);
-    return (
-      <>
-        <td><StatusBadge inv={snap.advance} /></td>
-        <td><StatusBadge inv={snap.final} /></td>
-      </>
-    );
-  }
 }

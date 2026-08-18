@@ -1,13 +1,15 @@
 // src/portals/admin/Approvals.jsx
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { admin } from "@/lib/api.js";
 import { Check, XCircle } from "lucide-react";
+import SearchField from "@/components/ui/SearchField.jsx";
 
 export default function Approvals() {
   const [pending, setPending] = useState([]);
   const [err, setErr] = useState("");
   const [loading, setLoading] = useState(false);
+  const [query, setQuery] = useState("");
 
   async function load() {
     setLoading(true);
@@ -25,6 +27,11 @@ export default function Approvals() {
   useEffect(() => {
     load();
   }, []);
+
+  const visiblePending = useMemo(() => {
+    const needle = query.trim().toLowerCase();
+    return pending.filter((user) => !needle || `${user.name || ""} ${user.email || ""} ${user.businessName || ""} ${user.industry || ""}`.toLowerCase().includes(needle));
+  }, [pending, query]);
 
   async function approve(id) {
     try {
@@ -55,6 +62,10 @@ export default function Approvals() {
 
       {err && <div className="text-error">{err}</div>}
 
+      <div className="card-surface p-4">
+        <SearchField label="Search pending approvals" placeholder="Search name, email, business, or industry" value={query} onValueChange={setQuery} />
+      </div>
+
       <div className="card-surface overflow-hidden">
         <table className="table">
           <thead>
@@ -66,7 +77,7 @@ export default function Approvals() {
             </tr>
           </thead>
           <tbody>
-            {pending.map((u) => (
+            {visiblePending.map((u) => (
               <tr key={u._id} className="table-row-hover">
                 <td className="font-medium"><Link className="row-link" to={`/admin/users/${u._id}`}>{u.name || "—"}</Link></td>
                 <td className="text-muted">{u.email}</td>
@@ -93,10 +104,10 @@ export default function Approvals() {
                 </td>
               </tr>
             ))}
-            {!pending.length && (
+            {!visiblePending.length && (
               <tr>
                 <td colSpan="4" className="empty-cell">
-                  {loading ? "Loading…" : "No pending approvals."}
+                  {loading ? "Loading…" : query ? "No pending approvals match this search." : "No pending approvals."}
                 </td>
               </tr>
             )}

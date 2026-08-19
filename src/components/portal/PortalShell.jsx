@@ -5,7 +5,11 @@ import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useAuth } from "@/context/AuthContext.jsx";
 import { users } from "@/lib/api.js";
-import { useTheme } from "@/lib/theme.js";
+import {
+  clearPendingAccountTheme,
+  rememberPendingAccountTheme,
+  useTheme,
+} from "@/lib/theme.js";
 import {
   LuBell,
   LuBriefcaseBusiness,
@@ -199,6 +203,8 @@ export default function PortalShell({ children }) {
     if (themeBusy) return;
 
     const nextTheme = theme === "dark" ? "light" : "dark";
+    const userId = String(user?._id || "");
+    rememberPendingAccountTheme(userId, nextTheme);
     setTheme(nextTheme);
     updateUser({ themePreference: nextTheme });
     setThemeBusy(true);
@@ -206,9 +212,10 @@ export default function PortalShell({ children }) {
 
     try {
       const result = await users.updateMe({ themePreference: nextTheme });
+      clearPendingAccountTheme(userId, nextTheme);
       updateUser(result.user || { themePreference: nextTheme });
     } catch {
-      setThemeError("Theme changed for this visit, but account sync failed. Try again.");
+      setThemeError("Theme changed. Account sync will retry after your next sign-in or reload.");
     } finally {
       setThemeBusy(false);
     }

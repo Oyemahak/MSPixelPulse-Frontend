@@ -7,11 +7,50 @@ const ThemeContext = createContext({
   toggleTheme: () => {},
 });
 
+const PENDING_ACCOUNT_THEME_KEY = "mspixelpulse-account-theme-pending";
+
+function validTheme(value) {
+  return value === "light" || value === "dark";
+}
+
+export function rememberPendingAccountTheme(userId, theme) {
+  if (typeof window === "undefined" || !userId || !validTheme(theme)) return;
+
+  window.localStorage.setItem(
+    PENDING_ACCOUNT_THEME_KEY,
+    JSON.stringify({ userId: String(userId), theme }),
+  );
+}
+
+export function getPendingAccountTheme(userId) {
+  if (typeof window === "undefined" || !userId) return "";
+
+  try {
+    const pending = JSON.parse(
+      window.localStorage.getItem(PENDING_ACCOUNT_THEME_KEY) || "null",
+    );
+
+    if (String(pending?.userId || "") !== String(userId)) return "";
+    return validTheme(pending?.theme) ? pending.theme : "";
+  } catch {
+    return "";
+  }
+}
+
+export function clearPendingAccountTheme(userId, theme) {
+  if (typeof window === "undefined") return;
+
+  const pending = getPendingAccountTheme(userId);
+  if (!pending || (theme && pending !== theme)) return;
+
+  window.localStorage.removeItem(PENDING_ACCOUNT_THEME_KEY);
+}
+
 function getInitialTheme() {
   if (typeof window === "undefined") return "light";
 
   const saved = window.localStorage.getItem("mspixelpulse-theme");
-  if (saved === "light" || saved === "dark") return saved;
+  if (validTheme(saved)) return saved;
 
   return "light";
 }
@@ -41,7 +80,7 @@ export function ThemeProvider({ children }) {
   }, [theme]);
 
   const setTheme = useCallback((value) => {
-    if (value !== "dark" && value !== "light") return;
+    if (!validTheme(value)) return;
     setThemeState(value);
   }, []);
 

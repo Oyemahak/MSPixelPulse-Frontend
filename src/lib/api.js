@@ -73,6 +73,7 @@ async function http(
     method = "GET",
     body,
     headers,
+    keepalive = false,
   } = {},
 ) {
   const token = getToken();
@@ -88,6 +89,7 @@ async function http(
 
   const res = await fetch(`${API_BASE}${path}`, {
     method,
+    keepalive,
     headers: requestHeaders,
     credentials: "include",
     body:
@@ -1334,10 +1336,11 @@ export const users = {
   me: () =>
     http("/users/me"),
 
-  updateMe: (payload) =>
+  updateMe: (payload, { keepalive = false } = {}) =>
     http("/users/me", {
       method: "PATCH",
       body: payload,
+      keepalive,
     }),
 
   async uploadMyAvatar(

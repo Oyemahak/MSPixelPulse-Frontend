@@ -211,7 +211,10 @@ export default function PortalShell({ children }) {
     setThemeError("");
 
     try {
-      const result = await users.updateMe({ themePreference: nextTheme });
+      const result = await users.updateMe(
+        { themePreference: nextTheme },
+        { keepalive: true },
+      );
       clearPendingAccountTheme(userId, nextTheme);
       updateUser(result.user || { themePreference: nextTheme });
     } catch {

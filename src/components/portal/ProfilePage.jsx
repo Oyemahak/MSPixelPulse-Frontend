@@ -22,7 +22,11 @@ import {
 
 import { useAuth } from "@/context/AuthContext.jsx";
 import { users } from "@/lib/api.js";
-import { useTheme } from "@/lib/theme.js";
+import {
+  clearPendingAccountTheme,
+  rememberPendingAccountTheme,
+  useTheme,
+} from "@/lib/theme.js";
 import PresenceIndicator from "@/components/portal/PresenceIndicator.jsx";
 import { formatLocalDateTime } from "@/lib/messageTime.js";
 
@@ -362,15 +366,24 @@ export default function ProfilePage() {
   async function changeTheme(
     value,
   ) {
+    const userId = String(user?._id || "");
+    rememberPendingAccountTheme(userId, value);
     setTheme(value);
     setError("");
 
     try {
       const data =
-        await users.updateMe({
-          themePreference:
-            value,
-        });
+        await users.updateMe(
+          {
+            themePreference:
+              value,
+          },
+          {
+            keepalive: true,
+          },
+        );
+
+      clearPendingAccountTheme(userId, value);
 
       updateUser(
         data.user || {

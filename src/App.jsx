@@ -6,7 +6,6 @@ import AppHeader from "./components/layout/AppHeader.jsx";
 import AppFooter from "./components/layout/AppFooter.jsx";
 import CookieBanner from "@/components/CookieBanner.jsx";
 import { useAuth } from "@/context/AuthContext.jsx";
-import { users } from "@/lib/api.js";
 import {
   clearPendingAccountTheme,
   getPendingAccountTheme,
@@ -85,7 +84,7 @@ function ProtectedLayout() {
 }
 
 function AccountThemeSync() {
-  const { user, updateUser } = useAuth();
+  const { user } = useAuth();
   const { setTheme } = useTheme();
   const syncedUserId = useRef("");
 
@@ -108,18 +107,10 @@ function AccountThemeSync() {
 
     setTheme(preferredTheme);
 
-    if (pendingTheme) {
-      users
-        .updateMe({ themePreference: pendingTheme })
-        .then((result) => {
-          clearPendingAccountTheme(userId, pendingTheme);
-          updateUser(result.user || { themePreference: pendingTheme });
-        })
-        .catch(() => {
-          // Keep the pending preference so a later reload can retry safely.
-        });
+    if (pendingTheme && user?.themePreference === pendingTheme) {
+      clearPendingAccountTheme(userId, pendingTheme);
     }
-  }, [setTheme, updateUser, user?._id, user?.themePreference]);
+  }, [setTheme, user?._id, user?.themePreference]);
 
   return null;
 }

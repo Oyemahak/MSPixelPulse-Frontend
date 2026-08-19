@@ -7,11 +7,11 @@ import AppFooter from "./components/layout/AppFooter.jsx";
 import CookieBanner from "@/components/CookieBanner.jsx";
 import { useAuth } from "@/context/AuthContext.jsx";
 import {
-  clearPendingAccountTheme,
   getPendingAccountTheme,
   ThemeProvider,
   useTheme,
 } from "@/lib/theme.js";
+import { queueAccountThemeSave } from "@/lib/accountTheme.js";
 
 /** Public pages */
 const Home = lazy(() => import("./pages/Home.jsx"));
@@ -84,8 +84,9 @@ function ProtectedLayout() {
 }
 
 function AccountThemeSync() {
-  const { user } = useAuth();
+  const { user, updateUser } = useAuth();
   const { setTheme } = useTheme();
+  const { pathname } = useLocation();
   const syncedUserId = useRef("");
 
   useEffect(() => {
@@ -106,11 +107,30 @@ function AccountThemeSync() {
     syncedUserId.current = userId;
 
     setTheme(preferredTheme);
-
-    if (pendingTheme && user?.themePreference === pendingTheme) {
-      clearPendingAccountTheme(userId, pendingTheme);
-    }
   }, [setTheme, user?._id, user?.themePreference]);
+
+  useEffect(() => {
+    const userId = String(user?._id || "");
+    const pendingTheme = getPendingAccountTheme(userId);
+
+    if (!userId || !pendingTheme) return;
+
+    let active = true;
+
+    void queueAccountThemeSave(userId)
+      .then((result) => {
+        if (active && result?.user) {
+          updateUser(result.user);
+        }
+      })
+      .catch(() => {
+        // Keep the pending preference so a later route change or reload can retry it.
+      });
+
+    return () => {
+      active = false;
+    };
+  }, [pathname, updateUser, user?._id]);
 
   return null;
 }

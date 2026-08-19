@@ -23,10 +23,9 @@ import {
 import { useAuth } from "@/context/AuthContext.jsx";
 import { users } from "@/lib/api.js";
 import {
-  clearPendingAccountTheme,
-  rememberPendingAccountTheme,
   useTheme,
 } from "@/lib/theme.js";
+import { queueAccountThemeSave } from "@/lib/accountTheme.js";
 import PresenceIndicator from "@/components/portal/PresenceIndicator.jsx";
 import { formatLocalDateTime } from "@/lib/messageTime.js";
 
@@ -367,23 +366,11 @@ export default function ProfilePage() {
     value,
   ) {
     const userId = String(user?._id || "");
-    rememberPendingAccountTheme(userId, value);
     setTheme(value);
     setError("");
 
     try {
-      const data =
-        await users.updateMe(
-          {
-            themePreference:
-              value,
-          },
-          {
-            keepalive: true,
-          },
-        );
-
-      clearPendingAccountTheme(userId, value);
+      const data = await queueAccountThemeSave(userId, value);
 
       updateUser(
         data.user || {

@@ -4,12 +4,10 @@ import "@/portals/css/portal-upgrades.css";
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useAuth } from "@/context/AuthContext.jsx";
-import { users } from "@/lib/api.js";
 import {
-  clearPendingAccountTheme,
-  rememberPendingAccountTheme,
   useTheme,
 } from "@/lib/theme.js";
+import { queueAccountThemeSave } from "@/lib/accountTheme.js";
 import {
   LuBell,
   LuBriefcaseBusiness,
@@ -204,21 +202,15 @@ export default function PortalShell({ children }) {
 
     const nextTheme = theme === "dark" ? "light" : "dark";
     const userId = String(user?._id || "");
-    rememberPendingAccountTheme(userId, nextTheme);
     setTheme(nextTheme);
-    updateUser({ themePreference: nextTheme });
     setThemeBusy(true);
     setThemeError("");
 
     try {
-      const result = await users.updateMe(
-        { themePreference: nextTheme },
-        { keepalive: true },
-      );
-      clearPendingAccountTheme(userId, nextTheme);
+      const result = await queueAccountThemeSave(userId, nextTheme);
       updateUser(result.user || { themePreference: nextTheme });
     } catch {
-      setThemeError("Theme changed. Account sync will retry after your next sign-in or reload.");
+      setThemeError("Theme changed on this device. Account sync will retry automatically.");
     } finally {
       setThemeBusy(false);
     }

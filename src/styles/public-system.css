@@ -1,11 +1,11 @@
 :root {
   --public-section-space: clamp(2.5rem, 5vw, 4.75rem);
   --public-content-gap: clamp(1.25rem, 2.5vw, 2rem);
-  --public-copy-width: 48rem;
+  --public-copy-width: 100%;
   --public-h1-size: clamp(2rem, 3vw, 2.625rem);
   --public-h1-weight: 700;
   --public-h1-line-height: 1.2;
-  --public-title-max-width: 22ch;
+  --public-title-max-width: 100%;
 }
 
 /* All visitor-facing routes live inside .public-main. This is the single
@@ -43,6 +43,7 @@ html:not([data-theme="dark"]) :is(.public-page-hero, .public-section-header) {
 
 .public-page-hero-content {
   min-width: 0;
+  width: 100%;
   max-width: var(--public-copy-width);
 }
 
@@ -81,6 +82,7 @@ html:not([data-theme="dark"]) :is(.public-page-hero, .public-section-header) {
 }
 
 .public-page-title {
+  width: 100%;
   max-width: var(--public-title-max-width);
   margin: 0;
   color: var(--textMain);
@@ -95,7 +97,8 @@ html:not([data-theme="dark"]) :is(.public-page-hero, .public-section-header) {
 }
 
 .public-page-description {
-  max-width: 44rem;
+  width: 100%;
+  max-width: 100%;
   margin: 0.875rem 0 0;
   color: var(--textSub);
   font-size: clamp(1rem, 1.2vw, 1.0625rem);
@@ -150,12 +153,18 @@ html:not([data-theme="dark"]) :is(.public-page-hero, .public-section-header) {
 }
 
 .blog-page .blog-hero-copy .public-page-title {
-  max-width: var(--public-title-max-width);
+  width: 100%;
+  max-width: 100%;
   color: var(--blog-ink);
   font-size: var(--public-h1-size);
   font-weight: var(--public-h1-weight);
   line-height: var(--public-h1-line-height);
   letter-spacing: -0.025em;
+}
+
+.blog-page .blog-hero-copy .public-page-description {
+  width: 100%;
+  max-width: 100%;
 }
 
 /* Compact the visitor-facing intro areas that predate PageHero while keeping
@@ -183,12 +192,9 @@ html:not([data-theme="dark"]) :is(.public-page-hero, .public-section-header) {
     padding-bottom: 1.25rem;
   }
 
-  .public-page-title {
-    max-width: min(100%, var(--public-title-max-width));
-  }
-
+  .public-page-title,
   .blog-page .blog-hero-copy .public-page-title {
-    max-width: min(100%, var(--public-title-max-width));
+    max-width: 100%;
   }
 
   .public-page-actions > :is(a, button) {

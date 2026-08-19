@@ -111,7 +111,7 @@ function ProjectCard({ project, isDark }) {
               href={project.live}
               target="_blank"
               rel="noreferrer"
-              className={isDark ? "btn btn-outline h-10 px-4" : "project-live-site inline-flex h-10 items-center rounded-xl border border-[#2563eb] bg-[#2563eb] px-4 text-sm font-bold text-white shadow-sm hover:border-[#1d4ed8] hover:bg-[#1d4ed8] hover:text-white"}
+              className={isDark ? "btn btn-outline h-10 px-4" : "project-live-site inline-flex h-10 items-center rounded-xl border border-[#2563eb] bg-[#2563eb] px-4 text-sm font-bold text-[#0f172a] shadow-sm hover:border-[#1d4ed8] hover:bg-[#1d4ed8] hover:text-[#0f172a]"}
             >
               Live site <LuExternalLink className="ml-2 h-4 w-4" />
             </a>

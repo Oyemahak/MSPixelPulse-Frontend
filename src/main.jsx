@@ -8,6 +8,7 @@ import App from "./App.jsx";
 
 import "./index.css";
 import "./styles/blog-mobile.css";
+import "./styles/project-card-actions.css";
 
 import { AuthProvider } from "@/context/AuthContext.jsx";
 import { installApiReliability } from "./lib/apiReliability.js";

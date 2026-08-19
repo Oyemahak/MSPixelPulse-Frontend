@@ -1,19 +1,32 @@
 /* Project card CTAs: keep both actions clearly readable in light and dark themes. */
 
-/* Light theme: both project actions use the primary blue CTA treatment. */
-html:not([data-theme="dark"]) .project-card-actions > a:first-child,
-html:not([data-theme="dark"]) .project-card-actions > a:nth-child(2) {
+/* Light theme: case study stays primary blue; live-site CTA is a visible secondary action. */
+html:not([data-theme="dark"]) .project-card-actions > a:first-child {
   border: 1px solid #2563eb !important;
   background: #2563eb !important;
   color: #ffffff !important;
   box-shadow: none !important;
 }
 
-html:not([data-theme="dark"]) .project-card-actions > a:first-child:hover,
-html:not([data-theme="dark"]) .project-card-actions > a:nth-child(2):hover {
+html:not([data-theme="dark"]) .project-card-actions > a:first-child:hover {
   border-color: #1d4ed8 !important;
   background: #1d4ed8 !important;
   color: #ffffff !important;
+}
+
+html:not([data-theme="dark"]) .project-card-actions > a.project-live-site,
+html:not([data-theme="dark"]) .project-card-actions > a:nth-child(2) {
+  border: 1px solid #2563eb !important;
+  background: #dbeafe !important;
+  color: #0f172a !important;
+  box-shadow: none !important;
+}
+
+html:not([data-theme="dark"]) .project-card-actions > a.project-live-site:hover,
+html:not([data-theme="dark"]) .project-card-actions > a:nth-child(2):hover {
+  border-color: #1d4ed8 !important;
+  background: #bfdbfe !important;
+  color: #0f172a !important;
 }
 
 /* Dark theme */

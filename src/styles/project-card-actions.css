@@ -1,0 +1,54 @@
+/* Project card CTA priority: preserve desktop order, prioritize Live site on mobile. */
+.project-card-actions > a:first-child {
+  border: 1px solid #e2e8f0;
+  background: transparent;
+  color: #1e293b;
+  box-shadow: none;
+}
+
+.project-card-actions > a:first-child:hover {
+  background: rgba(248, 250, 252, 0.92);
+}
+
+.project-card-actions > a:nth-child(2) {
+  border: 1px solid #2563ff;
+  background: #2563ff;
+  color: #ffffff;
+  box-shadow: none;
+}
+
+.project-card-actions > a:nth-child(2):hover {
+  border-color: #1d4ed8;
+  background: #1d4ed8;
+}
+
+[data-theme="dark"] .project-card-actions > a:first-child {
+  border-color: rgba(255, 255, 255, 0.1);
+  background: transparent;
+  color: var(--textMain);
+}
+
+[data-theme="dark"] .project-card-actions > a:first-child:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+[data-theme="dark"] .project-card-actions > a:nth-child(2) {
+  border-color: var(--primary);
+  background: var(--primary);
+  color: #ffffff;
+}
+
+[data-theme="dark"] .project-card-actions > a:nth-child(2):hover {
+  border-color: var(--primaryAccent);
+  background: var(--primaryAccent);
+}
+
+@media (max-width: 767px) {
+  .project-card-actions > a:first-child {
+    order: 2;
+  }
+
+  .project-card-actions > a:nth-child(2) {
+    order: 1;
+  }
+}

@@ -1,6 +1,7 @@
 # Agent System Changelog
 
 ## 2026-08-18
+- Centralized the public-route H1 contract in `public-system.css`: responsive 32–42 px sizing, 700 maximum weight, 1.2 line-height, balanced wrapping, proportional subtitles, and compact hero spacing across shared and legacy public intros.
 - Added the production billing contract for generated branded PDFs, external invoice uploads, configurable private defaults, payment tracking, client-safe reads, and secure Drive relay storage.
 - Added the durable presence contract covering login, heartbeat, explicit logout, last-activity persistence, and truthful offline fallback behavior.
 - Recorded the shared public page header system and light/dark token boundary so semantic page headers do not inherit navigation-only theme rules.

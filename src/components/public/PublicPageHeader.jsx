@@ -1,4 +1,3 @@
-import "@/styles/public-system.css";
 import { createElement } from "react";
 
 export function PageEyebrow({

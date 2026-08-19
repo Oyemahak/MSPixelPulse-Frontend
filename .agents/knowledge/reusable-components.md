@@ -14,6 +14,14 @@ Use the Knowledge Update Protocol before editing this file.
 ## Entries
 
 - Date: 2026-08-18
+- Source: Public hero typography and responsive QA
+- Decision or note: Import `src/styles/public-system.css` once from `src/main.jsx`; keep all visitor-route H1 caps and shared `PageHero` spacing there instead of adding page-local typography overrides.
+- Evidence: The central `.public-main h1` contract covers shared heroes plus project detail, Moodle, editorial, legal, auth, home, and error pages; light/dark checks across 1440, 1280, 1024, 768, 430, 390, 360, and 844-by-390 viewports retained the 42 px, 700 weight, 1.2 line-height, and no-overflow limits.
+- Affected areas: All public routes, `PublicPageHeader.jsx`, future visitor-facing page intros
+- Confidence: High
+- Reviewer: Frontend, responsive, visual, and accessibility review required before changing the global H1 contract
+
+- Date: 2026-08-18
 - Source: Public UI and billing implementation
 - Decision or note: Reuse `PublicPageHeader.jsx` for public page/section hierarchy and the `components/billing` workspace for invoice editing, preview, settings, uploads, payments, and accessible drawers.
 - Evidence: The shared public primitives now serve Projects, About, Services, Pricing, Contact, Blog, and existing `SectionTitle` consumers; billing components produce matching on-screen and PDF invoice data without exposing storage credentials.

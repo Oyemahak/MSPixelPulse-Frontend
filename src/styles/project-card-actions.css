@@ -1,6 +1,28 @@
-/* Project card CTAs: keep both actions clearly readable in light and dark themes. */
+/* Project card CTAs: keep both actions clearly readable and identically sized in light/dark themes. */
 
-/* Light theme: case study stays primary blue; live-site CTA is a visible secondary action. */
+.project-card-actions {
+  flex-wrap: nowrap !important;
+  align-items: center;
+}
+
+.project-card-actions > a {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: auto !important;
+  min-width: 0 !important;
+  height: 40px !important;
+  min-height: 40px !important;
+  padding: 0 16px !important;
+  border-radius: 12px !important;
+  font-size: 0.875rem !important;
+  font-weight: 700 !important;
+  line-height: 1 !important;
+  white-space: nowrap !important;
+  flex: 0 0 auto !important;
+}
+
+/* Light theme */
 html:not([data-theme="dark"]) .project-card-actions > a:first-child {
   border: 1px solid #2563eb !important;
   background: #2563eb !important;
@@ -31,29 +53,33 @@ html:not([data-theme="dark"]) .project-card-actions > a:nth-child(2):hover {
 
 /* Dark theme */
 [data-theme="dark"] .project-card-actions > a:first-child {
-  border-color: rgba(255, 255, 255, 0.14);
-  background: transparent;
-  color: var(--textMain);
-  box-shadow: none;
+  border: 1px solid rgba(255, 255, 255, 0.14) !important;
+  background: transparent !important;
+  color: var(--textMain) !important;
+  box-shadow: none !important;
 }
 
 [data-theme="dark"] .project-card-actions > a:first-child:hover {
-  background: rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.06) !important;
 }
 
 [data-theme="dark"] .project-card-actions > a:nth-child(2) {
-  border-color: var(--primary);
-  background: var(--primary);
-  color: #ffffff;
-  box-shadow: none;
+  border: 1px solid var(--primary) !important;
+  background: var(--primary) !important;
+  color: #ffffff !important;
+  box-shadow: none !important;
 }
 
 [data-theme="dark"] .project-card-actions > a:nth-child(2):hover {
-  border-color: var(--primaryAccent);
-  background: var(--primaryAccent);
+  border-color: var(--primaryAccent) !important;
+  background: var(--primaryAccent) !important;
 }
 
 @media (max-width: 767px) {
+  .project-card-actions {
+    flex-wrap: wrap !important;
+  }
+
   .project-card-actions > a:first-child {
     order: 2;
   }

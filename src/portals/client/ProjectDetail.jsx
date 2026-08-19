@@ -2,7 +2,7 @@
 import { useEffect, useMemo, useRef, useState, useCallback } from "react";
 import { useParams, useSearchParams } from "react-router-dom";
 import { portalErrorMessage, projects as api, requirements as reqApi } from "@/lib/api.js";
-import { formatLocalDateTime } from "@/lib/messageTime.js";
+import { formatActivityMeta } from "@/lib/messageTime.js";
 
 /**
  * ClientProjectDetail
@@ -43,15 +43,18 @@ export default function ClientProjectDetail() {
     }
   }, [projectId]);
 
-  const loadReq = useCallback(async () => {
+  const loadReq = useCallback(async ({ throwOnError = false } = {}) => {
     setReqErr("");
     try {
       setReqBusy(true);
       const d = await reqApi.get(projectId);
       setReqSnap(d.requirement || null);
+      return d.requirement || null;
     } catch (e) {
       setReqErr(portalErrorMessage(e, "project"));
       setReqSnap(null);
+      if (throwOnError) throw e;
+      return null;
     } finally {
       setReqBusy(false);
     }
@@ -72,9 +75,9 @@ export default function ClientProjectDetail() {
   }, [projectId]);
 
   useEffect(() => {
-    loadProject();
-    loadReq();
-    loadAnnouncements();
+    void loadProject();
+    void loadReq();
+    void loadAnnouncements();
   }, [projectId, loadProject, loadReq, loadAnnouncements]);
 
   useEffect(() => {
@@ -102,10 +105,11 @@ export default function ClientProjectDetail() {
       </div>
 
       <div className="card-surface p-3">
-        <div className="flex gap-2 flex-wrap">
+        <div className="project-detail-tabs flex gap-2 flex-wrap">
           {["overview", "requirements", "evidence", "updates"].map((k) => (
             <button
               key={k}
+              type="button"
               className={`btn h-10 px-4 rounded-lg ${tab === k ? "btn-primary" : "btn-outline"}`}
               onClick={() => {
                 setTab(k);
@@ -132,8 +136,9 @@ export default function ClientProjectDetail() {
           snapshot={reqSnap}
           busy={reqBusy}
           error={reqErr}
-          onReload={async () => {
-            await loadReq();
+          onReload={async (savedRequirement) => {
+            if (savedRequirement) setReqSnap(savedRequirement);
+            await loadReq({ throwOnError: true });
             await loadProject(); // evidence reflects "Client updated…"
           }}
         />
@@ -184,7 +189,7 @@ function OverviewCard({ project, clientName, announcements }) {
             <li key={i} className="bg-white/5 rounded-xl p-3">
               <div className="font-medium">{a.title}</div>
               {a.body && <div className="text-muted mt-1">{a.body}</div>}
-              <div className="text-muted-xs mt-1">{formatLocalDateTime(a.ts, "—")}</div>
+              <div className="text-muted-xs mt-1">{formatActivityMeta(a)}</div>
             </li>
           ))}
           {!(announcements || []).length && <li className="text-muted-xs">No announcements yet.</li>}
@@ -202,6 +207,8 @@ function OverviewCard({ project, clientName, announcements }) {
    ============================================================ */
 function ClientRequirementsEditor({ projectId, snapshot, busy, error, onReload }) {
   const [saving, setSaving] = useState(false);
+  const savingRef = useRef(false);
+  const [saveStage, setSaveStage] = useState("");
   const [ok, setOk] = useState("");
   const [err, setErr] = useState("");
 
@@ -225,11 +232,29 @@ function ClientRequirementsEditor({ projectId, snapshot, busy, error, onReload }
   }, [snapshot]);
 
   const normalizeName = (n = "") => String(n).trim();
+  const pageKey = (n = "") => normalizeName(n).toLowerCase();
 
   function addPageRow() {
     setPagesMeta((prev) => [...prev, { name: "", note: "" }]);
   }
   function changePageField(idx, field, value) {
+    if (field === "name") {
+      const previousKey = pageKey(pagesMeta[idx]?.name);
+      const nextKey = pageKey(value);
+
+      if (previousKey && nextKey && previousKey !== nextKey) {
+        setPageFiles((prev) => {
+          const previousFiles = prev[previousKey] || [];
+          if (!previousFiles.length) return prev;
+
+          const next = { ...prev };
+          next[nextKey] = [...(next[nextKey] || []), ...previousFiles];
+          delete next[previousKey];
+          return next;
+        });
+      }
+    }
+
     setPagesMeta((prev) => {
       const copy = prev.slice();
       copy[idx] = { ...copy[idx], [field]: value };
@@ -237,8 +262,15 @@ function ClientRequirementsEditor({ projectId, snapshot, busy, error, onReload }
     });
   }
   function removePageRow(idx) {
+    const key = pageKey(pagesMeta[idx]?.name);
     setPagesMeta((prev) => prev.filter((_, i) => i !== idx));
-    // best effort: also drop transient files for that row if names match
+    if (key) {
+      setPageFiles((prev) => {
+        const next = { ...prev };
+        delete next[key];
+        return next;
+      });
+    }
   }
 
   const addSupportingFiles = (files) => {
@@ -249,11 +281,11 @@ function ClientRequirementsEditor({ projectId, snapshot, busy, error, onReload }
 
   const addPageFiles = (pageName, files) => {
     if (!files?.length) return;
-    const key = normalizeName(pageName);
+    const key = pageKey(pageName);
     setPageFiles((prev) => ({ ...prev, [key]: [...(prev[key] || []), ...files] }));
   };
   const clearPageFiles = (pageName) => {
-    const key = normalizeName(pageName);
+    const key = pageKey(pageName);
     setPageFiles((prev) => {
       const n = { ...prev };
       delete n[key];
@@ -267,8 +299,9 @@ function ClientRequirementsEditor({ projectId, snapshot, busy, error, onReload }
       .filter((p) => p.name);
 
     const dynamic = {};
-    Object.entries(pageFiles).forEach(([name, list]) => {
-      if (name && Array.isArray(list) && list.length) dynamic[name] = list;
+    pages.forEach(({ name }) => {
+      const list = pageFiles[pageKey(name)] || [];
+      if (list.length) dynamic[name] = list;
     });
 
     return {
@@ -283,6 +316,8 @@ function ClientRequirementsEditor({ projectId, snapshot, busy, error, onReload }
   }
 
   async function saveAll() {
+    if (savingRef.current) return;
+
     setErr("");
     setOk("");
     try {
@@ -300,8 +335,22 @@ function ClientRequirementsEditor({ projectId, snapshot, busy, error, onReload }
         return;
       }
 
+      savingRef.current = true;
       setSaving(true);
-      await reqApi.upsert(projectId, payload);
+      setSaveStage("Preparing upload…");
+
+      const result = await reqApi.upsert(projectId, payload, {
+        onStage: (stage, file) => {
+          const fileName = file?.name ? ` ${file.name}` : "";
+          const labels = {
+            session: `Preparing${fileName}…`,
+            upload: `Uploading${fileName}…`,
+            complete: `Finalizing${fileName}…`,
+            save: "Saving requirements…",
+          };
+          setSaveStage(labels[stage] || "Saving…");
+        },
+      });
 
       // reset transient picks
       setLogo(null);
@@ -309,13 +358,25 @@ function ClientRequirementsEditor({ projectId, snapshot, busy, error, onReload }
       setSupporting([]);
       setPageFiles({});
 
-      setOk("Saved. Server merged the changes.");
-      setTimeout(() => setOk(""), 1200);
-      await onReload?.();
+      try {
+        await onReload?.(result.requirement);
+      } catch {
+        setErr("Requirements were saved, but the latest data could not be refreshed. Reload this page to verify it.");
+        return;
+      }
+
+      setOk(
+        result.cleanupPending
+          ? "Requirements saved. Previous-file cleanup will finish in the background."
+          : "Requirements saved and verified.",
+      );
+      setTimeout(() => setOk(""), 3000);
     } catch (e) {
       setErr(portalErrorMessage(e, "project"));
     } finally {
+      savingRef.current = false;
       setSaving(false);
+      setSaveStage("");
     }
   }
 
@@ -327,7 +388,7 @@ function ClientRequirementsEditor({ projectId, snapshot, busy, error, onReload }
     <div className="card-surface card-pad space-stack">
       <div className="flex items-center justify-between">
         <div className="card-title">Your requirements</div>
-        <button className="btn btn-outline btn-sm" onClick={() => onReload?.()} disabled={busy || saving}>
+        <button type="button" className="btn btn-outline btn-sm" onClick={() => onReload?.()} disabled={busy || saving}>
           {busy ? "Refreshing…" : "Reload"}
         </button>
       </div>
@@ -350,13 +411,14 @@ function ClientRequirementsEditor({ projectId, snapshot, busy, error, onReload }
           <div className="font-extrabold">Core</div>
           <div className="grid md:grid-cols-2 gap-4">
             <div>
-              <div className="form-label">Logo (PNG/JPG/SVG)</div>
+              <div className="form-label">Logo (PNG/JPG/WebP)</div>
               <PrettyPicker
                 mode="single"
-                accept="image/*,.svg"
+                accept="image/png,image/jpeg,image/webp,.jpg,.jpeg,.png,.webp"
                 placeholder="Choose a logo file"
                 value={logo}
                 onChange={(f) => setLogo(f)}
+                onRemove={() => setLogo(null)}
               />
               {snapshot?.logo && !logo && (
                 <div className="text-muted-xs mt-1">
@@ -375,6 +437,7 @@ function ClientRequirementsEditor({ projectId, snapshot, busy, error, onReload }
                 placeholder="Attach your brief"
                 value={brief}
                 onChange={(f) => setBrief(f)}
+                onRemove={() => setBrief(null)}
               />
               {snapshot?.brief && !brief && (
                 <div className="text-muted-xs mt-1">
@@ -396,6 +459,7 @@ function ClientRequirementsEditor({ projectId, snapshot, busy, error, onReload }
           </div>
           <PrettyPicker
             mode="multi"
+            accept="application/pdf,.doc,.docx,image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp"
             placeholder="Drop files here or click to upload"
             onChange={(files) => addSupportingFiles(files)}
           />
@@ -414,7 +478,7 @@ function ClientRequirementsEditor({ projectId, snapshot, busy, error, onReload }
 
           <div className="space-stack">
             {pagesMeta.map((p, idx) => {
-              const key = normalizeName(p.name);
+              const key = pageKey(p.name);
               const picked = pageFiles[key] || [];
               return (
                 <div key={idx} className="rounded-xl border border-white/10 p-3 space-stack">
@@ -443,6 +507,7 @@ function ClientRequirementsEditor({ projectId, snapshot, busy, error, onReload }
                     <div className="form-label">Attach files for this page</div>
                     <PrettyPicker
                       mode="multi"
+                      accept="application/pdf,.doc,.docx,image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp"
                       disabled={!key}
                       placeholder={key ? `Drop files for “${key}”` : "Enter a page name first"}
                       onChange={(files) => addPageFiles(key, files)}
@@ -462,11 +527,11 @@ function ClientRequirementsEditor({ projectId, snapshot, busy, error, onReload }
                     </div>
                     <div className="flex gap-2">
                       {!!picked.length && (
-                        <button className="btn btn-outline btn-sm" onClick={() => clearPageFiles(key)}>
+                        <button type="button" className="btn btn-outline btn-sm" onClick={() => clearPageFiles(key)}>
                           Clear files
                         </button>
                       )}
-                      <button className="btn btn-outline btn-sm text-rose-300" onClick={() => removePageRow(idx)}>
+                      <button type="button" className="btn btn-outline btn-sm text-rose-300" onClick={() => removePageRow(idx)}>
                         Remove row
                       </button>
                     </div>
@@ -476,14 +541,14 @@ function ClientRequirementsEditor({ projectId, snapshot, busy, error, onReload }
             })}
           </div>
 
-          <button className="btn btn-outline" onClick={addPageRow}>
+          <button type="button" className="btn btn-outline" onClick={addPageRow}>
             + Add page
           </button>
         </section>
 
         <div className="form-actions">
-          <button className="btn btn-primary" onClick={saveAll} disabled={saving}>
-            {saving ? "Saving…" : "Save changes"}
+          <button type="button" className="btn btn-primary" onClick={saveAll} disabled={saving}>
+            {saving ? saveStage || "Saving…" : "Save changes"}
           </button>
         </div>
 
@@ -498,17 +563,26 @@ function ClientRequirementsEditor({ projectId, snapshot, busy, error, onReload }
 /* ============================================================
    Pretty file pickers & badges (no external deps)
    ============================================================ */
-function PrettyPicker({ mode = "single", accept, placeholder = "Click to choose files", onChange, disabled }) {
+function PrettyPicker({
+  mode = "single",
+  accept,
+  placeholder = "Click to choose files",
+  value,
+  onChange,
+  onRemove,
+  disabled,
+}) {
   const inputRef = useRef(null);
   const [isOver, setIsOver] = useState(false);
 
-  const onClick = () => !disabled && inputRef.current?.click();
+  const choose = () => !disabled && inputRef.current?.click();
 
   const handleFiles = (filesList) => {
     const files = Array.from(filesList || []);
     if (!files.length) return;
     if (mode === "single") onChange?.(files[0]);
     else onChange?.(files);
+    if (inputRef.current) inputRef.current.value = "";
   };
 
   const onDrop = (e) => {
@@ -520,23 +594,52 @@ function PrettyPicker({ mode = "single", accept, placeholder = "Click to choose 
 
   return (
     <div
-      onClick={onClick}
       onDragOver={(e) => { e.preventDefault(); if (!disabled) setIsOver(true); }}
       onDragLeave={() => setIsOver(false)}
       onDrop={onDrop}
-      className={`rounded-xl border border-dashed transition-colors cursor-pointer
-        ${disabled ? "opacity-50 cursor-not-allowed" : ""}
+      className={`requirement-picker rounded-xl border border-dashed transition-colors
+        ${disabled ? "opacity-50" : ""}
         ${isOver ? "border-white/60 bg-white/10" : "border-white/15 bg-white/5"}`}
       aria-disabled={disabled}
     >
-      <div className="p-3 flex items-center justify-between gap-3">
-        <div className="text-sm">
-          <div className="font-medium opacity-90">{placeholder}</div>
-          <div className="text-muted-xs">Drag & drop or click · {mode === "single" ? "1 file" : "Multiple files"}</div>
-          {accept && <div className="text-muted-xs mt-1">Accepted: {accept}</div>}
+      <button
+        type="button"
+        className="requirement-picker-button"
+        onClick={choose}
+        disabled={disabled}
+      >
+        <span className="min-w-0 text-sm text-left">
+          <span className="block font-medium opacity-90">
+            {value ? "Selected file" : placeholder}
+          </span>
+          <span className="text-muted-xs block">
+            {value
+              ? "Choose another file or remove it below"
+              : `Drag & drop or choose ${mode === "single" ? "one file" : "multiple files"}`}
+          </span>
+        </span>
+        <span className="btn btn-outline pointer-events-none shrink-0">
+          {disabled ? "Unavailable" : value ? "Change" : mode === "single" ? "Choose file" : "Choose files"}
+        </span>
+      </button>
+
+      {value ? (
+        <div className="requirement-picker-selection" role="status">
+          <span className="min-w-0">
+            <span className="requirement-picker-name" title={value.name}>{value.name}</span>
+            <span className="text-muted-xs">{formatSize(value.size)}</span>
+          </span>
+          <button
+            type="button"
+            className="btn btn-outline btn-xs"
+            onClick={onRemove}
+            disabled={disabled}
+            aria-label={`Remove ${value.name}`}
+          >
+            Remove
+          </button>
         </div>
-        <span className="btn btn-outline">{disabled ? "Disabled" : "Choose file"}</span>
-      </div>
+      ) : null}
 
       <input
         ref={inputRef}
@@ -553,12 +656,21 @@ function PrettyPicker({ mode = "single", accept, placeholder = "Click to choose 
 
 function FileBadgeList({ files = [], onRemove }) {
   return (
-    <div className="flex flex-wrap gap-2 mt-2">
+    <div className="requirement-file-list mt-2" role="status">
       {files.map((f, i) => (
-        <div key={i} className="flex items-center gap-2 px-2 py-1 rounded-lg bg-white/10 border border-white/10 text-[12px]">
-          <span className="truncate max-w-[200px]" title={f.name}>{f.name}</span>
-          {f.size !== undefined && <span className="opacity-70">· {formatSize(f.size)}</span>}
-          <button type="button" className="btn btn-xs btn-outline" onClick={() => onRemove?.(i)}>Remove</button>
+        <div key={`${f.name}-${f.size}-${i}`} className="requirement-file-item">
+          <span className="requirement-file-copy">
+            <span className="requirement-picker-name" title={f.name}>{f.name}</span>
+            {f.size !== undefined && <span className="text-muted-xs">{formatSize(f.size)}</span>}
+          </span>
+          <button
+            type="button"
+            className="btn btn-xs btn-outline"
+            onClick={() => onRemove?.(i)}
+            aria-label={`Remove ${f.name}`}
+          >
+            Remove
+          </button>
         </div>
       ))}
     </div>
@@ -618,7 +730,7 @@ function ExistingRequirements({ req, emptyMsg = "—" }) {
             {req.pages.map((p, i) => (
               <div key={`${p.name}-${i}`} className="bg-white/5 rounded-lg p-3">
                 <div className="font-semibold">{p.name}</div>
-                {p.note && <div className="text-white/70 text-sm mt-1 whitespace-pre-wrap">{p.note}</div>}
+                {p.note && <div className="text-muted text-sm mt-1 whitespace-pre-wrap">{p.note}</div>}
                 {!!(p.files || []).length && (
                   <ul className="list-disc pl-5 text-sm mt-1">
                     {p.files.map((f, k) => (
@@ -662,18 +774,23 @@ function EvidenceTimeline({ timeline = [], onRefresh }) {
               {!!(it.images || []).length && (
                 <div className="grid grid-cols-3 md:grid-cols-4 gap-2 mt-2">
                   {it.images.map((im, k) => (
-                    <img key={k} alt="" src={im.url} className="rounded-lg border border-white/10" />
+                    <img
+                      key={k}
+                      alt={im.name || `${it.title || "Project update"} evidence ${k + 1}`}
+                      src={im.url}
+                      className="rounded-lg border border-white/10"
+                    />
                   ))}
                 </div>
               )}
-              <div className="text-muted-xs mt-1">{formatLocalDateTime(it.ts, "—")}</div>
+              <div className="text-muted-xs mt-1">{formatActivityMeta(it)}</div>
             </div>
           ))}
           {!((timeline || []).length) && <div className="text-muted-xs">No evidence yet.</div>}
         </div>
 
         <div className="form-actions mt-tight">
-          <button className="btn btn-outline" onClick={onRefresh}>Refresh</button>
+          <button type="button" className="btn btn-outline" onClick={onRefresh}>Refresh</button>
         </div>
       </div>
 
@@ -696,7 +813,7 @@ function AnnouncementsPanel({ announcements = [], busy, error, onRefresh }) {
     <div className="card-surface card-pad">
       <div className="flex items-center justify-between">
         <div className="card-title">Announcements</div>
-        <button className="btn btn-outline btn-sm" onClick={onRefresh} disabled={busy}>
+        <button type="button" className="btn btn-outline btn-sm" onClick={onRefresh} disabled={busy}>
           {busy ? "Refreshing…" : "Reload"}
         </button>
       </div>
@@ -708,7 +825,7 @@ function AnnouncementsPanel({ announcements = [], busy, error, onRefresh }) {
           <div key={i} className="bg-white/5 rounded-xl p-3">
             <div className="font-extrabold">{a.title}</div>
             {a.body && <div className="text-muted mt-1 whitespace-pre-wrap">{a.body}</div>}
-            <div className="text-muted-xs mt-1">{formatLocalDateTime(a.ts, "—")}</div>
+            <div className="text-muted-xs mt-1">{formatActivityMeta(a)}</div>
           </div>
         ))}
         {!(announcements || []).length && (

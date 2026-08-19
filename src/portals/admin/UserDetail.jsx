@@ -599,61 +599,73 @@ export default function UserDetail() {
             </div>
           ) : (
             <>
-              <p className="text-muted-xs">
-                Existing passwords are securely hashed and cannot be displayed. Enter a new permanent password here; it works immediately and replaces the old password.
+              <p
+                id="admin-password-help"
+                className="text-muted-xs"
+              >
+                Create an 8–72 character password. It replaces the current password immediately and signs out existing sessions.
               </p>
 
-              <label className="form-field">
-                <div className="form-label">
-                  New password
-                </div>
+              <div className="admin-password-row">
+                <label className="form-field min-w-0">
+                  <div className="form-label">
+                    New password
+                  </div>
 
-                <input
-                  className="form-input"
-                  type={
-                    showPassword
-                      ? "text"
-                      : "password"
-                  }
-                  value={
-                    password
-                  }
-                  onChange={(
-                    event,
-                  ) =>
-                    setPassword(
-                      event.target
-                        .value,
-                    )
-                  }
-                  minLength={8}
-                  maxLength={72}
-                  autoComplete="new-password"
-                  disabled={
-                    busy ||
-                    !canResetPassword
-                  }
-                />
-              </label>
+                  <input
+                    id="admin-user-password"
+                    className="form-input"
+                    type={
+                      showPassword
+                        ? "text"
+                        : "password"
+                    }
+                    value={
+                      password
+                    }
+                    onChange={(
+                      event,
+                    ) =>
+                      setPassword(
+                        event.target
+                          .value,
+                      )
+                    }
+                    minLength={8}
+                    maxLength={72}
+                    autoComplete="new-password"
+                    aria-describedby="admin-password-help"
+                    disabled={
+                      busy ||
+                      !canResetPassword
+                    }
+                  />
+                </label>
 
-              <label className="flex items-center gap-2 text-sm">
-                <input
-                  type="checkbox"
-                  checked={
-                    showPassword
-                  }
-                  onChange={(
-                    event,
-                  ) =>
-                    setShowPassword(
-                      event.target
-                        .checked,
-                    )
-                  }
-                />
+                <label className="password-visibility-control">
+                  <input
+                    className="password-visibility-checkbox"
+                    type="checkbox"
+                    checked={
+                      showPassword
+                    }
+                    onChange={(
+                      event,
+                    ) =>
+                      setShowPassword(
+                        event.target
+                          .checked,
+                      )
+                    }
+                    disabled={
+                      busy ||
+                      !canResetPassword
+                    }
+                  />
 
-                Show entered password
-              </label>
+                  <span>Show password</span>
+                </label>
+              </div>
 
               <div className="form-actions">
                 <button
@@ -668,7 +680,7 @@ export default function UserDetail() {
                     !canResetPassword
                   }
                 >
-                  Change password
+                  Set new password
                 </button>
 
                 <button

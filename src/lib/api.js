@@ -226,24 +226,34 @@ async function directGoogleUpload(
     purpose,
     projectId = "",
     requirementField = "",
+    onStage,
   } = {},
 ) {
-  const session = await http(
-    "/files/upload-session",
-    {
-      method: "POST",
-      body: {
-        name: file.name,
-        type:
-          file.type ||
-          "application/octet-stream",
-        size: file.size,
-        purpose,
-        projectId,
-        requirementField,
+  let session;
+
+  try {
+    onStage?.("session", file);
+
+    session = await http(
+      "/files/upload-session",
+      {
+        method: "POST",
+        body: {
+          name: file.name,
+          type:
+            file.type ||
+            "application/octet-stream",
+          size: file.size,
+          purpose,
+          projectId,
+          requirementField,
+        },
       },
-    },
-  );
+    );
+  } catch (cause) {
+    cause.uploadStage = "session";
+    throw cause;
+  }
 
   const upload = session?.upload;
 
@@ -251,27 +261,43 @@ async function directGoogleUpload(
     !upload?.url ||
     !upload?.completionToken
   ) {
-    throw new Error(
-      "Upload session could not be created",
+    const error = new Error(
+      "Upload session could not be created. Please try again.",
     );
+    error.uploadStage = "session";
+    throw error;
   }
 
-  const response = await fetch(
-    upload.url,
-    {
-      method: upload.method || "PUT",
+  let response;
 
-      headers: {
-        "Content-Type":
-          file.type ||
-          "application/octet-stream",
+  try {
+    onStage?.("upload", file);
+
+    response = await fetch(
+      upload.url,
+      {
+        method: upload.method || "PUT",
+
+        headers: {
+          ...(upload.headers || {}),
+          "Content-Type":
+            file.type ||
+            "application/octet-stream",
+        },
+
+        body: file,
+
+        credentials: "omit",
       },
-
-      body: file,
-
-      credentials: "omit",
-    },
-  );
+    );
+  } catch (cause) {
+    const error = new Error(
+      "Upload failed while sending the file. Check your connection and try again.",
+    );
+    error.uploadStage = "upload";
+    error.cause = cause;
+    throw error;
+  }
 
   const result = await response
     .json()
@@ -282,25 +308,35 @@ async function directGoogleUpload(
     !result?.id
   ) {
     const error = new Error(
-      "Google Drive upload failed. Please try again.",
+      [404, 410].includes(response.status)
+        ? "Upload session expired. Select the file again and retry."
+        : "Upload failed while sending the file. Please try again.",
     );
 
     error.status = response.status;
+    error.uploadStage = "upload";
 
     throw error;
   }
 
-  return http(
-    "/files/upload-complete",
-    {
-      method: "POST",
-      body: {
-        driveFileId: result.id,
-        completionToken:
-          upload.completionToken,
+  try {
+    onStage?.("complete", file);
+
+    return await http(
+      "/files/upload-complete",
+      {
+        method: "POST",
+        body: {
+          driveFileId: result.id,
+          completionToken:
+            upload.completionToken,
+        },
       },
-    },
-  );
+    );
+  } catch (cause) {
+    cause.uploadStage = "complete";
+    throw cause;
+  }
 }
 
 /* ---------------------------------------------------------
@@ -767,6 +803,9 @@ export const requirements = {
   async upsert(
     projectId,
     payload,
+    {
+      onStage,
+    } = {},
   ) {
     const uploadOne = (
       file,
@@ -776,6 +815,7 @@ export const requirements = {
         purpose: "requirement",
         projectId,
         requirementField,
+        onStage,
       }).then(
         (result) =>
           result.file,
@@ -847,6 +887,8 @@ export const requirements = {
           );
         }
       }
+
+      onStage?.("save");
 
       return http(
         `/projects/${projectId}/requirements`,
@@ -1433,6 +1475,25 @@ export function portalErrorMessage(
   resource = "resource",
 ) {
   if (
+    typeof navigator !== "undefined" &&
+    navigator.onLine === false
+  ) {
+    return "Network unavailable. Reconnect and try again.";
+  }
+
+  if (error?.uploadStage === "session") {
+    return error?.message || "Unable to start the upload. Please try again.";
+  }
+
+  if (error?.uploadStage === "upload") {
+    return error?.message || "Upload failed. Check your connection and try again.";
+  }
+
+  if (error?.uploadStage === "complete") {
+    return error?.message || "The file uploaded, but could not be finalized. Please try again.";
+  }
+
+  if (
     error?.status === 403
   ) {
     return `You don't have access to this ${resource}.`;
@@ -1450,7 +1511,13 @@ export function portalErrorMessage(
   if (
     error?.status >= 500
   ) {
-    return "Something went wrong. Please try again.";
+    return error?.message || "Unable to complete the request. Please try again.";
+  }
+
+  if (
+    error instanceof TypeError
+  ) {
+    return "Network unavailable. Check your connection and try again.";
   }
 
   return (

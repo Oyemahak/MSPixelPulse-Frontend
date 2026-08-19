@@ -2,8 +2,9 @@
 import { useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import { LuX } from "react-icons/lu";
-import { formatLocalDateTime } from "@/lib/messageTime.js";
+import { formatActivityMeta, formatLocalDateTime } from "@/lib/messageTime.js";
 import {
+  portalErrorMessage,
   projects as api,
   requirements as reqApi,
   files as fileApi,
@@ -28,7 +29,7 @@ export default function DevProjectDetail() {
       const d = await reqApi.get(projectId);
       setReqSnap(d.requirement || null);
     } catch (e) {
-      setReqErr(e?.message || "Failed to load requirements");
+      setReqErr(portalErrorMessage(e, "requirements"));
       setReqSnap(null);
     } finally {
       setReqBusy(false);
@@ -163,10 +164,11 @@ export default function DevProjectDetail() {
 
       {/* Tabs — Chat removed */}
       <div className="card-surface p-3">
-        <div className="flex gap-2">
+        <div className="project-detail-tabs flex gap-2 flex-wrap">
           {["overview", "requirements", "updates", "evidence"].map((k) => (
             <button
               key={k}
+              type="button"
               className={`btn h-10 px-4 rounded-lg ${tab === k ? "btn-primary" : "btn-outline"}`}
               onClick={() => setTab(k)}
             >
@@ -192,6 +194,7 @@ export default function DevProjectDetail() {
                 <li key={i} className="bg-white/5 rounded-xl p-3">
                   <div className="font-medium">{a.title}</div>
                   {a.body && <div className="text-muted mt-1">{a.body}</div>}
+                  <div className="text-muted-xs mt-1">{formatActivityMeta(a)}</div>
                 </li>
               ))}
               {!(announcements || []).length && <li className="text-muted-xs">No announcements yet.</li>}
@@ -205,7 +208,7 @@ export default function DevProjectDetail() {
         <div className="card-surface card-pad space-stack">
           <div className="flex items-center justify-between">
             <div className="card-title">Client requirements</div>
-            <button className="btn btn-outline btn-sm" onClick={loadReq} disabled={reqBusy}>
+            <button type="button" className="btn btn-outline btn-sm" onClick={loadReq} disabled={reqBusy}>
               {reqBusy ? "Refreshing…" : "Reload"}
             </button>
           </div>
@@ -251,7 +254,7 @@ export default function DevProjectDetail() {
                     {reqSnap.pages.map((p, i) => (
                       <div key={i} className="bg-white/5 rounded-lg p-3">
                         <div className="font-semibold">{p.name}</div>
-                        {p.note && <div className="text-white/70 text-sm mt-1">{p.note}</div>}
+                        {p.note && <div className="text-muted text-sm mt-1 whitespace-pre-wrap">{p.note}</div>}
                         {!!(p.files || []).length && (
                           <ul className="list-disc pl-5 text-sm mt-1">
                             {p.files.map((f, k) => (
@@ -279,13 +282,19 @@ export default function DevProjectDetail() {
           <div className="card-surface card-pad space-stack">
             <div className="card-title">Post announcement</div>
             {aErr && <div className="text-error">{aErr}</div>}
-            <input className="form-input" placeholder="Title" value={titleA} onChange={(e) => setTitleA(e.target.value)} />
-            <textarea className="form-textarea-sm" placeholder="What did you complete / plan?" value={bodyA} onChange={(e) => setBodyA(e.target.value)} />
+            <label className="form-field">
+              <span className="form-label">Title</span>
+              <input className="form-input" placeholder="Project update" value={titleA} onChange={(e) => setTitleA(e.target.value)} />
+            </label>
+            <label className="form-field">
+              <span className="form-label">Details</span>
+              <textarea className="form-textarea-sm" placeholder="What did you complete or plan?" value={bodyA} onChange={(e) => setBodyA(e.target.value)} />
+            </label>
             <div className="form-actions">
-              <button className="btn btn-primary" onClick={publishAnnouncement} disabled={aBusy || !titleA.trim()}>
+              <button type="button" className="btn btn-primary" onClick={publishAnnouncement} disabled={aBusy || !titleA.trim()}>
                 {aBusy ? "Publishing…" : "Publish"}
               </button>
-              <button className="btn btn-outline" onClick={loadAnnouncements} disabled={aBusy}>Reload</button>
+              <button type="button" className="btn btn-outline" onClick={loadAnnouncements} disabled={aBusy}>Reload</button>
             </div>
             <div className="text-muted-xs">Client & Admin can see these.</div>
           </div>
@@ -297,7 +306,7 @@ export default function DevProjectDetail() {
                 <div key={i} className="bg-white/5 rounded-xl p-3">
                   <div className="font-extrabold">{a.title}</div>
                   {a.body && <div className="text-muted mt-1 whitespace-pre-wrap">{a.body}</div>}
-                  <div className="text-muted-xs mt-1">{formatLocalDateTime(a.ts, "—")}</div>
+                  <div className="text-muted-xs mt-1">{formatActivityMeta(a)}</div>
                 </div>
               ))}
               {!(announcements || []).length && <div className="text-muted-xs">Nothing yet.</div>}
@@ -319,8 +328,14 @@ export default function DevProjectDetail() {
               </div>
             )}
 
-            <input className="form-input" placeholder="Short title (e.g., 'Home page & Nav')" value={evTitle} onChange={(e) => setEvTitle(e.target.value)} />
-            <input className="form-input" placeholder="Link (optional, e.g., staging URL)" value={evLink} onChange={(e) => setEvLink(e.target.value)} />
+            <label className="form-field">
+              <span className="form-label">Update title</span>
+              <input className="form-input" placeholder="Home page and navigation" value={evTitle} onChange={(e) => setEvTitle(e.target.value)} />
+            </label>
+            <label className="form-field">
+              <span className="form-label">Related link (optional)</span>
+              <input className="form-input" type="url" placeholder="https://staging.example.com" value={evLink} onChange={(e) => setEvLink(e.target.value)} />
+            </label>
 
             <div className="space-y-2">
               <div className="form-label">Screenshots (PNG/JPG)</div>
@@ -353,7 +368,7 @@ export default function DevProjectDetail() {
             </div>
 
             <div className="form-actions">
-              <button className="btn btn-primary" onClick={addProgress} disabled={evBusy}>
+              <button type="button" className="btn btn-primary" onClick={addProgress} disabled={evBusy}>
                 {evBusy ? "Adding…" : "Add entry"}
               </button>
             </div>
@@ -376,11 +391,16 @@ export default function DevProjectDetail() {
                   {!!(it.images || []).length && (
                     <div className="grid grid-cols-3 gap-2 mt-2">
                       {it.images.map((im, k) => (
-                        <img key={k} alt="" src={im.url} className="rounded-lg border border-white/10" />
+                        <img
+                          key={k}
+                          alt={im.name || `${it.title || "Project update"} evidence ${k + 1}`}
+                          src={im.url}
+                          className="rounded-lg border border-white/10"
+                        />
                       ))}
                     </div>
                   )}
-                  <div className="text-muted-xs mt-1">{formatLocalDateTime(it.ts, "—")}</div>
+                  <div className="text-muted-xs mt-1">{formatActivityMeta(it)}</div>
                 </div>
               ))}
               {!((project.evidence || []).length) && <div className="text-muted-xs">No evidence yet.</div>}

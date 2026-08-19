@@ -272,9 +272,7 @@ export default function ProfilePage() {
         if (!active) return;
 
         const fresh =
-          data.user ||
-          user ||
-          {};
+          data.user || {};
 
         updateUser(fresh);
 
@@ -289,29 +287,12 @@ export default function ProfilePage() {
             "",
         );
 
-        if (
-          fresh.themePreference
-        ) {
-          setTheme(
-            fresh.themePreference,
-          );
-        }
-
         setFileBlob(null);
         setFileMeta(null);
       } catch {
         if (!active) return;
 
-        setForm(
-          normalizeProfile(
-            user || {},
-          ),
-        );
-
-        setPreviewUrl(
-          user?.avatarUrl ||
-            "",
-        );
+        // Keep the current form visible when a background refresh fails.
       }
     })();
 
@@ -319,8 +300,7 @@ export default function ProfilePage() {
       active = false;
     };
   }, [
-    user,
-    setTheme,
+    user?._id,
     updateUser,
   ]);
 

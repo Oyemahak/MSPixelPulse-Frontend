@@ -4,6 +4,7 @@ import "@/portals/css/portal-upgrades.css";
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useAuth } from "@/context/AuthContext.jsx";
+import { users } from "@/lib/api.js";
 import { useTheme } from "@/lib/theme.js";
 import {
   LuBell,
@@ -122,12 +123,14 @@ function PortalNav({ links, pathname, onNavigate }) {
 }
 
 export default function PortalShell({ children }) {
-  const { role, user, logout } = useAuth();
-  const { theme, toggleTheme } = useTheme();
+  const { role, user, logout, updateUser } = useAuth();
+  const { theme, setTheme } = useTheme();
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [avatarFailed, setAvatarFailed] = useState(false);
+  const [themeBusy, setThemeBusy] = useState(false);
+  const [themeError, setThemeError] = useState("");
   const menuButtonRef = useRef(null);
   const drawerRef = useRef(null);
 
@@ -190,6 +193,25 @@ export default function PortalShell({ children }) {
   async function onLogout() {
     await logout();
     navigate("/login", { replace: true });
+  }
+
+  async function changeTheme() {
+    if (themeBusy) return;
+
+    const nextTheme = theme === "dark" ? "light" : "dark";
+    setTheme(nextTheme);
+    updateUser({ themePreference: nextTheme });
+    setThemeBusy(true);
+    setThemeError("");
+
+    try {
+      const result = await users.updateMe({ themePreference: nextTheme });
+      updateUser(result.user || { themePreference: nextTheme });
+    } catch {
+      setThemeError("Theme changed for this visit, but account sync failed. Try again.");
+    } finally {
+      setThemeBusy(false);
+    }
   }
 
   return (
@@ -298,7 +320,8 @@ export default function PortalShell({ children }) {
             <button
               type="button"
               className="portal-icon-button"
-              onClick={toggleTheme}
+              onClick={changeTheme}
+              disabled={themeBusy}
               title={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
               aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
             >
@@ -308,6 +331,12 @@ export default function PortalShell({ children }) {
                 <LuMoon className="h-5 w-5" aria-hidden="true" />
               )}
             </button>
+
+            {themeError ? (
+              <span className="portal-theme-error" role="alert">
+                {themeError}
+              </span>
+            ) : null}
 
             <Link
               to={`${meta.home}/profile`}

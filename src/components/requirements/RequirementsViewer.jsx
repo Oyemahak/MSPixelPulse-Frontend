@@ -46,7 +46,7 @@ export default function RequirementsViewer({ req }) {
             {req.pages.map((p, i) => (
               <div key={`${p.name}-${i}`} className="bg-white/5 rounded-lg p-3">
                 <div className="font-semibold">{p.name}</div>
-                {p.note && <div className="text-white/70 text-sm mt-1 whitespace-pre-wrap">{p.note}</div>}
+                {p.note && <div className="text-muted text-sm mt-1 whitespace-pre-wrap">{p.note}</div>}
                 {!!(p.files||[]).length && (
                   <ul className="list-disc pl-5 text-sm mt-1">
                     {p.files.map((f, k) => (

@@ -1,6 +1,6 @@
 // src/App.jsx
 // src/App.jsx
-import React, { Suspense, lazy, useEffect } from "react";
+import React, { Suspense, lazy, useEffect, useRef } from "react";
 import { Routes, Route, Navigate, useLocation, Outlet } from "react-router-dom";
 import AppHeader from "./components/layout/AppHeader.jsx";
 import AppFooter from "./components/layout/AppFooter.jsx";
@@ -81,10 +81,24 @@ function ProtectedLayout() {
 function AccountThemeSync() {
   const { user } = useAuth();
   const { setTheme } = useTheme();
+  const syncedUserId = useRef("");
 
   useEffect(() => {
-    if (user?.themePreference) setTheme(user.themePreference);
-  }, [setTheme, user?.themePreference]);
+    const userId = String(user?._id || "");
+
+    if (!userId) {
+      syncedUserId.current = "";
+      return;
+    }
+
+    if (!["light", "dark"].includes(user?.themePreference)) return;
+
+    if (syncedUserId.current === userId) return;
+
+    syncedUserId.current = userId;
+
+    setTheme(user.themePreference);
+  }, [setTheme, user?._id, user?.themePreference]);
 
   return null;
 }

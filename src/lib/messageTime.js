@@ -73,6 +73,45 @@ export function formatLocalDateTime(
   }
 }
 
+function titleCaseRole(value) {
+  const role = String(value || "").trim();
+
+  if (!role) return "";
+
+  return role
+    .split(/[\s_-]+/)
+    .filter(Boolean)
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(" ");
+}
+
+export function activityAuthorLabel(
+  activity = {},
+  fallback = "MSPixelPulse team",
+) {
+  const name = String(
+    activity.authorName || activity.author?.name || "",
+  ).trim();
+  const role = titleCaseRole(
+    activity.authorRole || activity.author?.role,
+  );
+
+  if (name && role) return `${name} · ${role}`;
+  if (name) return name;
+  if (role) return role;
+  return fallback;
+}
+
+export function formatActivityMeta(
+  activity = {},
+  fallbackTime = "Time unavailable",
+) {
+  return `${activityAuthorLabel(activity)} · ${formatLocalDateTime(
+    activity.ts || activity.createdAt || activity.updatedAt,
+    fallbackTime,
+  )}`;
+}
+
 export function formatMessageTime(
   message,
   fallback = "Historical message",

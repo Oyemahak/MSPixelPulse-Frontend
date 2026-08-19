@@ -17,7 +17,7 @@ export default function DevRequirements() {
     try {
       const [p, r] = await Promise.all([
         api.one(projectId),
-        reqApi.get(projectId).catch(() => ({ requirement: null })),
+        reqApi.get(projectId),
       ]);
       setProj(p.project || p);
       setReq(r.requirement || null);

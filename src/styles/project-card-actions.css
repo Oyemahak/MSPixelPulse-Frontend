@@ -1,19 +1,7 @@
 /* Project card CTAs: keep both actions clearly readable in light and dark themes. */
 
-/* Light theme */
-html:not([data-theme="dark"]) .project-card-actions > a:first-child {
-  border: 1px solid #cbd5e1 !important;
-  background: #ffffff !important;
-  color: #0f172a !important;
-  box-shadow: none !important;
-}
-
-html:not([data-theme="dark"]) .project-card-actions > a:first-child:hover {
-  border-color: #94a3b8 !important;
-  background: #f8fafc !important;
-  color: #0f172a !important;
-}
-
+/* Light theme: both project actions use the primary blue CTA treatment. */
+html:not([data-theme="dark"]) .project-card-actions > a:first-child,
 html:not([data-theme="dark"]) .project-card-actions > a:nth-child(2) {
   border: 1px solid #2563eb !important;
   background: #2563eb !important;
@@ -21,6 +9,7 @@ html:not([data-theme="dark"]) .project-card-actions > a:nth-child(2) {
   box-shadow: none !important;
 }
 
+html:not([data-theme="dark"]) .project-card-actions > a:first-child:hover,
 html:not([data-theme="dark"]) .project-card-actions > a:nth-child(2):hover {
   border-color: #1d4ed8 !important;
   background: #1d4ed8 !important;

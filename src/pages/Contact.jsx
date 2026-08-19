@@ -434,7 +434,7 @@ export default function Contact() {
 
         <div className="contact-project-cta">
           <div className="contact-project-copy">
-            <h2>Prefer a conversation?</h2>
+            <h2 style={{ color: "#ffffff" }}>Prefer a conversation?</h2>
             <p>Use the contact option that feels easiest for you.</p>
           </div>
           <div className="contact-project-actions">

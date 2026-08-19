@@ -521,7 +521,7 @@ function ClientRequirementsEditor({ projectId, snapshot, busy, error, onReload }
                     )}
                   </div>
 
-                  <div className="flex items-center justify-between pt-1">
+                  <div className="requirement-page-actions flex items-center justify-between pt-1">
                     <div className="text-muted-xs">
                       {picked.length ? `${picked.length} selected for this page` : ""}
                     </div>

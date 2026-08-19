@@ -51,7 +51,7 @@ export default function DevProjects() {
 
       {err && <div className="text-error">{err}</div>}
 
-      <div className="card-surface overflow-hidden">
+      <div className="card-surface overflow-hidden" role="region" aria-label="Assigned projects table" tabIndex="0">
         <table className="table">
           <thead>
             <tr>

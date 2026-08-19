@@ -1,6 +1,7 @@
 // src/components/portal/PortalShell.jsx
 import "@/portals/css/portal.css";
 import "@/portals/css/portal-upgrades.css";
+import "@/portals/css/portal-mobile.css";
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useAuth } from "@/context/AuthContext.jsx";

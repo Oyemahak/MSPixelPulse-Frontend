@@ -4,6 +4,7 @@ import { LuArchive, LuEye, LuMail, LuRefreshCw, LuX } from "react-icons/lu";
 import SearchField from "@/components/ui/SearchField.jsx";
 import { admin } from "@/lib/api.js";
 import { formatLocalDateTime } from "@/lib/messageTime.js";
+import usePortalDialog from "@/hooks/usePortalDialog.js";
 
 const statuses = ["new", "contacted", "qualified", "completed", "spam", "archived"];
 const closedStatuses = new Set(["completed", "spam", "archived"]);
@@ -18,19 +19,11 @@ function inquiryLabel(lead) {
 }
 
 function LeadDetails({ lead, onClose }) {
-  useEffect(() => {
-    function closeOnEscape(event) {
-      if (event.key === "Escape") onClose();
-    }
-    document.addEventListener("keydown", closeOnEscape);
-    return () => document.removeEventListener("keydown", closeOnEscape);
-  }, [onClose]);
-
-  if (!lead) return null;
+  const dialogRef = usePortalDialog(onClose);
 
   return (
     <div className="portal-modal-backdrop" role="presentation" onMouseDown={(event) => event.target === event.currentTarget && onClose()}>
-      <section className="portal-detail-drawer" role="dialog" aria-modal="true" aria-labelledby="lead-detail-title" tabIndex="-1" autoFocus>
+      <section ref={dialogRef} className="portal-detail-drawer" role="dialog" aria-modal="true" aria-labelledby="lead-detail-title" tabIndex="-1" autoFocus>
         <header className="portal-detail-head">
           <div>
             <div className="text-muted-xs">Lead details</div>
@@ -167,7 +160,7 @@ export default function Leads() {
       {error ? <div className="text-error" role="alert">{error}</div> : null}
       {notice ? <div className="text-success" role="status">{notice}</div> : null}
 
-      <div className="card-surface overflow-hidden">
+      <div className="card-surface overflow-hidden" role="region" aria-label="Leads table" tabIndex="0">
         <table className="table leads-table">
           <thead><tr><th>Name / business</th><th>Email</th><th>Inquiry</th><th>Status</th><th>Received</th><th className="actions-head">Actions</th></tr></thead>
           <tbody>
@@ -193,7 +186,7 @@ export default function Leads() {
           </tbody>
         </table>
       </div>
-      <LeadDetails lead={selected} onClose={() => setSelected(null)} />
+      {selected ? <LeadDetails lead={selected} onClose={() => setSelected(null)} /> : null}
     </div>
   );
 }

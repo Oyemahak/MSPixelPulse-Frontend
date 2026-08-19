@@ -54,7 +54,7 @@ export default function Projects() {
         />
       </div>
 
-      <div className="card-surface overflow-hidden">
+      <div className="card-surface overflow-hidden" role="region" aria-label="Client projects table" tabIndex="0">
         <table className="table">
           <thead>
             <tr>

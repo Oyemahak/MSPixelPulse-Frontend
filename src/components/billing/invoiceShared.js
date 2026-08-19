@@ -1,4 +1,10 @@
 import { invoiceTotals } from "@/lib/invoicePdf.js";
+import {
+  defaultPaymentPercent,
+  dueDateForTerms,
+  legacyKindForPaymentStage,
+  normalizePaymentStage,
+} from "@/lib/invoiceCalculations.js";
 
 export const invoiceStatuses = [
   "draft",
@@ -79,19 +85,26 @@ export function projectIdOf(invoice) {
 
 export function invoiceDraft({ settings = {}, invoiceNumber = "", project } = {}) {
   const issueDate = new Date();
-  const dueDate = new Date(issueDate);
-  dueDate.setDate(dueDate.getDate() + 14);
+  const issueDateText = issueDate.toISOString().slice(0, 10);
+  const paymentTermsPreset = settings.defaultPaymentTermsPreset || "net_14";
+  const dueDate = dueDateForTerms(issueDateText, paymentTermsPreset);
 
   return {
     sourceType: "generated",
     kind: "other",
+    paymentStage: "full",
+    paymentPercent: 100,
+    projectValue: 0,
+    customAmount: 0,
+    customPaymentMode: "percentage",
+    paymentTermsPreset,
     invoiceNumber,
     title: project?.title ? `${project.title} services` : "Professional website services",
     projectTitle: project?.title || "",
     projectId: project?._id || "",
     status: "sent",
-    issueDate: issueDate.toISOString().slice(0, 10),
-    dueDate: dueDate.toISOString().slice(0, 10),
+    issueDate: issueDateText,
+    dueDate,
     currency: settings.currency || "CAD",
     pageSize: settings.pageSize || "LETTER",
     sender: { ...(settings.sender || {}) },
@@ -106,6 +119,14 @@ export function invoiceDraft({ settings = {}, invoiceNumber = "", project } = {}
     taxRegistrationNumber: settings.taxRegistrationNumber || "",
     taxNote: settings.taxNote || "",
     paymentTerms: settings.paymentTerms || "",
+    paymentNotice: settings.paymentNotice || "",
+    paymentReference: settings.paymentReference || "",
+    paymentMethods: (settings.paymentMethods || []).map((method) => ({ ...method })),
+    scopeTerms: settings.scopeTerms || "",
+    refundTerms: settings.refundTerms || "",
+    closingMessage: settings.closingMessage || "",
+    footerText: settings.footerText || "",
+    showPageNumbers: settings.showPageNumbers !== false,
     notes: settings.defaultNotes || "",
     internalNotes: "",
     payments: [],
@@ -115,10 +136,17 @@ export function invoiceDraft({ settings = {}, invoiceNumber = "", project } = {}
 }
 
 export function draftFromInvoice(invoice = {}, project) {
+  const paymentStage = normalizePaymentStage(invoice.paymentStage, invoice.kind);
   return {
     ...invoiceDraft({ invoiceNumber: invoice.invoiceNumber, project }),
     ...invoice,
     sourceType: invoice.sourceType || "uploaded",
+    paymentStage,
+    paymentPercent: invoice.paymentPercent ?? defaultPaymentPercent(paymentStage),
+    projectValue: Number(invoice.projectValue ?? invoice.subtotal ?? invoice.total ?? 0),
+    customAmount: ["custom", "other"].includes(paymentStage) ? Number(invoice.subtotal || invoice.total || 0) : 0,
+    customPaymentMode: paymentStage === "custom" && Number(invoice.paymentPercent || 0) > 0 ? "percentage" : "amount",
+    paymentTermsPreset: invoice.paymentTermsPreset || "custom",
     projectId: projectIdOf(invoice) || project?._id || "",
     projectTitle: project?.title || invoice.projectTitle || invoice.title || "",
     issueDate: dateInput(invoice.issueDate),
@@ -138,8 +166,14 @@ export function draftFromInvoice(invoice = {}, project) {
 
 export function invoicePayload(draft = {}) {
   const totals = invoiceTotals(draft);
+  const paymentStage = normalizePaymentStage(draft.paymentStage, draft.kind);
   return {
     sourceType: draft.sourceType || "generated",
+    kind: legacyKindForPaymentStage(paymentStage),
+    paymentStage,
+    paymentPercent: Number(draft.paymentPercent || defaultPaymentPercent(paymentStage)),
+    projectValue: Number(draft.projectValue || 0),
+    paymentTermsPreset: draft.paymentTermsPreset || "custom",
     invoiceNumber: String(draft.invoiceNumber || "").trim(),
     title: String(draft.title || "").trim(),
     status: draft.status,
@@ -162,6 +196,14 @@ export function invoicePayload(draft = {}) {
     taxRegistrationNumber: draft.taxRegistrationNumber || "",
     taxNote: draft.taxNote || "",
     paymentTerms: draft.paymentTerms || "",
+    paymentNotice: draft.paymentNotice || "",
+    paymentReference: draft.paymentReference || "",
+    paymentMethods: draft.paymentMethods || [],
+    scopeTerms: draft.scopeTerms || "",
+    refundTerms: draft.refundTerms || "",
+    closingMessage: draft.closingMessage || "",
+    footerText: draft.footerText || "",
+    showPageNumbers: draft.showPageNumbers !== false,
     notes: draft.notes || "",
     internalNotes: draft.internalNotes || "",
     payments: draft.payments || [],

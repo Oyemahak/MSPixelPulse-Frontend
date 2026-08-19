@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { LuSave, LuUpload } from "react-icons/lu";
+import { paymentTermsOptions } from "@/lib/invoiceCalculations.js";
 
 import {
   clientFromProject,
@@ -128,11 +129,32 @@ export function PaymentForm({ invoice, busy, onSubmit }) {
 }
 
 export function InvoiceSettingsForm({ settings, busy, onSubmit }) {
-  const [form, setForm] = useState(() => ({ ...settings, sender: { ...(settings.sender || {}) } }));
+  const [form, setForm] = useState(() => ({
+    ...settings,
+    sender: { ...(settings.sender || {}) },
+    paymentMethods: [
+      ["interac", "Interac e-Transfer"],
+      ["bank", "Bank transfer"],
+      ["remitly", "Remitly"],
+      ["cheque", "Cheque"],
+      ["other", "Other"],
+    ].map(([key, label]) => ({
+      key,
+      label,
+      enabled: Boolean(settings.paymentMethods?.find((method) => method.key === key)?.enabled),
+      instructions: settings.paymentMethods?.find((method) => method.key === key)?.instructions || "",
+    })),
+  }));
   const [error, setError] = useState("");
 
   function field(key, value) { setForm((current) => ({ ...current, [key]: value })); }
   function sender(key, value) { setForm((current) => ({ ...current, sender: { ...current.sender, [key]: value } })); }
+  function paymentMethod(key, patch) {
+    setForm((current) => ({
+      ...current,
+      paymentMethods: current.paymentMethods.map((method) => method.key === key ? { ...method, ...patch } : method),
+    }));
+  }
 
   async function submit(event) {
     event.preventDefault();
@@ -157,9 +179,40 @@ export function InvoiceSettingsForm({ settings, busy, onSubmit }) {
         <Field label="Tax percentage"><input type="number" min="0" max="100" step="0.001" value={form.taxRate || 0} onChange={(event) => field("taxRate", Number(event.target.value || 0))} /></Field>
         <Field label="Registration / business number"><input value={form.taxRegistrationNumber || ""} onChange={(event) => field("taxRegistrationNumber", event.target.value)} /></Field>
         <Field label="Custom tax note" className="is-wide"><textarea rows="2" value={form.taxNote || ""} onChange={(event) => field("taxNote", event.target.value)} /></Field>
+        <Field label="Default due terms"><select value={form.defaultPaymentTermsPreset || "net_14"} onChange={(event) => field("defaultPaymentTermsPreset", event.target.value)}>{paymentTermsOptions.map(([value, label]) => <option key={value} value={value}>{label}</option>)}</select></Field>
         <Field label="Default payment terms" className="is-wide"><textarea rows="2" value={form.paymentTerms || ""} onChange={(event) => field("paymentTerms", event.target.value)} /></Field>
         <Field label="Default client notes" className="is-wide"><textarea rows="3" value={form.defaultNotes || ""} onChange={(event) => field("defaultNotes", event.target.value)} /></Field>
       </div>
+
+      <section className="invoice-settings-section">
+        <div className="invoice-form-section-head"><div><h3>Payment methods</h3><p>Enable only the methods you accept. Enter instructions here; no banking details are stored in source code.</p></div></div>
+        <div className="invoice-payment-method-settings">
+          {form.paymentMethods.map((method) => (
+            <div className="invoice-payment-method-row" key={method.key}>
+              <label className="portal-toggle-row">
+                <input type="checkbox" checked={method.enabled} onChange={(event) => paymentMethod(method.key, { enabled: event.target.checked })} />
+                <span>{method.label}</span>
+              </label>
+              <Field label={`${method.label} instructions`}>
+                <textarea rows="2" value={method.instructions} onChange={(event) => paymentMethod(method.key, { instructions: event.target.value })} disabled={!method.enabled} placeholder="Add the secure payment instructions shown on invoices" />
+              </Field>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="invoice-settings-section">
+        <div className="invoice-form-section-head"><div><h3>PDF payment footer</h3><p>Professional copy included in generated invoices.</p></div></div>
+        <div className="invoice-form-grid">
+          <Field label="Payment notice" className="is-wide"><textarea rows="2" value={form.paymentNotice || ""} onChange={(event) => field("paymentNotice", event.target.value)} /></Field>
+          <Field label="Default payment reference" className="is-wide"><input value={form.paymentReference || ""} onChange={(event) => field("paymentReference", event.target.value)} placeholder="Optional reference applied to new invoices" /></Field>
+          <Field label="Scope terms" className="is-wide"><textarea rows="3" value={form.scopeTerms || ""} onChange={(event) => field("scopeTerms", event.target.value)} /></Field>
+          <Field label="Refund terms" className="is-wide"><textarea rows="3" value={form.refundTerms || ""} onChange={(event) => field("refundTerms", event.target.value)} /></Field>
+          <Field label="Closing message" className="is-wide"><textarea rows="2" value={form.closingMessage || ""} onChange={(event) => field("closingMessage", event.target.value)} /></Field>
+          <Field label="Footer text" className="is-wide"><input value={form.footerText || ""} onChange={(event) => field("footerText", event.target.value)} /></Field>
+          <label className="portal-toggle-row invoice-tax-toggle"><input type="checkbox" checked={form.showPageNumbers !== false} onChange={(event) => field("showPageNumbers", event.target.checked)} /><span>Show PDF page numbers</span></label>
+        </div>
+      </section>
       <p className="invoice-form-note">Tax is optional. No sample GST/HST or small-supplier statement is applied unless you enter it here.</p>
       {error ? <div className="text-error" role="alert">{error}</div> : null}
       <div className="invoice-sticky-actions"><button className="btn btn-primary" disabled={busy}><LuSave aria-hidden="true" />{busy ? "Saving…" : "Save invoice defaults"}</button></div>

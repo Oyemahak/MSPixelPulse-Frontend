@@ -29,6 +29,7 @@ import {
   statusLabel,
 } from "@/components/billing/invoiceShared.js";
 import { invoices as invApi, projects as projectApi } from "@/lib/api.js";
+import { paymentStageLabel } from "@/lib/invoiceCalculations.js";
 import "../css/billing.css";
 
 function downloadUrl(url) {
@@ -248,7 +249,7 @@ export default function Billings() {
         {error ? <div className="billing-message is-error" role="alert">{error}</div> : null}
         {notice ? <div className="billing-message is-success" role="status">{notice}</div> : null}
 
-        <div className="billing-table-scroll">
+        <div className="billing-table-scroll" role="region" aria-label="Admin invoices" tabIndex="0">
           <table className="table billing-invoice-table">
             <thead><tr><th>Invoice</th><th>Project / client</th><th>Issued / due</th><th>Total / balance</th><th>Status</th><th><span className="sr-only">Actions</span></th></tr></thead>
             <tbody>
@@ -257,7 +258,7 @@ export default function Billings() {
                 const client = invoice.clientDetails || project?.client || {};
                 return (
                   <tr key={invoice._id}>
-                    <td data-label="Invoice"><strong>{invoice.invoiceNumber || "Unnumbered"}</strong><span>{invoice.sourceType === "generated" ? "Generated PDF" : "Uploaded file"}</span></td>
+                    <td data-label="Invoice"><strong>{invoice.invoiceNumber || "Unnumbered"}</strong><span>{paymentStageLabel(invoice.paymentStage, invoice.kind)} · {invoice.sourceType === "generated" ? "Generated PDF" : "Uploaded file"}</span></td>
                     <td data-label="Project / client"><strong>{project?.title || invoice.title || "Project invoice"}</strong><span>{client.contactName || client.name || client.businessName || "Unassigned client"}</span></td>
                     <td data-label="Issued / due"><strong>{formatDate(invoice.issueDate)}</strong><span>Due {formatDate(invoice.dueDate)}</span></td>
                     <td data-label="Total / balance"><strong>{formatMoney(invoice.total, invoice.currency)}</strong><span>{formatMoney(invoice.balanceDue, invoice.currency)} due</span></td>
@@ -283,7 +284,7 @@ export default function Billings() {
       {drawer?.type === "edit" ? <InvoiceDrawer wide title={`Edit ${drawer.invoice.invoiceNumber || "invoice"}`} description="Update billing details or replace the generated PDF." onClose={() => setDrawer(null)}><InvoiceEditor projects={projects} settings={settings} invoiceNumber={invoiceNumber} invoice={drawer.invoice} busy={busy} onSubmit={saveGenerated} /></InvoiceDrawer> : null}
       {drawer?.type === "upload" ? <InvoiceDrawer title="Upload existing invoice" description="Attach a PDF or supported image and add its billing details." onClose={() => setDrawer(null)}><UploadInvoiceForm projects={projects} invoiceNumber={invoiceNumber} busy={busy} onSubmit={uploadExisting} /></InvoiceDrawer> : null}
       {drawer?.type === "payment" ? <InvoiceDrawer title="Record payment" description={`${drawer.invoice.invoiceNumber || "Invoice"} · ${formatMoney(drawer.invoice.balanceDue, drawer.invoice.currency)} outstanding`} onClose={() => setDrawer(null)}><PaymentForm invoice={drawer.invoice} busy={busy} onSubmit={recordPayment} /></InvoiceDrawer> : null}
-      {drawer?.type === "settings" && settings ? <InvoiceDrawer title="Invoice defaults" description="Set sender identity, paper size, optional tax, and standard payment notes." onClose={() => setDrawer(null)}><InvoiceSettingsForm settings={settings} busy={busy} onSubmit={saveSettings} /></InvoiceDrawer> : null}
+      {drawer?.type === "settings" && settings ? <InvoiceDrawer title="Invoice defaults" description="Configure sender identity, payment methods, terms, tax, and professional PDF footer content." onClose={() => setDrawer(null)}><InvoiceSettingsForm settings={settings} busy={busy} onSubmit={saveSettings} /></InvoiceDrawer> : null}
     </div>
   );
 }

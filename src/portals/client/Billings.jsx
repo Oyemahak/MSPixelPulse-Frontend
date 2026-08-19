@@ -8,6 +8,7 @@ import {
   statusLabel,
 } from "@/components/billing/invoiceShared.js";
 import { invoices as invApi, portalErrorMessage, projects as projectApi } from "@/lib/api.js";
+import { paymentStageLabel } from "@/lib/invoiceCalculations.js";
 import "../css/billing.css";
 
 function downloadUrl(url) {
@@ -53,13 +54,13 @@ export default function ClientBillings() {
       {error ? <div className="billing-message is-error" role="alert">{error}</div> : null}
 
       <section className="card-surface billing-list-card">
-        <div className="billing-table-scroll">
+        <div className="billing-table-scroll" role="region" aria-label="Client invoices" tabIndex="0">
           <table className="table billing-invoice-table is-client">
             <thead><tr><th>Invoice / project</th><th>Issued / due</th><th>Total</th><th>Paid / balance</th><th>Status</th><th><span className="sr-only">Actions</span></th></tr></thead>
             <tbody>
               {invoices.map((invoice) => (
                 <tr key={invoice._id}>
-                  <td data-label="Invoice / project"><strong>{invoice.invoiceNumber || invoice.title || "Invoice"}</strong><span>{projectNames.get(projectIdOf(invoice)) || invoice.title || "MSPixelPulse project"}</span></td>
+                  <td data-label="Invoice / project"><strong>{invoice.invoiceNumber || invoice.title || "Invoice"}</strong><span>{paymentStageLabel(invoice.paymentStage, invoice.kind)} · {projectNames.get(projectIdOf(invoice)) || invoice.title || "MSPixelPulse project"}</span></td>
                   <td data-label="Issued / due"><strong>{formatDate(invoice.issueDate)}</strong><span>Due {formatDate(invoice.dueDate)}</span></td>
                   <td data-label="Total"><strong>{formatMoney(invoice.total, invoice.currency)}</strong></td>
                   <td data-label="Paid / balance"><strong>{formatMoney(invoice.amountPaid, invoice.currency)} paid</strong><span>{formatMoney(invoice.balanceDue, invoice.currency)} due</span></td>

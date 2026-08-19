@@ -1,5 +1,10 @@
 # Agent System Changelog
 
+## 2026-08-19
+- Added the fast, progressively disclosed invoice workflow with persisted payment stages, project-value calculations, due-term presets, structured PDF payment/terms/footer sections, and backward-compatible invoice reads.
+- Centralized portal mobile containment, responsive tables/cards, action wrapping, requirements filenames, profile actions, and independently scrolling accessible dialogs for Admin, Client, and Developer pages.
+- Simplified presence to one meaningful state per person and removed the fabricated always-online profile state.
+
 ## 2026-08-18
 - Centralized the public-route H1 contract in `public-system.css`: responsive 32–42 px sizing, 700 maximum weight, 1.2 line-height, balanced wrapping, proportional subtitles, and compact hero spacing across shared and legacy public intros.
 - Added the production billing contract for generated branded PDFs, external invoice uploads, configurable private defaults, payment tracking, client-safe reads, and secure Drive relay storage.

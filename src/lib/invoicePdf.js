@@ -1,3 +1,5 @@
+import { paymentStageLabel, paymentTermsLabel } from "./invoiceCalculations.js";
+
 const PAGE_SIZES = {
   LETTER: [612, 792],
   A4: [595.28, 841.89],
@@ -56,14 +58,33 @@ function wrapText(text, font, size, maxWidth) {
     let line = "";
 
     words.forEach((word) => {
-      const candidate = line ? `${line} ${word}` : word;
-      if (font.widthOfTextAtSize(candidate, size) <= maxWidth) {
-        line = candidate;
-        return;
-      }
+      const chunks = [];
+      let chunk = "";
+      Array.from(word).forEach((character) => {
+        const candidateChunk = `${chunk}${character}`;
+        if (chunk && font.widthOfTextAtSize(candidateChunk, size) > maxWidth) {
+          chunks.push(chunk);
+          chunk = character;
+        } else {
+          chunk = candidateChunk;
+        }
+      });
+      if (chunk) chunks.push(chunk);
 
-      if (line) lines.push(line);
-      line = word;
+      chunks.forEach((wordChunk, chunkIndex) => {
+        const candidate = line ? `${line} ${wordChunk}` : wordChunk;
+        if (font.widthOfTextAtSize(candidate, size) <= maxWidth) {
+          line = candidate;
+          return;
+        }
+
+        if (line) lines.push(line);
+        line = wordChunk;
+        if (chunkIndex < chunks.length - 1) {
+          lines.push(line);
+          line = "";
+        }
+      });
     });
 
     if (line) lines.push(line);
@@ -309,21 +330,27 @@ export async function generateInvoicePdfBytes(invoice = {}) {
   }));
   y -= Math.max(fromLines.length, billLines.length, 2) * 13 + 18;
 
-  page.drawRectangle({ x: margin, y: y - 42, width: width - margin * 2, height: 50, color: soft });
+  page.drawRectangle({ x: margin, y: y - 76, width: width - margin * 2, height: 84, color: soft });
   const meta = [
     ["ISSUE DATE", dateLabel(invoice.issueDate)],
     ["DUE DATE", dateLabel(invoice.dueDate)],
     ["PROJECT", ascii(invoice.projectTitle || invoice.title || "Professional services")],
-    ["CURRENCY", ascii(invoice.currency || "CAD")],
+    ["PAYMENT STAGE", paymentStageLabel(invoice.paymentStage, invoice.kind)],
+    ["PROJECT VALUE", currency(invoice.projectValue || totals.subtotal, invoice.currency)],
+    ["DUE TERMS", paymentTermsLabel(invoice.paymentTermsPreset)],
   ];
-  const metaWidth = (width - margin * 2) / meta.length;
+  const metaWidth = (width - margin * 2) / 3;
   meta.forEach(([label, value], index) => {
-    const x = margin + index * metaWidth + 10;
-    page.drawText(label, { x, y: y - 8, size: 6.5, font: bold, color: muted });
-    const clipped = value.length > 26 ? `${value.slice(0, 25)}...` : value;
-    page.drawText(clipped, { x, y: y - 25, size: 8.5, font: bold, color: navy });
+    const column = index % 3;
+    const row = Math.floor(index / 3);
+    const x = margin + column * metaWidth + 10;
+    const rowY = y - 8 - row * 36;
+    page.drawText(label, { x, y: rowY, size: 6.5, font: bold, color: muted });
+    const safeValue = ascii(value);
+    const clipped = safeValue.length > 28 ? `${safeValue.slice(0, 27)}...` : safeValue;
+    page.drawText(clipped, { x, y: rowY - 16, size: 8.5, font: bold, color: navy });
   });
-  y -= 64;
+  y -= 98;
 
   function drawTableHeader() {
     page.drawRectangle({ x: margin, y: y - 22, width: width - margin * 2, height: 26, color: navy });
@@ -387,7 +414,8 @@ export async function generateInvoicePdfBytes(invoice = {}) {
   y -= 54;
 
   const status = ascii(String(invoice.status || "draft").replaceAll("_", " ").toUpperCase());
-  page.drawText(`STATUS: ${status}`, { x: margin, y, size: 8, font: bold, color: blue });
+  const stage = ascii(paymentStageLabel(invoice.paymentStage, invoice.kind).toUpperCase());
+  page.drawText(`STATUS: ${status}  |  ${stage} INVOICE`, { x: margin, y, size: 8, font: bold, color: blue });
   y -= 20;
 
   const notes = [
@@ -405,6 +433,44 @@ export async function generateInvoicePdfBytes(invoice = {}) {
     });
   }
 
+  const enabledMethods = Array.isArray(invoice.paymentMethods)
+    ? invoice.paymentMethods.filter((method) => method?.enabled)
+    : [];
+  const paymentInformation = [
+    invoice.paymentNotice,
+    `Payment reference: ${invoice.paymentReference || invoice.invoiceNumber || "-"}`,
+    ...enabledMethods.map((method) => `${method.label || "Payment method"}: ${method.instructions || "Contact MSPixelPulse for secure payment instructions."}`),
+  ].filter(Boolean);
+
+  if (paymentInformation.length) {
+    ensureSpace(36);
+    y -= 5;
+    page.drawText("PAYMENT INFORMATION", { x: margin, y, size: 7.5, font: bold, color: blue });
+    y -= 15;
+    paymentInformation.forEach((item) => {
+      drawLines(item, { size: 8, leading: 11.5, maxWidth: width - margin * 2 - 18 });
+      y -= 4;
+    });
+  }
+
+  const terms = [invoice.scopeTerms, invoice.refundTerms].filter(Boolean);
+  if (terms.length) {
+    ensureSpace(36);
+    y -= 5;
+    page.drawText("TERMS", { x: margin, y, size: 7.5, font: bold, color: blue });
+    y -= 15;
+    terms.forEach((item) => {
+      drawLines(item, { size: 8, leading: 11.5, maxWidth: width - margin * 2 - 18 });
+      y -= 4;
+    });
+  }
+
+  if (invoice.closingMessage) {
+    ensureSpace(28);
+    y -= 5;
+    drawLines(invoice.closingMessage, { size: 8.5, leading: 12, maxWidth: width - margin * 2 - 18, font: bold, color: navy });
+  }
+
   const pages = pdfDoc.getPages();
   pages.forEach((currentPage, index) => {
     const currentWidth = currentPage.getWidth();
@@ -414,20 +480,22 @@ export async function generateInvoicePdfBytes(invoice = {}) {
       thickness: 0.5,
       color: line,
     });
-    currentPage.drawText("mspixelpulse.com | info@mspixelpulse.com", {
+    currentPage.drawText(ascii(invoice.footerText || "mspixelpulse.com | info@mspixelpulse.com"), {
       x: margin,
       y: 27,
       size: 7,
       font: regular,
       color: muted,
     });
-    currentPage.drawText(`Page ${index + 1} of ${pages.length}`, {
-      x: currentWidth - margin - 52,
-      y: 27,
-      size: 7,
-      font: regular,
-      color: muted,
-    });
+    if (invoice.showPageNumbers !== false) {
+      currentPage.drawText(`Page ${index + 1} of ${pages.length}`, {
+        x: currentWidth - margin - 52,
+        y: 27,
+        size: 7,
+        font: regular,
+        color: muted,
+      });
+    }
   });
 
   return pdfDoc.save({ useObjectStreams: false });

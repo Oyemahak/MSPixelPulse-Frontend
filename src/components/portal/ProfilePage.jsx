@@ -595,10 +595,7 @@ export default function ProfilePage() {
 
           <div className="mt-1">
             <PresenceIndicator
-              user={{
-                ...user,
-                online: true,
-              }}
+              user={user}
             />
           </div>
 

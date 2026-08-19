@@ -1102,7 +1102,7 @@ function ProjectTable({
   onArchive,
 }) {
   return (
-    <div className="admin-project-table-wrap">
+    <div className="admin-project-table-wrap" role="region" aria-label="Admin projects table" tabIndex="0">
       <table className="table admin-project-table">
         <thead>
           <tr>

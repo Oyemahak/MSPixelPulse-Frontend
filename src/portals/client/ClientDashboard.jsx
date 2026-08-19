@@ -76,7 +76,7 @@ export default function ClientDashboard() {
       </div>
 
       {/* Recent activity */}
-      <div className="card-surface overflow-hidden">
+      <div className="card-surface overflow-hidden" role="region" aria-label="Recent client project activity" tabIndex="0">
         <div className="card-strip between">
           <div className="font-semibold">Recent activity</div>
           <Link className="subtle-link" to="/client/projects">

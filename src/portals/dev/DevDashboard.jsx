@@ -71,7 +71,7 @@ export default function DevDashboard() {
       </div>
 
       {/* Recent projects table */}
-      <div className="card-surface overflow-hidden">
+      <div className="card-surface overflow-hidden" role="region" aria-label="Recent developer project activity" tabIndex="0">
         <div className="card-strip between">
           <div className="font-semibold">Recent activity</div>
           <Link className="subtle-link" to="/dev/projects">View all</Link>

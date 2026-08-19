@@ -118,7 +118,7 @@ export default function Users() {
     items,
   }) {
     return (
-      <div className="card overflow-hidden">
+      <div className="card overflow-hidden" role="region" aria-label={`${title} users table`} tabIndex="0">
         <div className="card-strip between">
           <div className="font-semibold">
             {title}
@@ -162,11 +162,6 @@ export default function Users() {
                 >
                   <td>
                     <div className="flex min-w-0 items-center gap-2">
-                      <PresenceIndicator
-                        user={user}
-                        compact
-                      />
-
                       <span className="font-medium truncate">
                         {user.name || "—"}
                       </span>

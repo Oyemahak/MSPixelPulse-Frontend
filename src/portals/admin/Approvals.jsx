@@ -66,7 +66,7 @@ export default function Approvals() {
         <SearchField label="Search pending approvals" placeholder="Search name, email, business, or industry" value={query} onValueChange={setQuery} />
       </div>
 
-      <div className="card-surface overflow-hidden">
+      <div className="card-surface overflow-hidden" role="region" aria-label="Pending approvals table" tabIndex="0">
         <table className="table">
           <thead>
             <tr>

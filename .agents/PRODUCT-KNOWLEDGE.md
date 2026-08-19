@@ -76,7 +76,9 @@ Small uploads may use the API multipart flow within platform limits. Larger uplo
 
 Admin billing is invoice-first rather than limited to advance/final project stages. Admins can generate a branded Letter or A4 PDF, upload an existing PDF or supported image, edit invoice metadata, record payments, track paid and outstanding balances, and manage invoice status. Generated and external invoice files remain private and use the existing backend-authorized Google Drive relay and signed read/download URLs.
 
-Invoice defaults are private Admin configuration. Sender identity, client details, currency, paper size, payment terms, notes, and optional tax fields are configurable. Tax is off by default; agents must never copy a sample GST/HST registration, small-supplier statement, legal claim, or tax status into production defaults without explicit business-owner input.
+The fast invoice path keeps project, payment stage, project value, calculated invoice amount, description, optional discount, and due terms visible while placing secondary metadata under Advanced details. Supported stages are full (100%), advance (50%), remaining (50%), custom percentage/amount, and other amount. Due-on-receipt, Net 7, Net 14, Net 30, and custom-date presets must persist the exact calculated due date. Existing `kind` values remain readable through compatibility mapping.
+
+Invoice defaults are private Admin configuration. Sender identity, client details, currency, paper size, due preset, payment notice/reference, enabled payment methods and instructions, scope/refund terms, closing message, footer, page numbering, notes, and optional tax fields are configurable. Private banking details must never be hardcoded. Tax is off by default; agents must never copy a sample GST/HST registration, small-supplier statement, legal claim, or tax status into production defaults without explicit business-owner input.
 
 Clients receive a compact read-only invoice list for only their assigned projects. Client responses must never expose `internalNotes`, draft invoices, archived invoices, Admin controls, raw Drive URLs, or storage credentials.
 

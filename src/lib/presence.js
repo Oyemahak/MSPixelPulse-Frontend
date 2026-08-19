@@ -144,7 +144,7 @@ export function formatLastSeen(
     );
 
   if (!date) {
-    return "No recorded activity";
+    return "No activity yet";
   }
 
   const elapsed =
@@ -219,7 +219,7 @@ export function presenceStatus(
 
     detail:
       online
-        ? "Active now"
+        ? "Online"
         : formatLastSeen(
             value,
           ),

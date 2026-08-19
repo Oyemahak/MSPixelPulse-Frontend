@@ -3,6 +3,7 @@ import { LuArchive, LuPencil, LuPlus, LuRefreshCw, LuX } from "react-icons/lu";
 
 import SearchField from "@/components/ui/SearchField.jsx";
 import { admin } from "@/lib/api.js";
+import usePortalDialog from "@/hooks/usePortalDialog.js";
 
 const kinds = [
   ["service", "Services"],
@@ -81,14 +82,7 @@ function ContentEditor({ kind, item, onClose, onSaved }) {
   const [advancedDirty, setAdvancedDirty] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
-
-  useEffect(() => {
-    function closeOnEscape(event) {
-      if (event.key === "Escape" && !busy) onClose();
-    }
-    document.addEventListener("keydown", closeOnEscape);
-    return () => document.removeEventListener("keydown", closeOnEscape);
-  }, [busy, onClose]);
+  const dialogRef = usePortalDialog(onClose, { canClose: !busy });
 
   function setField(key, value) {
     setDraft((current) => ({ ...current, [key]: value }));
@@ -140,7 +134,7 @@ function ContentEditor({ kind, item, onClose, onSaved }) {
 
   return (
     <div className="portal-modal-backdrop" role="presentation" onMouseDown={(event) => event.target === event.currentTarget && !busy && onClose()}>
-      <form className="portal-content-drawer" role="dialog" aria-modal="true" aria-labelledby="content-editor-title" onSubmit={save} tabIndex="-1" autoFocus>
+      <form ref={dialogRef} className="portal-content-drawer" role="dialog" aria-modal="true" aria-labelledby="content-editor-title" onSubmit={save} tabIndex="-1" autoFocus>
         <header className="portal-detail-head">
           <div><div className="text-muted-xs">{item?._id ? "Edit persisted record" : "Create draft record"}</div><h2 id="content-editor-title" className="card-title">{item?._id ? draft.title : `New ${kind}`}</h2></div>
           <button type="button" className="portal-icon-button" onClick={onClose} disabled={busy} aria-label="Close content editor" autoFocus><LuX aria-hidden="true" /></button>
@@ -241,7 +235,7 @@ export default function SiteContent() {
       {error ? <div className="text-error" role="alert">{error}</div> : null}
       {notice ? <div className="text-success" role="status">{notice}</div> : null}
 
-      <div className="card-surface overflow-hidden">
+      <div className="card-surface overflow-hidden" role="region" aria-label="Site content table" tabIndex="0">
         <table className="table content-table">
           <thead><tr><th>Title</th><th>Unique key</th><th>Order</th><th>Visibility</th><th className="actions-head">Actions</th></tr></thead>
           <tbody>

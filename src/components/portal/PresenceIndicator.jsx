@@ -15,8 +15,8 @@ export default function PresenceIndicator({
   const label = online
     ? "Online"
     : status.detail.startsWith("Last seen")
-      ? `Offline, ${status.detail}`
-      : "Offline, no recorded activity";
+      ? status.detail
+      : "Offline · No activity yet";
 
   return (
     <span
@@ -24,32 +24,16 @@ export default function PresenceIndicator({
       aria-label={label}
       title={label}
     >
-      <span
-        className={[
-          "inline-block h-2.5 w-2.5 shrink-0 rounded-full",
-          online
-            ? "bg-emerald-500"
-            : "bg-slate-400",
-        ].join(" ")}
-        aria-hidden="true"
-      />
+      {(online || compact) && (
+        <span
+          className={`inline-block h-2.5 w-2.5 shrink-0 rounded-full ${online ? "bg-emerald-500" : "bg-slate-400"}`}
+          aria-hidden="true"
+        />
+      )}
 
       {!compact && (
-        <span className="min-w-0 leading-tight">
-          <span
-            className={
-              online
-                ? "block text-xs font-semibold text-emerald-500"
-                : "block text-xs font-semibold text-slate-500"
-            }
-          >
-            {status.label}
-          </span>
-          {!online && (
-            <span className="text-muted-xs block truncate">
-              {status.detail}
-            </span>
-          )}
+        <span className={`min-w-0 text-xs font-semibold leading-tight ${online ? "text-emerald-500" : "text-slate-500"}`}>
+          {label}
         </span>
       )}
     </span>

@@ -318,11 +318,6 @@ export default function Direct() {
                   }`}
                 >
                   <div className="flex items-center gap-2">
-                    <PresenceIndicator
-                      user={person}
-                      compact
-                    />
-
                     <div className="font-semibold line-clamp-1">
                       {person.name ||
                         "—"}

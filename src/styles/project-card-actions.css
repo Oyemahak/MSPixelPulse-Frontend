@@ -1,41 +1,49 @@
-/* Project card CTA priority: preserve desktop order, prioritize Live site on mobile. */
-.project-card-actions > a:first-child {
-  border: 1px solid #e2e8f0;
-  background: transparent;
-  color: #1e293b;
-  box-shadow: none;
+/* Project card CTAs: keep both actions clearly readable in light and dark themes. */
+
+/* Light theme */
+html:not([data-theme="dark"]) .project-card-actions > a:first-child {
+  border: 1px solid #cbd5e1 !important;
+  background: #ffffff !important;
+  color: #0f172a !important;
+  box-shadow: none !important;
 }
 
-.project-card-actions > a:first-child:hover {
-  background: rgba(248, 250, 252, 0.92);
+html:not([data-theme="dark"]) .project-card-actions > a:first-child:hover {
+  border-color: #94a3b8 !important;
+  background: #f8fafc !important;
+  color: #0f172a !important;
 }
 
-.project-card-actions > a:nth-child(2) {
-  border: 1px solid #2563ff;
-  background: #2563ff;
-  color: #ffffff;
-  box-shadow: none;
+html:not([data-theme="dark"]) .project-card-actions > a:nth-child(2) {
+  border: 1px solid #2563eb !important;
+  background: #2563eb !important;
+  color: #ffffff !important;
+  box-shadow: none !important;
 }
 
-.project-card-actions > a:nth-child(2):hover {
-  border-color: #1d4ed8;
-  background: #1d4ed8;
+html:not([data-theme="dark"]) .project-card-actions > a:nth-child(2):hover {
+  border-color: #1d4ed8 !important;
+  background: #1d4ed8 !important;
+  color: #ffffff !important;
 }
 
+/* Dark theme */
 [data-theme="dark"] .project-card-actions > a:first-child {
-  border-color: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.14);
   background: transparent;
   color: var(--textMain);
+  box-shadow: none;
 }
 
 [data-theme="dark"] .project-card-actions > a:first-child:hover {
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.06);
 }
 
 [data-theme="dark"] .project-card-actions > a:nth-child(2) {
   border-color: var(--primary);
   background: var(--primary);
   color: #ffffff;
+  box-shadow: none;
 }
 
 [data-theme="dark"] .project-card-actions > a:nth-child(2):hover {

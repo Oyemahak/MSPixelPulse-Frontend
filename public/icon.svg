@@ -1,19 +1,11 @@
 <svg width="128" height="128" viewBox="146 0 1104 1104" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
-  <title id="title">MSPixelPulse adaptive logo</title>
-  <desc id="desc">An interlocking M and S monogram with a transparent background, solid black in light mode and white with a purple outline in dark mode.</desc>
-  <style>
-    .dark-variant { display: none; }
-    @media (prefers-color-scheme: dark) {
-      .light-variant { display: none; }
-      .dark-variant { display: inline; }
-    }
-  </style>
+  <title id="title">MSPixelPulse logo</title>
+  <desc id="desc">A solid black interlocking M and S monogram with a transparent background.</desc>
   <defs>
     <g id="mark">
       <path d="M914 673L913 904L697 1040L483 904L483 546L560 588L560 858L697 948L836 857L836 641L348 359L348 861L270 861L270 222L483 345L483 186L697 63L913 186L913 255L836 296L836 231L697 152L559 229L559 369L562 392L914 597V673Z"/>
       <path d="M1126 222V861H1048V359L865 465L843 456L784 420L1126 222Z"/>
     </g>
   </defs>
-  <use class="light-variant" href="#mark" fill="#050505" stroke="#0F172A" stroke-width="18" paint-order="stroke fill" vector-effect="non-scaling-stroke" stroke-linejoin="round"/>
-  <use class="dark-variant" href="#mark" fill="#FFFFFF" stroke="#8B6CFF" stroke-width="16" paint-order="stroke fill" vector-effect="non-scaling-stroke" stroke-linejoin="miter" stroke-miterlimit="3"/>
+  <use href="#mark" fill="#050505" stroke="#0F172A" stroke-width="18" paint-order="stroke fill" vector-effect="non-scaling-stroke" stroke-linejoin="round"/>
 </svg>

@@ -8756,6 +8756,11 @@ html:not([data-theme="dark"]) .public-header-shell img.brand-logo-mark,
   filter: none;
   transform: none;
   transition: none;
+  box-sizing: border-box;
+  padding: 3px;
+  border: 1px solid rgba(148, 163, 184, 0.28);
+  border-radius: 9px;
+  background: #f8fafc;
 }
 .admin-project-cover-upload {
   position: relative;

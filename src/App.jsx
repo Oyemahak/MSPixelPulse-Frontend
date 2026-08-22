@@ -26,7 +26,6 @@ const BlogPost = lazy(() => import("./pages/BlogPost.jsx"));
 const About = lazy(() => import("./pages/About.jsx"));
 const LegalPage = lazy(() => import("./pages/LegalPage.jsx"));
 const Login = lazy(() => import("./pages/auth/Login.jsx"));
-const Register = lazy(() => import("./pages/auth/Register.jsx"));
 const NotFound = lazy(() => import("./pages/NotFound.jsx"));
 
 /** Portals */
@@ -172,7 +171,7 @@ export default function App() {
               <Route path="/accessibility" element={<LegalPage page="accessibility" />} />
               <Route path="/security" element={<LegalPage page="security" />} />
               <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<Register />} />
+              <Route path="/register" element={<Navigate to="/login" replace />} />
               {import.meta.env.DEV && DebugConnection && (
                 <Route path="/debug" element={<DebugConnection />} />
               )}

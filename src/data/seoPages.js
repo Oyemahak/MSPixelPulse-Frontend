@@ -189,15 +189,6 @@ export const seoPages = {
     robots: "noindex, nofollow",
     component: "src/pages/auth/Login.jsx",
   },
-  register: {
-    path: "/register",
-    title: "Request Portal Access — MSPixelPulse",
-    description:
-      "Request access to an MSPixelPulse client, developer, or admin workspace.",
-    canonical: "/register",
-    robots: "noindex, nofollow",
-    component: "src/pages/auth/Register.jsx",
-  },
   notFound: {
     path: "/404",
     title: "Page not found — MSPixelPulse",

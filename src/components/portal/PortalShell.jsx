@@ -14,7 +14,6 @@ import NotificationCenter from "@/components/portal/NotificationCenter.jsx";
 import {
   LuBell,
   LuBriefcaseBusiness,
-  LuCheckCheck,
   LuChevronRight,
   LuCreditCard,
   LuFolderKanban,
@@ -44,15 +43,14 @@ const roleMeta = {
       { to: "/admin/dashboard", label: "Dashboard", icon: LuLayoutDashboard, end: true },
       { to: "/admin/projects", label: "Projects", icon: LuFolderKanban },
       { to: "/admin/users", label: "Users", icon: LuUsers },
-      { to: "/admin/approvals", label: "Approvals", icon: LuCheckCheck },
       { to: "/admin/leads", label: "Leads", icon: LuInbox },
       { to: "/admin/content", label: "Site content", icon: LuPanelsTopLeft },
       { to: "/admin/billing", label: "Billing", icon: LuCreditCard },
       { to: "/admin/discussions", label: "Project rooms", icon: LuMessageSquare },
       { to: "/admin/messages", label: "Messages", icon: LuMessageSquare, aliases: ["/admin/direct"] },
       { to: "/admin/notifications", label: "Notifications", icon: LuBell },
-      { to: "/admin/profile", label: "Profile", icon: LuUserRound, aliases: ["/admin/my-account"] },
-      { to: "/admin/settings", label: "Settings", icon: LuSettings },
+      { to: "/admin/profile", label: "Profile", icon: LuUserRound, aliases: ["/admin/my-account"], section: "account" },
+      { to: "/admin/settings", label: "Settings", icon: LuSettings, section: "account" },
     ],
   },
   developer: {
@@ -66,8 +64,8 @@ const roleMeta = {
       { to: "/dev/messages", label: "Messages", icon: LuMessageSquare, aliases: ["/dev/direct"] },
       { to: "/dev/notifications", label: "Notifications", icon: LuBell },
       { to: "/dev/team", label: "Team", icon: LuUsers },
-      { to: "/dev/profile", label: "Profile", icon: LuUserRound, aliases: ["/dev/my-account"] },
-      { to: "/dev/settings", label: "Settings", icon: LuSettings },
+      { to: "/dev/profile", label: "Profile", icon: LuUserRound, aliases: ["/dev/my-account"], section: "account" },
+      { to: "/dev/settings", label: "Settings", icon: LuSettings, section: "account" },
     ],
   },
   client: {
@@ -82,8 +80,8 @@ const roleMeta = {
       { to: "/client/billing", label: "Billing", icon: LuCreditCard },
       { to: "/client/notifications", label: "Notifications", icon: LuBell },
       { to: "/client/support", label: "Support", icon: LuShieldCheck },
-      { to: "/client/profile", label: "Profile", icon: LuUserRound, aliases: ["/client/my-account"] },
-      { to: "/client/settings", label: "Settings", icon: LuSettings },
+      { to: "/client/profile", label: "Profile", icon: LuUserRound, aliases: ["/client/my-account"], section: "account" },
+      { to: "/client/settings", label: "Settings", icon: LuSettings, section: "account" },
     ],
   },
 };
@@ -106,9 +104,9 @@ function isActivePath(pathname, item) {
   });
 }
 
-function PortalNav({ links, pathname, onNavigate }) {
+function PortalNav({ links, pathname, onNavigate, label = "Portal navigation" }) {
   return (
-    <nav className="portal-nav" aria-label="Portal navigation">
+    <nav className="portal-nav" aria-label={label}>
       {links.map((item) => {
         const Icon = item.icon;
         const active = isActivePath(pathname, item);
@@ -144,6 +142,8 @@ export default function PortalShell({ children }) {
 
   const meta = roleMeta[role] || roleMeta.client;
   const links = meta.nav;
+  const primaryLinks = links.filter((item) => item.section !== "account");
+  const accountLinks = links.filter((item) => item.section === "account");
   const activeItem = useMemo(
     () => links.find((item) => isActivePath(pathname, item)) || links[0],
     [links, pathname]
@@ -227,7 +227,7 @@ export default function PortalShell({ children }) {
       <aside className="portal-sidebar">
         <Link to={meta.home} className="portal-brand" aria-label="MSPixelPulse portal dashboard">
           <img
-            src={theme === "dark" ? "/icon-dark.svg?v=black-light-mark-v9" : "/icon-light.svg?v=black-light-mark-v9"}
+            src="/icon.svg?v=black-mark-v10"
             alt=""
             aria-hidden="true"
             className="portal-logo-mark brand-logo-mark"
@@ -248,9 +248,10 @@ export default function PortalShell({ children }) {
           </div>
         </div>
 
-        <PortalNav links={links} pathname={pathname} />
+        <PortalNav links={primaryLinks} pathname={pathname} />
 
         <div className="portal-sidebar-footer">
+          <PortalNav links={accountLinks} pathname={pathname} label="Account navigation" />
           <Link to="/" className="portal-ghost-link">
             <LuHouse className="h-4 w-4" aria-hidden="true" />
             Public website
@@ -272,7 +273,7 @@ export default function PortalShell({ children }) {
             <div className="portal-drawer-head">
               <Link to={meta.home} className="portal-brand" onClick={() => setDrawerOpen(false)}>
                 <img
-                  src={theme === "dark" ? "/icon-dark.svg?v=black-light-mark-v9" : "/icon-light.svg?v=black-light-mark-v9"}
+                  src="/icon.svg?v=black-mark-v10"
                   alt=""
                   aria-hidden="true"
                   className="portal-logo-mark brand-logo-mark"
@@ -294,7 +295,14 @@ export default function PortalShell({ children }) {
                 <LuX className="h-5 w-5" aria-hidden="true" />
               </button>
             </div>
-            <PortalNav links={links} pathname={pathname} onNavigate={() => setDrawerOpen(false)} />
+            <PortalNav links={primaryLinks} pathname={pathname} onNavigate={() => setDrawerOpen(false)} />
+            <div className="portal-drawer-account">
+              <PortalNav links={accountLinks} pathname={pathname} onNavigate={() => setDrawerOpen(false)} label="Account navigation" />
+              <Link to="/" className="portal-ghost-link" onClick={() => setDrawerOpen(false)}>
+                <LuHouse className="h-4 w-4" aria-hidden="true" />
+                Public website
+              </Link>
+            </div>
           </aside>
         </div>
       )}

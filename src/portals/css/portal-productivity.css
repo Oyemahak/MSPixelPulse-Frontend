@@ -39,8 +39,12 @@ html:not([data-theme="dark"]) .portal-frame {
   font-weight: 600 !important;
 }
 
-.portal-frame :where(button, label, th, .portal-nav-item, .form-label, .font-bold, .font-extrabold, .font-black) {
+.portal-frame :where(button, label, th, .form-label, .font-bold, .font-extrabold, .font-black) {
   font-weight: 500 !important;
+}
+
+.portal-frame :where(.portal-nav-item, .notification-segmented button, .billing-tabs button, [role="tab"]) {
+  font-weight: 600 !important;
 }
 
 .portal-frame :where(p, li, td, input, select, textarea, button) {
@@ -111,7 +115,7 @@ html:not([data-theme="dark"]) .portal-frame {
   padding: var(--portal-card-pad);
 }
 
-.portal-frame :where(.btn, input, select) {
+.portal-frame :where(.btn, select, input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]):not([type="file"])) {
   min-height: var(--portal-control-height);
 }
 
@@ -145,7 +149,7 @@ html:not([data-theme="dark"]) .portal-frame .btn-danger {
   border-radius: 10px;
 }
 
-.portal-frame :where(input, select, textarea) {
+.portal-frame :where(select, textarea, input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]):not([type="file"])) {
   border-color: var(--portal-border);
   border-radius: 10px;
   padding-inline: 12px;
@@ -193,14 +197,79 @@ html:not([data-theme="dark"]) .portal-frame .btn-danger {
 }
 
 .portal-frame .portal-nav-item {
-  min-height: 42px;
-  margin-block: 2px;
+  min-height: 39px;
+  margin-block: 0;
+  padding: 8px 13px;
   border-radius: 9px;
   font-size: 0.9rem;
 }
 
 .portal-frame .portal-nav-item.is-active {
+  background: rgba(59, 130, 246, 0.13);
+  color: #93c5fd;
   box-shadow: inset 3px 0 0 #3b82f6;
+}
+
+html:not([data-theme="dark"]) .portal-frame .portal-nav-item.is-active {
+  background: rgba(37, 99, 235, 0.09);
+  color: #1d4ed8;
+}
+
+.portal-frame .portal-sidebar-footer {
+  display: grid;
+  gap: 8px;
+  padding-top: 12px;
+}
+
+.portal-frame .portal-sidebar-footer .portal-nav {
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--portal-border);
+}
+
+.portal-frame .portal-drawer {
+  display: flex;
+  flex-direction: column;
+}
+
+.portal-frame .portal-drawer-account {
+  display: grid;
+  gap: 8px;
+  margin-top: auto;
+  padding-top: 16px;
+}
+
+.portal-frame .portal-logo-mark,
+.portal-frame .brand-logo-mark {
+  padding: 4px;
+  border: 1px solid rgba(148, 163, 184, 0.32);
+  background: #f8fafc;
+  box-shadow: none;
+}
+
+.portal-frame .portal-toggle-row input[type="checkbox"] {
+  width: 42px;
+  min-width: 42px;
+  min-height: 24px;
+  height: 24px;
+  padding: 0;
+  flex: 0 0 42px;
+  transition: background-color 180ms ease, border-color 180ms ease;
+}
+
+.portal-frame .portal-toggle-row input[type="checkbox"]::before {
+  width: 18px;
+  height: 18px;
+  margin: 2px;
+  transition: transform 180ms ease;
+}
+
+.portal-frame .portal-toggle-row input[type="checkbox"]:checked::before {
+  transform: translateX(18px);
+}
+
+.portal-frame .portal-toggle-row input[type="checkbox"]:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
 }
 
 .portal-frame .portal-brand-name {
@@ -368,7 +437,7 @@ html:not([data-theme="dark"]) .portal-notification-panel {
   padding: 10px;
   border: 1px solid var(--portal-border);
   border-radius: 12px;
-  background: rgba(15, 23, 42, 0.25);
+  background: rgba(15, 23, 42, 0.18);
 }
 
 html:not([data-theme="dark"]) .notification-filter-bar {
@@ -413,7 +482,7 @@ html:not([data-theme="dark"]) :where(.notification-segmented button.is-active, .
   overflow: hidden;
   border: 1px solid var(--portal-border);
   border-radius: 14px;
-  background: rgba(15, 23, 42, 0.25);
+  background: rgba(15, 23, 42, 0.18);
 }
 
 html:not([data-theme="dark"]) .notification-list {
@@ -441,6 +510,10 @@ html:not([data-theme="dark"]) .notification-list {
 .notification-row:hover,
 .notification-row.is-unread {
   background: var(--portal-hover);
+}
+
+html:not([data-theme="dark"]) .notification-row.is-unread {
+  background: rgba(37, 99, 235, 0.045);
 }
 
 .notification-row.is-unread {
@@ -530,7 +603,61 @@ html:not([data-theme="dark"]) .notification-list {
 
 .notification-settings-grid input {
   width: 18px;
+  height: 18px;
   min-height: 18px;
+}
+
+.notification-empty {
+  display: grid;
+  min-height: 180px;
+  place-content: center;
+  justify-items: center;
+  gap: 6px;
+}
+
+.notification-empty > svg {
+  width: 24px;
+  height: 24px;
+  margin-bottom: 4px;
+}
+
+.notification-empty strong {
+  color: inherit;
+  font-weight: 600;
+}
+
+.notification-empty span {
+  font-size: 0.875rem;
+  font-weight: 400;
+}
+
+html:not([data-theme="dark"]) .portal-frame :where(select, textarea, input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]):not([type="file"])) {
+  border-color: #d0d7de;
+  background: #fff;
+  color: #1f2937;
+}
+
+html:not([data-theme="dark"]) .portal-frame :where(select, textarea, input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]):not([type="file"])):hover:not(:disabled) {
+  border-color: #aeb8c4;
+}
+
+html:not([data-theme="dark"]) .portal-frame :where(select, textarea, input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]):not([type="file"])):focus {
+  border-color: #2563eb;
+}
+
+html:not([data-theme="dark"]) .portal-frame :where(select, textarea, input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]):not([type="file"])):disabled {
+  border-color: #e2e8f0;
+  background: #f1f5f9;
+  color: #94a3b8;
+}
+
+html:not([data-theme="dark"]) .portal-frame .notifications-page-header {
+  background: transparent;
+  color: #0f172a;
+}
+
+html:not([data-theme="dark"]) .portal-frame .notifications-page-header .text-muted {
+  color: #64748b;
 }
 
 /* Billing tabs, payment confirmation, receipts and history */

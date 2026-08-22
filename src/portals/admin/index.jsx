@@ -11,7 +11,6 @@ const CreateUser = lazy(() => import("./CreateUser.jsx"));
 const Projects = lazy(() => import("./Projects.jsx"));
 const ProjectDetail = lazy(() => import("./ProjectDetail.jsx"));
 const ProjectNew = lazy(() => import("./ProjectNew.jsx"));
-const Approvals = lazy(() => import("./Approvals.jsx"));
 const Leads = lazy(() => import("./Leads.jsx"));
 const SiteContent = lazy(() => import("./SiteContent.jsx"));
 const Billings = lazy(() => import("./Billings.jsx"));
@@ -29,7 +28,7 @@ export default function AdminPortal() {
         <Routes>
         <Route index element={<Navigate to="dashboard" replace />} />
         <Route path="dashboard" element={<AdminDashboard />} />
-        <Route path="approvals" element={<Approvals />} />
+        <Route path="approvals" element={<Navigate to="../users" replace />} />
         <Route path="leads" element={<Leads />} />
         <Route path="content" element={<SiteContent />} />
 

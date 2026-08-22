@@ -2,7 +2,6 @@ import Container from "./Container.jsx";
 import { Link } from "react-router-dom";
 import SocialContactLinks from "@/components/SocialContactLinks.jsx";
 import { site } from "@/data/site.js";
-import { useTheme } from "@/lib/theme.js";
 
 const navigation = [
   ["Home", "/"],
@@ -23,7 +22,6 @@ const serviceLinks = [
 ];
 
 export default function AppFooter() {
-  const { theme } = useTheme();
   const year = new Date().getFullYear();
 
   return (
@@ -33,7 +31,7 @@ export default function AppFooter() {
           <div className="agency-footer-brand">
             <div className="agency-footer-logo">
               <img
-                src={theme === "dark" ? "/icon-dark.svg?v=black-light-mark-v9" : "/icon-light.svg?v=black-light-mark-v9"}
+                src="/icon.svg?v=black-mark-v10"
                 alt=""
                 aria-hidden="true"
                 className="brand-logo-mark"

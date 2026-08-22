@@ -11,14 +11,14 @@ import { notifyNotificationChange, relativeNotificationTime } from "@/lib/notifi
 const categories = [
   ["", "All categories"], ["requirements", "Requirements"], ["projects", "Projects"],
   ["messages", "Messages"], ["announcements", "Announcements"], ["evidence", "Evidence"],
-  ["billing", "Billing"], ["leads", "Leads"], ["approvals", "Approvals"],
+  ["billing", "Billing"], ["leads", "Leads"],
   ["support", "Support"], ["system", "System"],
 ];
 
 const categoryIcons = {
   requirements: LuCheckCheck, projects: LuFolderKanban, messages: LuMessageSquare,
   announcements: LuMegaphone, evidence: LuCheckCheck, billing: LuCircleDollarSign,
-  leads: LuInbox, approvals: LuCheckCheck, support: LuShieldCheck, system: LuSettings2,
+  leads: LuInbox, support: LuShieldCheck, system: LuSettings2,
 };
 
 export default function NotificationsPage() {
@@ -135,7 +135,7 @@ export default function NotificationsPage() {
             </button>
           );
         })}
-        {!items.length ? <div className="notification-empty">{loading ? "Loading notifications..." : filter === "unread" ? "No unread notifications." : "No notifications yet."}</div> : null}
+        {!items.length ? <div className="notification-empty"><LuBell aria-hidden="true" /><strong>{loading ? "Loading notifications..." : "You’re all caught up"}</strong>{!loading ? <span>{filter === "unread" ? "There are no unread notifications." : "New portal updates will appear here."}</span> : null}</div> : null}
       </section>
       {hasMore ? <button type="button" className="btn btn-outline notification-load-more" onClick={() => load({ nextPage: page + 1, append: true })}>Load more</button> : null}
 

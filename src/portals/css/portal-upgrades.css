@@ -12,8 +12,10 @@ html:not([data-theme="dark"]) .portal-toggle-row span {
 html:not([data-theme="dark"])
   .portal-toggle-row
   input[type="checkbox"] {
-  width: 2.8rem;
-  height: 1.45rem;
+  width: 42px;
+  min-width: 42px;
+  min-height: 24px;
+  height: 24px;
   padding: 0 !important;
 
   appearance: none;
@@ -41,10 +43,10 @@ html:not([data-theme="dark"])
 
   display: block;
 
-  width: 1.05rem;
-  height: 1.05rem;
+  width: 18px;
+  height: 18px;
 
-  margin: 0.12rem;
+  margin: 2px;
 
   border-radius: 999px;
 
@@ -75,7 +77,7 @@ html:not([data-theme="dark"])
   .portal-toggle-row
   input[type="checkbox"]:checked::before {
   transform:
-    translateX(1.25rem);
+    translateX(18px);
 }
 
 html:not([data-theme="dark"])

@@ -35,7 +35,7 @@ html:not([data-theme="dark"]) .portal-frame {
   --portal-focus: rgba(37, 99, 235, 0.38);
 }
 
-.portal-frame :where(h1, h2, h3, h4, h5, h6, strong, b, .page-title, .card-title, .kpi-value, [class*="-title"], [class*="-heading"], [class*="-value"]) {
+.portal-frame :is(h1, h2, h3, h4, h5, h6, strong, b, .page-title, .card-title, .kpi-value, [class*="-title"], [class*="-heading"], [class*="-value"]) {
   font-weight: 600 !important;
 }
 

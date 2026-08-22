@@ -20,6 +20,7 @@ const DirectIndex = lazy(() => import("./DirectIndex.jsx"));
 const Direct = lazy(() => import("./Direct.jsx"));
 const Requirements = lazy(() => import("./Requirements.jsx"));
 const MyAccount = lazy(() => import("./MyAccount.jsx"));
+const NotificationsPage = lazy(() => import("@/components/portal/NotificationsPage.jsx"));
 
 export default function AdminPortal() {
   return (
@@ -42,6 +43,7 @@ export default function AdminPortal() {
         <Route path="projects/:projectId/requirements" element={<Requirements />} />
 
         <Route path="billing" element={<Billings />} />
+        <Route path="notifications" element={<NotificationsPage />} />
 
         <Route path="discussions" element={<Discussions />} />
         <Route path="discussions/:projectId" element={<Discussions />} />

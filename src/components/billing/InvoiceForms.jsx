@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { LuSave, LuUpload } from "react-icons/lu";
+import { LuBan, LuSave, LuUpload } from "react-icons/lu";
 import { paymentTermsOptions } from "@/lib/invoiceCalculations.js";
 
 import {
@@ -99,6 +99,7 @@ export function PaymentForm({ invoice, busy, onSubmit }) {
     note: "",
   });
   const [error, setError] = useState("");
+  const [idempotencyKey] = useState(() => globalThis.crypto?.randomUUID?.() || `payment-${Date.now()}-${Math.random().toString(16).slice(2)}`);
 
   async function submit(event) {
     event.preventDefault();
@@ -106,7 +107,10 @@ export function PaymentForm({ invoice, busy, onSubmit }) {
     if (Number(form.amount || 0) <= 0) return setError("Enter a payment amount greater than zero.");
     try {
       await onSubmit({
-        payments: [...(invoice.payments || []), { ...form, amount: Number(form.amount) }],
+        ...form,
+        amount: Number(form.amount),
+        paymentStage: invoice.paymentStage || "other",
+        idempotencyKey,
       });
     } catch (requestError) {
       setError(requestError?.message || "Payment could not be recorded.");
@@ -124,6 +128,28 @@ export function PaymentForm({ invoice, busy, onSubmit }) {
       </div>
       {error ? <div className="text-error" role="alert">{error}</div> : null}
       <div className="invoice-sticky-actions"><button className="btn btn-primary" disabled={busy}><LuSave aria-hidden="true" />{busy ? "Saving…" : "Record payment"}</button></div>
+    </form>
+  );
+}
+
+export function VoidReceiptForm({ receipt, busy, onSubmit }) {
+  const [reason, setReason] = useState("");
+  const [error, setError] = useState("");
+
+  async function submit(event) {
+    event.preventDefault();
+    setError("");
+    if (reason.trim().length < 3) return setError("Enter a clear reason for voiding this receipt.");
+    try { await onSubmit(reason.trim()); } catch (requestError) { setError(requestError?.message || "Receipt could not be voided."); }
+  }
+
+  return (
+    <form className="invoice-compact-form" onSubmit={submit}>
+      <div className="billing-message is-warning">The receipt number remains reserved and the receipt stays visible with a VOID status.</div>
+      <Field label="Receipt"><input value={receipt?.receiptNumber || ""} disabled /></Field>
+      <Field label="Void reason"><textarea rows="4" value={reason} onChange={(event) => setReason(event.target.value)} placeholder="Why is this issued receipt being voided?" required /></Field>
+      {error ? <div className="text-error" role="alert">{error}</div> : null}
+      <div className="invoice-sticky-actions"><button className="btn btn-danger" disabled={busy}><LuBan aria-hidden="true" />{busy ? "Voiding..." : "Void receipt"}</button></div>
     </form>
   );
 }

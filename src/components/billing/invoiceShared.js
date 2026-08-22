@@ -166,6 +166,12 @@ export function draftFromInvoice(invoice = {}, project) {
 
 export function invoicePayload(draft = {}) {
   const totals = invoiceTotals(draft);
+  const invoiceTotalsOnly = {
+    subtotal: totals.subtotal,
+    discountAmount: totals.discountAmount,
+    taxAmount: totals.taxAmount,
+    total: totals.total,
+  };
   const paymentStage = normalizePaymentStage(draft.paymentStage, draft.kind);
   return {
     sourceType: draft.sourceType || "generated",
@@ -206,7 +212,6 @@ export function invoicePayload(draft = {}) {
     showPageNumbers: draft.showPageNumbers !== false,
     notes: draft.notes || "",
     internalNotes: draft.internalNotes || "",
-    payments: draft.payments || [],
-    ...totals,
+    ...invoiceTotalsOnly,
   };
 }

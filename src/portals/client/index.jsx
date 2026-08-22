@@ -12,6 +12,7 @@ const Direct = lazy(() => import("./Direct.jsx"));
 const Billings = lazy(() => import("./Billings.jsx"));
 const Support = lazy(() => import("./Support.jsx"));
 const MyAccount = lazy(() => import("./MyAccount.jsx"));
+const NotificationsPage = lazy(() => import("@/components/portal/NotificationsPage.jsx"));
 
 export default function ClientPortal() {
   return (
@@ -32,6 +33,7 @@ export default function ClientPortal() {
         <Route path="direct/:peerId" element={<Direct />} />
 
         <Route path="billing" element={<Billings />} />
+        <Route path="notifications" element={<NotificationsPage />} />
         <Route path="support" element={<Support />} />
         <Route path="my-account" element={<MyAccount />} />
         <Route path="profile" element={<MyAccount />} />

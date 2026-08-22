@@ -1142,6 +1142,9 @@ export const invoices = {
   all: () =>
     http("/invoices"),
 
+  receipts: () =>
+    http("/receipts"),
+
   nextNumber: () =>
     http("/invoices/next-number"),
 
@@ -1198,6 +1201,18 @@ export const invoices = {
         body: payload,
       },
     ),
+
+  recordPayment: (projectId, invoiceId, payload) =>
+    http(`/projects/${projectId}/invoices/${invoiceId}/payments`, {
+      method: "POST",
+      body: payload,
+    }),
+
+  voidReceipt: (receiptId, reason) =>
+    http(`/receipts/${receiptId}/void`, {
+      method: "PATCH",
+      body: { reason },
+    }),
 
   async upload(
     file,
@@ -1318,6 +1333,21 @@ export const invoices = {
         method: "DELETE",
       },
     ),
+};
+
+/* ---------------------------------------------------------
+   Role-aware portal notifications
+   --------------------------------------------------------- */
+
+export const notifications = {
+  list: (params = {}) => http(`/notifications${qs(params)}`),
+  markRead: (notificationId) => http(`/notifications/${notificationId}/read`, { method: "PATCH" }),
+  markAllRead: () => http("/notifications/read-all", { method: "PATCH" }),
+  settings: () => http("/notifications/settings/operational"),
+  updateSettings: (emailCategories) => http("/notifications/settings/operational", {
+    method: "PATCH",
+    body: { emailCategories },
+  }),
 };
 
 /* ---------------------------------------------------------

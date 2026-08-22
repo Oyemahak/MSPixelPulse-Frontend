@@ -2,6 +2,7 @@
 import "@/portals/css/portal.css";
 import "@/portals/css/portal-upgrades.css";
 import "@/portals/css/portal-mobile.css";
+import "@/portals/css/portal-productivity.css";
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useAuth } from "@/context/AuthContext.jsx";
@@ -9,6 +10,7 @@ import {
   useTheme,
 } from "@/lib/theme.js";
 import { queueAccountThemeSave } from "@/lib/accountTheme.js";
+import NotificationCenter from "@/components/portal/NotificationCenter.jsx";
 import {
   LuBell,
   LuBriefcaseBusiness,
@@ -47,7 +49,8 @@ const roleMeta = {
       { to: "/admin/content", label: "Site content", icon: LuPanelsTopLeft },
       { to: "/admin/billing", label: "Billing", icon: LuCreditCard },
       { to: "/admin/discussions", label: "Project rooms", icon: LuMessageSquare },
-      { to: "/admin/messages", label: "Messages", icon: LuBell, aliases: ["/admin/direct"] },
+      { to: "/admin/messages", label: "Messages", icon: LuMessageSquare, aliases: ["/admin/direct"] },
+      { to: "/admin/notifications", label: "Notifications", icon: LuBell },
       { to: "/admin/profile", label: "Profile", icon: LuUserRound, aliases: ["/admin/my-account"] },
       { to: "/admin/settings", label: "Settings", icon: LuSettings },
     ],
@@ -60,7 +63,8 @@ const roleMeta = {
       { to: "/dev/dashboard", label: "Dashboard", icon: LuLayoutDashboard, end: true },
       { to: "/dev/projects", label: "Projects", icon: LuFolderKanban },
       { to: "/dev/discussions", label: "Project rooms", icon: LuMessageSquare },
-      { to: "/dev/messages", label: "Messages", icon: LuBell, aliases: ["/dev/direct"] },
+      { to: "/dev/messages", label: "Messages", icon: LuMessageSquare, aliases: ["/dev/direct"] },
+      { to: "/dev/notifications", label: "Notifications", icon: LuBell },
       { to: "/dev/team", label: "Team", icon: LuUsers },
       { to: "/dev/profile", label: "Profile", icon: LuUserRound, aliases: ["/dev/my-account"] },
       { to: "/dev/settings", label: "Settings", icon: LuSettings },
@@ -74,8 +78,9 @@ const roleMeta = {
       { to: "/client/dashboard", label: "Dashboard", icon: LuLayoutDashboard, end: true },
       { to: "/client/projects", label: "Projects", icon: LuFolderKanban },
       { to: "/client/discussions", label: "Project rooms", icon: LuMessageSquare },
-      { to: "/client/messages", label: "Messages", icon: LuBell, aliases: ["/client/direct"] },
+      { to: "/client/messages", label: "Messages", icon: LuMessageSquare, aliases: ["/client/direct"] },
       { to: "/client/billing", label: "Billing", icon: LuCreditCard },
+      { to: "/client/notifications", label: "Notifications", icon: LuBell },
       { to: "/client/support", label: "Support", icon: LuShieldCheck },
       { to: "/client/profile", label: "Profile", icon: LuUserRound, aliases: ["/client/my-account"] },
       { to: "/client/settings", label: "Settings", icon: LuSettings },
@@ -320,6 +325,7 @@ export default function PortalShell({ children }) {
           </div>
 
           <div className="portal-actions">
+            <NotificationCenter notificationsPath={`${meta.home}/notifications`} />
             <button
               type="button"
               className="portal-icon-button"

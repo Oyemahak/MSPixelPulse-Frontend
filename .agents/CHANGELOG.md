@@ -1,5 +1,11 @@
 # Agent System Changelog
 
+## 2026-08-22
+- Added the shared calm-productivity portal typography and responsive UI contract with 400–600 weights, compact spacing, theme parity, reduced motion, and central focus/touch rules.
+- Added persistent role-aware in-app notifications, deterministic operational email categories, bounded preview polling, explicit read state, and Admin email-category preferences.
+- Added the dedicated idempotent payment workflow, stable payment/receipt identifiers, immutable receipt snapshots, private one-page Letter/A4 receipt PDFs, retained void records, and role-scoped receipt access.
+- Recorded Gmail organization as an idempotent label/filter provisioning task that archives managed category copies while preserving unrelated mail.
+
 ## 2026-08-19
 - Added the fast, progressively disclosed invoice workflow with persisted payment stages, project-value calculations, due-term presets, structured PDF payment/terms/footer sections, and backward-compatible invoice reads.
 - Centralized portal mobile containment, responsive tables/cards, action wrapping, requirements filenames, profile actions, and independently scrolling accessible dialogs for Admin, Client, and Developer pages.

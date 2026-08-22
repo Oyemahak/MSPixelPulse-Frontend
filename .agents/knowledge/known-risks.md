@@ -13,6 +13,14 @@ Use the Knowledge Update Protocol before editing this file.
 
 ## Entries
 
+- Date: 2026-08-22
+- Source: Gmail operational-notification organization design
+- Decision or note: The exact operational mailbox was provisioned on 2026-08-22 with the parent plus ten category labels and ten subject filters that skip Inbox. Future automated reprovisioning still requires Gmail-scoped OAuth credentials; the existing Sheets/Drive token does not include Gmail scope.
+- Evidence: Signed-in Gmail verification showed all managed labels and ten active `subject:([MSP:CATEGORY])` filters with Skip Inbox and the matching label; existing mail was not reprocessed.
+- Affected areas: Operational email triage; in-app notification delivery is unaffected
+- Confidence: High
+- Reviewer: Recheck the exact mailbox after future category changes
+
 - Date: 2026-07-25
 - Source: Google spam policies and current editorial architecture
 - Decision or note: Publishing all 1,000 generated briefs without original expertise and review could create scaled-content and trust risk.

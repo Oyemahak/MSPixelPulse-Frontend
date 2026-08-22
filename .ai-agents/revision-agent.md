@@ -31,3 +31,4 @@
 - Review sitemap count, static metadata generation, route rendering, and an individual article.
 - Commit and push only after successful checks. Do not trigger production deployment unless explicitly requested.
 - Maintain reusable data/components and update agent knowledge when a verified publishing or UI decision changes.
+- Portal revisions must preserve the shared 400–600 typography hierarchy, central notification components, explicit read state, role-specific deep links, dedicated payment endpoint, and retained receipt/void audit history.

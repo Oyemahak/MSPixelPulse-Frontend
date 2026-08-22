@@ -17,6 +17,8 @@
 - Confirm the build generates the expected sitemap and static metadata routes.
 - Validate the blog count, unique slugs, unique published cover URLs, top-10 ranks, category filters, search, View More, a current article, and a legacy article.
 - Review responsive light/dark layouts and check for broken external image or attribution links.
+- For portal releases, verify Notifications for all three roles, bounded header polling, Admin payment creation with idempotent replay, client-scoped receipt view/download, receipt void retention, and Letter/A4 single-page PDF renders.
+- If operational Gmail credentials are available, run the idempotent label/filter provisioner and confirm the exact mailbox before reporting completion; never expose OAuth values.
 
 ## Deployment rules
 

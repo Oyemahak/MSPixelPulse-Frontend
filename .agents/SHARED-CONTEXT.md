@@ -35,6 +35,15 @@ A disposable production role-CRUD E2E run completed with 35 checks passed, 0 fai
 
 Frontend agents should treat this as the current minimum account/role regression baseline.
 
+## Portal Productivity, Notifications, And Billing — 2026-08-22
+
+- Admin, Developer, and Client portals share `src/portals/css/portal-productivity.css` for readable 400–600 typography, compact spacing, controls, tables, focus states, and responsive light/dark behavior. Do not reintroduce page-local 700–900 weight overrides.
+- Role-aware notifications are persistent API records. The header bell is a preview, `/admin|dev|client/notifications` is the durable destination, reading is explicit, and polling is visibility-aware and bounded at 60 seconds.
+- Invoice payment state can only change through the dedicated payment endpoint with an idempotency key. Generic invoice edits must not mutate `payments`, `amountPaid`, or `balanceDue`.
+- Every accepted payment creates stable payment and receipt identifiers plus an immutable receipt snapshot and private one-page PDF. Admin may void a receipt with a reason; the record remains visible and is never deleted or renumbered.
+- Client receipt access is read-only and project-scoped. Never expose internal notes, raw Drive URLs, or another client's receipt.
+- Operational email category subjects are deterministic (`[MSP:CATEGORY]`) and copies go to the configured operational account while in-app delivery remains authoritative.
+
 ## Frontend Auth Rules
 
 - `/api/auth/me` is served through the centralized backend `requireAuth` path.

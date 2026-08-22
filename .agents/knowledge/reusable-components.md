@@ -13,6 +13,14 @@ Use the Knowledge Update Protocol before editing this file.
 
 ## Entries
 
+- Date: 2026-08-22
+- Source: Portal productivity and notification implementation
+- Decision or note: Reuse `portal-productivity.css`, `NotificationCenter.jsx`, `NotificationsPage.jsx`, and the Billing Payment/Receipt tabs across Admin, Developer, and Client portals instead of forking role-specific styles or notification lists.
+- Evidence: The shared shell imports one UI layer, all role route indexes use the same notification destination, and billing uses central API and form helpers.
+- Affected areas: Portal shell, role navigation, notification UX, invoice/payment/receipt maintenance
+- Confidence: High
+- Reviewer: Frontend, accessibility, responsive, and role-boundary review required for extensions
+
 - Date: 2026-08-18
 - Source: Public hero typography and responsive QA
 - Decision or note: Import `src/styles/public-system.css` once from `src/main.jsx`; keep all visitor-route H1 caps and shared `PageHero` spacing there instead of adding page-local typography overrides.

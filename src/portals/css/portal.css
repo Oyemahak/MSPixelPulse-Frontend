@@ -291,7 +291,7 @@
     place-items: center;
     background: linear-gradient(135deg, rgba(255, 255, 255, .18), rgba(255, 255, 255, .06));
     color: rgba(255, 255, 255, .9);
-    font-weight: 800;
+    font-weight: 600;
     letter-spacing: .25px;
 }
 
@@ -448,14 +448,14 @@
     color: var(--textMain);
     font-size: 1rem;
     line-height: 1.1;
-    font-weight: 900;
+    font-weight: 600;
 }
 
 .portal-brand-sub {
     margin-top: 0.2rem;
     color: var(--textSub);
     font-size: 0.72rem;
-    font-weight: 700;
+    font-weight: 600;
 }
 
 .portal-context-card {
@@ -472,7 +472,7 @@
 .portal-context-kicker {
     color: var(--textSub);
     font-size: 0.72rem;
-    font-weight: 800;
+    font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.08em;
 }
@@ -571,7 +571,7 @@
     gap: 0.35rem;
     color: var(--textSub);
     font-size: 0.76rem;
-    font-weight: 800;
+    font-weight: 600;
 }
 
 .portal-page-heading {
@@ -629,7 +629,7 @@
     border-radius: 999px;
     color: #ffffff;
     font-size: 0.75rem;
-    font-weight: 900;
+    font-weight: 600;
     background: linear-gradient(135deg, #2563eb, #7c3aed);
 }
 
@@ -884,7 +884,7 @@ html:not([data-theme="dark"]) .portal-nav-item.is-active {
     gap: 0.55rem;
     color: var(--textMain);
     font-size: 1rem;
-    font-weight: 900;
+    font-weight: 600;
 }
 
 .portal-setting-row {
@@ -935,7 +935,7 @@ html:not([data-theme="dark"]) .portal-nav-item.is-active {
     display: inline-flex;
     align-items: center;
     gap: 0.55rem;
-    font-weight: 800;
+    font-weight: 600;
 }
 
 .portal-toggle-row input[type="checkbox"] {
@@ -1332,7 +1332,7 @@ html:not([data-theme="dark"]) .portal-toggle-row input[type="checkbox"] {
     background: rgba(148, 163, 184, 0.16);
     color: var(--textSub);
     font-size: 0.72rem;
-    font-weight: 900;
+    font-weight: 600;
     text-transform: capitalize;
 }
 
@@ -1451,7 +1451,7 @@ html:not([data-theme="dark"]) .portal-toggle-row input[type="checkbox"] {
     gap: 0.45rem;
     color: var(--textSub);
     font-size: 0.82rem;
-    font-weight: 800;
+    font-weight: 600;
 }
 
 html:not([data-theme="dark"]) .admin-project-hero,
@@ -2569,7 +2569,7 @@ html:not([data-theme="dark"]) .portal-frame [class*="text-rose-"] {
     background: linear-gradient(135deg, #2563eb, #7c3aed);
     color: #fff;
     font-size: 0.76rem;
-    font-weight: 800;
+    font-weight: 600;
 }
 
 .direct-avatar img {
@@ -2663,7 +2663,7 @@ html:not([data-theme="dark"]) .portal-frame [class*="text-rose-"] {
 
 .direct-message-author {
     margin: 0 0 0.25rem;
-    font-weight: 700;
+    font-weight: 600;
 }
 
 .direct-composer {
@@ -2875,7 +2875,7 @@ html:not([data-theme="dark"]) .portal-frame [class*="text-rose-"] {
 
 .content-advanced summary {
     cursor: pointer;
-    font-weight: 700;
+    font-weight: 600;
 }
 
 .content-advanced textarea {
@@ -3303,11 +3303,11 @@ html:not([data-theme="dark"]) .portal-frame :is(input, select, textarea) {
 
 .portal-route-fallback strong {
     font-size: 0.86rem;
-    font-weight: 700;
+    font-weight: 600;
 }
 
 .portal-frame h1 {
-    font-weight: 800 !important;
+    font-weight: 600 !important;
 }
 
 .portal-frame h2 {
@@ -3315,7 +3315,7 @@ html:not([data-theme="dark"]) .portal-frame :is(input, select, textarea) {
 }
 
 .portal-frame h3 {
-    font-weight: 700 !important;
+    font-weight: 600 !important;
 }
 
 @keyframes portalRouteSpin {
@@ -3465,7 +3465,7 @@ html:not([data-theme="dark"]) .portal-frame :is(
     overflow: hidden;
     color: var(--textMain);
     font-size: 0.82rem;
-    font-weight: 700;
+    font-weight: 600;
     line-height: 1.25;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -3521,7 +3521,7 @@ html:not([data-theme="dark"]) .portal-frame .requirement-picker-button:hover:not
     padding: 0.35rem 0.55rem;
     color: var(--textMain);
     font-size: 0.76rem;
-    font-weight: 700;
+    font-weight: 600;
     line-height: 1;
     white-space: nowrap;
     cursor: pointer;

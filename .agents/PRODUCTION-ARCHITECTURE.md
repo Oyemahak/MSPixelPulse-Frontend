@@ -23,7 +23,7 @@ Google Sheets and Google Drive are server-side providers. Frontend components mu
 
 ## Google Sheets Is The Application Database
 
-The production spreadsheet is the durable structured-data store. Core tabs include Users, Projects, ProjectMembers, Requirements, Messages, Rooms, Threads, Invoices, Files, Leads, Tasks, Notifications, BlogComments, BlogReactions, BlogShares, BlogSubscribers, SiteContent, and SupportTickets.
+The production spreadsheet is the durable structured-data store. Core tabs include Users, Projects, ProjectMembers, Requirements, Messages, Rooms, Threads, Invoices, Receipts, PortalNotifications, Sequences, Files, Leads, Tasks, Notifications, BlogComments, BlogReactions, BlogShares, BlogSubscribers, SiteContent, and SupportTickets.
 
 Successful UI mutations must persist through the API and survive navigation, refresh, logout/login, a new browser session, and a new Vercel function instance. Local React state is never the durable source of truth.
 
@@ -171,6 +171,16 @@ The real protected production Admin must never be used as a mutation test subjec
 ## Responsive/UI Requirement
 
 Portal functionality must remain usable on desktop, tablet, and mobile in both light and dark themes. Fixing backend behavior must not regress established layout or shared styling.
+
+The central portal productivity layer is `src/portals/css/portal-productivity.css`. Maintain a system-font type scale with body weight 400, labels/actions 500, headings no heavier than 600, mobile form text at least 16px where needed to prevent zoom, visible focus, 44px coarse-pointer targets, reduced motion, and no horizontal body overflow at 360, 390, 430, 768, 1024, 1280, and 1440px.
+
+## Notification And Receipt Boundaries
+
+- Frontend notification polling must be bounded and visibility-aware; do not add per-row requests or multiple independent pollers.
+- Notification action URLs are role-specific deep links and may never route a user into another role's portal.
+- Payment creation requires an idempotency key and the dedicated payment API. Retrying a timed-out request must reuse the same key.
+- Receipt PDFs remain private Drive files accessed through the backend-authorized read/download path.
+- Receipt numbers, payment IDs, and original snapshots are immutable. Void is a retained status with an audit reason, not deletion.
 
 ## Deployment Rules
 

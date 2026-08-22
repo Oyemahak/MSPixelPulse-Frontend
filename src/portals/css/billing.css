@@ -57,7 +57,7 @@
   display: block;
   color: var(--billing-muted);
   font-size: 0.78rem;
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .billing-summary-grid article > strong {
@@ -194,7 +194,7 @@
   color: #cbd5e1;
   background: rgba(148, 163, 184, 0.1);
   font-size: 0.7rem;
-  font-weight: 800;
+  font-weight: 600;
   white-space: nowrap;
 }
 
@@ -362,7 +362,7 @@
   border-radius: 0.55rem;
   color: var(--billing-muted);
   font-size: 0.78rem;
-  font-weight: 800;
+  font-weight: 600;
 }
 
 .invoice-workspace-tabs button[aria-pressed="true"] {
@@ -394,7 +394,7 @@
   cursor: pointer;
   color: #e2e8f0;
   font-size: 0.83rem;
-  font-weight: 800;
+  font-weight: 600;
 }
 
 .invoice-form-details[open] summary {
@@ -445,7 +445,7 @@
 .invoice-line-total span {
   color: var(--billing-muted);
   font-size: 0.69rem;
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .invoice-line-total strong {
@@ -540,7 +540,7 @@
   border-radius: 0.55rem;
   background: #1557b0;
   font-size: 0.8rem;
-  font-weight: 900;
+  font-weight: 600;
 }
 
 .invoice-paper-brand strong,
@@ -588,7 +588,7 @@
   margin-bottom: 0.45rem;
   color: #1557b0;
   font-size: 0.58rem;
-  font-weight: 800;
+  font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
@@ -613,14 +613,14 @@
 .invoice-paper-meta dt {
   color: #64748b;
   font-size: 0.5rem;
-  font-weight: 700;
+  font-weight: 600;
   text-transform: uppercase;
 }
 
 .invoice-paper-meta dd {
   margin-top: 0.25rem;
   font-size: 0.58rem;
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .invoice-paper-table {
@@ -678,7 +678,7 @@
   border-radius: 999px;
   background: #dbeafe;
   font-size: 0.55rem;
-  font-weight: 800;
+  font-weight: 600;
 }
 
 .invoice-paper-notes {
@@ -792,7 +792,7 @@ html:not([data-theme="dark"]) .billing-message.is-success {
   color: #bfdbfe;
   background: rgba(45, 127, 249, 0.08);
   font-size: 0.78rem;
-  font-weight: 800;
+  font-weight: 600;
 }
 
 .invoice-advanced,
@@ -848,7 +848,7 @@ html:not([data-theme="dark"]) .billing-message.is-success {
 .invoice-paper-terms > strong { display: block; margin-bottom: 0.35rem; color: #1557b0; text-transform: uppercase; }
 .invoice-paper-payment p + p,
 .invoice-paper-terms p + p { margin-top: 0.3rem; }
-.invoice-paper-closing { margin-top: 0.8rem; color: #172033; font-size: 0.58rem; font-weight: 800; }
+.invoice-paper-closing { margin-top: 0.8rem; color: #172033; font-size: 0.58rem; font-weight: 600; }
 
 html:not([data-theme="dark"]) :is(.invoice-advanced, .invoice-settings-section) {
   background: linear-gradient(145deg, #fff, #f5f8fc);
@@ -882,7 +882,7 @@ html:not([data-theme="dark"]) .invoice-due-summary { color: #1e4f8f; }
   .billing-invoice-table tbody { display: grid; gap: 0.75rem; padding: 0.75rem; }
   .billing-invoice-table tbody tr { display: grid; grid-template-columns: 1fr 1fr; gap: 0.85rem; padding: 0.9rem; border: 1px solid var(--billing-border); border-radius: 0.85rem; background: var(--billing-panel); }
   .portal-frame .billing-invoice-table tbody td { display: block; padding: 0; border: 0; }
-  .billing-invoice-table td::before { display: block; margin-bottom: 0.25rem; color: var(--billing-muted); content: attr(data-label); font-size: 0.64rem; font-weight: 800; text-transform: uppercase; }
+  .billing-invoice-table td::before { display: block; margin-bottom: 0.25rem; color: var(--billing-muted); content: attr(data-label); font-size: 0.64rem; font-weight: 600; text-transform: uppercase; }
   .billing-invoice-table .billing-row-actions { grid-column: 1 / -1; display: flex; flex-wrap: wrap; justify-content: flex-start; padding-top: 0.75rem; border-top: 1px solid var(--billing-border); }
   .billing-invoice-table .billing-row-actions::before { display: none; }
   .billing-invoice-table .billing-empty { grid-column: 1 / -1; }

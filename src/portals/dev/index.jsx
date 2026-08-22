@@ -12,6 +12,7 @@ const Discussions = lazy(() => import("./Discussions.jsx"));
 const Direct = lazy(() => import("./Direct.jsx"));
 const Requirements = lazy(() => import("./Requirements.jsx"));
 const MyAccount = lazy(() => import("./MyAccount.jsx"));
+const NotificationsPage = lazy(() => import("@/components/portal/NotificationsPage.jsx"));
 
 export default function DevPortal() {
   return (
@@ -36,6 +37,7 @@ export default function DevPortal() {
         <Route path="direct/:peerId" element={<Direct />} />
         <Route path="messages" element={<Direct />} />
         <Route path="messages/:peerId" element={<Direct />} />
+        <Route path="notifications" element={<NotificationsPage />} />
 
         {/* Team & Account */}
         <Route path="team" element={<Team />} />

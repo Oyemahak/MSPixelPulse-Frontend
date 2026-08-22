@@ -1,0 +1,719 @@
+/* Shared Admin / Developer / Client productivity UI source of truth. */
+
+.portal-frame {
+  --portal-content-max: 1480px;
+  --portal-sidebar-width: 248px;
+  --portal-topbar-height: 72px;
+  --portal-page-pad: clamp(16px, 2.25vw, 32px);
+  --portal-card-pad: clamp(16px, 1.6vw, 24px);
+  --portal-radius: 14px;
+  --portal-drawer-radius: 18px;
+  --portal-control-height: 42px;
+  --portal-icon-size: 42px;
+  --portal-row-height: 52px;
+  --portal-gap-xs: 4px;
+  --portal-gap-sm: 8px;
+  --portal-gap-md: 12px;
+  --portal-gap-lg: 16px;
+  --portal-gap-xl: 24px;
+  --portal-gap-2xl: 32px;
+  --portal-border: rgba(148, 163, 184, 0.22);
+  --portal-muted: #94a3b8;
+  --portal-hover: rgba(148, 163, 184, 0.1);
+  --portal-focus: rgba(59, 130, 246, 0.48);
+  font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: -0.005em;
+}
+
+html:not([data-theme="dark"]) .portal-frame {
+  --portal-border: rgba(100, 116, 139, 0.2);
+  --portal-muted: #64748b;
+  --portal-hover: rgba(15, 23, 42, 0.055);
+  --portal-focus: rgba(37, 99, 235, 0.38);
+}
+
+.portal-frame :where(h1, h2, h3, h4, h5, h6, strong, b, .page-title, .card-title, .kpi-value, [class*="-title"], [class*="-heading"], [class*="-value"]) {
+  font-weight: 600 !important;
+}
+
+.portal-frame :where(button, label, th, .portal-nav-item, .form-label, .font-bold, .font-extrabold, .font-black) {
+  font-weight: 500 !important;
+}
+
+.portal-frame :where(p, li, td, input, select, textarea, button) {
+  line-height: 1.5;
+}
+
+.portal-frame .page-title {
+  max-width: 32ch;
+  font-size: clamp(1.375rem, 2vw, 1.75rem) !important;
+  line-height: 1.25;
+  letter-spacing: -0.025em;
+}
+
+.portal-frame .page-header {
+  align-items: flex-start;
+  gap: var(--portal-gap-xl);
+  margin-bottom: var(--portal-gap-xl);
+}
+
+.portal-frame .page-header .text-muted {
+  max-width: 68ch;
+  margin-top: 6px;
+  font-size: 0.9375rem;
+  line-height: 1.55;
+}
+
+.portal-frame .page-shell {
+  width: min(100%, var(--portal-content-max));
+  margin-inline: auto;
+  padding: 0;
+}
+
+.portal-frame .portal-sidebar {
+  width: var(--portal-sidebar-width);
+}
+
+.portal-frame .portal-topbar {
+  min-height: var(--portal-topbar-height);
+  padding-inline: var(--portal-page-pad);
+  border-bottom: 1px solid var(--portal-border);
+  box-shadow: none;
+}
+
+.portal-frame .portal-topbar .portal-page-heading {
+  display: none;
+}
+
+.portal-frame .portal-breadcrumb {
+  margin: 0;
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.portal-frame .portal-content {
+  width: 100%;
+  padding: var(--portal-gap-xl) var(--portal-page-pad) var(--portal-gap-2xl);
+}
+
+.portal-frame :where(.card, .card-surface, [class*="-card"]) {
+  border-color: var(--portal-border);
+  border-radius: var(--portal-radius);
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.06);
+}
+
+.portal-frame :where(.card-pad, .card-pad-lg) {
+  padding: var(--portal-card-pad);
+}
+
+.portal-frame :where(.btn, input, select) {
+  min-height: var(--portal-control-height);
+}
+
+.portal-frame .btn {
+  height: auto;
+  padding-inline: 16px;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  letter-spacing: 0;
+  transition: background-color 180ms ease, border-color 180ms ease, color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
+}
+
+.portal-frame .btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.portal-frame .btn-danger {
+  border: 1px solid rgba(239, 68, 68, 0.36);
+  background: rgba(239, 68, 68, 0.12);
+  color: #fecaca;
+}
+
+html:not([data-theme="dark"]) .portal-frame .btn-danger {
+  color: #b91c1c;
+}
+
+.portal-frame :where(.portal-icon-button, .icon-btn) {
+  width: var(--portal-icon-size);
+  min-width: var(--portal-icon-size);
+  height: var(--portal-icon-size);
+  border-radius: 10px;
+}
+
+.portal-frame :where(input, select, textarea) {
+  border-color: var(--portal-border);
+  border-radius: 10px;
+  padding-inline: 12px;
+  font-size: 0.9375rem;
+  font-weight: 400;
+}
+
+.portal-frame textarea {
+  line-height: 1.55;
+}
+
+.portal-frame :where(a, button, input, select, textarea, summary):focus-visible {
+  outline: 3px solid var(--portal-focus) !important;
+  outline-offset: 2px;
+}
+
+.portal-frame .form-label {
+  margin-bottom: 6px;
+  font-size: 0.875rem;
+  letter-spacing: 0;
+}
+
+.portal-frame .table {
+  font-size: 0.875rem;
+}
+
+.portal-frame .table thead th {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--portal-border);
+  color: var(--portal-muted);
+  font-size: 0.8125rem;
+  font-weight: 500 !important;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.portal-frame .table tbody td {
+  min-height: var(--portal-row-height);
+  padding: 13px 16px;
+  border-color: var(--portal-border);
+}
+
+.portal-frame .table tbody tr:hover {
+  background: var(--portal-hover);
+}
+
+.portal-frame .portal-nav-item {
+  min-height: 42px;
+  margin-block: 2px;
+  border-radius: 9px;
+  font-size: 0.9rem;
+}
+
+.portal-frame .portal-nav-item.is-active {
+  box-shadow: inset 3px 0 0 #3b82f6;
+}
+
+.portal-frame .portal-brand-name {
+  font-size: 0.98rem;
+  letter-spacing: -0.015em;
+}
+
+.portal-frame .portal-brand-sub,
+.portal-frame .text-muted-xs,
+.portal-frame .row-sub {
+  font-size: 0.8125rem;
+  font-weight: 400;
+}
+
+/* Notification center and shared notification destination */
+.portal-notification-center {
+  position: relative;
+}
+
+.portal-notification-button {
+  position: relative;
+}
+
+.portal-notification-count {
+  position: absolute;
+  top: -3px;
+  right: -5px;
+  display: grid;
+  min-width: 18px;
+  height: 18px;
+  padding-inline: 4px;
+  place-items: center;
+  border: 2px solid #0f172a;
+  border-radius: 999px;
+  background: #dc2626;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 1;
+}
+
+html:not([data-theme="dark"]) .portal-notification-count {
+  border-color: #fff;
+}
+
+.portal-notification-panel {
+  position: absolute;
+  z-index: 120;
+  top: calc(100% + 10px);
+  right: 0;
+  width: min(390px, calc(100vw - 24px));
+  overflow: hidden;
+  border: 1px solid var(--portal-border);
+  border-radius: 16px;
+  background: #111827;
+  color: #e5e7eb;
+  box-shadow: 0 18px 50px rgba(2, 6, 23, 0.32);
+}
+
+html:not([data-theme="dark"]) .portal-notification-panel {
+  background: #fff;
+  color: #0f172a;
+}
+
+.portal-notification-panel > header {
+  display: flex;
+  min-height: 64px;
+  padding: 12px 14px 12px 18px;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--portal-border);
+}
+
+.portal-notification-panel > header div,
+.notification-preview > span:last-child {
+  display: grid;
+  min-width: 0;
+}
+
+.portal-notification-panel > header span,
+.notification-preview small,
+.notification-preview time {
+  color: var(--portal-muted);
+  font-size: 0.78rem;
+  font-weight: 400;
+}
+
+.notification-preview {
+  display: grid;
+  width: 100%;
+  min-height: 76px;
+  padding: 12px 16px;
+  grid-template-columns: 20px minmax(0, 1fr);
+  gap: 11px;
+  border-bottom: 1px solid var(--portal-border);
+  background: transparent;
+  color: inherit;
+  text-align: left;
+}
+
+.notification-preview:hover,
+.notification-preview.is-unread {
+  background: var(--portal-hover);
+}
+
+.notification-preview strong,
+.notification-preview small {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.notification-preview-dot {
+  display: grid;
+  width: 18px;
+  height: 18px;
+  margin-top: 2px;
+  place-items: center;
+  border: 2px solid #3b82f6;
+  border-radius: 999px;
+}
+
+.notification-preview:not(.is-unread) .notification-preview-dot {
+  border-color: var(--portal-border);
+  color: var(--portal-muted);
+}
+
+.notification-view-all {
+  width: 100%;
+  min-height: 46px;
+  background: transparent;
+  color: #60a5fa;
+}
+
+.portal-notification-panel-state,
+.notification-empty {
+  margin: 0;
+  padding: 32px 20px;
+  color: var(--portal-muted);
+  text-align: center;
+}
+
+.notifications-page {
+  max-width: 1120px;
+}
+
+.notifications-page-header,
+.notifications-header-actions,
+.notification-filter-bar,
+.notification-segmented,
+.billing-tabs,
+.billing-primary-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.notifications-header-actions {
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.notification-filter-bar {
+  justify-content: space-between;
+  padding: 10px;
+  border: 1px solid var(--portal-border);
+  border-radius: 12px;
+  background: rgba(15, 23, 42, 0.25);
+}
+
+html:not([data-theme="dark"]) .notification-filter-bar {
+  background: rgba(255, 255, 255, 0.84);
+}
+
+.notification-segmented {
+  gap: 4px;
+}
+
+.notification-segmented button,
+.billing-tabs button {
+  min-height: 38px;
+  padding: 8px 13px;
+  border-radius: 9px;
+  color: var(--portal-muted);
+}
+
+.notification-segmented button.is-active,
+.billing-tabs button.is-active {
+  background: rgba(59, 130, 246, 0.14);
+  color: #60a5fa;
+}
+
+html:not([data-theme="dark"]) :where(.notification-segmented button.is-active, .billing-tabs button.is-active) {
+  color: #1d4ed8;
+}
+
+.notification-segmented span,
+.billing-tabs span {
+  display: inline-grid;
+  min-width: 20px;
+  height: 20px;
+  margin-left: 5px;
+  place-items: center;
+  border-radius: 999px;
+  background: var(--portal-hover);
+  font-size: 0.75rem;
+}
+
+.notification-list {
+  overflow: hidden;
+  border: 1px solid var(--portal-border);
+  border-radius: 14px;
+  background: rgba(15, 23, 42, 0.25);
+}
+
+html:not([data-theme="dark"]) .notification-list {
+  background: #fff;
+}
+
+.notification-row {
+  display: grid;
+  width: 100%;
+  min-height: 82px;
+  padding: 14px 16px;
+  grid-template-columns: 40px minmax(0, 1fr) auto;
+  align-items: start;
+  gap: 14px;
+  border-bottom: 1px solid var(--portal-border);
+  background: transparent;
+  color: inherit;
+  text-align: left;
+}
+
+.notification-row:last-child {
+  border-bottom: 0;
+}
+
+.notification-row:hover,
+.notification-row.is-unread {
+  background: var(--portal-hover);
+}
+
+.notification-row.is-unread {
+  box-shadow: inset 3px 0 0 #3b82f6;
+}
+
+.notification-category-icon {
+  display: grid;
+  width: 38px;
+  height: 38px;
+  place-items: center;
+  border-radius: 10px;
+  background: rgba(59, 130, 246, 0.12);
+  color: #60a5fa;
+}
+
+.notification-row-copy {
+  display: grid;
+  min-width: 0;
+  gap: 3px;
+}
+
+.notification-row-copy > span:not(.notification-row-title) {
+  color: var(--portal-muted);
+  font-size: 0.875rem;
+}
+
+.notification-row-copy small,
+.notification-read-state {
+  color: var(--portal-muted);
+  font-size: 0.78rem;
+  font-weight: 400;
+}
+
+.notification-row.is-unread .notification-read-state {
+  color: #60a5fa;
+  font-weight: 600;
+}
+
+.notification-load-more {
+  margin-inline: auto;
+}
+
+.notification-settings {
+  overflow: hidden;
+}
+
+.notification-settings summary {
+  display: flex;
+  min-height: 64px;
+  padding: 14px 18px;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+.notification-settings summary span {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.notification-settings summary small,
+.notification-settings > div p {
+  color: var(--portal-muted);
+}
+
+.notification-settings > div {
+  padding: 0 18px 18px;
+}
+
+.notification-settings-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.notification-settings-grid label {
+  display: flex;
+  min-height: 44px;
+  padding: 8px 10px;
+  align-items: center;
+  gap: 9px;
+  border: 1px solid var(--portal-border);
+  border-radius: 9px;
+}
+
+.notification-settings-grid input {
+  width: 18px;
+  min-height: 18px;
+}
+
+/* Billing tabs, payment confirmation, receipts and history */
+.billing-tabs {
+  padding: 10px 12px 0;
+  border-bottom: 1px solid var(--portal-border);
+}
+
+.billing-tabs button {
+  border-radius: 9px 9px 0 0;
+}
+
+.receipt-history-list {
+  display: grid;
+  gap: 8px;
+}
+
+.receipt-history-list article {
+  display: flex;
+  min-height: 62px;
+  padding: 12px 14px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  border: 1px solid var(--portal-border);
+  border-radius: 10px;
+}
+
+.receipt-history-list article > div {
+  display: grid;
+}
+
+.receipt-history-list span {
+  color: var(--portal-muted);
+  font-size: 0.8125rem;
+}
+
+.payment-success-card {
+  display: grid;
+  padding: 24px;
+  justify-items: start;
+  gap: 16px;
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  border-radius: 14px;
+  background: rgba(34, 197, 94, 0.08);
+}
+
+.payment-success-card > svg {
+  width: 38px;
+  height: 38px;
+  color: #22c55e;
+}
+
+.payment-success-card h3 {
+  margin: 0;
+  font-size: 1.35rem;
+}
+
+.payment-success-card dl {
+  display: grid;
+  width: 100%;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.payment-success-card dl div {
+  padding: 10px;
+  border: 1px solid var(--portal-border);
+  border-radius: 9px;
+}
+
+.payment-success-card dt {
+  color: var(--portal-muted);
+  font-size: 0.75rem;
+}
+
+.payment-success-card dd {
+  margin: 3px 0 0;
+  overflow-wrap: anywhere;
+  font-weight: 600;
+}
+
+.invoice-status-badge.is-issued {
+  border-color: rgba(34, 197, 94, 0.3);
+  background: rgba(34, 197, 94, 0.1);
+  color: #4ade80;
+}
+
+.invoice-status-badge.is-void {
+  border-color: rgba(239, 68, 68, 0.32);
+  background: rgba(239, 68, 68, 0.1);
+  color: #fca5a5;
+}
+
+.billing-message.is-warning {
+  border-color: rgba(245, 158, 11, 0.35);
+  background: rgba(245, 158, 11, 0.1);
+  color: #fde68a;
+}
+
+html:not([data-theme="dark"]) :where(.invoice-status-badge.is-issued) { color: #15803d; }
+html:not([data-theme="dark"]) :where(.invoice-status-badge.is-void) { color: #b91c1c; }
+html:not([data-theme="dark"]) :where(.billing-message.is-warning) { color: #92400e; }
+
+@media (max-width: 767px) {
+  .portal-frame {
+    --portal-page-pad: 14px;
+    --portal-gap-xl: 18px;
+    font-size: 15px;
+  }
+
+  .portal-frame .portal-topbar {
+    min-height: 64px;
+  }
+
+  .portal-frame :where(input, select, textarea) {
+    font-size: 16px;
+  }
+
+  .portal-frame .page-header,
+  .notifications-page-header,
+  .notification-filter-bar {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .notifications-header-actions,
+  .billing-primary-actions {
+    justify-content: flex-start;
+  }
+
+  .notification-filter-bar label,
+  .notification-filter-bar select {
+    width: 100%;
+  }
+
+  .notification-row {
+    grid-template-columns: 36px minmax(0, 1fr);
+    gap: 11px;
+  }
+
+  .notification-read-state {
+    grid-column: 2;
+  }
+
+  .notification-settings-grid,
+  .payment-success-card dl {
+    grid-template-columns: 1fr;
+  }
+
+  .billing-tabs {
+    overflow-x: auto;
+    scrollbar-width: thin;
+  }
+
+  .billing-tabs button {
+    flex: 0 0 auto;
+  }
+
+  .portal-notification-panel {
+    position: fixed;
+    top: 70px;
+    right: 12px;
+    left: 12px;
+    width: auto;
+    max-height: calc(100dvh - 84px);
+    overflow-y: auto;
+  }
+}
+
+@media (pointer: coarse) {
+  .portal-frame :where(.btn, .portal-icon-button, .icon-btn, .portal-nav-item, .notification-segmented button, .billing-tabs button) {
+    min-height: 44px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .portal-frame *,
+  .portal-frame *::before,
+  .portal-frame *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}

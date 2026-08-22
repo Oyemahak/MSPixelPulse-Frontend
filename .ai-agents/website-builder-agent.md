@@ -14,6 +14,8 @@
 - Use semantic HTML, visible focus, 44px touch targets, descriptive alt text, reduced-motion support, and reusable components.
 - The blog uses `BlogCard`, topic filtering, search, a fixed editorial top 10, progressive View More, and individual article layouts.
 - Follow `design-system/mspixelpulse-agency-blog/MASTER.md` for the blog experience.
+- For protected portals, follow `design-system/mspixelpulse-portal/MASTER.md` and the central `portal-productivity.css`; keep normal text at weight 400, controls at 500, headings at 600 maximum, and preserve light/dark, reduced-motion, focus, and 44px touch behavior.
+- Preserve the shared role-aware notification destination and the dedicated idempotent payment/receipt flow. Never add local-only payment state or expose private receipt storage URLs.
 
 ## Content, SEO, and demo safety
 

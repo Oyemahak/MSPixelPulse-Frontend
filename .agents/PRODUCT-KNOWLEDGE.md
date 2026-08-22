@@ -82,6 +82,16 @@ Invoice defaults are private Admin configuration. Sender identity, client detail
 
 Clients receive a compact read-only invoice list for only their assigned projects. Client responses must never expose `internalNotes`, draft invoices, archived invoices, Admin controls, raw Drive URLs, or storage credentials.
 
+Payments use `POST /api/projects/:projectId/invoices/:invoiceId/payments` with a required idempotency key. A successful payment returns the updated invoice, a stable `MSP-PAY-*` identifier, a stable `MSP-RCT-*` receipt, and a private generated PDF. Generic invoice create/update payloads must omit payment totals and payment arrays.
+
+Receipts are first-class records, not invoice-file aliases. Admin can review Payment and Receipt tabs, open/download a receipt, and void it with a required reason. Clients can only view/download receipts for their assigned projects. Voiding never deletes or renumbers a record and does not silently rewrite its original financial snapshot.
+
+## Notification Contract
+
+Admin, Developer, and Client share a persistent Notifications destination and header preview. Records support category, title, message, recipient, action URL, metadata, read timestamp, and created timestamp. Marking read is explicit; opening the popover alone must not clear unread state.
+
+Categories are requirements, projects, messages, announcements, evidence, billing, leads, approvals, support, and system. Email copies use deterministic subjects such as `[MSP:BILLING]` and are supplementary to in-app records. Admin category preferences may disable an operational email copy without disabling the underlying in-app notification.
+
 ## Presence Contract
 
 Presence persists `lastActivityAt`, `lastSeenAt`, and an explicit `presenceState`. Successful login and the authenticated 30-to-60-second heartbeat mark the user online; authenticated logout marks the user offline immediately. A recent timestamp alone must not override an explicit offline state. When no valid activity exists, show a clear offline/no-recorded-activity state instead of inventing a timestamp.

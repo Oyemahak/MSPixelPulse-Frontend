@@ -13,6 +13,14 @@ Use the Knowledge Update Protocol before editing this file.
 
 ## Entries
 
+- Date: 2026-08-22
+- Source: User production-upgrade specification, UI/UX Pro Max review, and receipt render QA
+- Decision or note: Use one shared calm-productivity portal layer, persistent role-aware notification records, and a dedicated idempotent Invoice to Payment to Receipt workflow. Receipt snapshots and stable identifiers are retained; void is an audited status rather than deletion.
+- Evidence: `portal-productivity.css`, shared notification components/routes, dedicated payment/receipt API calls, and ten Letter/A4 receipt render fixtures with long-content coverage.
+- Affected areas: All portal roles, typography, navigation, notifications, billing, receipts, email organization, responsive and theme QA
+- Confidence: High
+- Reviewer: Production browser, API, Gmail, and deployment verification required for each release
+
 - Date: 2026-08-19
 - Source: User production mobile and invoice workflow specification; existing portal and billing architecture
 - Decision or note: Keep one shared responsive portal layer and the existing billing components, with a fast essential invoice form plus progressively disclosed advanced fields. Presence renders exactly one truthful state per person.

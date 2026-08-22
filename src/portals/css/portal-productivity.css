@@ -240,9 +240,10 @@ html:not([data-theme="dark"]) .portal-frame .portal-nav-item.is-active {
 
 .portal-frame .portal-logo-mark,
 .portal-frame .brand-logo-mark {
-  padding: 4px;
-  border: 1px solid rgba(148, 163, 184, 0.32);
-  background: #f8fafc;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
   box-shadow: none;
 }
 
@@ -652,12 +653,19 @@ html:not([data-theme="dark"]) .portal-frame :where(select, textarea, input:not([
 }
 
 html:not([data-theme="dark"]) .portal-frame .notifications-page-header {
-  background: transparent;
+  padding: clamp(16px, 2vw, 22px);
+  border: 1px solid var(--portal-border);
+  border-radius: var(--portal-radius);
+  background: rgba(255, 255, 255, 0.9);
   color: #0f172a;
+  box-shadow:
+    0 14px 38px rgba(15, 23, 42, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.96);
 }
 
 html:not([data-theme="dark"]) .portal-frame .notifications-page-header .text-muted {
   color: #64748b;
+  font-weight: 400;
 }
 
 /* Billing tabs, payment confirmation, receipts and history */

@@ -1684,7 +1684,7 @@ html:not([data-theme="dark"]) body {
   color: var(--textMain);
 }
 
-html:not([data-theme="dark"]) header {
+html:not([data-theme="dark"]) .public-site-header {
   background: rgba(10, 10, 12, 0.9) !important;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   backdrop-filter: saturate(160%) blur(16px);
@@ -1849,7 +1849,7 @@ html:not([data-theme="dark"]) body::after {
   filter: blur(12px);
 }
 
-html:not([data-theme="dark"]) header {
+html:not([data-theme="dark"]) .public-site-header {
   background: rgba(10, 10, 12, 0.92) !important;
   border-bottom-color: rgba(255, 255, 255, 0.1) !important;
   box-shadow: 0 12px 40px rgba(2, 6, 23, 0.22);
@@ -5252,8 +5252,9 @@ html:not([data-theme="dark"]) body::after {
 
 .pricing-category-switch {
   display: grid;
-  width: min(100%, 44rem);
+  width: 100%;
   grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-auto-rows: 1fr;
   gap: 0.4rem;
   border: 1px solid rgba(148, 163, 184, 0.2);
   border-radius: 1.25rem;
@@ -5270,7 +5271,9 @@ html:not([data-theme="dark"]) body::after {
 }
 
 .pricing-category-switch button {
+  height: 100%;
   min-width: 0;
+  min-height: 5.25rem;
   border: 1px solid transparent;
   border-radius: 0.95rem;
   padding: 0.78rem 0.95rem;
@@ -8757,10 +8760,10 @@ html:not([data-theme="dark"]) .public-header-shell img.brand-logo-mark,
   transform: none;
   transition: none;
   box-sizing: border-box;
-  padding: 3px;
-  border: 1px solid rgba(148, 163, 184, 0.28);
-  border-radius: 9px;
-  background: #f8fafc;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
 }
 .admin-project-cover-upload {
   position: relative;

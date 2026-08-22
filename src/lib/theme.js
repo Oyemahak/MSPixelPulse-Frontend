@@ -69,7 +69,7 @@ export function ThemeProvider({ children }) {
     themeColor?.setAttribute("content", theme === "dark" ? "#030304" : "#f6f8fc");
 
     const favicon = document.querySelector("#site-favicon");
-    favicon?.setAttribute("href", "/favicon.svg?v=black-mark-v10");
+    favicon?.setAttribute("href", "/favicon.svg?v=white-tile-v11");
 
     window.localStorage.setItem("mspixelpulse-theme", theme);
   }, [theme]);

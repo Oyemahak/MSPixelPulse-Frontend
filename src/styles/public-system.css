@@ -69,7 +69,7 @@ html:not([data-theme="dark"]) :is(.public-page-hero, .public-section-header) {
   background: color-mix(in srgb, var(--primary) 10%, var(--surface));
   color: color-mix(in srgb, var(--primary) 82%, var(--textMain));
   font-size: 0.75rem;
-  font-weight: 800;
+  font-weight: 700;
   line-height: 1.1;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -139,7 +139,7 @@ html:not([data-theme="dark"]) :is(.public-page-hero, .public-section-header) {
   margin: 0;
   color: var(--textMain);
   font-size: clamp(1.65rem, 2.35vw, 2.35rem);
-  font-weight: 750;
+  font-weight: 700;
   line-height: 1.2;
   letter-spacing: -0.025em;
   text-wrap: balance;
@@ -199,6 +199,16 @@ html:not([data-theme="dark"]) :is(.public-page-hero, .public-section-header) {
 
   .public-page-actions > :is(a, button) {
     width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .public-main :is(
+    input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
+    select,
+    textarea
+  ) {
+    font-size: 1rem;
   }
 }
 

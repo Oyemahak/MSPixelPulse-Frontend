@@ -247,6 +247,10 @@ html:not([data-theme="dark"]) .portal-frame .portal-nav-item.is-active {
   box-shadow: none;
 }
 
+[data-theme="dark"] .portal-frame .portal-logo-mark.brand-logo-mark {
+  filter: brightness(0) invert(1);
+}
+
 .portal-frame .portal-toggle-row input[type="checkbox"] {
   width: 42px;
   min-width: 42px;

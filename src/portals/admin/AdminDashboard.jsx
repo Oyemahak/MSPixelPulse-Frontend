@@ -4,7 +4,6 @@ import { admin, projects } from "@/lib/api.js";
 
 export default function AdminDashboard() {
   const [users, setUsers] = useState([]);
-  const [pending, setPending] = useState(0);
   const [projs, setProjs] = useState([]);
   const [err, setErr] = useState("");
 
@@ -12,14 +11,12 @@ export default function AdminDashboard() {
     let live = true;
     (async () => {
       try {
-        const [u, pend, p] = await Promise.all([
+        const [u, p] = await Promise.all([
           admin.users(),
-          admin.pending().catch(() => ({ users: [] })),
           projects.list(),
         ]);
         if (!live) return;
         setUsers(u.users || []);
-        setPending((pend.users || []).length);
         setProjs(p.projects || []);
         setErr("");
       } catch (e) {
@@ -31,7 +28,11 @@ export default function AdminDashboard() {
 
   const cards = [
     { label: "Total Users", value: users.length, to: "/admin/users" },
-    { label: "Pending Approvals", value: pending, to: "/admin/approvals" },
+    {
+      label: "Clients",
+      value: users.filter((user) => user.role === "client").length,
+      to: "/admin/users",
+    },
     { label: "Projects", value: projs.length, to: "/admin/projects" },
   ];
 

@@ -161,7 +161,7 @@ export default function AppHeader() {
 
   return (
     <header className={headerClass}>
-      <div className="public-header-shell mx-auto flex h-16 items-center justify-between gap-3 px-4 sm:px-5 pointer-events-auto">
+      <div className="public-header-shell relative mx-auto flex h-16 items-center justify-between gap-3 px-4 sm:px-5 pointer-events-auto">
         {/* Brand */}
         <Link
           to="/"
@@ -175,9 +175,23 @@ export default function AppHeader() {
             className="brand-logo-mark h-8 w-8 object-contain"
             width="32"
             height="32"
+            style={isDark ? { filter: "brightness(0) invert(1)" } : undefined}
             onError={(e) => (e.currentTarget.style.display = "none")}
           />
-          <span className={isDark ? "text-white" : "text-slate-900"}>MSPixelPulse</span>
+          <span className={`${isDark ? "text-white" : "text-slate-900"} hidden xl:inline`}>
+            MSPixelPulse
+          </span>
+        </Link>
+
+        {/* Mobile title — stays visually centered independent of the logo/menu widths */}
+        <Link
+          to="/"
+          onClick={closeMobile}
+          className={`absolute left-1/2 -translate-x-1/2 whitespace-nowrap font-black tracking-tight xl:hidden ${
+            isDark ? "text-white" : "text-slate-900"
+          }`}
+        >
+          MSPixelPulse
         </Link>
 
         {/* Desktop nav */}

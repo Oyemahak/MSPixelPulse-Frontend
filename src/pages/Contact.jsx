@@ -239,26 +239,24 @@ export default function Contact() {
                 value={form.industry}
                 onChange={(event) => setField("industry", event.target.value)}
               />
-              <StandardField id="contact-service" label="What do you need?" optional>
-                {(id, aria) => (
-                  <select
-                    {...aria}
-                    id={id}
-                    className="form-control"
-                    value={form.service}
-                    onChange={(event) => setField("service", event.target.value)}
-                  >
-                    <option value="">Choose an option</option>
-                    <option>Free website demo</option>
-                    <option>One-page website</option>
-                    <option>Business website</option>
-                    <option>Website redesign</option>
-                    <option>E-commerce website</option>
-                    <option>Custom web application</option>
-                    <option>Ongoing website support</option>
-                  </select>
-                )}
-              </StandardField>
+              <div className="form-field">
+                <select
+                  id="contact-service"
+                  className="form-control"
+                  aria-label="What do you need? (optional)"
+                  value={form.service}
+                  onChange={(event) => setField("service", event.target.value)}
+                >
+                  <option value="">What do you need? (optional)</option>
+                  <option>Free website demo</option>
+                  <option>One-page website</option>
+                  <option>Business website</option>
+                  <option>Website redesign</option>
+                  <option>E-commerce website</option>
+                  <option>Custom web application</option>
+                  <option>Ongoing website support</option>
+                </select>
+              </div>
             </div>
 
             <FloatingField

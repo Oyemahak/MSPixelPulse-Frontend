@@ -1,6 +1,5 @@
 import { Link, useParams } from "react-router-dom";
 import {
-  LuArrowLeft,
   LuArrowRight,
   LuCalendarDays,
   LuCircleCheck,
@@ -15,6 +14,7 @@ import Meta from "@/components/Meta.jsx";
 import Container from "@/components/layout/Container.jsx";
 import { publishedBlogPosts } from "@/data/blogPosts.js";
 import { blogPostSeo } from "@/data/seoPages.js";
+import { servicePathForLabel } from "@/data/servicePages.js";
 
 function sectionId(heading) {
   return heading
@@ -62,15 +62,21 @@ export default function BlogPost() {
     .filter((item) => item.slug !== post.slug && item.pillar === post.pillar)
     .sort((a, b) => (a.popularRank || 99) - (b.popularRank || 99))
     .slice(0, 3);
+  const relatedServicePath = servicePathForLabel(
+    [post.pillar, post.category, ...(post.tags || [])].join(" "),
+  );
 
   return (
     <section className="blog-article-page">
       <Meta {...postMeta} />
       <Container>
-        <Link to="/blog" className="blog-back-link">
-          <LuArrowLeft aria-hidden="true" />
-          Back to all guides
-        </Link>
+        <nav aria-label="Breadcrumb" className="blog-back-link">
+          <Link to="/">Home</Link>
+          <span aria-hidden="true">/</span>
+          <Link to="/blog">Blog</Link>
+          <span aria-hidden="true">/</span>
+          <span aria-current="page">{post.title}</span>
+        </nav>
 
         <article className="blog-article">
           <div className="blog-article-header">
@@ -85,6 +91,12 @@ export default function BlogPost() {
                 <LuCalendarDays aria-hidden="true" />
                 Published {formatDate(post.publishedAt)}
               </span>
+              {post.updatedAt && post.updatedAt !== post.publishedAt ? (
+                <span>
+                  <LuCalendarDays aria-hidden="true" />
+                  Updated {formatDate(post.updatedAt)}
+                </span>
+              ) : null}
               <span>
                 <LuClock3 aria-hidden="true" />
                 {post.readingTime}
@@ -285,6 +297,13 @@ export default function BlogPost() {
                   <span key={tag}>{tag}</span>
                 ))}
               </div>
+
+              <p className="article-internal-links">
+                <Link to={relatedServicePath}>
+                  Explore the related MSPixelPulse service
+                  <LuArrowRight aria-hidden="true" />
+                </Link>
+              </p>
 
               <section className="blog-article-cta">
                 <div>

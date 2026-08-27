@@ -7,6 +7,7 @@ import Button from "@/components/ui/Button.jsx";
 import { FORMS_BASE } from "@/lib/forms.js";
 import Meta from "@/components/Meta.jsx";
 import { seoPages } from "@/data/seoPages.js";
+import { servicePages } from "@/data/servicePages.js";
 import ContactActions from "@/components/ContactActions.jsx";
 import SocialContactLinks from "@/components/SocialContactLinks.jsx";
 import { PageHero } from "@/components/public/PublicPageHeader.jsx";
@@ -33,9 +34,10 @@ export default function Contact() {
   const [searchParams] = useSearchParams();
   const demoMode = searchParams.get("request") === "free-demo";
   const selectedPlan = searchParams.get("label") || "";
+  const selectedService = searchParams.get("service") || "";
   const [form, setForm] = useState(() => ({
     ...emptyForm,
-    service: demoMode ? "Free website demo" : selectedPlan,
+    service: demoMode ? "Free website demo" : selectedPlan || selectedService,
   }));
   const [errors, setErrors] = useState({});
   const [submitting, setSubmitting] = useState(false);
@@ -142,7 +144,7 @@ export default function Contact() {
           ? "Thank you. We received your business idea and will review the information you shared. We will contact you about the next steps for your personalized website demo."
           : "Thank you. We received your project details and will contact you about the next step.",
       });
-      setForm({ ...emptyForm, service: demoMode ? "Free website demo" : selectedPlan });
+      setForm({ ...emptyForm, service: demoMode ? "Free website demo" : selectedPlan || selectedService });
       setErrors({});
     } catch (error) {
       setStatus({
@@ -251,10 +253,14 @@ export default function Contact() {
                   <option>Free website demo</option>
                   <option>One-page website</option>
                   <option>Business website</option>
-                  <option>Website redesign</option>
                   <option>E-commerce website</option>
                   <option>Custom web application</option>
                   <option>Ongoing website support</option>
+                  <optgroup label="MSPixelPulse services">
+                    {servicePages.map((service) => (
+                      <option key={service.slug} value={service.name}>{service.name}</option>
+                    ))}
+                  </optgroup>
                 </select>
               </div>
             </div>

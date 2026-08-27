@@ -2,6 +2,7 @@ import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { publishedBlogPosts } from "../src/data/blogPosts.js";
+import { faqSeo, serviceSeoEntries } from "../src/data/discoverabilitySeo.js";
 import { legalPages } from "../src/data/legalPages.js";
 import { publishedProjects } from "../src/data/projects.js";
 import {
@@ -26,6 +27,8 @@ const portalShellSeo = {
 
 const entries = [
   ...Object.values(seoPages),
+  faqSeo,
+  ...serviceSeoEntries,
   portalShellSeo,
   ...publishedProjects.map(projectSeo),
   ...publishedBlogPosts.map(blogPostSeo),
@@ -93,9 +96,11 @@ function renderHead(baseHtml, entry, manifest) {
     [/<meta[^>]+property=["']og:type["'][^>]*>/i, `<meta property="og:type" content="${escapeAttribute(type)}" />`],
     [/<meta[^>]+property=["']og:url["'][^>]*>/i, `<meta property="og:url" content="${escapeAttribute(canonical)}" />`],
     [/<meta[^>]+property=["']og:image["'][^>]*>/i, `<meta property="og:image" content="${escapeAttribute(image)}" />`],
+    [/<meta[^>]+property=["']og:image:alt["'][^>]*>/i, `<meta property="og:image:alt" content="${escapeAttribute(entry.imageAlt || entry.title)}" />`],
     [/<meta[^>]+name=["']twitter:title["'][^>]*>/i, `<meta name="twitter:title" content="${escapeAttribute(entry.title)}" />`],
     [/<meta[^>]+name=["']twitter:description["'][^>]*>/i, `<meta name="twitter:description" content="${escapeAttribute(entry.description)}" />`],
     [/<meta[^>]+name=["']twitter:image["'][^>]*>/i, `<meta name="twitter:image" content="${escapeAttribute(image)}" />`],
+    [/<meta[^>]+name=["']twitter:image:alt["'][^>]*>/i, `<meta name="twitter:image:alt" content="${escapeAttribute(entry.imageAlt || entry.title)}" />`],
   ];
 
   for (const [pattern, tag] of socialTags) {

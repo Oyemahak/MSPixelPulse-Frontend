@@ -7,6 +7,7 @@ export default function Meta({
   description,
   canonical,
   image,
+  imageAlt,
   type = "website",
   robots = "index, follow",
   jsonLd,
@@ -54,10 +55,12 @@ export default function Meta({
     setMeta('meta[property="og:type"]', { property: "og:type" }, type);
     setMeta('meta[property="og:url"]', { property: "og:url" }, absoluteUrl);
     setMeta('meta[property="og:image"]', { property: "og:image" }, absoluteImage);
+    setMeta('meta[property="og:image:alt"]', { property: "og:image:alt" }, imageAlt || title);
     setMeta('meta[name="twitter:card"]', { name: "twitter:card" }, "summary_large_image");
     setMeta('meta[name="twitter:title"]', { name: "twitter:title" }, title);
     setMeta('meta[name="twitter:description"]', { name: "twitter:description" }, description);
     setMeta('meta[name="twitter:image"]', { name: "twitter:image" }, absoluteImage);
+    setMeta('meta[name="twitter:image:alt"]', { name: "twitter:image:alt" }, imageAlt || title);
 
     let link = document.querySelector('link[rel="canonical"]');
     if (!link) {
@@ -66,7 +69,7 @@ export default function Meta({
       document.head.appendChild(link);
     }
     link.setAttribute("href", absoluteUrl);
-  }, [canonical, description, image, title, type]);
+  }, [canonical, description, image, imageAlt, title, type]);
 
   useEffect(() => {
     const id = "page-json-ld";

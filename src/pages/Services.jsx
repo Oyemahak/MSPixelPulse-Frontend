@@ -6,6 +6,7 @@ import ContactActions from "@/components/ContactActions.jsx";
 import DemoOffer from "@/components/DemoOffer.jsx";
 import { seoPages } from "@/data/seoPages.js";
 import { serviceCatalog } from "@/data/serviceCatalog.js";
+import { servicePages, servicePath } from "@/data/servicePages.js";
 import { usePublicContent } from "@/hooks/usePublicContent.js";
 import { PageHero } from "@/components/public/PublicPageHeader.jsx";
 
@@ -39,6 +40,28 @@ export default function Services() {
           description="Toronto web design for small businesses, including WordPress and React development, responsive redesigns, e-commerce, website maintenance, Moodle LMS work, and custom client portals."
           contentClassName="max-w-5xl"
         />
+
+        <section className="mt-10" aria-labelledby="dedicated-services-title">
+          <div className="max-w-3xl">
+            <h2 id="dedicated-services-title" className={isDark ? "text-3xl font-black text-white" : "text-3xl font-black text-slate-950"}>
+              Explore a dedicated service page
+            </h2>
+            <p className={isDark ? "mt-3 leading-7 text-textSub" : "mt-3 leading-7 text-slate-600"}>
+              Each page explains who the service is for, the problems it addresses, possible deliverables, the working process, related projects, and common questions.
+            </p>
+          </div>
+          <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {servicePages.map((service) => (
+              <article key={service.slug} className={isDark ? "card-surface rounded-2xl p-5" : "rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"}>
+                <h3 className={isDark ? "text-lg font-black text-white" : "text-lg font-black text-slate-950"}>{service.name}</h3>
+                <p className={isDark ? "mt-2 text-sm leading-6 text-textSub" : "mt-2 text-sm leading-6 text-slate-600"}>{service.summary}</p>
+                <Link className="mt-4 inline-flex items-center gap-2 font-bold text-primary hover:underline" to={servicePath(service.slug)}>
+                  Explore {service.shortName.toLowerCase()} <LuArrowRight aria-hidden="true" />
+                </Link>
+              </article>
+            ))}
+          </div>
+        </section>
 
         <div className="mt-10 grid gap-5 lg:grid-cols-2">
           {services.map((service, index) => (

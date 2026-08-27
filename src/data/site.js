@@ -18,7 +18,7 @@ export const site = {
   emailHref: `mailto:${runtimeEnv.VITE_SUPPORT_EMAIL || "info@mspixelpulse.com"}`,
   url: publicSiteUrl,
   description:
-    "Professional websites built to help small businesses build trust, present their services clearly, and grow online.",
+    "Toronto web development and UX/UI agency providing WordPress, React, website design, redesign, Moodle LMS, school, small-business website, and maintenance services across Canada.",
 };
 
 export function supportsNativeMessages() {

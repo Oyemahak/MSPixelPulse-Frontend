@@ -18,12 +18,13 @@ const Home = lazy(() => import("./pages/Home.jsx"));
 const Projects = lazy(() => import("./pages/Projects.jsx"));
 const ProjectDetail = lazy(() => import("./pages/ProjectDetail.jsx"));
 const Services = lazy(() => import("./pages/Services.jsx"));
-const MoodleLmsDevelopment = lazy(() => import("./pages/MoodleLmsDevelopment.jsx"));
+const ServiceDetail = lazy(() => import("./pages/ServiceDetail.jsx"));
 const Pricing = lazy(() => import("./pages/Pricing.jsx"));
 const Contact = lazy(() => import("./pages/Contact.jsx"));
 const Blog = lazy(() => import("./pages/Blog.jsx"));
 const BlogPost = lazy(() => import("./pages/BlogPost.jsx"));
 const About = lazy(() => import("./pages/About.jsx"));
+const Faq = lazy(() => import("./pages/Faq.jsx"));
 const LegalPage = lazy(() => import("./pages/LegalPage.jsx"));
 const Login = lazy(() => import("./pages/auth/Login.jsx"));
 const NotFound = lazy(() => import("./pages/NotFound.jsx"));
@@ -159,12 +160,13 @@ export default function App() {
               <Route path="/projects" element={<Projects />} />
               <Route path="/projects/:id" element={<ProjectDetail />} />
               <Route path="/services" element={<Services />} />
-              <Route path="/services/moodle-lms-development" element={<MoodleLmsDevelopment />} />
+              <Route path="/services/:slug" element={<ServiceDetail />} />
               <Route path="/pricing" element={<Pricing />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/blog" element={<Blog />} />
               <Route path="/blog/:slug" element={<BlogPost />} />
               <Route path="/about" element={<About />} />
+              <Route path="/faq" element={<Faq />} />
               <Route path="/privacy" element={<LegalPage page="privacy" />} />
               <Route path="/terms" element={<LegalPage page="terms" />} />
               <Route path="/cookies" element={<LegalPage page="cookies" />} />

@@ -1,16 +1,28 @@
 import { site } from "./site.js";
 
 const absolute = (path = "/") => (path.startsWith("http") ? path : `${site.url}${path}`);
+export const organizationId = `${site.url}/#organization`;
+const websiteId = `${site.url}/#website`;
+const founderId = `${site.url}/about#mahak-patel`;
+export const seoReleaseDate = "2026-08-25";
 
 export const organizationJsonLd = {
   "@context": "https://schema.org",
   "@type": "Organization",
+  "@id": organizationId,
   name: site.name,
   legalName: site.legalName,
-  url: site.url,
+  url: `${site.url}/`,
   email: site.email,
-  logo: absolute("/logo.svg?v=black-light-mark-v9"),
+  logo: {
+    "@type": "ImageObject",
+    "@id": `${site.url}/#logo`,
+    url: absolute("/icon.svg"),
+    contentUrl: absolute("/icon.svg"),
+    caption: site.name,
+  },
   description: site.description,
+  founder: { "@id": founderId },
   areaServed: [
     { "@type": "City", name: "Toronto, Ontario, Canada" },
     { "@type": "City", name: "Brampton, Ontario, Canada" },
@@ -32,25 +44,37 @@ export const organizationJsonLd = {
 export const websiteJsonLd = {
   "@context": "https://schema.org",
   "@type": "WebSite",
+  "@id": websiteId,
   name: site.name,
-  url: site.url,
+  url: `${site.url}/`,
   description: site.description,
-  publisher: {
-    "@type": "Organization",
-    name: site.name,
-  },
+  inLanguage: "en-CA",
+  publisher: { "@id": organizationId },
+  creator: { "@id": organizationId },
+};
+
+export const founderJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "@id": founderId,
+  name: "Mahak Patel",
+  url: absolute("/about"),
+  jobTitle: "Founder and design lead",
+  worksFor: { "@id": organizationId },
+  sameAs: [site.portfolio, site.linkedin],
 };
 
 export const seoPages = {
   home: {
     path: "/",
-    title: "MSPixelPulse — Toronto Website Design for Small Businesses",
+    title: "MSPixelPulse | Web Development & UX/UI Agency in Toronto",
     description:
-      "MSPixelPulse builds professional websites for small businesses and offers a free personalized demo to review before choosing a website plan.",
+      "MSPixelPulse builds WordPress, React, UX/UI, school, Moodle LMS, redesign, and small-business website solutions in Toronto and across Canada.",
     canonical: "/",
     image: "/hero/mspixelpulse-web-design-collaboration.webp",
     component: "src/pages/Home.jsx",
     jsonLd: [organizationJsonLd, websiteJsonLd],
+    lastModified: seoReleaseDate,
   },
   projects: {
     path: "/projects",
@@ -60,10 +84,14 @@ export const seoPages = {
     canonical: "/projects",
     image: "/projects/mockups/canstem-education.webp",
     component: "src/pages/Projects.jsx",
-    jsonLd: breadcrumbJsonLd([
-      { name: "Home", path: "/" },
-      { name: "Website projects", path: "/projects" },
-    ]),
+    jsonLd: [
+      webPageJsonLd("/projects", "MSPixelPulse website projects and case studies", "CollectionPage"),
+      breadcrumbJsonLd([
+        { name: "Home", path: "/" },
+        { name: "Website projects", path: "/projects" },
+      ]),
+    ],
+    lastModified: seoReleaseDate,
   },
   services: {
     path: "/services",
@@ -72,47 +100,22 @@ export const seoPages = {
       "Toronto web design and development for small businesses: WordPress, React, e-commerce, redesign, maintenance, Moodle LMS, portals, and custom web applications.",
     canonical: "/services",
     component: "src/pages/Services.jsx",
-    jsonLd: breadcrumbJsonLd([
-      { name: "Home", path: "/" },
-      { name: "Services", path: "/services" },
-    ]),
-  },
-  moodleLms: {
-    path: "/services/moodle-lms-development",
-    title: "Moodle LMS Development & Support Canada | MSPixelPulse",
-    description:
-      "Custom Moodle LMS development and support for schools and training organizations, including setup, UI, courses, roles, plugins, upgrades, hosting, and administration.",
-    canonical: "/services/moodle-lms-development",
-    component: "src/pages/MoodleLmsDevelopment.jsx",
     jsonLd: [
       {
         "@context": "https://schema.org",
-        "@type": "Service",
-        name: "Moodle LMS Development and Support",
-        serviceType: "Moodle LMS development, customization and support",
-        url: absolute("/services/moodle-lms-development"),
-        description:
-          "Custom Moodle learning management system development, configuration, responsive UI improvement, course and role setup, plugin and integration support, upgrades, hosting planning, and ongoing administration.",
-        provider: {
-          "@type": "Organization",
-          name: site.name,
-          url: site.url,
-        },
-        areaServed: [
-          { "@type": "Country", name: "Canada" },
-          { "@type": "AdministrativeArea", name: "Ontario, Canada" },
-        ],
-        audience: {
-          "@type": "Audience",
-          audienceType: "Schools, training organizations, education teams and organizations using Moodle",
-        },
+        "@type": "CollectionPage",
+        "@id": `${absolute("/services")}#webpage`,
+        name: "MSPixelPulse web design and development services",
+        url: absolute("/services"),
+        isPartOf: { "@id": websiteId },
+        about: { "@id": organizationId },
       },
       breadcrumbJsonLd([
         { name: "Home", path: "/" },
         { name: "Services", path: "/services" },
-        { name: "Moodle LMS development", path: "/services/moodle-lms-development" },
       ]),
     ],
+    lastModified: seoReleaseDate,
   },
   pricing: {
     path: "/pricing",
@@ -121,10 +124,14 @@ export const seoPages = {
       "Compare MSPixelPulse website design starting prices in CAD for one-page, business, e-commerce, custom application, redesign, and maintenance work.",
     canonical: "/pricing",
     component: "src/pages/Pricing.jsx",
-    jsonLd: breadcrumbJsonLd([
-      { name: "Home", path: "/" },
-      { name: "Website pricing", path: "/pricing" },
-    ]),
+    jsonLd: [
+      webPageJsonLd("/pricing", "MSPixelPulse website pricing"),
+      breadcrumbJsonLd([
+        { name: "Home", path: "/" },
+        { name: "Website pricing", path: "/pricing" },
+      ]),
+    ],
+    lastModified: seoReleaseDate,
   },
   contact: {
     path: "/contact",
@@ -135,11 +142,13 @@ export const seoPages = {
     component: "src/pages/Contact.jsx",
     jsonLd: [
       organizationJsonLd,
+      webPageJsonLd("/contact", "Contact MSPixelPulse", "ContactPage"),
       breadcrumbJsonLd([
         { name: "Home", path: "/" },
         { name: "Contact", path: "/contact" },
       ]),
     ],
+    lastModified: seoReleaseDate,
   },
   blog: {
     path: "/blog",
@@ -152,17 +161,16 @@ export const seoPages = {
     jsonLd: {
       "@context": "https://schema.org",
       "@type": "CollectionPage",
+      "@id": `${absolute("/blog")}#webpage`,
       name: "MSPixelPulse website and digital growth guides",
       description:
         "People-first website, local SEO, AI search, accessibility, performance, content, learning platform, and conversion guidance for Canadian organizations.",
       url: absolute("/blog"),
       inLanguage: "en-CA",
-      publisher: {
-        "@type": "Organization",
-        name: site.name,
-        url: site.url,
-      },
+      isPartOf: { "@id": websiteId },
+      publisher: { "@id": organizationId },
     },
+    lastModified: seoReleaseDate,
   },
   about: {
     path: "/about",
@@ -174,11 +182,14 @@ export const seoPages = {
     component: "src/pages/About.jsx",
     jsonLd: [
       organizationJsonLd,
+      founderJsonLd,
+      webPageJsonLd("/about", "About MSPixelPulse", "AboutPage"),
       breadcrumbJsonLd([
         { name: "Home", path: "/" },
         { name: "About MSPixelPulse", path: "/about" },
       ]),
     ],
+    lastModified: seoReleaseDate,
   },
   login: {
     path: "/login",
@@ -213,8 +224,22 @@ export function breadcrumbJsonLd(items) {
   };
 }
 
+export function webPageJsonLd(path, name, type = "WebPage") {
+  return {
+    "@context": "https://schema.org",
+    "@type": type,
+    "@id": `${absolute(path)}#webpage`,
+    url: absolute(path),
+    name,
+    isPartOf: { "@id": websiteId },
+    about: { "@id": organizationId },
+    inLanguage: "en-CA",
+  };
+}
+
 export function projectSeo(project) {
   const path = `/projects/${project.slug}`;
+  const projectId = `${absolute(path)}#project`;
   return {
     path,
     title: `${project.title} | MSPixelPulse Portfolio`,
@@ -222,11 +247,31 @@ export function projectSeo(project) {
     canonical: path,
     image: project.thumb,
     component: "src/pages/ProjectDetail.jsx",
-    jsonLd: breadcrumbJsonLd([
-      { name: "Home", path: "/" },
-      { name: "Website projects", path: "/projects" },
-      { name: project.title, path },
-    ]),
+    lastModified: seoReleaseDate,
+    jsonLd: [
+      {
+        "@context": "https://schema.org",
+        "@type": "CreativeWork",
+        "@id": projectId,
+        name: project.title,
+        url: absolute(path),
+        description: project.shortDescription || project.summary,
+        image: absolute(project.thumb),
+        genre: project.websiteType,
+        about: project.industry,
+        creator: { "@id": organizationId },
+        keywords: [...(project.stack || []), ...(project.services || [])].join(", "),
+      },
+      {
+        ...webPageJsonLd(path, `${project.title} case study`),
+        mainEntity: { "@id": projectId },
+      },
+      breadcrumbJsonLd([
+        { name: "Home", path: "/" },
+        { name: "Website projects", path: "/projects" },
+        { name: project.title, path },
+      ]),
+    ],
   };
 }
 
@@ -234,7 +279,8 @@ export function blogPostSeo(post) {
   const path = `/blog/${post.slug}`;
   const article = {
     "@context": "https://schema.org",
-    "@type": "Article",
+    "@type": "BlogPosting",
+    "@id": `${absolute(path)}#article`,
     headline: post.title,
     description: post.metaDescription,
     image: {
@@ -251,13 +297,11 @@ export function blogPostSeo(post) {
     isAccessibleForFree: true,
     keywords: post.tags.join(", "),
     citation: post.resources?.map((resource) => resource.url),
-    author: { "@type": "Organization", name: site.name },
+    author: { "@id": organizationId },
     publisher: {
-      "@type": "Organization",
-      name: site.name,
-      logo: { "@type": "ImageObject", url: absolute("/logo.svg?v=black-light-mark-v9") },
+      "@id": organizationId,
     },
-    mainEntityOfPage: absolute(path),
+    mainEntityOfPage: { "@id": `${absolute(path)}#webpage` },
   };
 
   return {
@@ -271,6 +315,10 @@ export function blogPostSeo(post) {
     lastModified: post.updatedAt,
     jsonLd: [
       article,
+      {
+        ...webPageJsonLd(path, post.title, "Article"),
+        mainEntity: { "@id": `${absolute(path)}#article` },
+      },
       breadcrumbJsonLd([
         { name: "Home", path: "/" },
         { name: "Website design blog", path: "/blog" },

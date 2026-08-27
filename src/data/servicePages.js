@@ -1,0 +1,479 @@
+export const servicePages = [
+  {
+    slug: "web-development",
+    name: "Web Development",
+    shortName: "Web development",
+    seoTitle: "Web Development Agency Toronto | MSPixelPulse",
+    metaDescription:
+      "Custom web development in Toronto and across Canada for responsive business websites, React interfaces, forms, portals, integrations, and maintainable launches.",
+    eyebrow: "Web development",
+    summary:
+      "MSPixelPulse builds responsive websites and web interfaces for small businesses, schools, and organizations in Toronto, the GTA, Ontario, and across Canada.",
+    intro:
+      "The work starts with the customer journey and the business workflow, then uses the simplest suitable technology. That can mean a focused marketing website, a reusable React interface, a WordPress build, or a custom portal connected to an approved backend.",
+    audience: [
+      "Businesses replacing a limited or difficult-to-maintain website",
+      "Organizations that need custom forms, dashboards, or portal workflows",
+      "Teams that need a responsive, accessible frontend connected to existing systems",
+    ],
+    problems: [
+      "Important services or actions are hard to find on mobile",
+      "The current site cannot support the required content or workflow",
+      "Pages, forms, and integrations are inconsistent or difficult to maintain",
+    ],
+    deliverables: [
+      "Responsive page and component development",
+      "Accessible navigation, forms, and interaction states",
+      "API-connected interfaces where the project requires them",
+      "SEO-ready routes, metadata, structured content, and launch checks",
+      "Documentation and a practical handoff for the agreed scope",
+    ],
+    process: [
+      { title: "Define", body: "Confirm audiences, required actions, content, integrations, and launch constraints." },
+      { title: "Structure", body: "Plan routes, reusable components, data boundaries, and responsive behaviour." },
+      { title: "Build", body: "Implement the agreed interface with clear states, accessible controls, and maintainable code." },
+      { title: "Verify", body: "Test the production build, important routes, mobile layouts, forms, links, metadata, and launch configuration." },
+    ],
+    technologies: ["React", "Vite", "WordPress", "JavaScript", "HTML", "CSS", "REST APIs"],
+    relatedProjects: ["nexus-education-private-school", "unity-and-hope-home-care", "nexus-education-private-school-lms"],
+    relatedServices: ["website-design", "react-development", "small-business-websites"],
+    guideSlug: "small-business-website-features",
+    faq: [
+      { question: "What types of web development projects can MSPixelPulse support?", answer: "MSPixelPulse supports responsive business websites, React interfaces, WordPress websites, school websites, Moodle LMS work, redesigns, custom forms, portals, and agreed integrations." },
+      { question: "Can MSPixelPulse work with an existing backend or platform?", answer: "Yes. When the project already has an approved backend or platform, the scope can focus on the public interface, API integration, accessibility, responsive behaviour, and launch testing." },
+      { question: "Do web development projects include mobile testing?", answer: "Responsive behaviour is part of the build and verification process. The exact devices, browsers, routes, and interaction states are confirmed in the project scope." },
+    ],
+  },
+  {
+    slug: "website-design",
+    name: "Website Design",
+    shortName: "Website design",
+    seoTitle: "Website Design Toronto | MSPixelPulse",
+    metaDescription:
+      "Custom website design for Toronto and Canadian businesses, with clear content hierarchy, responsive layouts, accessible interactions, and conversion-focused customer journeys.",
+    eyebrow: "Website design",
+    summary:
+      "MSPixelPulse designs clear, responsive websites that help people understand a business, evaluate its services, and take the next step without unnecessary friction.",
+    intro:
+      "Website design is more than choosing colours and card styles. The service connects information architecture, page hierarchy, interface states, accessibility, and calls to action so the visual system supports real customer questions.",
+    audience: [
+      "Small businesses planning a first professional website",
+      "Organizations that need a distinct visual direction and reusable page system",
+      "Teams preparing content before development or a redesign",
+    ],
+    problems: [
+      "The offer is unclear above the fold",
+      "Navigation and page hierarchy do not match customer questions",
+      "The current visual system feels inconsistent across screen sizes",
+    ],
+    deliverables: [
+      "Page hierarchy and responsive layout direction",
+      "Reusable visual patterns for services, proof, FAQs, and calls to action",
+      "Typography, colour, spacing, imagery, and interaction guidance",
+      "Accessible states for navigation, forms, controls, and focus",
+      "Design-to-development notes for the agreed build",
+    ],
+    process: [
+      { title: "Discover", body: "Review the audience, offer, proof, content, competitors, and primary conversion path." },
+      { title: "Organize", body: "Turn business information into a clear page and section hierarchy." },
+      { title: "Design", body: "Create a responsive visual system and representative page layouts." },
+      { title: "Refine", body: "Review readability, accessibility, mobile behaviour, and development readiness." },
+    ],
+    technologies: ["Figma-ready workflows", "Responsive design", "Design systems", "WCAG-aware UX", "React", "WordPress"],
+    relatedProjects: ["aimze-salon", "unity-and-hope-home-care", "northstar-home-services"],
+    relatedServices: ["ui-ux-design", "web-development", "website-redesign"],
+    guideSlug: "professional-website-builds-local-trust",
+    faq: [
+      { question: "Does website design include mobile layouts?", answer: "Yes. Website design considers phone, tablet, and desktop layouts, including navigation, content order, forms, touch targets, and responsive spacing." },
+      { question: "Can MSPixelPulse design before deciding on a platform?", answer: "Yes. The design and content structure can be planned first, then matched to WordPress, React, or another agreed platform based on editing, workflow, and maintenance needs." },
+      { question: "Will the design match an existing brand?", answer: "MSPixelPulse can work from approved logos, colours, typography, photography, and brand guidance. Missing brand decisions are identified before they are treated as final." },
+    ],
+  },
+  {
+    slug: "wordpress-development",
+    name: "WordPress Development",
+    shortName: "WordPress development",
+    seoTitle: "WordPress Development Toronto | MSPixelPulse",
+    metaDescription:
+      "WordPress development for Toronto and Canadian businesses, including responsive service websites, content structure, redesigns, maintenance planning, and launch support.",
+    eyebrow: "WordPress development",
+    summary:
+      "MSPixelPulse builds and improves WordPress websites for organizations that need flexible content editing, clear service pages, responsive layouts, and practical launch support.",
+    intro:
+      "WordPress is useful when the team needs a familiar publishing workflow and a broad ecosystem. The implementation should still stay focused: use approved plugins, keep page structure understandable, protect performance, and document ongoing maintenance responsibilities.",
+    audience: [
+      "Service businesses that want to manage routine page and blog updates",
+      "Organizations improving an existing WordPress website",
+      "Teams that need structured service, location, resource, or landing pages",
+    ],
+    problems: [
+      "The current theme makes mobile pages or editing difficult",
+      "Too many plugins create maintenance or performance risk",
+      "Service content, forms, and calls to action are inconsistent",
+    ],
+    deliverables: [
+      "WordPress page templates and responsive content layouts",
+      "Content, navigation, form, and reusable-block setup",
+      "Plugin and theme decisions documented for the project scope",
+      "Basic technical SEO, sitemap, metadata, and indexability checks",
+      "Launch, backup, update, and handoff planning",
+    ],
+    process: [
+      { title: "Audit", body: "Review hosting, theme, plugins, content, users, forms, performance, and update risks." },
+      { title: "Plan", body: "Choose the page system and the smallest dependable set of plugins and integrations." },
+      { title: "Implement", body: "Build or improve templates, content, forms, responsive behaviour, and editor workflows." },
+      { title: "Launch", body: "Verify backups, redirects, indexing, forms, analytics readiness, and maintenance ownership." },
+    ],
+    technologies: ["WordPress", "Block editor", "PHP-aware theming", "HTML", "CSS", "JavaScript", "SEO plugins when appropriate"],
+    relatedProjects: ["canstem-education", "aimze-salon", "dazzling-smile-dental"],
+    relatedServices: ["website-design", "website-redesign", "website-maintenance"],
+    guideSlug: "wordpress-vs-react-business-website",
+    faq: [
+      { question: "Does MSPixelPulse build new WordPress websites?", answer: "Yes. MSPixelPulse can plan and build responsive WordPress websites when a content-management workflow is a good fit for the project." },
+      { question: "Can MSPixelPulse improve an existing WordPress site?", answer: "Yes. Existing work can include content structure, responsive layout, usability, performance basics, plugin review, forms, search setup, and maintenance planning." },
+      { question: "Is every WordPress plugin included?", answer: "No. Paid themes, plugins, subscriptions, hosting, and third-party services are included only when they are listed in the agreed scope or quote." },
+    ],
+  },
+  {
+    slug: "react-development",
+    name: "React Development",
+    shortName: "React development",
+    seoTitle: "React Web Development Agency Canada | MSPixelPulse",
+    metaDescription:
+      "React web development for Canadian businesses and organizations, including responsive Vite websites, reusable interfaces, portals, APIs, accessibility, and production QA.",
+    eyebrow: "React development",
+    summary:
+      "MSPixelPulse develops reusable React interfaces for websites and web applications that need custom interactions, structured routes, API connections, or application-like workflows.",
+    intro:
+      "React is a strong fit when the interface has reusable stateful components, custom workflows, or data from an API. It is not automatically the right choice for every brochure website, so the platform decision is tied to editing needs, complexity, performance, and long-term ownership.",
+    audience: [
+      "Organizations building a custom website or web application interface",
+      "Teams that need dashboards, portals, filters, forms, or API-connected views",
+      "Projects that need a maintainable component and route system",
+    ],
+    problems: [
+      "The interface has repeated patterns but no reusable component system",
+      "Client-side data states are confusing or inconsistent",
+      "The project needs custom interactions beyond a conventional site builder",
+    ],
+    deliverables: [
+      "React components and route architecture",
+      "Responsive layouts and accessible interaction states",
+      "Loading, empty, success, and error handling for agreed data flows",
+      "API integration through approved application boundaries",
+      "Production build, route, bundle, and deployment verification",
+    ],
+    process: [
+      { title: "Model the interface", body: "Define routes, components, data ownership, and user states before implementation." },
+      { title: "Build the system", body: "Create reusable components and predictable state transitions." },
+      { title: "Connect safely", body: "Integrate approved APIs without moving secrets or authorization into browser code." },
+      { title: "Test the release", body: "Verify build output, deep links, responsive behaviour, accessibility, and production configuration." },
+    ],
+    technologies: ["React", "Vite", "React Router", "JavaScript", "REST APIs", "Framer Motion", "Lucide React"],
+    relatedProjects: ["nexus-education-private-school", "unity-and-hope-home-care", "stephy-pet-grooming-studio"],
+    relatedServices: ["web-development", "ui-ux-design", "school-websites"],
+    guideSlug: "wordpress-vs-react-business-website",
+    faq: [
+      { question: "When is React a good choice for a website?", answer: "React can be a good fit for custom interactions, reusable interface systems, portals, dashboards, filters, application-like workflows, and projects connected to an API." },
+      { question: "Does a React website still need SEO planning?", answer: "Yes. Public React routes need unique metadata, canonical URLs, crawlable links, useful page content, sitemap coverage, and meaningful initial HTML or another dependable rendering strategy." },
+      { question: "Can MSPixelPulse connect React to an existing API?", answer: "Yes, when the API contract and authorization model are approved. Secrets and privileged provider credentials remain on the server rather than in browser code." },
+    ],
+  },
+  {
+    slug: "ui-ux-design",
+    name: "UX/UI Design",
+    shortName: "UX/UI design",
+    seoTitle: "UX/UI Design Toronto | MSPixelPulse",
+    metaDescription:
+      "UX/UI design for Toronto and Canadian organizations, including information architecture, responsive interfaces, accessible flows, prototypes, forms, and design systems.",
+    eyebrow: "UX/UI design",
+    summary:
+      "MSPixelPulse improves how website and application interfaces are organized, understood, and used across phones, tablets, desktops, keyboards, and assistive technology.",
+    intro:
+      "UX work focuses on what people need to understand and complete. UI work turns that structure into consistent components, hierarchy, spacing, colour, typography, and feedback. The two are reviewed together so visual polish does not hide usability problems.",
+    audience: [
+      "Businesses with confusing navigation, forms, or service journeys",
+      "Product teams that need a reusable responsive interface system",
+      "Organizations preparing a website, portal, or dashboard redesign",
+    ],
+    problems: [
+      "People cannot quickly tell where to start or what happens next",
+      "Important controls depend on hover, colour, or unclear labels",
+      "Layouts and components behave differently across routes and devices",
+    ],
+    deliverables: [
+      "Information architecture and task-flow review",
+      "Wireframes or representative responsive layouts",
+      "Reusable component, state, and content guidance",
+      "Accessibility, keyboard, focus, form, and touch-target review",
+      "Design QA notes for implementation and release",
+    ],
+    process: [
+      { title: "Understand", body: "Identify users, tasks, constraints, content, and evidence rather than guessing at behaviour." },
+      { title: "Simplify", body: "Remove avoidable steps and organize information around decisions people need to make." },
+      { title: "Systemize", body: "Define reusable interface patterns, responsive rules, and accessible states." },
+      { title: "Validate", body: "Review representative tasks with keyboard, mobile, content, and error-state checks." },
+    ],
+    technologies: ["Information architecture", "Responsive UI", "Design systems", "WCAG 2.2 AA review", "React", "WordPress"],
+    relatedProjects: ["nexus-education-private-school", "unity-and-hope-home-care", "ms-pixelpulse-wellness-studio"],
+    relatedServices: ["website-design", "website-redesign", "react-development"],
+    guideSlug: "mobile-friendly-website-design-local-businesses",
+    faq: [
+      { question: "What is the difference between UX and UI design?", answer: "UX design focuses on structure, tasks, content, and ease of use. UI design focuses on the visual and interactive component system that communicates that structure." },
+      { question: "Can MSPixelPulse review an interface without rebuilding it?", answer: "Yes. A scoped review can identify navigation, content hierarchy, form, accessibility, responsive, and interaction issues before development decisions are made." },
+      { question: "Does UX/UI work include accessibility?", answer: "Accessibility is considered throughout structure and interface work, including semantics, keyboard use, focus, labels, contrast, touch targets, error feedback, and reduced motion where applicable." },
+    ],
+  },
+  {
+    slug: "small-business-websites",
+    name: "Small Business Websites",
+    shortName: "Small-business websites",
+    seoTitle: "Small Business Website Development Toronto | MSPixelPulse",
+    metaDescription:
+      "Small-business website design and development for Toronto, Brampton, Mississauga, the GTA, Ontario, and remote clients across Canada.",
+    eyebrow: "Small-business websites",
+    summary:
+      "MSPixelPulse builds practical small-business websites that explain services clearly, work well on mobile, support local trust, and provide a direct contact path.",
+    intro:
+      "A small-business website does not need unnecessary complexity. It needs accurate service information, a clear audience and service area, useful proof, dependable contact options, accessible mobile layouts, and a platform the owner can realistically maintain.",
+    audience: [
+      "Local service businesses launching their first professional website",
+      "Owners replacing a dated, unclear, or mobile-unfriendly site",
+      "Canadian businesses that need focused service and inquiry pages",
+    ],
+    problems: [
+      "Customers cannot quickly understand the offer or service area",
+      "The site looks incomplete or is difficult to use on a phone",
+      "Contact details, calls to action, and trust information are inconsistent",
+    ],
+    deliverables: [
+      "Focused homepage, service, about, and contact structure",
+      "Responsive navigation, forms, calls to action, and content sections",
+      "Local and service relevance written naturally without doorway pages",
+      "Basic metadata, sitemap, schema, analytics readiness, and launch QA",
+      "Clear scope boundaries for hosting, subscriptions, content, and maintenance",
+    ],
+    process: [
+      { title: "Clarify the offer", body: "Confirm services, customers, service area, proof, contact path, and launch priority." },
+      { title: "Choose the scope", body: "Start with the pages needed to answer common customer questions." },
+      { title: "Design and build", body: "Create a distinct responsive website around the approved content and brand." },
+      { title: "Launch and maintain", body: "Check the site, forms, search files, analytics readiness, and ongoing update plan." },
+    ],
+    technologies: ["WordPress", "React", "Responsive design", "Local SEO structure", "Accessible forms", "Analytics readiness"],
+    relatedProjects: ["aimze-salon", "dazzling-smile-dental", "unity-and-hope-home-care"],
+    relatedServices: ["website-design", "wordpress-development", "website-maintenance"],
+    guideSlug: "small-business-website-cost-canada",
+    faq: [
+      { question: "Does MSPixelPulse build websites for small businesses?", answer: "Yes. Small-business websites are a primary MSPixelPulse service, including new websites, redesigns, WordPress or React builds, service pages, forms, search setup, and ongoing support." },
+      { question: "Where does MSPixelPulse provide small-business website services?", answer: "MSPixelPulse serves businesses in Toronto, Brampton, Mississauga, the Greater Toronto Area, Ontario, and remote clients across Canada." },
+      { question: "How much does a small-business website cost?", answer: "Pricing depends on page count, content, custom features, e-commerce, integrations, and launch support. MSPixelPulse publishes starting points on the pricing page and confirms the complete scope in a quote." },
+    ],
+  },
+  {
+    slug: "website-redesign",
+    name: "Website Redesign",
+    shortName: "Website redesign",
+    seoTitle: "Website Redesign Agency Toronto | MSPixelPulse",
+    metaDescription:
+      "Website redesign services for Toronto and Canadian organizations, including content structure, mobile UX, accessibility, performance, SEO migration, and launch QA.",
+    eyebrow: "Website redesign",
+    summary:
+      "MSPixelPulse redesigns websites that have become difficult to understand, use, update, or trust—while protecting valuable content, URLs, and working functionality.",
+    intro:
+      "A redesign should solve specific problems rather than replace everything by default. The work begins with the current site, search-visible URLs, content, analytics evidence when available, technical constraints, and the customer journeys that must survive the change.",
+    audience: [
+      "Businesses with dated or inconsistent public websites",
+      "Organizations with mobile, accessibility, navigation, or performance issues",
+      "Teams preparing a platform migration or major content restructure",
+    ],
+    problems: [
+      "Important pages are hard to find or do not explain the service well",
+      "Mobile layouts, forms, images, or navigation create friction",
+      "A visual refresh risks losing URLs, metadata, content, or measurement",
+    ],
+    deliverables: [
+      "Current-state content, route, UX, and technical review",
+      "Revised information architecture and responsive page system",
+      "Redirect, canonical, metadata, sitemap, and launch-migration planning",
+      "Accessible interface and content improvements",
+      "Pre-launch and post-launch regression checks for the agreed scope",
+    ],
+    process: [
+      { title: "Inventory", body: "Capture current pages, content, forms, links, search signals, integrations, and measurable issues." },
+      { title: "Prioritize", body: "Separate redesign needs from content fixes, technical repairs, and optional improvements." },
+      { title: "Rebuild carefully", body: "Implement the new system while preserving approved content and working routes." },
+      { title: "Migrate and verify", body: "Test redirects, canonicals, metadata, forms, analytics, mobile layouts, and key customer journeys." },
+    ],
+    technologies: ["Content inventory", "Responsive redesign", "SEO migration", "WordPress", "React", "Accessibility review"],
+    relatedProjects: ["canstem-education", "aimze-salon", "unity-and-hope-home-care"],
+    relatedServices: ["ui-ux-design", "website-design", "website-maintenance"],
+    guideSlug: "website-redesign-checklist-small-business",
+    faq: [
+      { question: "Does a website redesign require a full rebuild?", answer: "Not always. MSPixelPulse first separates content, UX, performance, accessibility, and platform problems so the scope can focus on the changes that provide real value." },
+      { question: "How can a redesign protect existing search visibility?", answer: "A redesign should inventory indexable URLs, content, metadata, internal links, analytics, and backlinks, then plan redirects and validate canonicals, sitemap entries, status codes, and source HTML before launch." },
+      { question: "Can MSPixelPulse redesign only selected pages?", answer: "Yes. A focused redesign can target the highest-impact templates or customer journeys when the rest of the site remains useful and technically compatible." },
+    ],
+  },
+  {
+    slug: "moodle-lms-development",
+    name: "Moodle & LMS Development",
+    shortName: "Moodle LMS development",
+    seoTitle: "Moodle LMS Development & Support Canada | MSPixelPulse",
+    metaDescription:
+      "Moodle LMS development and support for Canadian schools and training organizations, including setup, responsive UI, courses, roles, plugins, upgrades, hosting planning, and administration.",
+    eyebrow: "Moodle LMS development",
+    summary:
+      "MSPixelPulse builds and supports Moodle learning environments for schools, training organizations, and education teams in Ontario and across Canada.",
+    intro:
+      "Moodle projects can include new environments, existing-site improvements, branded learner interfaces, roles, course structure, plugins, upgrades, hosting planning, backups, testing, and ongoing administration. The exact scope depends on the current environment and learning workflow.",
+    audience: [
+      "Private schools, online schools, and education teams",
+      "Training providers and organizations using Moodle",
+      "Administrators improving learner, teacher, or management workflows",
+    ],
+    problems: [
+      "Learners or staff struggle to find courses and required actions",
+      "Roles, enrolment, plugins, backups, or upgrades need structured review",
+      "The learning portal needs responsive UI and operational documentation",
+    ],
+    deliverables: [
+      "Moodle setup, configuration, or current-environment review",
+      "Course, role, enrolment, and administration workflow planning",
+      "Responsive learner and administrator interface improvements",
+      "Plugin, integration, email, hosting, backup, and upgrade planning",
+      "Testing, documentation, launch, and ongoing support for the agreed scope",
+    ],
+    process: [
+      { title: "Review", body: "Assess the environment, users, courses, hosting, integrations, pain points, and required outcomes." },
+      { title: "Plan", body: "Prioritize a reliable implementation or improvement path before adding complexity." },
+      { title: "Configure", body: "Implement the agreed learner, teacher, manager, and administrator workflows." },
+      { title: "Validate", body: "Test roles, courses, mobile use, backups, upgrades, notifications, and launch readiness." },
+    ],
+    technologies: ["Moodle", "PHP", "MariaDB", "Redis", "Docker", "Responsive theming", "REST APIs"],
+    relatedProjects: ["nexus-education-private-school-lms", "nexus-education-private-school", "canstem-education"],
+    relatedServices: ["school-websites", "web-development", "website-maintenance"],
+    guideSlug: "custom-moodle-lms-development-canada",
+    faq: [
+      { question: "Does MSPixelPulse develop Moodle LMS websites?", answer: "Yes. MSPixelPulse supports Moodle setup, customization, responsive UI, course and role structure, plugins, upgrades, hosting planning, administration, and ongoing technical support." },
+      { question: "Can MSPixelPulse improve an existing Moodle site?", answer: "Yes. Existing environments can be reviewed for usability, roles, course structure, plugins, performance, backups, upgrades, integrations, and administration workflows." },
+      { question: "Does Moodle work include course content creation?", answer: "Course structure and learning activities can be supported, but writing all instructional content, assessments, or policies is included only when it is explicitly part of the agreed scope." },
+    ],
+  },
+  {
+    slug: "school-websites",
+    name: "School Website Development",
+    shortName: "School websites",
+    seoTitle: "School Website Development Ontario | MSPixelPulse",
+    metaDescription:
+      "School website design and development in Ontario and Canada, including responsive program pages, course discovery, admissions journeys, accessibility, WordPress, React, and Moodle connections.",
+    eyebrow: "School websites",
+    summary:
+      "MSPixelPulse builds school websites that help families, learners, and staff find programs, courses, admissions information, policies, contact paths, and learning-platform access.",
+    intro:
+      "Education websites often serve several audiences at once. The page system should make official information easy to find, keep course and admissions content maintainable, support accessible mobile use, and maintain a clear boundary between the public website and private learning systems.",
+    audience: [
+      "Private schools and education organizations",
+      "Training providers with public programs and private learning systems",
+      "Schools improving course discovery, admissions, or mobile accessibility",
+    ],
+    problems: [
+      "Programs, courses, admissions, and contact information are difficult to navigate",
+      "Public website content and private LMS workflows are mixed together",
+      "Large catalogues are hard to search, maintain, or use on mobile",
+    ],
+    deliverables: [
+      "Public information architecture for programs, courses, admissions, and trust content",
+      "Reusable course, program, policy, news, and contact templates",
+      "Responsive navigation, search, filtering, forms, and accessibility review",
+      "Clear public-site and LMS integration boundaries",
+      "Metadata, structured content, sitemap, launch, and maintenance planning",
+    ],
+    process: [
+      { title: "Map audiences", body: "Identify the needs of prospective families, current students, staff, and administrators." },
+      { title: "Structure information", body: "Organize programs, courses, admissions, policies, news, and contact routes." },
+      { title: "Build reusable pages", body: "Create accessible responsive templates and content/data workflows." },
+      { title: "Verify boundaries", body: "Test public discovery, forms, course routes, mobile navigation, and the separation from private LMS data." },
+    ],
+    technologies: ["React", "WordPress", "Moodle", "Structured course data", "Accessible responsive design", "Search and filtering"],
+    relatedProjects: ["nexus-education-private-school", "canstem-education", "nexus-education-private-school-lms"],
+    relatedServices: ["moodle-lms-development", "react-development", "website-maintenance"],
+    guideSlug: "custom-moodle-lms-development-canada",
+    faq: [
+      { question: "Does MSPixelPulse build websites for schools?", answer: "Yes. MSPixelPulse builds and supports public school websites, course and program discovery experiences, admissions-focused pages, and separate Moodle LMS environments." },
+      { question: "Can a school website include a large course catalogue?", answer: "Yes. Course data can use reusable routes, filtering, summaries, and structured content. The data source and update workflow are confirmed before implementation." },
+      { question: "Should a public school website and LMS be the same system?", answer: "They can be connected, but public marketing and admissions content should remain clearly separated from authenticated learner, teacher, and administration workflows." },
+    ],
+  },
+  {
+    slug: "website-maintenance",
+    name: "Website Maintenance & Support",
+    shortName: "Website maintenance",
+    seoTitle: "Website Maintenance & Support Toronto | MSPixelPulse",
+    metaDescription:
+      "Website maintenance and support for Toronto and Canadian businesses, including updates, content changes, form checks, backups, plugin review, responsive fixes, and launch support.",
+    eyebrow: "Website maintenance",
+    summary:
+      "MSPixelPulse provides ongoing website support for routine content changes, health checks, responsive fixes, form and link verification, updates, and agreed technical improvements.",
+    intro:
+      "Maintenance keeps a working website useful as the business, content, browser landscape, and underlying software change. The service is scoped so owners know which routine tasks are included and which redesigns, new features, paid services, or infrastructure work need a separate quote.",
+    audience: [
+      "Businesses that need dependable help after a website launch",
+      "WordPress owners managing updates, plugins, content, and forms",
+      "Organizations that need recurring mobile, accessibility, search, or release checks",
+    ],
+    problems: [
+      "Content, links, forms, or contact information become outdated",
+      "Updates are delayed because no one owns routine website work",
+      "Small issues accumulate into usability, performance, or search problems",
+    ],
+    deliverables: [
+      "Agreed text, image, link, and page-content updates",
+      "Routine form, navigation, responsive, and website health checks",
+      "WordPress core, theme, and plugin updates when included in scope",
+      "Basic accessibility, performance, and search-file review",
+      "Clear notes when a request requires redesign, development, or third-party work",
+    ],
+    process: [
+      { title: "Establish the baseline", body: "Document the platform, hosting, access, backups, current issues, and approved update scope." },
+      { title: "Prioritize requests", body: "Separate routine maintenance from larger content, design, feature, or infrastructure work." },
+      { title: "Update and test", body: "Make the agreed changes and verify affected pages, forms, links, and responsive states." },
+      { title: "Report", body: "Record what changed, what was checked, and any follow-up that needs a separate decision." },
+    ],
+    technologies: ["WordPress", "React", "Vercel", "Content updates", "Form and link QA", "Performance and accessibility checks"],
+    relatedProjects: ["canstem-education", "aimze-salon", "unity-and-hope-home-care"],
+    relatedServices: ["website-redesign", "wordpress-development", "small-business-websites"],
+    guideSlug: "website-maintenance-small-businesses",
+    faq: [
+      { question: "What can website maintenance include?", answer: "Maintenance can include agreed content updates, small layout or image changes, form and link checks, routine website review, WordPress updates, and basic accessibility, performance, or search cleanup." },
+      { question: "Are redesigns and new features included in maintenance?", answer: "Not automatically. Full redesigns, complex features, large page additions, e-commerce expansion, custom application work, hosting, and third-party subscriptions require an agreed scope." },
+      { question: "Does MSPixelPulse publish maintenance pricing?", answer: "The pricing page includes a monthly website-support starting point and its boundaries. Final eligibility and scope are confirmed before support begins." },
+    ],
+  },
+];
+
+export function getServicePage(slug) {
+  return servicePages.find((service) => service.slug === slug);
+}
+
+export function servicePath(slug) {
+  return `/services/${slug}`;
+}
+
+const labelRoutes = [
+  [/moodle|lms/i, "moodle-lms-development"],
+  [/school|course catalogue|education website/i, "school-websites"],
+  [/wordpress/i, "wordpress-development"],
+  [/react|frontend development/i, "react-development"],
+  [/maintenance|support|updates/i, "website-maintenance"],
+  [/ux|interface|accessibility/i, "ui-ux-design"],
+  [/redesign|improvement/i, "website-redesign"],
+  [/small business/i, "small-business-websites"],
+  [/design|content structure|strategy/i, "website-design"],
+  [/development|engineering|custom/i, "web-development"],
+];
+
+export function servicePathForLabel(label = "") {
+  const match = labelRoutes.find(([pattern]) => pattern.test(label));
+  return match ? servicePath(match[1]) : "/services";
+}
+

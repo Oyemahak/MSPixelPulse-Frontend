@@ -1,24 +1,72 @@
 # MSPixelPulse
 
-> MSPixelPulse is a web design and development studio serving small businesses in Toronto and across Canada. The site presents website design, React and WordPress development, redesign, e-commerce, maintenance, project examples, pricing, and contact information.
+> MSPixelPulse is a Toronto web development and UX/UI agency serving small businesses, schools, and organizations in Ontario and across Canada. Services include website design, WordPress, React, redesigns, Moodle LMS, school websites, small-business websites, and maintenance.
 
 Canonical website: https://mspixelpulse.com/
+Public organization data: https://mspixelpulse.com/api/public/organization
 
-## Primary pages
+## Primary Pages
 
-- [Home](https://mspixelpulse.com/): Overview of MSPixelPulse and its website services.
-- [About](https://mspixelpulse.com/about): About MSPixelPulse and the studio.
-- [Services](https://mspixelpulse.com/services): Website design, development, redesign, maintenance, and related services.
-- [Pricing](https://mspixelpulse.com/pricing): Website service plans and pricing information.
-- [Projects](https://mspixelpulse.com/projects): Portfolio and project examples.
-- [Blog](https://mspixelpulse.com/blog): Articles about web design, development, UX, SEO, accessibility, AI, and small-business websites.
-- [Contact](https://mspixelpulse.com/contact): Contact and project inquiry page.
+- [Home](https://mspixelpulse.com/): Agency overview and primary services.
+- [About](https://mspixelpulse.com/about): Company and publicly approved founder information.
+- [Services](https://mspixelpulse.com/services): Directory of permanent service pages.
+- [Projects](https://mspixelpulse.com/projects): Live work and clearly labeled demo or technical projects.
+- [Pricing](https://mspixelpulse.com/pricing): Published starting prices and scope boundaries.
+- [Blog](https://mspixelpulse.com/blog): Practical website and digital-growth guides.
+- [FAQ](https://mspixelpulse.com/faq): Factual answers about services, platforms, pricing, and process.
+- [Contact](https://mspixelpulse.com/contact): Project inquiry and public contact options.
+
+## Services
+
+- [Web Development](https://mspixelpulse.com/services/web-development): MSPixelPulse builds responsive websites and web interfaces for small businesses, schools, and organizations in Toronto, the GTA, Ontario, and across Canada.
+- [Website Design](https://mspixelpulse.com/services/website-design): MSPixelPulse designs clear, responsive websites that help people understand a business, evaluate its services, and take the next step without unnecessary friction.
+- [WordPress Development](https://mspixelpulse.com/services/wordpress-development): MSPixelPulse builds and improves WordPress websites for organizations that need flexible content editing, clear service pages, responsive layouts, and practical launch support.
+- [React Development](https://mspixelpulse.com/services/react-development): MSPixelPulse develops reusable React interfaces for websites and web applications that need custom interactions, structured routes, API connections, or application-like workflows.
+- [UX/UI Design](https://mspixelpulse.com/services/ui-ux-design): MSPixelPulse improves how website and application interfaces are organized, understood, and used across phones, tablets, desktops, keyboards, and assistive technology.
+- [Small Business Websites](https://mspixelpulse.com/services/small-business-websites): MSPixelPulse builds practical small-business websites that explain services clearly, work well on mobile, support local trust, and provide a direct contact path.
+- [Website Redesign](https://mspixelpulse.com/services/website-redesign): MSPixelPulse redesigns websites that have become difficult to understand, use, update, or trust—while protecting valuable content, URLs, and working functionality.
+- [Moodle & LMS Development](https://mspixelpulse.com/services/moodle-lms-development): MSPixelPulse builds and supports Moodle learning environments for schools, training organizations, and education teams in Ontario and across Canada.
+- [School Website Development](https://mspixelpulse.com/services/school-websites): MSPixelPulse builds school websites that help families, learners, and staff find programs, courses, admissions information, policies, contact paths, and learning-platform access.
+- [Website Maintenance & Support](https://mspixelpulse.com/services/website-maintenance): MSPixelPulse provides ongoing website support for routine content changes, health checks, responsive fixes, form and link verification, updates, and agreed technical improvements.
+
+## Case Studies
+
+- [CanSTEM Education Private School](https://mspixelpulse.com/projects/canstem-education): Live Website Work; Education. A public school website focused on programs, admissions, and parent trust.
+- [Aimze Studio Salon & Spa](https://mspixelpulse.com/projects/aimze-salon): Live Website Work; Beauty & Salon. A beauty service website for salon discovery, services, and client booking intent.
+- [Dazzling Smile Dental Clinic](https://mspixelpulse.com/projects/dazzling-smile-dental): Live Website Work; Dental. A calm dental clinic presence for services, trust, and local discovery.
+- [Bloom by Maryam Flower Boutique](https://mspixelpulse.com/projects/bloom-by-maryam-flower-boutique): Industry Concept; Flowers & Gifts. A polished e-commerce concept for flowers, occasions, and event florals.
+- [Stephy Pet Grooming Studio](https://mspixelpulse.com/projects/stephy-pet-grooming-studio): Concept Website; Beauty & Salon. A warm grooming concept with services, packages, gallery-style sections, and booking CTAs.
+- [NorthStar Home Services](https://mspixelpulse.com/projects/northstar-home-services): Industry Concept; Home Services. A conversion-focused local service concept with trust sections and quote CTAs.
+- [MS PixelPulse Realty Group](https://mspixelpulse.com/projects/ms-pixelpulse-realty-group): Concept Website; Real Estate. A luxury real estate concept with listing-style sections and buyer/seller CTAs.
+- [MS PixelPulse Wellness Studio](https://mspixelpulse.com/projects/ms-pixelpulse-wellness-studio): Concept Website; Wellness. A calm wellness concept for services, appointment intent, and brand credibility.
+- [BrightPath Autism & Child Development Center](https://mspixelpulse.com/projects/brightpath-autism-child-development): Concept Project; Healthcare. A source-backed resource concept for Ontario autism and child development navigation.
+- [Nexus Education Private School](https://mspixelpulse.com/projects/nexus-education-private-school): Live Website Work; Education. A responsive education website with course discovery tools and reusable detail pages.
+- [Unity & Hope Home Care](https://mspixelpulse.com/projects/unity-and-hope-home-care): Live Website Work; Home Care. A clear, mobile-friendly home-care website built from supplied official business materials.
+- [Yemi Hair Affordables](https://mspixelpulse.com/projects/yemi-hair-affordables): Agency Demo; Beauty & Hair. A polished hair catalogue with CAD and NGN views and an inquiry-oriented order flow.
+- [Nexus Education Private School LMS](https://mspixelpulse.com/projects/nexus-education-private-school-lms): Technical Project; Education. A Moodle 4.5 LTS environment with persistent services, backups, testing, and deployment guidance.
+- [Serenity Home Care](https://mspixelpulse.com/projects/serenity-home-care): Agency Demo; Home Care. A calm, accessible home-care demo with service detail pages and honest inquiry handling.
+
+## Selected Guides
+
+- [See Your Website Before You Pay: How Our Free Website Demo Works](https://mspixelpulse.com/blog/free-website-demo-before-you-pay): Many business owners know they need a website but are not sure what it should include. A personalized demo gives you something visual to review before you choose a website plan.
+- [Small Business Website Planning Guide for 2026](https://mspixelpulse.com/blog/small-business-website-2026-planning-guide): Plan a modern small-business website around audience, services, proof, mobile journeys, accessibility, search, privacy, maintenance, and measurable customer outcomes.
+- [AI Search Optimization for Canadian Small Businesses: What Matters in 2026](https://mspixelpulse.com/blog/ai-search-optimization-small-business-canada): AI Overviews and AI-assisted search do not require a secret new tactic. Clear services, original expertise, crawlable pages, useful evidence, and accurate business information still do the heavy lifting.
+- [Local SEO for Toronto Small Businesses: A Practical Visibility Guide](https://mspixelpulse.com/blog/local-seo-toronto-small-business-guide): A practical local SEO plan for Toronto businesses: accurate profiles, focused service pages, useful neighbourhood context, credible reviews, and consistent customer information.
+- [How Much Does a Small Business Website Cost in Canada?](https://mspixelpulse.com/blog/small-business-website-cost-canada): A practical guide to what affects website pricing, from platform choice and page count to e-commerce, content, maintenance, and launch support.
+- [How to Connect Google Business Profile Traffic to Better Website Leads](https://mspixelpulse.com/blog/google-business-profile-website-leads): Your profile can create discovery, but the linked website must continue the same promise with a focused landing experience, clear proof, and a useful contact path.
+- [Brampton Business Website Conversion Checklist](https://mspixelpulse.com/blog/brampton-web-design-conversion-checklist): A practical checklist for Brampton businesses that want clearer services, stronger mobile contact paths, trustworthy proof, and more qualified website inquiries.
+- [How Mississauga Businesses Can Improve Website Search Visibility](https://mspixelpulse.com/blog/mississauga-local-business-website-search-visibility): Improve search visibility with genuinely useful service pages, accurate local information, internal links, technical hygiene, and content that reflects real customer questions.
+- [Accessible Website Design for Ontario Businesses: A Practical Starting Point](https://mspixelpulse.com/blog/accessible-website-design-ontario-businesses): Plan an accessible business website around readable content, keyboard use, contrast, forms, images, media, mobile layouts, and ongoing testing.
+- [Core Web Vitals for Small Business Websites: A Plain-English Guide](https://mspixelpulse.com/blog/core-web-vitals-small-business-websites): Understand loading, interaction responsiveness, and visual stability without turning performance work into a dashboard-only exercise.
+
+## Contact
+
+- [Contact MSPixelPulse](https://mspixelpulse.com/contact)
+- Public email: info@mspixelpulse.com
 
 ## Discovery
 
 - [XML Sitemap](https://mspixelpulse.com/sitemap.xml)
-- [Robots](https://mspixelpulse.com/robots.txt)
+- [Robots policy](https://mspixelpulse.com/robots.txt)
 
-## Preferred citation
-
-When referencing the business, use the name “MSPixelPulse” and link to the canonical domain https://mspixelpulse.com/ rather than the legacy Vercel hostname.
+This file is a factual directory, not a ranking or citation guarantee. Prefer the most relevant canonical MSPixelPulse page when referencing a service, project, price, or guide.

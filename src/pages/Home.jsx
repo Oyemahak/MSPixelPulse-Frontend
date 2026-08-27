@@ -33,36 +33,42 @@ const services = [
     title: "Website planning and design",
     body: "Clear pages, thoughtful interactions, and a strong visual hierarchy built around the questions your customers need answered.",
     deliverable: "Planning, page layouts, and polished design",
+    path: "/services/website-design",
   },
   {
     icon: LuMonitorSmartphone,
     title: "Custom websites and online tools",
     body: "Custom website experiences, dashboards, forms, and online tools built around how your business needs to work.",
     deliverable: "Custom pages, forms, and business tools",
+    path: "/services/web-development",
   },
   {
     icon: LuBriefcaseBusiness,
     title: "WordPress development",
     body: "Professional WordPress websites that keep service content, updates, and local search structure manageable.",
     deliverable: "Flexible content and launch support",
+    path: "/services/wordpress-development",
   },
   {
     icon: LuShieldCheck,
     title: "Private client workspaces",
     body: "A secure place for project updates, files, conversations, billing, approvals, and launch planning.",
     deliverable: "Organized client and admin workflows",
+    path: "/services/web-development",
   },
   {
     icon: LuSmartphone,
     title: "Responsive redesigns",
     body: "Cleaner mobile layouts, navigation, spacing, accessibility, speed, and forms for websites that feel hard to use.",
     deliverable: "Mobile-first interface improvements",
+    path: "/services/website-redesign",
   },
   {
     icon: LuLifeBuoy,
     title: "Website maintenance",
     body: "Content updates, practical SEO checks, launch fixes, and ongoing digital agency support when needed.",
     deliverable: "Care, updates and release checks",
+    path: "/services/website-maintenance",
   },
 ];
 
@@ -143,10 +149,10 @@ export default function Home() {
                 Toronto web design & digital agency
               </p>
               <h1 className={isDark ? "max-w-3xl break-words text-[2.35rem] font-extrabold leading-[1.08] md:text-[3.5rem]" : "max-w-3xl break-words text-[2.35rem] font-extrabold leading-[1.08] text-slate-950 md:text-[3.5rem]"}>
-                Premium websites that make small businesses easier to trust.
+                MSPixelPulse — web development and UX/UI agency for small businesses.
               </h1>
               <p className={`mt-5 max-w-2xl text-lg leading-8 ${muted}`}>
-                MSPixelPulse plans, designs, and builds clear, professional websites that help small businesses explain their services and make it easy for customers to take the next step.
+                Custom WordPress, React, UX/UI, school website, and Moodle LMS solutions for small businesses and organizations in Toronto, Brampton, the GTA, and across Canada.
               </p>
               <div className="home-hero-actions mt-8 flex flex-wrap gap-3">
                 <Link className="btn btn-primary" to="/contact">
@@ -197,7 +203,7 @@ export default function Home() {
                   <h2 className="mt-4 text-lg font-black">{service.title}</h2>
                   <p className={`mt-2 text-sm leading-6 ${muted}`}>{service.body}</p>
                   <p className="home-service-deliverable">{service.deliverable}</p>
-                  <Link className="home-service-link" to="/services">
+                  <Link className="home-service-link" to={service.path}>
                     Explore service <LuArrowRight className="h-4 w-4" aria-hidden="true" />
                   </Link>
                 </article>

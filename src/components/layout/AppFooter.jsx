@@ -10,15 +10,17 @@ const navigation = [
   ["Services", "/services"],
   ["Pricing", "/pricing"],
   ["Blog", "/blog"],
+  ["FAQ", "/faq"],
   ["Contact", "/contact"],
 ];
 
 const serviceLinks = [
-  "Web design & UX/UI",
-  "React development",
-  "WordPress development",
-  "Client portal solutions",
-  "Website maintenance",
+  ["Website design", "/services/website-design"],
+  ["Web development", "/services/web-development"],
+  ["WordPress development", "/services/wordpress-development"],
+  ["React development", "/services/react-development"],
+  ["Moodle LMS development", "/services/moodle-lms-development"],
+  ["Website maintenance", "/services/website-maintenance"],
 ];
 
 export default function AppFooter() {
@@ -60,8 +62,8 @@ export default function AppFooter() {
 
           <div className="agency-footer-column">
             <h2>Services</h2>
-            {serviceLinks.map((label) => (
-              <Link key={label} to="/services">{label}</Link>
+            {serviceLinks.map(([label, href]) => (
+              <Link key={href} to={href}>{label}</Link>
             ))}
           </div>
 

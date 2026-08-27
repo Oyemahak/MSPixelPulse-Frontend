@@ -1,8 +1,71 @@
-User-agent: *
+User-agent: OAI-SearchBot
 Allow: /
+Allow: /api/public/organization
 Disallow: /admin
 Disallow: /client
 Disallow: /dev
 Disallow: /debug
+Disallow: /login
+Disallow: /register
+Disallow: /api/
+
+User-agent: PerplexityBot
+Allow: /
+Allow: /api/public/organization
+Disallow: /admin
+Disallow: /client
+Disallow: /dev
+Disallow: /debug
+Disallow: /login
+Disallow: /register
+Disallow: /api/
+
+User-agent: Googlebot
+Allow: /
+Allow: /api/public/organization
+Disallow: /admin
+Disallow: /client
+Disallow: /dev
+Disallow: /debug
+Disallow: /login
+Disallow: /register
+Disallow: /api/
+
+User-agent: Bingbot
+Allow: /
+Allow: /api/public/organization
+Disallow: /admin
+Disallow: /client
+Disallow: /dev
+Disallow: /debug
+Disallow: /login
+Disallow: /register
+Disallow: /api/
+
+# Training-related crawlers are intentionally distinct from search/retrieval bots.
+# Public marketing content is available; private workspaces and form APIs remain blocked.
+User-agent: GPTBot
+User-agent: Google-Extended
+User-agent: ClaudeBot
+Allow: /
+Allow: /api/public/organization
+Disallow: /admin
+Disallow: /client
+Disallow: /dev
+Disallow: /debug
+Disallow: /login
+Disallow: /register
+Disallow: /api/
+
+User-agent: *
+Allow: /
+Allow: /api/public/organization
+Disallow: /admin
+Disallow: /client
+Disallow: /dev
+Disallow: /debug
+Disallow: /login
+Disallow: /register
+Disallow: /api/
 
 Sitemap: https://mspixelpulse.com/sitemap.xml

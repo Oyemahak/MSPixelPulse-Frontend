@@ -3,10 +3,11 @@ import Container from "../components/layout/Container.jsx";
 import Meta from "../components/Meta.jsx";
 import { usePublicPortfolio } from "@/hooks/usePublicPortfolio.js";
 import { useTheme } from "@/lib/theme.js";
-import { LuArrowLeft, LuExternalLink, LuGithub } from "react-icons/lu";
+import { LuArrowRight, LuExternalLink, LuGithub } from "react-icons/lu";
 import ContactActions from "@/components/ContactActions.jsx";
 import DemoOffer from "@/components/DemoOffer.jsx";
 import { projectSeo } from "@/data/seoPages.js";
+import { servicePathForLabel } from "@/data/servicePages.js";
 
 export default function ProjectDetail() {
   const { id } = useParams();
@@ -53,9 +54,13 @@ export default function ProjectDetail() {
       <Meta {...projectMeta} />
 
       <Container>
-        <Link to="/projects" className={isDark ? "subtle-link inline-flex items-center" : "inline-flex items-center text-sm font-bold text-slate-600 hover:text-slate-950"}>
-          <LuArrowLeft className="mr-2 h-4 w-4" /> Back to projects
-        </Link>
+        <nav aria-label="Breadcrumb" className={isDark ? "flex flex-wrap items-center gap-2 text-sm text-white/65" : "flex flex-wrap items-center gap-2 text-sm text-slate-600"}>
+          <Link to="/">Home</Link>
+          <span aria-hidden="true">/</span>
+          <Link to="/projects">Projects</Link>
+          <span aria-hidden="true">/</span>
+          <span aria-current="page">{project.title}</span>
+        </nav>
 
         <div className="mt-6 grid gap-8 lg:grid-cols-[1.05fr_.95fr] lg:items-start">
           <div>
@@ -121,9 +126,9 @@ export default function ProjectDetail() {
 
         <div className="mt-12 grid gap-6 lg:grid-cols-3">
           {[
-            ["Overview", project.overview],
-            ["Result", project.result],
-            ["Platform", [project.platform, ...(project.stack || [])].filter(Boolean).join(" · ")],
+            ["Project context", project.overview],
+            ["Published outcome", project.result],
+            ["Technology", [project.platform, ...(project.stack || [])].filter(Boolean).join(" · ")],
           ].map(([title, value]) => (
             <div key={title} className={isDark ? "card-surface p-6" : "rounded-2xl border border-slate-200 bg-white p-6 shadow-sm"}>
               <h2 className={isDark ? "font-black" : "font-black text-slate-950"}>{title}</h2>
@@ -133,8 +138,8 @@ export default function ProjectDetail() {
         </div>
 
         <div className="mt-6 grid gap-6 lg:grid-cols-2">
-          <ListPanel title="Key features" items={project.features} isDark={isDark} />
-          <ListPanel title="Services provided" items={project.services} isDark={isDark} />
+          <ListPanel title="Solution and UX decisions" items={project.features} isDark={isDark} />
+          <ServiceLinks title="Services connected to this project" items={project.services} isDark={isDark} />
         </div>
 
         {!isLive && (
@@ -161,6 +166,23 @@ function ListPanel({ title, items = [], isDark }) {
           <li key={item} className="flex gap-3">
             <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
             <span>{item}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+function ServiceLinks({ title, items = [], isDark }) {
+  return (
+    <div className={isDark ? "card-surface p-6" : "rounded-2xl border border-slate-200 bg-white p-6 shadow-sm"}>
+      <h2 className={isDark ? "font-black" : "font-black text-slate-950"}>{title}</h2>
+      <ul className="mt-4 space-y-3 text-sm">
+        {items.map((item) => (
+          <li key={item}>
+            <Link className={isDark ? "inline-flex items-center gap-2 font-bold text-blue-300 hover:underline" : "inline-flex items-center gap-2 font-bold text-blue-700 hover:underline"} to={servicePathForLabel(item)}>
+              {item} <LuArrowRight className="h-4 w-4" aria-hidden="true" />
+            </Link>
           </li>
         ))}
       </ul>

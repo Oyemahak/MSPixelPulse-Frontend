@@ -72,9 +72,10 @@ export function servicePageSeo(service) {
     title: service.seoTitle,
     description: service.metaDescription,
     canonical: path,
-    image: "/hero/mspixelpulse-web-design-collaboration.webp",
+    image: service.image || "/hero/mspixelpulse-web-design-collaboration.webp",
+    imageAlt: service.imageAlt || `${service.name} service from MSPixelPulse`,
     component: "src/pages/ServiceDetail.jsx",
-    lastModified: seoReleaseDate,
+    lastModified: service.lastModified || seoReleaseDate,
     jsonLd: [
       serviceSchema,
       {

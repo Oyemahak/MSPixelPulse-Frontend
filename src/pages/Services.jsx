@@ -1,33 +1,98 @@
+import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import Container from "../components/layout/Container.jsx";
 import { useTheme } from "@/lib/theme.js";
 import Meta from "@/components/Meta.jsx";
 import ContactActions from "@/components/ContactActions.jsx";
 import DemoOffer from "@/components/DemoOffer.jsx";
+import SearchField from "@/components/ui/SearchField.jsx";
 import { seoPages } from "@/data/seoPages.js";
-import { serviceCatalog } from "@/data/serviceCatalog.js";
 import { servicePages, servicePath } from "@/data/servicePages.js";
-import { usePublicContent } from "@/hooks/usePublicContent.js";
 import { PageHero } from "@/components/public/PublicPageHeader.jsx";
-
 import {
   LuArrowRight,
+  LuBraces,
   LuCalendar,
-  LuCircleCheck,
+  LuCodeXml,
   LuGraduationCap,
+  LuLayoutTemplate,
   LuLifeBuoy,
-  LuPenTool,
-  LuRocket,
-  LuShieldCheck,
-  LuShoppingCart,
-  LuWorkflow,
+  LuMousePointer2,
+  LuPanelsTopLeft,
+  LuRefreshCw,
+  LuRotateCcw,
+  LuSchool,
+  LuSlidersHorizontal,
+  LuStore,
 } from "react-icons/lu";
+
+const allOption = "All";
+
+const serviceIcons = {
+  business: LuStore,
+  design: LuLayoutTemplate,
+  development: LuCodeXml,
+  moodle: LuGraduationCap,
+  react: LuBraces,
+  redesign: LuRefreshCw,
+  school: LuSchool,
+  support: LuLifeBuoy,
+  ux: LuMousePointer2,
+  wordpress: LuPanelsTopLeft,
+};
+
+function normalize(value) {
+  return String(value || "").toLowerCase();
+}
+
+function uniqueValues(items, key) {
+  const values = items.flatMap((item) => {
+    const value = item[key];
+    return Array.isArray(value) ? value : [value];
+  });
+  return [allOption, ...Array.from(new Set(values.filter(Boolean))).sort()];
+}
 
 export default function Services() {
   const { theme } = useTheme();
   const isDark = theme === "dark";
-  const { items: persistedServices } = usePublicContent('service', serviceCatalog);
-  const services = persistedServices;
+  const [query, setQuery] = useState("");
+  const [category, setCategory] = useState(allOption);
+  const [platform, setPlatform] = useState(allOption);
+
+  const categories = useMemo(() => uniqueValues(servicePages, "category"), []);
+  const platforms = useMemo(() => uniqueValues(servicePages, "platforms"), []);
+
+  const filteredServices = useMemo(() => {
+    const normalizedQuery = normalize(query).trim();
+
+    return servicePages.filter((service) => {
+      const searchableContent = normalize([
+        service.name,
+        service.catalogueDescription,
+        service.summary,
+        service.category,
+        ...(service.platforms || []),
+        ...(service.technologies || []),
+        ...(service.tags || []),
+        ...(service.keywords || []),
+      ].join(" "));
+
+      return (
+        (!normalizedQuery || searchableContent.includes(normalizedQuery)) &&
+        (category === allOption || service.category === category) &&
+        (platform === allOption || service.platforms.includes(platform))
+      );
+    });
+  }, [category, platform, query]);
+
+  const hasFilters = Boolean(query.trim()) || category !== allOption || platform !== allOption;
+
+  function resetFilters() {
+    setQuery("");
+    setCategory(allOption);
+    setPlatform(allOption);
+  }
 
   return (
     <section className="section overflow-x-hidden">
@@ -37,47 +102,87 @@ export default function Services() {
           align="center"
           eyebrow="Services"
           title="Web design and development that supports a real business."
-          description="Toronto web design for small businesses, including WordPress and React development, responsive redesigns, e-commerce, website maintenance, Moodle LMS work, and custom client portals."
+          description="Explore focused services for new websites, redesigns, WordPress, React, UX/UI, education platforms, and dependable ongoing support."
           contentClassName="max-w-5xl"
         />
 
-        <section className="mt-10" aria-labelledby="dedicated-services-title">
-          <div className="max-w-3xl">
-            <h2 id="dedicated-services-title" className={isDark ? "text-3xl font-black text-white" : "text-3xl font-black text-slate-950"}>
-              Explore a dedicated service page
-            </h2>
-            <p className={isDark ? "mt-3 leading-7 text-textSub" : "mt-3 leading-7 text-slate-600"}>
-              Each page explains who the service is for, the problems it addresses, possible deliverables, the working process, related projects, and common questions.
-            </p>
+        <section className="project-filter-bar service-filter-bar" aria-labelledby="service-filter-heading">
+          <div className="project-filter-topline">
+            <div className="project-filter-heading">
+              <LuSlidersHorizontal aria-hidden="true" />
+              <h2 id="service-filter-heading">Find the right service</h2>
+            </div>
+
+            <div className="service-filter-meta">
+              <output className="project-filter-summary" aria-live="polite" aria-atomic="true">
+                <strong>{filteredServices.length}</strong> service{filteredServices.length === 1 ? "" : "s"}
+              </output>
+              <button
+                type="button"
+                className="service-filter-reset"
+                onClick={resetFilters}
+                disabled={!hasFilters}
+              >
+                <LuRotateCcw aria-hidden="true" />
+                Reset
+              </button>
+            </div>
           </div>
-          <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {servicePages.map((service) => (
-              <article key={service.slug} className={isDark ? "card-surface rounded-2xl p-5" : "rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"}>
-                <h3 className={isDark ? "text-lg font-black text-white" : "text-lg font-black text-slate-950"}>{service.name}</h3>
-                <p className={isDark ? "mt-2 text-sm leading-6 text-textSub" : "mt-2 text-sm leading-6 text-slate-600"}>{service.summary}</p>
-                <Link className="mt-4 inline-flex items-center gap-2 font-bold text-primary hover:underline" to={servicePath(service.slug)}>
-                  Explore {service.shortName.toLowerCase()} <LuArrowRight aria-hidden="true" />
-                </Link>
-              </article>
-            ))}
+
+          <div className="project-filter-row service-filter-row">
+            <SearchField
+              className="project-search-field"
+              label="Search website services"
+              placeholder="Search services, platforms, or capabilities"
+              value={query}
+              onValueChange={setQuery}
+            />
+
+            <label className="project-filter-control">
+              <span className="sr-only">Service category</span>
+              <select value={category} onChange={(event) => setCategory(event.target.value)}>
+                {categories.map((item) => (
+                  <option key={item} value={item}>{item === allOption ? "All categories" : item}</option>
+                ))}
+              </select>
+            </label>
+
+            <label className="project-filter-control">
+              <span className="sr-only">Technology or platform</span>
+              <select value={platform} onChange={(event) => setPlatform(event.target.value)}>
+                {platforms.map((item) => (
+                  <option key={item} value={item}>{item === allOption ? "All platforms" : item}</option>
+                ))}
+              </select>
+            </label>
           </div>
         </section>
 
-        <div className="mt-10 grid gap-5 lg:grid-cols-2">
-          {services.map((service, index) => (
-            <ServiceModule key={service.title} service={service} isDark={isDark} priority={index === 0} />
-          ))}
-        </div>
+        {filteredServices.length > 0 ? (
+          <div className="service-catalogue-grid">
+            {filteredServices.map((service) => (
+              <ServiceCard key={service.slug} service={service} />
+            ))}
+          </div>
+        ) : (
+          <div className="service-empty-state">
+            <h2>No services match those filters.</h2>
+            <p>Try a broader category, platform, or search term.</p>
+            <button type="button" onClick={resetFilters} className="btn btn-primary">
+              Reset filters
+            </button>
+          </div>
+        )}
 
-        <DemoOffer compact className="mt-10" />
+        <DemoOffer compact className="mt-12" />
 
         <div className={isDark ? "mt-12 card-surface grid gap-5 rounded-2xl p-6 md:grid-cols-[1fr_auto_auto] md:items-center md:p-8" : "mt-12 grid gap-5 rounded-2xl border border-blue-100 bg-white/90 p-6 shadow-[0_22px_70px_rgba(37,99,255,0.10)] md:grid-cols-[1fr_auto_auto] md:items-center md:p-8"}>
           <div>
             <h2 className={isDark ? "text-2xl font-black text-white" : "text-2xl font-black text-slate-950"}>
-              Have a project in mind?
+              Need help choosing a service?
             </h2>
             <p className={isDark ? "mt-2 text-textSub" : "mt-2 text-slate-600"}>
-              Send a short note and we will propose the simplest path to launch, improve, or maintain your website.
+              Share what you want to launch, improve, or maintain, and we will suggest a practical starting point.
             </p>
           </div>
 
@@ -85,7 +190,7 @@ export default function Services() {
             dark={isDark}
             showPhone={false}
             whatsappLabel="Discuss your project"
-            message="Hi MSPixelPulse, I would like to discuss website services for my business."
+            message="Hi MSPixelPulse, I would like help choosing the right website service for my business."
           />
 
           <a
@@ -103,81 +208,50 @@ export default function Services() {
   );
 }
 
-function ServiceModule({ service, isDark, priority }) {
-  const iconMap = {
-    design: LuPenTool,
-    commerce: LuShoppingCart,
-    improve: LuShieldCheck,
-    support: LuLifeBuoy,
-    workflow: LuWorkflow,
-    education: LuGraduationCap,
-    launch: LuRocket,
-  };
-  const Icon = service.icon || iconMap[service.iconKey] || iconMap[service.visual] || LuPenTool;
+function ServiceCard({ service }) {
+  const Icon = serviceIcons[service.iconKey] || LuLayoutTemplate;
 
   return (
-    <article className={isDark ? "service-module service-module-dark" : "service-module"}>
-      <div className="service-visual" data-visual={service.visual}>
-        <img
-          src={service.photo}
-          alt={service.photoAlt}
-          loading={priority ? "eager" : "lazy"}
-          decoding="async"
-          fetchPriority={priority ? "high" : "low"}
-          width="900"
-          height="620"
-        />
-        <div className="service-ui-stack" aria-hidden="true">
-          <div className="service-browser">
-            <span />
-            <span />
-            <span />
-          </div>
-          <div className="service-ui-row service-ui-row-strong" />
-          <div className="service-ui-grid">
-            <span />
-            <span />
-            <span />
-          </div>
-          <div className="service-pulse" />
-        </div>
-      </div>
-
-      <div className="service-copy">
-        <div className="flex items-center gap-3">
-          <span className={isDark ? "grid h-11 w-11 place-items-center rounded-xl bg-primary/20 text-white" : "grid h-11 w-11 place-items-center rounded-xl bg-blue-50 text-blue-700"}>
-            <Icon className="h-5 w-5" aria-hidden="true" />
+    <article className="service-catalogue-card">
+      <Link
+        to={servicePath(service.slug)}
+        className="service-catalogue-card-link"
+        aria-label={`${service.name}: explore service details`}
+      >
+        <div className="service-catalogue-media">
+          <img
+            src={service.image}
+            alt={service.imageAlt}
+            loading="lazy"
+            decoding="async"
+            fetchPriority="low"
+            width="900"
+            height="620"
+          />
+          <span className="service-catalogue-category">
+            <Icon aria-hidden="true" />
+            {service.category}
           </span>
-          <h2 className={isDark ? "text-xl font-black text-white" : "text-xl font-black text-slate-950"}>
-            {service.title}
-          </h2>
         </div>
 
-        <p className={isDark ? "mt-4 text-sm leading-6 text-textSub" : "mt-4 text-sm leading-6 text-slate-600"}>
-          {service.description}
-        </p>
+        <div className="service-catalogue-copy">
+          <div className="service-catalogue-heading">
+            <h3>{service.name}</h3>
+            <span>{service.platforms.join(" · ")}</span>
+          </div>
 
-        <div className={isDark ? "mt-5 rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3 text-sm font-bold text-white/75" : "mt-5 rounded-xl border border-blue-100 bg-blue-50/70 px-4 py-3 text-sm font-bold text-slate-700"}>
-          Best for: {service.best}
+          <p className="service-catalogue-description">{service.catalogueDescription}</p>
+
+          <ul className="service-catalogue-tags" aria-label={`${service.name} capabilities`}>
+            {service.tags.map((tag) => <li key={tag}>{tag}</li>)}
+          </ul>
+
+          <span className="service-catalogue-cta">
+            Explore service
+            <LuArrowRight aria-hidden="true" />
+          </span>
         </div>
-
-        <ul className={isDark ? "mt-5 space-y-2 text-sm text-textSub" : "mt-5 space-y-2 text-sm text-slate-600"}>
-          {service.benefits.map((benefit) => (
-            <li key={benefit} className="flex gap-2">
-              <LuCircleCheck className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden="true" />
-              <span>{benefit}</span>
-            </li>
-          ))}
-        </ul>
-
-        <Link
-          to={service.related}
-          className="btn btn-primary mt-6"
-        >
-          {service.cta}
-          <LuArrowRight className="h-4 w-4" aria-hidden="true" />
-        </Link>
-      </div>
+      </Link>
     </article>
   );
 }

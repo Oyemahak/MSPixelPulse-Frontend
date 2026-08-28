@@ -51,6 +51,8 @@ MSPixelPulse plans, designs, develops, improves, and supports responsive website
 - [Yemi Hair Affordables](https://mspixelpulse.com/projects/yemi-hair-affordables): Agency Demo; Beauty & Hair. A polished hair catalogue with CAD and NGN views and an inquiry-oriented order flow.
 - [Nexus Education Private School LMS](https://mspixelpulse.com/projects/nexus-education-private-school-lms): Technical Project; Education. A Moodle 4.5 LTS environment with persistent services, backups, testing, and deployment guidance.
 - [Serenity Home Care](https://mspixelpulse.com/projects/serenity-home-care): Agency Demo; Home Care. A calm, accessible home-care demo with service detail pages and honest inquiry handling.
+- [LUMA Weddings & Events](https://mspixelpulse.com/projects/wedding-and-events): Agency Demo; Wedding & Events. A cinematic planning website with deep service discovery, editorial portfolios, rich media, and a multi-step inquiry flow.
+- [Aurelia Restaurant & Bar](https://mspixelpulse.com/projects/aurelia-restaurant-bar): Agency Demo; Restaurant / Hospitality. A warm editorial hospitality website with menus, reservations, private events, catering, and venue discovery.
 
 Project labels distinguish live work, agency demos, concept work, and technical projects. Do not infer that a demo or concept is paid client work.
 

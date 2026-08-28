@@ -91,7 +91,7 @@ export const seoPages = {
         { name: "Website projects", path: "/projects" },
       ]),
     ],
-    lastModified: seoReleaseDate,
+    lastModified: "2026-08-27",
   },
   services: {
     path: "/services",
@@ -115,7 +115,7 @@ export const seoPages = {
         { name: "Services", path: "/services" },
       ]),
     ],
-    lastModified: seoReleaseDate,
+    lastModified: "2026-08-27",
   },
   pricing: {
     path: "/pricing",
@@ -247,7 +247,7 @@ export function projectSeo(project) {
     canonical: path,
     image: project.thumb,
     component: "src/pages/ProjectDetail.jsx",
-    lastModified: seoReleaseDate,
+    lastModified: project.lastModified || seoReleaseDate,
     jsonLd: [
       {
         "@context": "https://schema.org",

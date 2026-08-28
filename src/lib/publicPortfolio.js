@@ -1,4 +1,4 @@
-import { publishedProjects } from '@/data/projects.js';
+import { publishedProjects } from '../data/projects.js';
 
 export const fallbackPublicProjects = publishedProjects;
 
@@ -31,5 +31,11 @@ export function normalizePublicProject(project = {}) {
 }
 
 export function normalizePublicProjects(items = []) {
-  return (Array.isArray(items) ? items : []).map(normalizePublicProject);
+  const normalized = (Array.isArray(items) ? items : []).map(normalizePublicProject);
+  const publishedSlugs = new Set(normalized.map((project) => project.slug).filter(Boolean));
+  const localOnlyProjects = fallbackPublicProjects.filter(
+    (project) => !publishedSlugs.has(project.slug),
+  );
+
+  return [...normalized, ...localOnlyProjects];
 }

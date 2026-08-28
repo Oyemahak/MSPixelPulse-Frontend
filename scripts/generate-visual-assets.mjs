@@ -21,9 +21,22 @@ const projects = [
   ["ms-pixelpulse-realty-group", "https://mspixelpulse-demo-real-estate-agent.vercel.app"],
   ["ms-pixelpulse-wellness-studio", "https://mspixelpulse-demo-wellness-studio.vercel.app"],
   ["brightpath-autism-child-development", "https://mspixelpulse-demo-autism-child-deve.vercel.app"],
+  ["wedding-and-events", "https://wedding-and-events.vercel.app"],
+  ["aurelia-restaurant-bar", "https://aurelia-restaurant-bar.vercel.app"],
 ];
 
 const fallbackProject = "dazzling-smile-dental";
+const requestedSlugs = new Set(process.argv.slice(2));
+const availableSlugs = new Set([...projects.map(([slug]) => slug), fallbackProject]);
+const unknownSlugs = [...requestedSlugs].filter((slug) => !availableSlugs.has(slug));
+
+if (unknownSlugs.length) {
+  throw new Error(`Unknown visual asset slug: ${unknownSlugs.join(", ")}`);
+}
+
+const selectedProjects = requestedSlugs.size
+  ? projects.filter(([slug]) => requestedSlugs.has(slug))
+  : projects;
 
 const blogCovers = [
   ["small-business-website-cost-canada", "Website Cost", "pricing cards", "Canada planning", ["Estimate", "Scope", "Launch"]],
@@ -217,7 +230,7 @@ if (!existsSync(cwebpPath)) throw new Error(`cwebp not found at ${cwebpPath}`);
 const chrome = launchChrome();
 try {
   await waitForChrome();
-  for (const [slug, url] of projects) {
+  for (const [slug, url] of selectedProjects) {
     const desktop = path.join(tmp, `${slug}-desktop.png`);
     const mobile = path.join(tmp, `${slug}-mobile.png`);
     await capture(url, desktop, { width: 1440, height: 900 }, false);
@@ -225,11 +238,15 @@ try {
     await projectMockup(slug, desktop, mobile, path.join(root, "public/projects/mockups", `${slug}.webp`));
     console.log(`mockup ${slug}`);
   }
-  await fallbackMockup(path.join(root, "public/projects/mockups", `${fallbackProject}.webp`));
-  console.log(`mockup ${fallbackProject} fallback`);
-  for (const cover of blogCovers) {
-    await blogCover(...cover);
-    console.log(`cover ${cover[0]}`);
+  if (!requestedSlugs.size || requestedSlugs.has(fallbackProject)) {
+    await fallbackMockup(path.join(root, "public/projects/mockups", `${fallbackProject}.webp`));
+    console.log(`mockup ${fallbackProject} fallback`);
+  }
+  if (!requestedSlugs.size) {
+    for (const cover of blogCovers) {
+      await blogCover(...cover);
+      console.log(`cover ${cover[0]}`);
+    }
   }
 } finally {
   chrome.kill();

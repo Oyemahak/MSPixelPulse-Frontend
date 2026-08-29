@@ -11,6 +11,7 @@ import { servicePages } from "@/data/servicePages.js";
 import ContactActions from "@/components/ContactActions.jsx";
 import SocialContactLinks from "@/components/SocialContactLinks.jsx";
 import { PageHero } from "@/components/public/PublicPageHeader.jsx";
+import { trackEvent } from "@/lib/analytics.js";
 
 const emptyForm = {
   name: "",
@@ -146,6 +147,14 @@ export default function Contact() {
       });
       setForm({ ...emptyForm, service: demoMode ? "Free website demo" : selectedPlan || selectedService });
       setErrors({});
+      trackEvent("generate_lead", {
+        lead_type: demoMode
+          ? "free_demo"
+          : searchParams.get("inquiry") === "plan" || selectedPlan
+            ? "quote_request"
+            : "project_inquiry",
+        form_source: demoMode ? "free_demo_request" : "contact_page",
+      });
     } catch (error) {
       setStatus({
         type: "error",
@@ -445,6 +454,7 @@ export default function Contact() {
             <ContactActions
               showMessage
               className="contact-project-link-grid"
+              analyticsPlacement="contact_conversation"
               whatsappLabel="Chat on WhatsApp"
               message="Hi MSPixelPulse, I would like to discuss a website project."
             />
@@ -453,6 +463,7 @@ export default function Contact() {
               href="https://calendly.com/mspixelpulse/30min"
               target="_blank"
               rel="noreferrer"
+              data-analytics-placement="contact_conversation"
             >
               <LuCalendar className="h-5 w-5" aria-hidden="true" />
               Book appointment

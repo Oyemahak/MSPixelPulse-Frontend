@@ -53,7 +53,12 @@ export default function MoodleLmsDevelopment() {
             MSPixelPulse supports Moodle learning environments with hands-on education technology experience across website operations, LMS administration, course structure, user workflows, responsive UI, upgrades, and ongoing technical support.
           </p>
           <div className="mt-7 flex flex-wrap justify-center gap-3">
-            <Link className="btn btn-primary" to="/contact?service=moodle-lms-development">
+            <Link
+              className="btn btn-primary"
+              to="/contact?service=moodle-lms-development"
+              data-analytics-cta="discuss_service"
+              data-analytics-placement="moodle_service_hero"
+            >
               Discuss a Moodle project <LuArrowRight className="h-4 w-4" aria-hidden="true" />
             </Link>
             <Link className="btn btn-glass" to="/blog/custom-moodle-lms-development-canada">

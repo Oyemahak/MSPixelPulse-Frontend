@@ -169,6 +169,8 @@ export default function Pricing() {
                 <div className="pricing-card-action">
                   <Button
                     onClick={() => startPlan(plan)}
+                    data-analytics-cta="request_quote"
+                    data-analytics-placement="pricing_plan"
                   >
                     {plan.cta}
                     <LuRocket className="h-4 w-4" aria-hidden="true" />

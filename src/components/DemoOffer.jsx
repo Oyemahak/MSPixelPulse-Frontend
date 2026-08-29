@@ -44,7 +44,12 @@ export default function DemoOffer({ compact = false, className = "" }) {
           <h2 id="demo-prompt-title">See your website idea before choosing a plan.</h2>
           <p>{demoOfferShortCopy}</p>
         </div>
-        <ButtonLink size="lg" to="/contact?request=free-demo">
+        <ButtonLink
+          size="lg"
+          to="/contact?request=free-demo"
+          data-analytics-cta="request_free_demo"
+          data-analytics-placement="demo_prompt"
+        >
           Request My Free Demo
           <LuArrowRight aria-hidden="true" />
         </ButtonLink>
@@ -67,11 +72,21 @@ export default function DemoOffer({ compact = false, className = "" }) {
                 You do not need to know everything before contacting us. Share your business idea, services, colours, logo, or even a simple description. We will use that information to prepare a visual direction that makes the next steps easier to understand.
               </p>
               <div className="demo-offer-actions">
-                <ButtonLink size="lg" to="/contact?request=free-demo">
+                <ButtonLink
+                  size="lg"
+                  to="/contact?request=free-demo"
+                  data-analytics-cta="request_free_demo"
+                  data-analytics-placement="demo_offer"
+                >
                   Request My Free Demo
                   <LuArrowRight aria-hidden="true" />
                 </ButtonLink>
-                <ButtonLink variant="glass" to="/blog/free-website-demo-before-you-pay">
+                <ButtonLink
+                  variant="glass"
+                  to="/blog/free-website-demo-before-you-pay"
+                  data-analytics-cta="learn_free_demo"
+                  data-analytics-placement="demo_offer"
+                >
                   See How It Works
                 </ButtonLink>
               </div>

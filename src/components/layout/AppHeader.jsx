@@ -214,7 +214,12 @@ export default function AppHeader() {
           <NavLink to="/blog" className={linkClass}>
             <LuBookOpen className="h-4 w-4" /> Blog
           </NavLink>
-          <NavLink to="/contact" className={linkClass}>
+          <NavLink
+            to="/contact"
+            className={linkClass}
+            data-analytics-cta="contact_navigation"
+            data-analytics-placement="header_desktop"
+          >
             <LuMail className="h-4 w-4" /> Contact
           </NavLink>
         </nav>
@@ -263,7 +268,7 @@ export default function AppHeader() {
           </div>
 
           {!isAuthed ? (
-            <NavLink to="/login" className={loginBtnClass}>
+            <NavLink to="/login" className={loginBtnClass} reloadDocument>
               <LuLogIn className="h-4 w-4" /> Portal login
             </NavLink>
           ) : (
@@ -271,6 +276,7 @@ export default function AppHeader() {
               {/* Portal */}
               <Link
                 to={portalPath}
+                reloadDocument
                 className={
                   isDark
                     ? "h-10 min-w-max whitespace-nowrap inline-flex items-center gap-2.5 rounded-xl border border-white/10 px-4 text-sm font-bold text-white/90 hover:bg-white/5"
@@ -451,7 +457,13 @@ export default function AppHeader() {
               <MobileLink to="/blog" onClick={closeMobile} dark={isDark}>
                 <LuBookOpen className="h-4 w-4 mr-2" /> Blog
               </MobileLink>
-              <MobileLink to="/contact" onClick={closeMobile} dark={isDark}>
+              <MobileLink
+                to="/contact"
+                onClick={closeMobile}
+                dark={isDark}
+                data-analytics-cta="contact_navigation"
+                data-analytics-placement="header_mobile"
+              >
                 <LuMail className="h-4 w-4 mr-2" /> Contact
               </MobileLink>
 
@@ -553,6 +565,7 @@ function MenuLink({ to, onClick, children, dark }) {
   return (
     <Link
       to={to}
+      reloadDocument={to.startsWith("/admin") || to.startsWith("/client") || to.startsWith("/dev")}
       onClick={onClick}
       className={
         dark
@@ -567,12 +580,13 @@ function MenuLink({ to, onClick, children, dark }) {
 }
 
 /* Mobile helpers */
-function MobileLink({ to, end, onClick, children, dark }) {
+function MobileLink({ to, end, onClick, children, dark, ...props }) {
   return (
     <NavLink
       to={to}
       end={end}
       onClick={onClick}
+      {...props}
       className={({ isActive }) =>
         [
           "block w-full px-3 py-2.5 rounded-xl font-semibold transition-colors inline-flex items-center",
@@ -605,7 +619,12 @@ function MobileCTA({ to, variant = "primary", onClick, children, dark }) {
       : "liquid-glass-button text-slate-800";
   }
   return (
-    <Link to={to} onClick={onClick} className={[base, styles].join(" ")}>
+    <Link
+      to={to}
+      reloadDocument={to === "/login" || to.startsWith("/admin") || to.startsWith("/client") || to.startsWith("/dev")}
+      onClick={onClick}
+      className={[base, styles].join(" ")}
+    >
       {children}
     </Link>
   );

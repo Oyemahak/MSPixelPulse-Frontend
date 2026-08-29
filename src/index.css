@@ -4539,6 +4539,19 @@ html:not([data-theme="dark"]) .app-footer {
   background: rgba(15, 23, 42, 0.06);
 }
 
+.footer-preferences-button {
+  min-height: 2.75rem;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+}
+
+.footer-preferences-button:hover,
+.footer-preferences-button:focus-visible {
+  color: #60a5fa;
+  text-decoration: underline;
+}
+
 .seo-resource-card {
   border-radius: 1.35rem;
   border: 1px solid rgba(148, 163, 184, 0.22);

@@ -5,6 +5,7 @@ import { Routes, Route, Navigate, useLocation, Outlet } from "react-router-dom";
 import AppHeader from "./components/layout/AppHeader.jsx";
 import AppFooter from "./components/layout/AppFooter.jsx";
 import CookieBanner from "@/components/CookieBanner.jsx";
+import AnalyticsManager from "@/components/AnalyticsManager.jsx";
 import { useAuth } from "@/context/AuthContext.jsx";
 import {
   getPendingAccountTheme,
@@ -148,6 +149,7 @@ export default function App() {
     <ThemeProvider>
       <AccountThemeSync />
       <div className="app-shell min-h-screen flex flex-col bg-transparent">
+        <AnalyticsManager />
         <a className="skip-link" href="#main-content">Skip to main content</a>
         {!hidePublicChrome && <AppHeader />}
 

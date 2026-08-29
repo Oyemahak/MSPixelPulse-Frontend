@@ -25,6 +25,7 @@ export default function SocialContactLinks({
   include = allKeys,
   variant = "icons",
   className = "",
+  analyticsPlacement = `social_contact_${variant}`,
 }) {
   const messagingAvailable = supportsNativeMessages();
   const links = [
@@ -100,6 +101,7 @@ export default function SocialContactLinks({
             title={link.label}
             target={link.external ? "_blank" : undefined}
             rel={link.external ? "noopener noreferrer" : undefined}
+            data-analytics-placement={analyticsPlacement}
           >
             <Icon aria-hidden="true" />
             {variant !== "icons" && <span>{link.label}</span>}

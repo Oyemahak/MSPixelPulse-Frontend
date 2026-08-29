@@ -323,6 +323,8 @@ export default function BlogPost() {
                     `/contact?request=free-demo&source=blog&article=${encodeURIComponent(post.slug)}`
                   }
                   className="btn btn-primary"
+                  data-analytics-cta="request_free_demo"
+                  data-analytics-placement="blog_article_final_cta"
                 >
                   {post.finalCta?.label || "Request my free demo"}
                   <LuArrowRight aria-hidden="true" />

@@ -3,7 +3,7 @@ export const legalPages = {
     title: "Privacy Policy",
     description:
       "Draft privacy policy for MSPixelPulse website visitors, leads, and portal users.",
-    updated: "July 12, 2026",
+    updated: "August 29, 2026",
     sections: [
       {
         heading: "Information we collect",
@@ -15,7 +15,7 @@ export const legalPages = {
       },
       {
         heading: "Service providers",
-        body: "The website and portal may use hosting, database, file storage, analytics, email, and deployment providers. These providers are used only as needed to operate MSPixelPulse services.",
+        body: "The website and portal may use hosting, database, file storage, analytics, email, and deployment providers. Google Analytics 4 is loaded only after analytics consent on public pages. Names, email addresses, phone numbers, form content, and private portal routes are not intentionally sent to analytics.",
       },
       {
         heading: "Retention and access",
@@ -51,7 +51,7 @@ export const legalPages = {
     title: "Cookie Notice",
     description:
       "Draft cookie notice for MSPixelPulse website and portal sessions.",
-    updated: "July 12, 2026",
+    updated: "August 29, 2026",
     sections: [
       {
         heading: "Essential storage",
@@ -59,11 +59,11 @@ export const legalPages = {
       },
       {
         heading: "Analytics and measurement",
-        body: "If analytics are enabled, they should be used to understand website performance and visitor behavior at an aggregate level.",
+        body: "With visitor permission, MSPixelPulse uses Google Analytics 4 to measure public-page visits, general referral sources, major calls to action, contact-method clicks, and successful inquiry submissions. Analytics is not loaded before permission is granted, advertising storage and personalization remain disabled, and public URLs are filtered to reduce the risk of sending personal information.",
       },
       {
         heading: "Managing preferences",
-        body: "Visitors can manage browser cookie settings directly in their browser. Blocking essential storage may prevent secure portal login from working correctly.",
+        body: "Visitors can choose essential storage only, accept analytics, or reopen Cookie preferences from the website footer. Withdrawing analytics permission reloads the page so analytics collection stops. Blocking essential storage may prevent secure portal login or saved preferences from working correctly.",
       },
     ],
   },

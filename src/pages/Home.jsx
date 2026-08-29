@@ -155,13 +155,20 @@ export default function Home() {
                 Custom WordPress, React, UX/UI, school website, and Moodle LMS solutions for small businesses and organizations in Toronto, Brampton, the GTA, and across Canada.
               </p>
               <div className="home-hero-actions mt-8 flex flex-wrap gap-3">
-                <Link className="btn btn-primary" to="/contact">
+                <Link
+                  className="btn btn-primary"
+                  to="/contact"
+                  data-analytics-cta="start_project"
+                  data-analytics-placement="home_hero"
+                >
                   <LuRocket className="h-5 w-5" aria-hidden="true" />
                   Start a project
                 </Link>
                 <Link
                   className={isDark ? "btn btn-outline" : "liquid-glass-button inline-flex min-h-11 items-center justify-center gap-2 rounded-xl px-5 font-bold text-slate-900"}
                   to="/projects"
+                  data-analytics-cta="view_work"
+                  data-analytics-placement="home_hero"
                 >
                   View work
                   <LuArrowRight className="h-4 w-4" aria-hidden="true" />

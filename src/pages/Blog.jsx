@@ -102,6 +102,8 @@ export default function Blog() {
               <Link
                 to="/contact?request=free-demo"
                 aria-label="Request a free personalized website demo"
+                data-analytics-cta="request_free_demo"
+                data-analytics-placement="blog_navigation"
               >
                 Free demo
                 <LuArrowRight aria-hidden="true" />

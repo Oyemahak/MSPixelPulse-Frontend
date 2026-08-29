@@ -77,10 +77,22 @@ export default function ServiceDetail() {
             <h1 className="public-page-title">{service.name} for clear, dependable digital experiences.</h1>
             <p className="public-page-description">{service.summary}</p>
             <div className="public-page-actions">
-              <Link className="btn btn-primary" to={`/contact?service=${encodeURIComponent(service.name)}`}>
+              <Link
+                className="btn btn-primary"
+                to={`/contact?service=${encodeURIComponent(service.name)}`}
+                data-analytics-cta="discuss_service"
+                data-analytics-placement="service_hero"
+              >
                 Discuss this service <LuArrowRight aria-hidden="true" />
               </Link>
-              <Link className="btn btn-glass" to="/pricing">Review pricing</Link>
+              <Link
+                className="btn btn-glass"
+                to="/pricing"
+                data-analytics-cta="review_pricing"
+                data-analytics-placement="service_hero"
+              >
+                Review pricing
+              </Link>
             </div>
           </div>
 

@@ -2,6 +2,7 @@ import Container from "./Container.jsx";
 import { Link } from "react-router-dom";
 import SocialContactLinks from "@/components/SocialContactLinks.jsx";
 import { site } from "@/data/site.js";
+import { openAnalyticsPreferences } from "@/lib/analytics.js";
 
 const navigation = [
   ["Home", "/"],
@@ -83,6 +84,13 @@ export default function AppFooter() {
             <Link to="/privacy">Privacy</Link>
             <Link to="/terms">Terms</Link>
             <Link to="/cookies">Cookies</Link>
+            <button
+              type="button"
+              className="footer-preferences-button"
+              onClick={openAnalyticsPreferences}
+            >
+              Cookie preferences
+            </button>
             <Link to="/accessibility">Accessibility</Link>
             <Link to="/security">Security</Link>
           </nav>

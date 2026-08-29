@@ -85,18 +85,33 @@ export default function ProjectDetail() {
 
             <div className="mt-6 flex flex-wrap gap-3">
               {project.live && (
-                <a href={project.live} target="_blank" rel="noreferrer" className="btn btn-primary">
+                <a
+                  href={project.live}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="btn btn-primary"
+                  data-analytics-cta={`visit_live_project_${project.slug}`}
+                  data-analytics-placement="project_detail"
+                >
                   Visit live site <LuExternalLink className="ml-2 h-4 w-4" />
                 </a>
               )}
               {project.repo && (
-                <a href={project.repo} target="_blank" rel="noreferrer" className="btn btn-glass">
+                <a
+                  href={project.repo}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="btn btn-glass"
+                  data-analytics-cta={`view_project_repository_${project.slug}`}
+                  data-analytics-placement="project_detail"
+                >
                   Repository <LuGithub className="ml-2 h-4 w-4" />
                 </a>
               )}
               <ContactActions
                 dark={isDark}
                 showPhone={false}
+                analyticsPlacement="project_detail"
                 whatsappLabel="Build similar"
                 message={`Hi MSPixelPulse, I want to build a website like ${project.title}.`}
               />

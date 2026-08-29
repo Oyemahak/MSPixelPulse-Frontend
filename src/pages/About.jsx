@@ -51,7 +51,12 @@ export default function About() {
           description="MSPixelPulse helps small businesses turn scattered service details into responsive websites that explain what they offer, build trust, and make the next step easy."
           actions={
             <>
-              <Link className="btn btn-primary" to="/contact">
+              <Link
+                className="btn btn-primary"
+                to="/contact"
+                data-analytics-cta="start_project"
+                data-analytics-placement="about_hero"
+              >
                 Start a project
               </Link>
               <a
@@ -59,6 +64,8 @@ export default function About() {
                 href={site.portfolio}
                 target="_blank"
                 rel="noopener noreferrer"
+                data-analytics-cta="view_founder_portfolio"
+                data-analytics-placement="about_hero"
               >
                 Founder portfolio
                 <LuArrowUpRight className="h-4 w-4" aria-hidden="true" />

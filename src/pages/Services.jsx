@@ -189,6 +189,7 @@ export default function Services() {
           <ContactActions
             dark={isDark}
             showPhone={false}
+            analyticsPlacement="services_final_cta"
             whatsappLabel="Discuss your project"
             message="Hi MSPixelPulse, I would like help choosing the right website service for my business."
           />
@@ -198,6 +199,7 @@ export default function Services() {
             href="https://calendly.com/mspixelpulse/30min"
             target="_blank"
             rel="noreferrer"
+            data-analytics-placement="services_final_cta"
           >
             <LuCalendar className="h-5 w-5" aria-hidden="true" />
             Book appointment

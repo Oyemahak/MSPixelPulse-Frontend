@@ -12,6 +12,7 @@ export default function ContactActions({
   showPhone = true,
   showMessage = false,
   className = "",
+  analyticsPlacement = "contact_actions",
 }) {
   const secondaryClass = "btn btn-glass";
   const whatsappClass = "btn btn-secondary";
@@ -24,6 +25,7 @@ export default function ContactActions({
         target="_blank"
         rel="noopener noreferrer"
         aria-label={`${whatsappLabel} with MSPixelPulse`}
+        data-analytics-placement={analyticsPlacement}
       >
         <SiWhatsapp className="h-5 w-5" aria-hidden="true" />
         {whatsappLabel}
@@ -33,6 +35,7 @@ export default function ContactActions({
           className={secondaryClass}
           href={site.phoneHref}
           aria-label={`Call MSPixelPulse at ${site.phoneDisplay}`}
+          data-analytics-placement={analyticsPlacement}
         >
           <LuPhone className="h-5 w-5" aria-hidden="true" />
           {site.phoneDisplay}
@@ -43,6 +46,7 @@ export default function ContactActions({
           className={secondaryClass}
           href={site.messagesHref}
           aria-label="Send an iMessage or text message to MSPixelPulse"
+          data-analytics-placement={analyticsPlacement}
         >
           <LuMessageCircle className="h-5 w-5" aria-hidden="true" />
           Text / iMessage

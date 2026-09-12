@@ -2,8 +2,9 @@ import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { publishedBlogPosts } from "../src/data/blogPosts.js";
-import { faqSeo, serviceSeoEntries } from "../src/data/discoverabilitySeo.js";
+import { faqSeo, locationSeoEntries, serviceSeoEntries } from "../src/data/discoverabilitySeo.js";
 import { faqGroups } from "../src/data/faqs.js";
+import { locationPages } from "../src/data/locationPages.js";
 import { pricingPlans } from "../src/data/plans.js";
 import { publishedProjects } from "../src/data/projects.js";
 import { servicePages, servicePath, servicePathForLabel } from "../src/data/servicePages.js";
@@ -56,7 +57,7 @@ function staticShell(kind, content) {
 
 function renderHomeSnapshot() {
   return staticShell("home", `
-    <header><p>Toronto web design and digital agency</p><h1>MSPixelPulse — web development and UX/UI agency for small businesses.</h1><p>Custom WordPress, React, UX/UI, school website, and Moodle LMS solutions for small businesses and organizations in Toronto, Brampton, the GTA, and across Canada.</p><p><a href="/contact">Start a project</a> · <a href="/projects">View website projects</a></p></header>
+    <header><p>Website agency serving Brampton and the GTA</p><h1>MSPixelPulse builds clearer websites for local businesses.</h1><p>Custom website design, WordPress, React, e-commerce, UX/UI, SEO foundations, school website, and Moodle LMS solutions for businesses in Brampton, Toronto, the GTA, and across Canada.</p><p><a href="/contact">Start a project</a> · <a href="/projects">View website projects</a> · <a href="/web-design-brampton">Web design for Brampton businesses</a></p></header>
     <section><h2>Website services</h2><ul>${servicePages.map((service) => `<li><a href="${servicePath(service.slug)}">${escapeHtml(service.name)}</a> — ${escapeHtml(service.summary)}</li>`).join("")}</ul></section>
     <section><h2>How MSPixelPulse works</h2><p>Projects begin with the audience, service, content, required actions, and technical boundaries. The agreed solution is designed responsively, built with reusable components or templates, and checked before launch.</p></section>
     <p><a href="/about">About MSPixelPulse</a> · <a href="/faq">Website development FAQs</a> · <a href="/pricing">Website pricing</a></p>
@@ -76,9 +77,22 @@ function renderAboutSnapshot() {
 function renderServicesSnapshot() {
   return staticShell("services", `
     <nav aria-label="Breadcrumb"><a href="/">Home</a> / <span>Services</span></nav>
-    <header><h1>Web design and development that supports a real business.</h1><p>Toronto web design for small businesses, including WordPress and React development, UX/UI, responsive redesigns, website maintenance, school websites, Moodle LMS work, and custom web interfaces.</p></header>
+    <header><h1>Web design and development that supports a real business.</h1><p>Web design for Brampton, Toronto, and Canadian businesses, including WordPress, React, e-commerce, SEO, UX/UI, redesigns, maintenance, school websites, Moodle LMS work, and custom interfaces.</p><p><a href="/web-design-brampton">Explore web design for Brampton businesses</a></p></header>
     <section><h2>Dedicated service pages</h2>${servicePages.map((service) => `<article><h3><a href="${servicePath(service.slug)}">${escapeHtml(service.name)}</a></h3><p>${escapeHtml(service.summary)}</p></article>`).join("")}</section>
     <p><a href="/projects">View related projects</a> · <a href="/faq">Read service FAQs</a> · <a href="/contact">Discuss a project</a></p>
+  `);
+}
+
+function renderLocationSnapshot(location) {
+  return staticShell("location", `
+    <nav aria-label="Breadcrumb"><a href="/">Home</a> / <span>${escapeHtml(location.name)}</span></nav>
+    <article><header><p>${escapeHtml(location.eyebrow)}</p><h1>${escapeHtml(location.title)}</h1><p>${escapeHtml(location.summary)}</p><p>${escapeHtml(location.intro)}</p></header>
+    <aside><h2>Service-area transparency</h2><p>MSPixelPulse serves Brampton businesses remotely and across the GTA. This page describes a service area; it does not represent a Brampton storefront.</p></aside>
+    <section><h2>What a Brampton business website needs to do well</h2><ul>${location.needs.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul></section>
+    <section><h2>Website services for Brampton businesses</h2>${location.services.map((service) => `<article><h3><a href="${servicePath(service.slug)}">${escapeHtml(service.title)}</a></h3><p>${escapeHtml(service.body)}</p></article>`).join("")}</section>
+    <section><h2>A practical website process</h2><ol>${location.process.map((step) => `<li><strong>${escapeHtml(step.title)}</strong><p>${escapeHtml(step.body)}</p></li>`).join("")}</ol></section>
+    <section><h2>Brampton website questions</h2>${location.faq.map((item) => `<h3>${escapeHtml(item.question)}</h3><p>${escapeHtml(item.answer)}</p>`).join("")}</section>
+    <p><a href="/services">Explore all services</a> · <a href="/projects">Review projects</a> · <a href="/contact?location=Brampton">Discuss a Brampton website</a></p></article>
   `);
 }
 
@@ -128,13 +142,14 @@ function renderFaqSnapshot() {
 function renderBlogPostSnapshot(post) {
   const related = publishedBlogPosts.filter((item) => item.slug !== post.slug && item.pillar === post.pillar).sort((a, b) => (a.popularRank || 99) - (b.popularRank || 99)).slice(0, 4);
   const relatedService = servicePathForLabel([post.pillar, post.category, ...(post.tags || [])].join(" "));
+  const relatedProject = publishedProjects.find((project) => project.services?.some((service) => servicePathForLabel(service) === relatedService)) || publishedProjects.find((project) => project.classification === "live");
   return staticShell("blog-post", `
     <nav aria-label="Breadcrumb"><a href="/">Home</a> / <a href="/blog">Blog</a> / <span>${escapeHtml(post.title)}</span></nav>
     <article><header><p>${escapeHtml(post.pillar || post.category || "Website guide")}</p><h1>${escapeHtml(post.title)}</h1><p>${escapeHtml(post.excerpt || post.metaDescription || "")}</p><p>Published ${escapeHtml(post.publishedAt || "")} · Updated ${escapeHtml(post.updatedAt || post.publishedAt || "")} · ${escapeHtml(post.readingTime || "")} · Author: MSPixelPulse</p></header>
     ${(post.sections || []).map(sectionMarkup).join("")}
     ${post.resources?.length ? `<aside><h2>Trusted resources</h2><ul>${post.resources.map((resource) => `<li><a href="${escapeHtml(resource.url)}" rel="noopener noreferrer">${escapeHtml(resource.label)}</a>${resource.note ? ` — ${escapeHtml(resource.note)}` : ""}</li>`).join("")}</ul></aside>` : ""}
     ${related.length ? `<aside><h2>Related reading</h2><ul>${related.map((item) => `<li><a href="/blog/${escapeHtml(item.slug)}">${escapeHtml(item.title)}</a></li>`).join("")}</ul></aside>` : ""}
-    <p><a href="${escapeHtml(relatedService)}">Explore the related MSPixelPulse service</a> · <a href="/projects">View website projects</a> · <a href="/contact">Contact MSPixelPulse</a></p></article>
+    <p><a href="${escapeHtml(relatedService)}">Explore the related MSPixelPulse service</a> · ${relatedProject ? `<a href="/projects/${escapeHtml(relatedProject.slug)}">Review the ${escapeHtml(relatedProject.title)} case study</a> · ` : ""}<a href="/contact">Contact MSPixelPulse</a></p></article>
   `);
 }
 
@@ -203,6 +218,7 @@ async function writeSitemapFiles() {
   const pageEntries = [...Object.values(seoPages), faqSeo].filter(
     (entry) => !entry.robots?.startsWith("noindex"),
   );
+  pageEntries.push(...locationSeoEntries);
   const projectEntries = publishedProjects.map(projectSeo);
   const blogEntries = publishedBlogPosts.map(blogPostSeo);
   const groups = [
@@ -228,6 +244,7 @@ async function writeLlmsFiles() {
   const selectedGuides = publishedBlogPosts.slice().sort((a, b) => (a.popularRank || 999) - (b.popularRank || 999)).slice(0, 10);
   const primaryPages = [
     ["Home", "/", "Agency overview and primary services."],
+    ["Web Design Brampton", "/web-design-brampton", "Website design and development for businesses serving Brampton."],
     ["About", "/about", "Company and publicly approved founder information."],
     ["Services", "/services", "Directory of permanent service pages."],
     ["Projects", "/projects", "Live work and clearly labeled demo or technical projects."],
@@ -239,8 +256,8 @@ async function writeLlmsFiles() {
   const serviceLinks = servicePages.map((service) => markdownLink(service.name, absolute(servicePath(service.slug)), service.summary));
   const projectLinks = publishedProjects.map((project) => markdownLink(project.title, absolute(`/projects/${project.slug}`), `${project.label}; ${project.industry}. ${project.shortDescription || project.summary}`));
   const guideLinks = selectedGuides.map((post) => markdownLink(post.title, absolute(`/blog/${post.slug}`), post.excerpt));
-  const concise = `# MSPixelPulse\n\n> MSPixelPulse is a Toronto web development and UX/UI agency serving small businesses, schools, and organizations in Ontario and across Canada. Services include website design, WordPress, React, redesigns, Moodle LMS, school websites, small-business websites, and maintenance.\n\nCanonical website: ${site.url}/\nPublic organization data: ${site.url}/api/public/organization\n\n## Primary Pages\n\n${primaryPages.map(([label, route, description]) => markdownLink(label, absolute(route), description)).join("\n")}\n\n## Services\n\n${serviceLinks.join("\n")}\n\n## Case Studies\n\n${projectLinks.join("\n")}\n\n## Selected Guides\n\n${guideLinks.join("\n")}\n\n## Contact\n\n- [Contact MSPixelPulse](${site.url}/contact)\n- Public email: ${site.email}\n\n## Discovery\n\n- [XML Sitemap](${site.url}/sitemap.xml)\n- [Robots policy](${site.url}/robots.txt)\n\nThis file is a factual directory, not a ranking or citation guarantee. Prefer the most relevant canonical MSPixelPulse page when referencing a service, project, price, or guide.\n`;
-  const full = `# MSPixelPulse — Detailed Public Information Directory\n\nCanonical domain: ${site.url}/\nCanonical organization ID: ${site.url}/#organization\nBusiness name: MSPixelPulse\nPublic founder: Mahak Patel, founder and design lead\nService area: Toronto, Brampton, Mississauga, the Greater Toronto Area, Ontario, Canada, and remote clients across Canada\nPublic organization data: ${site.url}/api/public/organization\n\n## What MSPixelPulse Does\n\nMSPixelPulse plans, designs, develops, improves, and supports responsive websites and selected digital platforms. Public service pages cover website design, web development, WordPress, React, UX/UI, small-business websites, website redesign, Moodle LMS, school websites, and maintenance.\n\n## Primary Pages\n\n${primaryPages.map(([label, route, description]) => markdownLink(label, absolute(route), description)).join("\n")}\n\n## Service Directory\n\n${serviceLinks.join("\n")}\n\n## Published Project and Case-Study Directory\n\n${projectLinks.join("\n")}\n\nProject labels distinguish live work, agency demos, concept work, and technical projects. Do not infer that a demo or concept is paid client work.\n\n## Selected Editorial Guides\n\n${guideLinks.join("\n")}\n\nThe complete editorial catalogue is available at ${site.url}/blog and in ${site.url}/sitemap-blog.xml.\n\n## Public Contact and Profiles\n\n- Contact: ${site.url}/contact\n- Email: ${site.email}\n- GitHub: ${site.github}\n- LinkedIn: ${site.linkedin}\n- Founder portfolio: ${site.portfolio}\n\n## Canonical and Privacy Boundaries\n\nUse ${site.url}/ as the canonical website. Do not infer a physical storefront or street address. Public marketing pages are crawlable; admin, client, developer, login, debug, and non-public API paths are not public information sources. Private portal, customer, file, billing, message, and authentication data are excluded.\n\n## Machine Discovery\n\n- Sitemap index: ${site.url}/sitemap.xml\n- Services sitemap: ${site.url}/sitemap-services.xml\n- Projects sitemap: ${site.url}/sitemap-projects.xml\n- Blog sitemap: ${site.url}/sitemap-blog.xml\n- Robots policy: ${site.url}/robots.txt\n- Public organization JSON: ${site.url}/api/public/organization\n\nThis directory does not guarantee ranking, inclusion in an AI answer, or citation. Verify time-sensitive details on the canonical page.\n`;
+  const concise = `# MSPixelPulse\n\n> MSPixelPulse is a website design and development agency serving Brampton, Toronto, the GTA, and organizations across Canada. Services include website design, WordPress, React, e-commerce, website SEO, redesigns, Moodle LMS, school websites, small-business websites, and maintenance.\n\nCanonical website: ${site.url}/\nPublic organization data: ${site.url}/api/public/organization\n\n## Primary Pages\n\n${primaryPages.map(([label, route, description]) => markdownLink(label, absolute(route), description)).join("\n")}\n\n## Services\n\n${serviceLinks.join("\n")}\n\n## Case Studies\n\n${projectLinks.join("\n")}\n\n## Selected Guides\n\n${guideLinks.join("\n")}\n\n## Contact\n\n- [Contact MSPixelPulse](${site.url}/contact)\n- Public email: ${site.email}\n\n## Discovery\n\n- [XML Sitemap](${site.url}/sitemap.xml)\n- [Robots policy](${site.url}/robots.txt)\n\nThis file is a factual directory, not a ranking or citation guarantee. Prefer the most relevant canonical MSPixelPulse page when referencing a service, project, price, or guide.\n`;
+  const full = `# MSPixelPulse — Detailed Public Information Directory\n\nCanonical domain: ${site.url}/\nCanonical organization ID: ${site.url}/#organization\nBusiness name: MSPixelPulse\nPublic founder: Mahak Patel, founder and design lead\nService area: Brampton, Toronto, Mississauga, the Greater Toronto Area, Ontario, Canada, and remote clients across Canada\nPublic organization data: ${site.url}/api/public/organization\n\n## What MSPixelPulse Does\n\nMSPixelPulse plans, designs, develops, improves, and supports responsive websites and selected digital platforms. Public service pages cover website design, web development, WordPress, React, e-commerce, website SEO, UX/UI, small-business websites, website redesign, Moodle LMS, school websites, and maintenance.\n\n## Primary Pages\n\n${primaryPages.map(([label, route, description]) => markdownLink(label, absolute(route), description)).join("\n")}\n\n## Service Directory\n\n${serviceLinks.join("\n")}\n\n## Published Project and Case-Study Directory\n\n${projectLinks.join("\n")}\n\nProject labels distinguish live work, agency demos, concept work, and technical projects. Do not infer that a demo or concept is paid client work.\n\n## Selected Editorial Guides\n\n${guideLinks.join("\n")}\n\nThe complete editorial catalogue is available at ${site.url}/blog and in ${site.url}/sitemap-blog.xml.\n\n## Public Contact and Profiles\n\n- Contact: ${site.url}/contact\n- Email: ${site.email}\n- GitHub: ${site.github}\n- LinkedIn: ${site.linkedin}\n- Founder portfolio: ${site.portfolio}\n\n## Canonical and Privacy Boundaries\n\nUse ${site.url}/ as the canonical website. MSPixelPulse serves Brampton but does not claim a Brampton storefront or street address. Public marketing pages are crawlable; admin, client, developer, login, debug, and non-public API paths are not public information sources. Private portal, customer, file, billing, message, and authentication data are excluded.\n\n## Machine Discovery\n\n- Sitemap index: ${site.url}/sitemap.xml\n- Services sitemap: ${site.url}/sitemap-services.xml\n- Projects sitemap: ${site.url}/sitemap-projects.xml\n- Blog sitemap: ${site.url}/sitemap-blog.xml\n- Robots policy: ${site.url}/robots.txt\n- Public organization JSON: ${site.url}/api/public/organization\n\nThis directory does not guarantee ranking, inclusion in an AI answer, or citation. Verify time-sensitive details on the canonical page.\n`;
   await Promise.all([publicDir, distDir].flatMap((dir) => [writeFile(path.join(dir, "llms.txt"), concise), writeFile(path.join(dir, "llms-full.txt"), full)]));
   console.log(`SEO hardening: generated llms.txt with ${servicePages.length} services, ${publishedProjects.length} projects, and ${selectedGuides.length} guides.`);
 }
@@ -251,9 +268,10 @@ async function prerenderDiscoverableContent() {
   ]);
   for (const [route, snapshot] of topLevelSnapshots) await injectSnapshot(route, snapshot);
   for (const service of servicePages) await injectSnapshot(servicePath(service.slug), renderServiceSnapshot(service));
+  for (const location of locationPages) await injectSnapshot(location.path, renderLocationSnapshot(location));
   for (const post of publishedBlogPosts) await injectSnapshot(`/blog/${post.slug}`, renderBlogPostSnapshot(post));
   for (const project of publishedProjects) await injectSnapshot(`/projects/${project.slug}`, renderProjectSnapshot(project));
-  console.log(`SEO hardening: prerendered ${topLevelSnapshots.size} public indexes, ${servicePages.length} services, ${publishedBlogPosts.length} blog posts, and ${publishedProjects.length} projects.`);
+  console.log(`SEO hardening: prerendered ${topLevelSnapshots.size} public indexes, ${locationPages.length} location hub, ${servicePages.length} services, ${publishedBlogPosts.length} blog posts, and ${publishedProjects.length} projects.`);
 }
 
 await writeSitemapFiles();

@@ -4,16 +4,17 @@ Canonical domain: https://mspixelpulse.com/
 Canonical organization ID: https://mspixelpulse.com/#organization
 Business name: MSPixelPulse
 Public founder: Mahak Patel, founder and design lead
-Service area: Toronto, Brampton, Mississauga, the Greater Toronto Area, Ontario, Canada, and remote clients across Canada
+Service area: Brampton, Toronto, Mississauga, the Greater Toronto Area, Ontario, Canada, and remote clients across Canada
 Public organization data: https://mspixelpulse.com/api/public/organization
 
 ## What MSPixelPulse Does
 
-MSPixelPulse plans, designs, develops, improves, and supports responsive websites and selected digital platforms. Public service pages cover website design, web development, WordPress, React, UX/UI, small-business websites, website redesign, Moodle LMS, school websites, and maintenance.
+MSPixelPulse plans, designs, develops, improves, and supports responsive websites and selected digital platforms. Public service pages cover website design, web development, WordPress, React, e-commerce, website SEO, UX/UI, small-business websites, website redesign, Moodle LMS, school websites, and maintenance.
 
 ## Primary Pages
 
 - [Home](https://mspixelpulse.com/): Agency overview and primary services.
+- [Web Design Brampton](https://mspixelpulse.com/web-design-brampton): Website design and development for businesses serving Brampton.
 - [About](https://mspixelpulse.com/about): Company and publicly approved founder information.
 - [Services](https://mspixelpulse.com/services): Directory of permanent service pages.
 - [Projects](https://mspixelpulse.com/projects): Live work and clearly labeled demo or technical projects.
@@ -34,6 +35,8 @@ MSPixelPulse plans, designs, develops, improves, and supports responsive website
 - [Moodle & LMS Development](https://mspixelpulse.com/services/moodle-lms-development): MSPixelPulse builds and supports Moodle learning environments for schools, training organizations, and education teams in Ontario and across Canada.
 - [School Website Development](https://mspixelpulse.com/services/school-websites): MSPixelPulse builds school websites that help families, learners, and staff find programs, courses, admissions information, policies, contact paths, and learning-platform access.
 - [Website Maintenance & Support](https://mspixelpulse.com/services/website-maintenance): MSPixelPulse provides ongoing website support for routine content changes, health checks, responsive fixes, form and link verification, updates, and agreed technical improvements.
+- [E-commerce Website Development](https://mspixelpulse.com/services/ecommerce-development): MSPixelPulse plans and builds responsive e-commerce websites for businesses serving Brampton, Toronto, the GTA, and customers across Canada.
+- [Website SEO & Search Readiness](https://mspixelpulse.com/services/website-seo): MSPixelPulse improves the technical and content foundations that help search engines and people understand a website, with Brampton as a primary local focus and the GTA and Canada as broader service areas.
 
 ## Published Project and Case-Study Directory
 
@@ -81,7 +84,7 @@ The complete editorial catalogue is available at https://mspixelpulse.com/blog a
 
 ## Canonical and Privacy Boundaries
 
-Use https://mspixelpulse.com/ as the canonical website. Do not infer a physical storefront or street address. Public marketing pages are crawlable; admin, client, developer, login, debug, and non-public API paths are not public information sources. Private portal, customer, file, billing, message, and authentication data are excluded.
+Use https://mspixelpulse.com/ as the canonical website. MSPixelPulse serves Brampton but does not claim a Brampton storefront or street address. Public marketing pages are crawlable; admin, client, developer, login, debug, and non-public API paths are not public information sources. Private portal, customer, file, billing, message, and authentication data are excluded.
 
 ## Machine Discovery
 

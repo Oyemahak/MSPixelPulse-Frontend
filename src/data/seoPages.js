@@ -4,7 +4,7 @@ const absolute = (path = "/") => (path.startsWith("http") ? path : `${site.url}$
 export const organizationId = `${site.url}/#organization`;
 const websiteId = `${site.url}/#website`;
 const founderId = `${site.url}/about#mahak-patel`;
-export const seoReleaseDate = "2026-08-25";
+export const seoReleaseDate = "2026-09-12";
 
 export const organizationJsonLd = {
   "@context": "https://schema.org",
@@ -24,8 +24,8 @@ export const organizationJsonLd = {
   description: site.description,
   founder: { "@id": founderId },
   areaServed: [
-    { "@type": "City", name: "Toronto, Ontario, Canada" },
     { "@type": "City", name: "Brampton, Ontario, Canada" },
+    { "@type": "City", name: "Toronto, Ontario, Canada" },
     { "@type": "City", name: "Mississauga, Ontario, Canada" },
     { "@type": "AdministrativeArea", name: "Greater Toronto Area, Ontario, Canada" },
     { "@type": "Country", name: "Canada" },
@@ -67,9 +67,9 @@ export const founderJsonLd = {
 export const seoPages = {
   home: {
     path: "/",
-    title: "MSPixelPulse | Web Development & UX/UI Agency in Toronto",
+    title: "MSPixelPulse | Website Agency Serving Brampton & Canada",
     description:
-      "MSPixelPulse builds WordPress, React, UX/UI, school, Moodle LMS, redesign, and small-business website solutions in Toronto and across Canada.",
+      "MSPixelPulse serves Brampton, Toronto, the GTA, and Canada with website design, development, e-commerce, SEO foundations, redesigns, and ongoing support.",
     canonical: "/",
     image: "/hero/mspixelpulse-web-design-collaboration.webp",
     component: "src/pages/Home.jsx",
@@ -95,9 +95,9 @@ export const seoPages = {
   },
   services: {
     path: "/services",
-    title: "Web Design & Development Services Toronto | MSPixelPulse",
+    title: "Web Design & Development Services | MSPixelPulse",
     description:
-      "Toronto web design and development for small businesses: WordPress, React, e-commerce, redesign, maintenance, Moodle LMS, portals, and custom web applications.",
+      "Web design and development for Brampton, Toronto, and Canadian businesses: WordPress, React, e-commerce, SEO, redesign, maintenance, Moodle LMS, and portals.",
     canonical: "/services",
     component: "src/pages/Services.jsx",
     jsonLd: [
@@ -119,7 +119,7 @@ export const seoPages = {
   },
   pricing: {
     path: "/pricing",
-    title: "Website Design Pricing Toronto | MSPixelPulse",
+    title: "Website Design Pricing Brampton & Toronto | MSPixelPulse",
     description:
       "Compare MSPixelPulse website design starting prices in CAD for one-page, business, e-commerce, custom application, redesign, and maintenance work.",
     canonical: "/pricing",
@@ -135,7 +135,7 @@ export const seoPages = {
   },
   contact: {
     path: "/contact",
-    title: "Contact a Toronto Web Design Studio | MSPixelPulse",
+    title: "Contact MSPixelPulse | Brampton & Toronto Web Design",
     description:
       "Contact MSPixelPulse about website design, redesign, WordPress, React, Moodle LMS, e-commerce, maintenance, or small-business website support.",
     canonical: "/contact",
@@ -174,9 +174,9 @@ export const seoPages = {
   },
   about: {
     path: "/about",
-    title: "About MSPixelPulse | Toronto Web Design Studio",
+    title: "About MSPixelPulse | Website Agency Serving the GTA",
     description:
-      "Learn about MSPixelPulse, a Toronto website agency focused on clear, responsive, maintainable websites and digital platforms for businesses and education teams.",
+      "Learn about MSPixelPulse, a Toronto website agency serving Brampton, the GTA, and Canada with clear, responsive, maintainable websites and digital platforms.",
     canonical: "/about",
     image: "/about/mahak-patel.webp",
     component: "src/pages/About.jsx",

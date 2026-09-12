@@ -165,6 +165,7 @@ export default function AppHeader() {
         {/* Brand */}
         <Link
           to="/"
+          aria-label="MSPixelPulse home"
           className="flex shrink-0 items-center gap-2.5 whitespace-nowrap font-black tracking-tight"
           onClick={closeMobile}
         >

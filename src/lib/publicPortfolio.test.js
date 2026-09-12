@@ -2,9 +2,25 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import {
   fallbackPublicProjects,
+  normalizePublicMediaUrl,
   normalizePublicProject,
   normalizePublicProjects,
 } from "./publicPortfolio.js";
+
+test("rewrites legacy same-site project media to canonical local paths", () => {
+  assert.equal(
+    normalizePublicMediaUrl("https://mspixelpulse.vercel.app/projects/mockups/canstem-education.webp"),
+    "/projects/mockups/canstem-education.webp",
+  );
+  assert.equal(
+    normalizePublicMediaUrl("https://capstone-frontend.vercel.app/projects/mockups/aimze-studio.webp?v=2"),
+    "/projects/mockups/aimze-studio.webp?v=2",
+  );
+  assert.equal(
+    normalizePublicMediaUrl("https://images.example.com/projects/preview.webp"),
+    "https://images.example.com/projects/preview.webp",
+  );
+});
 
 test("normalizes API portfolio fields into the public case-study shape", () => {
   const project = normalizePublicProject({

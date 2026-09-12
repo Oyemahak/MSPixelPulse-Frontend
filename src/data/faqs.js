@@ -5,12 +5,12 @@ export const faqGroups = [
       {
         question: "What does MSPixelPulse do?",
         answer:
-          "MSPixelPulse is a Toronto web development and UX/UI agency that plans, designs, builds, improves, and supports websites, WordPress sites, React interfaces, Moodle LMS environments, school websites, and selected custom web workflows.",
+          "MSPixelPulse is a website design and development agency that plans, builds, improves, and supports websites, WordPress sites, React interfaces, online stores, website SEO foundations, Moodle LMS environments, school websites, and selected custom web workflows.",
       },
       {
         question: "Where does MSPixelPulse provide services?",
         answer:
-          "MSPixelPulse serves businesses and organizations in Toronto, Brampton, Mississauga, the Greater Toronto Area, Ontario, and remote clients across Canada.",
+          "MSPixelPulse serves businesses and organizations in Brampton, Toronto, Mississauga, the Greater Toronto Area, Ontario, and remote clients across Canada. Toronto remains the published location; the Brampton page describes a service area rather than a storefront.",
       },
       {
         question: "What technologies does MSPixelPulse use?",
@@ -157,4 +157,3 @@ export const faqGroups = [
 ];
 
 export const allFaqs = faqGroups.flatMap((group) => group.items);
-

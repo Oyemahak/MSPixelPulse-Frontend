@@ -4,6 +4,7 @@ import React, { Suspense, lazy, useEffect, useRef } from "react";
 import { Routes, Route, Navigate, useLocation, Outlet } from "react-router-dom";
 import AppHeader from "./components/layout/AppHeader.jsx";
 import AppFooter from "./components/layout/AppFooter.jsx";
+import Home from "./pages/Home.jsx";
 import CookieBanner from "@/components/CookieBanner.jsx";
 import AnalyticsManager from "@/components/AnalyticsManager.jsx";
 import { useAuth } from "@/context/AuthContext.jsx";
@@ -15,7 +16,6 @@ import {
 import { queueAccountThemeSave } from "@/lib/accountTheme.js";
 
 /** Public pages */
-const Home = lazy(() => import("./pages/Home.jsx"));
 const Projects = lazy(() => import("./pages/Projects.jsx"));
 const ProjectDetail = lazy(() => import("./pages/ProjectDetail.jsx"));
 const Services = lazy(() => import("./pages/Services.jsx"));
@@ -26,6 +26,7 @@ const Blog = lazy(() => import("./pages/Blog.jsx"));
 const BlogPost = lazy(() => import("./pages/BlogPost.jsx"));
 const About = lazy(() => import("./pages/About.jsx"));
 const Faq = lazy(() => import("./pages/Faq.jsx"));
+const LocationPage = lazy(() => import("./pages/LocationPage.jsx"));
 const LegalPage = lazy(() => import("./pages/LegalPage.jsx"));
 const Login = lazy(() => import("./pages/auth/Login.jsx"));
 const NotFound = lazy(() => import("./pages/NotFound.jsx"));
@@ -169,6 +170,7 @@ export default function App() {
               <Route path="/blog/:slug" element={<BlogPost />} />
               <Route path="/about" element={<About />} />
               <Route path="/faq" element={<Faq />} />
+              <Route path="/web-design-brampton" element={<LocationPage />} />
               <Route path="/privacy" element={<LegalPage page="privacy" />} />
               <Route path="/terms" element={<LegalPage page="terms" />} />
               <Route path="/cookies" element={<LegalPage page="cookies" />} />

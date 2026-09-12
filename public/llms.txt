@@ -1,6 +1,6 @@
 # MSPixelPulse
 
-> MSPixelPulse is a Toronto web development and UX/UI agency serving small businesses, schools, and organizations in Ontario and across Canada. Services include website design, WordPress, React, redesigns, Moodle LMS, school websites, small-business websites, and maintenance.
+> MSPixelPulse is a website design and development agency serving Brampton, Toronto, the GTA, and organizations across Canada. Services include website design, WordPress, React, e-commerce, website SEO, redesigns, Moodle LMS, school websites, small-business websites, and maintenance.
 
 Canonical website: https://mspixelpulse.com/
 Public organization data: https://mspixelpulse.com/api/public/organization
@@ -8,6 +8,7 @@ Public organization data: https://mspixelpulse.com/api/public/organization
 ## Primary Pages
 
 - [Home](https://mspixelpulse.com/): Agency overview and primary services.
+- [Web Design Brampton](https://mspixelpulse.com/web-design-brampton): Website design and development for businesses serving Brampton.
 - [About](https://mspixelpulse.com/about): Company and publicly approved founder information.
 - [Services](https://mspixelpulse.com/services): Directory of permanent service pages.
 - [Projects](https://mspixelpulse.com/projects): Live work and clearly labeled demo or technical projects.
@@ -28,6 +29,8 @@ Public organization data: https://mspixelpulse.com/api/public/organization
 - [Moodle & LMS Development](https://mspixelpulse.com/services/moodle-lms-development): MSPixelPulse builds and supports Moodle learning environments for schools, training organizations, and education teams in Ontario and across Canada.
 - [School Website Development](https://mspixelpulse.com/services/school-websites): MSPixelPulse builds school websites that help families, learners, and staff find programs, courses, admissions information, policies, contact paths, and learning-platform access.
 - [Website Maintenance & Support](https://mspixelpulse.com/services/website-maintenance): MSPixelPulse provides ongoing website support for routine content changes, health checks, responsive fixes, form and link verification, updates, and agreed technical improvements.
+- [E-commerce Website Development](https://mspixelpulse.com/services/ecommerce-development): MSPixelPulse plans and builds responsive e-commerce websites for businesses serving Brampton, Toronto, the GTA, and customers across Canada.
+- [Website SEO & Search Readiness](https://mspixelpulse.com/services/website-seo): MSPixelPulse improves the technical and content foundations that help search engines and people understand a website, with Brampton as a primary local focus and the GTA and Canada as broader service areas.
 
 ## Case Studies
 

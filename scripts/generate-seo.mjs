@@ -2,7 +2,7 @@ import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { publishedBlogPosts } from "../src/data/blogPosts.js";
-import { faqSeo, serviceSeoEntries } from "../src/data/discoverabilitySeo.js";
+import { faqSeo, locationSeoEntries, serviceSeoEntries } from "../src/data/discoverabilitySeo.js";
 import { legalPages } from "../src/data/legalPages.js";
 import { publishedProjects } from "../src/data/projects.js";
 import {
@@ -28,6 +28,7 @@ const portalShellSeo = {
 const entries = [
   ...Object.values(seoPages),
   faqSeo,
+  ...locationSeoEntries,
   ...serviceSeoEntries,
   portalShellSeo,
   ...publishedProjects.map(projectSeo),

@@ -17,7 +17,8 @@
     "test": "node --test src/lib/*.test.js",
     "vercel-build": "node scripts/generate-seo.mjs --sitemap && vite build && node scripts/generate-seo.mjs --heads && node scripts/seo-hardening.mjs && node scripts/generate-seo.mjs --indexnow",
     "seo:indexnow": "node scripts/generate-seo.mjs --indexnow",
-    "seo:harden": "node scripts/seo-hardening.mjs"
+    "seo:harden": "node scripts/seo-hardening.mjs",
+    "seo:validate": "node scripts/validate-seo-release.mjs"
   },
   "dependencies": {
     "framer-motion": "^12.23.13",

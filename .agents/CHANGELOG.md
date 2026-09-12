@@ -1,5 +1,11 @@
 # Agent System Changelog
 
+## 2026-09-12
+- Added one truthful Brampton web-design service-area hub plus dedicated e-commerce and website-SEO service pages, while preserving Toronto as the published business location and avoiding city-service doorway permutations.
+- Audited all 94 published articles, materially expanded eight cornerstone guides, documented one-page-per-intent ownership, and retained all current canonicals because no exact duplicate justified destructive consolidation.
+- Expanded generated metadata, sitemaps, static HTML, schema, LLM discovery files, internal links, and validation to 131 indexable public URLs.
+- Normalized obsolete same-site Vercel project-media URLs, fixed mobile accessible names, defined non-trailing canonical paths, and improved the measured mobile homepage lab result without changing portal behaviour.
+
 ## 2026-08-22
 - Added the shared calm-productivity portal typography and responsive UI contract with 400–600 weights, compact spacing, theme parity, reduced motion, and central focus/touch rules.
 - Added persistent role-aware in-app notifications, deterministic operational email categories, bounded preview polling, explicit read state, and Admin email-category preferences.

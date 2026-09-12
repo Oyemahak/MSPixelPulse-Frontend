@@ -539,6 +539,114 @@ export const servicePages = [
       { question: "Does MSPixelPulse publish maintenance pricing?", answer: "The pricing page includes a monthly website-support starting point and its boundaries. Final eligibility and scope are confirmed before support begins." },
     ],
   },
+  {
+    slug: "ecommerce-development",
+    name: "E-commerce Website Development",
+    shortName: "E-commerce development",
+    category: "Development",
+    platforms: ["WordPress", "React", "Platform-independent"],
+    iconKey: "ecommerce",
+    image: "/projects/mockups/bloom-by-maryam-flower-boutique.webp",
+    imageAlt: "Responsive flower boutique storefront showing product discovery and online shopping flows",
+    catalogueDescription: "Conversion-focused online stores with clear products, mobile checkout paths, payment integrations, and practical launch support.",
+    tags: ["Online stores", "Product UX", "Checkout planning"],
+    keywords: ["e-commerce", "online store", "WooCommerce", "shopping cart", "payments"],
+    lastModified: "2026-09-12",
+    seoTitle: "E-commerce Website Development Brampton & Toronto | MSPixelPulse",
+    metaDescription:
+      "E-commerce website development for Brampton, Toronto, the GTA, and Canadian businesses, including product UX, mobile shopping, payments, SEO foundations, and launch QA.",
+    eyebrow: "E-commerce development",
+    summary:
+      "MSPixelPulse plans and builds responsive e-commerce websites for businesses serving Brampton, Toronto, the GTA, and customers across Canada.",
+    intro:
+      "An online store has to make products easy to understand, reduce friction between discovery and checkout, and give the business a manageable operating workflow. The platform and scope are selected around catalogue size, payments, shipping, taxes, content ownership, integrations, and post-launch support.",
+    audience: [
+      "Retailers and product businesses preparing to sell online",
+      "Businesses replacing a difficult or dated online store",
+      "Service brands adding a focused product, gift-card, or paid-resource experience",
+    ],
+    problems: [
+      "Products are difficult to compare or use on a phone",
+      "The checkout path creates avoidable uncertainty or extra steps",
+      "Store content, payments, shipping, and order responsibilities are not clearly planned",
+    ],
+    deliverables: [
+      "Store and product information architecture",
+      "Responsive collection, product, cart, and checkout journeys",
+      "Approved payment, shipping, tax, and notification integration planning",
+      "Search-friendly product and category foundations",
+      "Launch QA for products, forms, links, payments, and mobile states",
+    ],
+    process: [
+      { title: "Define the store", body: "Confirm products, variants, customers, fulfilment, payments, taxes, shipping, policies, and ownership." },
+      { title: "Design the journey", body: "Plan product discovery, comparison, trust information, cart states, checkout, and post-purchase communication." },
+      { title: "Build and connect", body: "Implement the approved storefront and third-party services without exposing private credentials in browser code." },
+      { title: "Test the transaction", body: "Verify representative products, devices, payment states, emails, policies, analytics readiness, and launch configuration." },
+    ],
+    technologies: ["WooCommerce", "WordPress", "React", "Product catalogues", "Payment integrations", "Responsive commerce UX"],
+    relatedProjects: ["bloom-by-maryam-flower-boutique", "yemi-hair-affordables", "aurelia-restaurant-bar"],
+    relatedServices: ["web-development", "website-design", "website-maintenance"],
+    guideSlug: "ecommerce-platform-choice-canada",
+    faq: [
+      { question: "What type of online store can MSPixelPulse build?", answer: "MSPixelPulse can scope product catalogues, responsive storefronts, WooCommerce work, custom React commerce interfaces, and approved payment or operational integrations. The platform depends on the catalogue, editing, fulfilment, and maintenance needs." },
+      { question: "Are payment, shipping, and subscription fees included?", answer: "Not automatically. Payment-provider charges, platform plans, premium apps, shipping services, tax tools, product entry volume, photography, and other third-party costs are included only when written into the agreement." },
+      { question: "Does e-commerce development include SEO?", answer: "The build can include crawlable category and product foundations, metadata, internal links, structured content, image guidance, sitemap checks, and performance review. Ongoing search growth and rankings cannot be guaranteed." },
+    ],
+  },
+  {
+    slug: "website-seo",
+    name: "Website SEO & Search Readiness",
+    shortName: "Website SEO",
+    category: "Growth",
+    platforms: ["Platform-independent"],
+    iconKey: "seo",
+    image: "/services/website-maintenance.webp",
+    imageAlt: "Website review workspace showing technical checks, search content, and performance planning",
+    catalogueDescription: "Technical SEO, local search foundations, content architecture, and AI discovery improvements tied to useful website pages.",
+    tags: ["Technical SEO", "Local search", "AI discovery"],
+    keywords: ["website SEO", "technical SEO", "local SEO", "search readiness", "structured data"],
+    lastModified: "2026-09-12",
+    seoTitle: "Website SEO Services Brampton & Toronto | MSPixelPulse",
+    metaDescription:
+      "Website SEO services for Brampton, Toronto, the GTA, and Canadian businesses: technical audits, local search foundations, content architecture, schema, and AI discovery.",
+    eyebrow: "Website SEO and search readiness",
+    summary:
+      "MSPixelPulse improves the technical and content foundations that help search engines and people understand a website, with Brampton as a primary local focus and the GTA and Canada as broader service areas.",
+    intro:
+      "Useful SEO work connects search intent to the right permanent page, then removes technical barriers that weaken discovery or trust. The scope can include local relevance, content architecture, metadata, internal links, structured data, indexability, performance, and measurement readiness without manufacturing locations, reviews, or ranking promises.",
+    audience: [
+      "Local businesses with useful services that are difficult to find in search",
+      "Teams planning a new website, redesign, migration, or content expansion",
+      "Organizations that need clearer service, location, project, and educational content relationships",
+    ],
+    problems: [
+      "Several pages compete for the same topic or important services have no dedicated landing page",
+      "Titles, headings, internal links, canonicals, sitemaps, or structured data do not describe the site clearly",
+      "Local relevance depends on repeated city names instead of useful evidence and accurate service-area content",
+    ],
+    deliverables: [
+      "Technical crawl, indexability, canonical, redirect, sitemap, and metadata review",
+      "Search-intent and page-ownership mapping for services, locations, projects, and guides",
+      "Internal-link, structured-data, and AI discovery improvements",
+      "Local search foundations that use factual service areas and genuine business information",
+      "Prioritized recommendations for content, performance, Search Console, and external authority work",
+    ],
+    process: [
+      { title: "Audit", body: "Review public routes, rendered content, search directives, metadata, performance, structured data, and current page responsibilities." },
+      { title: "Assign intent", body: "Give each important query and customer need one strongest canonical destination." },
+      { title: "Improve", body: "Strengthen useful pages, internal links, technical signals, local context, and machine-readable discovery files." },
+      { title: "Measure", body: "Verify the release and use Search Console, analytics, and real inquiry quality to guide future iterations." },
+    ],
+    technologies: ["Google Search Console", "Schema.org JSON-LD", "XML sitemaps", "Core Web Vitals", "Local SEO", "Content architecture"],
+    relatedProjects: ["canstem-education", "dazzling-smile-dental", "ms-pixelpulse-realty-group"],
+    relatedServices: ["website-design", "website-redesign", "website-maintenance"],
+    guideSlug: "local-seo-toronto-small-business-guide",
+    faq: [
+      { question: "Does MSPixelPulse guarantee first-place rankings?", answer: "No. Search results depend on competition, authority, relevance, reviews, links, platform changes, and many factors outside the website. MSPixelPulse can improve truthful technical and content foundations but cannot guarantee a ranking." },
+      { question: "Can website SEO support Brampton and Toronto searches?", answer: "Yes, when the business genuinely serves those areas. The work uses accurate service-area language, useful local pages where justified, clear service content, projects, internal links, and external business-profile or citation recommendations." },
+      { question: "Is AI search optimization separate from useful SEO?", answer: "The foundations overlap: clear facts, focused canonical pages, crawlable content, structured data, source transparency, and strong internal relationships help both conventional search and AI-assisted discovery. Inclusion or citation is never guaranteed." },
+    ],
+  },
 ];
 
 export function getServicePage(slug) {
@@ -550,6 +658,8 @@ export function servicePath(slug) {
 }
 
 const labelRoutes = [
+  [/e-?commerce|online store|shopping|storefront|woocommerce/i, "ecommerce-development"],
+  [/local seo|technical seo|search readiness|seo support|seo-ready|search optimization|structured data/i, "website-seo"],
   [/moodle|lms/i, "moodle-lms-development"],
   [/school|course catalogue|education website/i, "school-websites"],
   [/wordpress/i, "wordpress-development"],

@@ -71,7 +71,7 @@ export default function SocialContactLinks({
       key: "messages",
       label: "Text / iMessage",
       href: site.messagesHref,
-      ariaLabel: "Send an iMessage or text message to MSPixelPulse",
+      ariaLabel: "Text / iMessage MSPixelPulse",
       icon: LuMessageCircle,
       supported: messagingAvailable,
     },

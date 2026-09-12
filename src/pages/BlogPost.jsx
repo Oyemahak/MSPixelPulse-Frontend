@@ -13,6 +13,7 @@ import {
 import Meta from "@/components/Meta.jsx";
 import Container from "@/components/layout/Container.jsx";
 import { publishedBlogPosts } from "@/data/blogPosts.js";
+import { publishedProjects } from "@/data/projects.js";
 import { blogPostSeo } from "@/data/seoPages.js";
 import { servicePathForLabel } from "@/data/servicePages.js";
 
@@ -65,6 +66,9 @@ export default function BlogPost() {
   const relatedServicePath = servicePathForLabel(
     [post.pillar, post.category, ...(post.tags || [])].join(" "),
   );
+  const relatedProject = publishedProjects.find((project) =>
+    project.services?.some((service) => servicePathForLabel(service) === relatedServicePath),
+  ) || publishedProjects.find((project) => project.classification === "live");
 
   return (
     <section className="blog-article-page">
@@ -303,6 +307,12 @@ export default function BlogPost() {
                   Explore the related MSPixelPulse service
                   <LuArrowRight aria-hidden="true" />
                 </Link>
+                {relatedProject ? (
+                  <Link to={`/projects/${relatedProject.slug}`}>
+                    Review the {relatedProject.title} case study
+                    <LuArrowRight aria-hidden="true" />
+                  </Link>
+                ) : null}
               </p>
 
               <section className="blog-article-cta">

@@ -2,7 +2,7 @@
 
 ## Brand, market, and scope
 
-- MSPixelPulse is based in Toronto, Ontario and serves Canadian small businesses, including Toronto, Brampton, Mississauga, and the GTA.
+- MSPixelPulse publishes Toronto, Ontario as its location and serves Canadian small businesses, with Brampton as the primary local search focus and Toronto, Mississauga, and the GTA as secondary service areas.
 - Demo-only placeholders are `hello@mspixelpulse.com`, `+1 (000) 000-0000`, and `#` for social links; production details come from `src/data/site.js`.
 - Public search pages include home, projects, services, pricing, contact, blog articles, about, and approved legal pages. Authentication and portals remain noindex.
 - The site must earn visibility through useful pages, truthful business information, technical reliability, and real expertise.
@@ -15,6 +15,8 @@
 - `content/blog-drafts.json` is deliberately non-indexable. Only reviewed entries exported by `publishedBlogPosts` enter the sitemap.
 - Keep one distinct purpose per page; consolidate overlap instead of multiplying URLs.
 - Use local names only where they add real service, process, availability, or customer context.
+- `/web-design-brampton` owns broad Brampton website-design intent. Link it to permanent service pages; do not create city-and-service permutations without distinct evidence and content.
+- `/services/ecommerce-development` owns e-commerce build intent and `/services/website-seo` owns technical/local website-search service intent.
 
 ## On-page and technical review
 

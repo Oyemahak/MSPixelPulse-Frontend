@@ -11,7 +11,9 @@ import {
   LuMonitorSmartphone,
   LuRocket,
   LuSearch,
+  LuSearchCheck,
   LuShieldCheck,
+  LuShoppingCart,
   LuSmartphone,
   LuSparkles,
 } from "react-icons/lu";
@@ -20,7 +22,6 @@ import SectionTitle from "../components/SectionTitle.jsx";
 import Feedback from "@/components/Feedback.jsx";
 import { useTheme } from "@/lib/theme.js";
 import { usePublicPortfolio } from "@/hooks/usePublicPortfolio.js";
-import { blogPosts } from "@/data/blogPosts.js";
 import Meta from "@/components/Meta.jsx";
 import ContactActions from "@/components/ContactActions.jsx";
 import AgencyInterfacePreview from "@/components/AgencyInterfacePreview.jsx";
@@ -70,6 +71,20 @@ const services = [
     deliverable: "Care, updates and release checks",
     path: "/services/website-maintenance",
   },
+  {
+    icon: LuShoppingCart,
+    title: "E-commerce websites",
+    body: "Responsive online stores with clearer product discovery, mobile shopping, checkout planning, and launch testing.",
+    deliverable: "Product, cart, checkout, and store foundations",
+    path: "/services/ecommerce-development",
+  },
+  {
+    icon: LuSearchCheck,
+    title: "Website SEO and search readiness",
+    body: "Technical SEO, local search foundations, content architecture, structured data, and AI discovery improvements.",
+    deliverable: "Search intent, indexability, and measurement",
+    path: "/services/website-seo",
+  },
 ];
 
 const process = [
@@ -77,6 +92,19 @@ const process = [
   "Design a responsive page system before adding polish",
   "Build with reusable components and SEO-ready structure",
   "Test forms, links, mobile layouts, and launch details",
+];
+
+const featuredGuides = [
+  {
+    slug: "free-website-demo-before-you-pay",
+    title: "See Your Website Before You Pay: How Our Free Website Demo Works",
+    excerpt: "See how a personalized website demo can make pages, content, features, and the next decision easier to understand.",
+  },
+  {
+    slug: "small-business-website-cost-canada",
+    title: "How Much Does a Small Business Website Cost in Canada?",
+    excerpt: "Compare the scope, platform, content, integrations, third-party costs, and ongoing ownership behind a useful website quote.",
+  },
 ];
 
 export default function Home() {
@@ -146,13 +174,16 @@ export default function Home() {
           <div className="grid min-w-0 gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
             <div className="min-w-0">
               <p className="mb-4 inline-flex rounded-full bg-blue-600/10 px-3 py-1 text-xs font-black uppercase tracking-wide text-blue-500">
-                Toronto web design & digital agency
+                Website agency serving Brampton and the GTA
               </p>
               <h1 className={isDark ? "max-w-3xl break-words text-[2.35rem] font-extrabold leading-[1.08] md:text-[3.5rem]" : "max-w-3xl break-words text-[2.35rem] font-extrabold leading-[1.08] text-slate-950 md:text-[3.5rem]"}>
-                MSPixelPulse — web development and UX/UI agency for small businesses.
+                MSPixelPulse builds clearer websites for local businesses.
               </h1>
               <p className={`mt-5 max-w-2xl text-lg leading-8 ${muted}`}>
-                Custom WordPress, React, UX/UI, school website, and Moodle LMS solutions for small businesses and organizations in Toronto, Brampton, the GTA, and across Canada.
+                Custom website design, WordPress, React, e-commerce, UX/UI, SEO foundations, school website, and Moodle LMS solutions for businesses in Brampton, Toronto, the GTA, and across Canada.
+              </p>
+              <p className={`mt-3 text-sm leading-6 ${muted}`}>
+                Looking for a local starting point? <Link className="font-black text-blue-500 hover:underline" to="/web-design-brampton">Explore web design for Brampton businesses.</Link>
               </p>
               <div className="home-hero-actions mt-8 flex flex-wrap gap-3">
                 <Link
@@ -211,7 +242,7 @@ export default function Home() {
                   <p className={`mt-2 text-sm leading-6 ${muted}`}>{service.body}</p>
                   <p className="home-service-deliverable">{service.deliverable}</p>
                   <Link className="home-service-link" to={service.path}>
-                    Explore service <LuArrowRight className="h-4 w-4" aria-hidden="true" />
+                    Explore {service.title.toLowerCase()} <LuArrowRight className="h-4 w-4" aria-hidden="true" />
                   </Link>
                 </article>
               );
@@ -317,7 +348,7 @@ export default function Home() {
               <LuBookOpen className="h-7 w-7 text-blue-500" aria-hidden="true" />
               <h2 className="mt-4 text-2xl font-black">Recent website guides</h2>
               <div className="mt-4 grid gap-3">
-                {blogPosts.slice(0, 2).map((post) => (
+                {featuredGuides.map((post) => (
                   <Link key={post.slug} to={`/blog/${post.slug}`} className={isDark ? "rounded-xl border border-white/10 p-4 hover:bg-white/[0.045]" : "rounded-xl border border-slate-200 p-4 hover:bg-slate-50"}>
                     <div className="flex items-start gap-3">
                       <LuSearch className="mt-1 h-5 w-5 shrink-0 text-blue-500" aria-hidden="true" />
@@ -399,7 +430,7 @@ function ProjectSection({ eyebrow, title, projects: items, dark }) {
                     {project.shortDescription || project.summary}
                   </p>
                   <Link className="project-showcase-link" to={`/projects/${project.id}`}>
-                    View case study <LuArrowRight className="h-4 w-4" aria-hidden="true" />
+                    View {project.title} case study <LuArrowRight className="h-4 w-4" aria-hidden="true" />
                   </Link>
                 </div>
             </article>

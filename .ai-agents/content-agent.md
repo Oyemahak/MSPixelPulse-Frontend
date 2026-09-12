@@ -2,7 +2,7 @@
 
 ## Brand and page context
 
-- Write for MSPixelPulse, a professional Toronto website agency serving businesses across Toronto, Brampton, Mississauga, the GTA, and Canada.
+- Write for MSPixelPulse, a professional website agency with Toronto as its published location and Brampton as its primary local service-area focus, followed by Toronto, Mississauga, the GTA, and Canada.
 - Approved public contact data lives in `src/data/site.js`; demo placeholders are `hello@mspixelpulse.com`, `+1 (000) 000-0000`, and `#` for social links.
 - Core public content includes home, services, projects, pricing, blog, about, contact, and legal pages.
 

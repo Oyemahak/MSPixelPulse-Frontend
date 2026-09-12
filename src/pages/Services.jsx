@@ -22,6 +22,8 @@ import {
   LuRefreshCw,
   LuRotateCcw,
   LuSchool,
+  LuSearchCheck,
+  LuShoppingCart,
   LuSlidersHorizontal,
   LuStore,
 } from "react-icons/lu";
@@ -32,10 +34,12 @@ const serviceIcons = {
   business: LuStore,
   design: LuLayoutTemplate,
   development: LuCodeXml,
+  ecommerce: LuShoppingCart,
   moodle: LuGraduationCap,
   react: LuBraces,
   redesign: LuRefreshCw,
   school: LuSchool,
+  seo: LuSearchCheck,
   support: LuLifeBuoy,
   ux: LuMousePointer2,
   wordpress: LuPanelsTopLeft,
@@ -102,9 +106,13 @@ export default function Services() {
           align="center"
           eyebrow="Services"
           title="Web design and development that supports a real business."
-          description="Explore focused services for new websites, redesigns, WordPress, React, UX/UI, education platforms, and dependable ongoing support."
+          description="Explore focused services for Brampton, Toronto, and Canadian businesses, including new websites, e-commerce, SEO, redesigns, WordPress, React, UX/UI, education platforms, and ongoing support."
           contentClassName="max-w-5xl"
         />
+
+        <p className={isDark ? "mx-auto -mt-3 mb-8 max-w-3xl text-center text-sm leading-6 text-textSub" : "mx-auto -mt-3 mb-8 max-w-3xl text-center text-sm leading-6 text-slate-600"}>
+          Serving a local audience? <Link className="font-black text-primary hover:underline" to="/web-design-brampton">See our focused web design approach for Brampton businesses.</Link>
+        </p>
 
         <section className="project-filter-bar service-filter-bar" aria-labelledby="service-filter-heading">
           <div className="project-filter-topline">

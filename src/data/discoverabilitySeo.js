@@ -1,4 +1,5 @@
 import { allFaqs } from "./faqs.js";
+import { locationPages } from "./locationPages.js";
 import { servicePages, servicePath } from "./servicePages.js";
 import {
   breadcrumbJsonLd,
@@ -55,8 +56,8 @@ export function servicePageSeo(service) {
     description: service.summary,
     provider: { "@id": organizationId },
     areaServed: [
-      { "@type": "City", name: "Toronto, Ontario, Canada" },
       { "@type": "City", name: "Brampton, Ontario, Canada" },
+      { "@type": "City", name: "Toronto, Ontario, Canada" },
       { "@type": "City", name: "Mississauga, Ontario, Canada" },
       { "@type": "AdministrativeArea", name: "Greater Toronto Area, Ontario, Canada" },
       { "@type": "Country", name: "Canada" },
@@ -102,3 +103,52 @@ export function servicePageSeo(service) {
 }
 
 export const serviceSeoEntries = servicePages.map(servicePageSeo);
+
+export function locationPageSeo(location) {
+  const path = location.path;
+  const serviceId = `${absolute(path)}#service`;
+
+  return {
+    path,
+    title: location.seoTitle,
+    description: location.metaDescription,
+    canonical: path,
+    image: location.image,
+    imageAlt: location.imageAlt,
+    component: "src/pages/LocationPage.jsx",
+    lastModified: location.lastModified || seoReleaseDate,
+    jsonLd: [
+      {
+        "@context": "https://schema.org",
+        "@type": "Service",
+        "@id": serviceId,
+        name: "Web design and development for Brampton businesses",
+        serviceType: "Website design and development",
+        url: absolute(path),
+        description: location.summary,
+        provider: { "@id": organizationId },
+        areaServed: { "@type": "City", name: "Brampton, Ontario, Canada" },
+      },
+      {
+        ...webPageJsonLd(path, location.name),
+        mainEntity: { "@id": serviceId },
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "@id": `${absolute(path)}#faq`,
+        mainEntity: location.faq.map((item) => ({
+          "@type": "Question",
+          name: item.question,
+          acceptedAnswer: { "@type": "Answer", text: item.answer },
+        })),
+      },
+      breadcrumbJsonLd([
+        { name: "Home", path: "/" },
+        { name: "Web design Brampton", path },
+      ]),
+    ],
+  };
+}
+
+export const locationSeoEntries = locationPages.map(locationPageSeo);

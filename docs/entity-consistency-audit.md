@@ -1,6 +1,6 @@
 # MSPixelPulse entity consistency audit
 
-Updated: 2026-08-25
+Updated: 2026-09-12
 
 ## Canonical public entity
 
@@ -9,11 +9,11 @@ Updated: 2026-08-25
 | Name | MSPixelPulse | `src/data/site.js`, page copy, metadata, manifests, structured data, LLM files |
 | Canonical website | `https://mspixelpulse.com` | canonical tags, sitemaps, robots, structured data, public organization JSON |
 | Stable organization ID | `https://mspixelpulse.com/#organization` | Organization and related page schema |
-| Description | Toronto web development and UX/UI agency providing WordPress, React, website design, redesign, Moodle LMS, school, small-business website, and maintenance services across Canada. | `src/data/site.js` and aligned public metadata |
+| Description | Website design and development agency serving Brampton, Toronto, the GTA, and Canada with WordPress, React, e-commerce, SEO foundations, redesigns, and support. | `src/data/site.js` and aligned public metadata |
 | Public email | `info@mspixelpulse.com` | site data, contact paths, public organization JSON |
 | Public phone | `+1 (365) 883-0338` | site data, contact paths, public organization JSON |
 | Location | Toronto, Ontario, Canada | page copy, Organization schema, public organization JSON |
-| Service areas | Toronto, GTA, Ontario, and remote clients across Canada | service pages, FAQ, Organization schema |
+| Service areas | Brampton, Toronto, Mississauga, the GTA, Ontario, and remote clients across Canada | service pages, location hub, FAQ, Organization schema |
 | Founder | Mahak Patel | About-page Person schema linked to the organization |
 | GitHub profile | `https://github.com/MSPixelPulseAgency` | site data and Organization `sameAs` |
 | LinkedIn profile | `https://www.linkedin.com/in/mahak-patel-167640150/` | site data and Organization `sameAs` |
@@ -23,7 +23,7 @@ Updated: 2026-08-25
 
 - The apex HTTPS domain is the only canonical website identity. `www.mspixelpulse.com` and known Vercel aliases are redirect hosts, not separate entities.
 - The production contact email and phone already present on the website remain the public source of truth. Demo placeholder contact details from agency templates were not substituted into the production site.
-- The agency is described as serving Toronto, the GTA, Ontario, and remote clients across Canada. No street address is published or inferred.
+- The agency is described as serving Brampton, Toronto, the GTA, Ontario, and remote clients across Canada. Toronto remains the published location; `/web-design-brampton` explicitly describes a service area and does not claim a Brampton storefront or address.
 - No founding date, employee count, award, certification, rating, review total, client total, or unsupported performance statistic is asserted.
 - Published projects retain their existing evidence labels. Live, demo, concept, and technical work must not be blended into a single claim of completed client work.
 - The existing Moodle service URL, `/services/moodle-lms-development`, remains canonical to preserve the established route and avoid creating a reversed-slug duplicate.

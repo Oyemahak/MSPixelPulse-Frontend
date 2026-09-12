@@ -103,7 +103,7 @@ export default function ServiceDetail() {
               </span>
               <div>
                 <strong className="block">Service area</strong>
-                <span className={`text-sm ${muted}`}>Toronto, Brampton, Mississauga, the GTA, Ontario, and remote clients across Canada</span>
+                <span className={`text-sm ${muted}`}>Brampton, Toronto, Mississauga, the GTA, Ontario, and remote clients across Canada</span>
               </div>
             </div>
             <p className={`mt-5 leading-7 ${muted}`}>{service.intro}</p>

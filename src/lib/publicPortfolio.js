@@ -2,6 +2,26 @@ import { publishedProjects } from '../data/projects.js';
 
 export const fallbackPublicProjects = publishedProjects;
 
+const legacyMediaHosts = new Set([
+  'mspixelpulse.vercel.app',
+  'capstone-frontend.vercel.app',
+]);
+
+export function normalizePublicMediaUrl(value = '') {
+  if (!value || value.startsWith('/')) return value;
+
+  try {
+    const url = new URL(value);
+    if (legacyMediaHosts.has(url.hostname) && url.pathname.startsWith('/projects/')) {
+      return `${url.pathname}${url.search}${url.hash}`;
+    }
+  } catch {
+    return value;
+  }
+
+  return value;
+}
+
 function labelFor(project) {
   if (project.projectClassification === 'technical' || project.websiteType === 'LMS Platform') return 'Technical Project';
   if (project.projectClassification === 'live') return 'Live Website';
@@ -11,7 +31,7 @@ function labelFor(project) {
 
 export function normalizePublicProject(project = {}) {
   if (!project._id && project.classification) return project;
-  const image = project.thumbnail || project.mockupImages?.[0]?.url || '/projects/project-fallback.svg';
+  const image = normalizePublicMediaUrl(project.thumbnail || project.mockupImages?.[0]?.url || '/projects/project-fallback.svg');
   return {
     ...project,
     id: project.slug || project._id,

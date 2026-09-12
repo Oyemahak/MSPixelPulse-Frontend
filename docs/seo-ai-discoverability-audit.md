@@ -4,6 +4,23 @@ Audit date: 2026-08-25
 Scope: public MSPixelPulse agency website and public machine-readable discovery surfaces  
 Canonical domain: `https://mspixelpulse.com`
 
+## 2026-09-12 production SEO dominance update
+
+The current audit rechecked all public route types, 12 service intents, 16 published projects, and 94 published articles against one-page-per-intent, local truthfulness, rendered HTML, metadata, schema, internal links, sitemap coverage, mobile accessibility, and performance. It retained the existing public design and portal boundaries.
+
+Focused additions:
+
+- `/web-design-brampton` is the single broad Brampton service-area hub. It links to permanent service pages and explicitly avoids claiming a Brampton storefront.
+- `/services/ecommerce-development` now owns e-commerce build intent.
+- `/services/website-seo` now owns technical SEO, local search foundations, structured data, and AI discovery service intent without ranking promises.
+- Eight unusually thin cornerstone guides were materially expanded with decision criteria, checklists, scope boundaries, internal links, and current modified dates.
+- Known legacy Vercel project-image URLs returned by the public API are normalized to canonical local media paths, removing production 404 console noise without changing backend data.
+- The mobile brand link and Text/iMessage label were corrected for accessible names.
+- The public API origin is preconnected, the homepage is delivered without an avoidable route-level wait, and representative performance is measured again after deployment.
+- `trailingSlash: false` defines one canonical path format at the host layer and is verified on production after release.
+
+The current generated system contains 131 indexable canonical URLs: 8 public indexes including FAQ, 1 Brampton hub, 12 services, 16 projects, and 94 articles. Static metadata is generated for 139 routes, including protected/noindex shells. No article was merged, redirected, or noindexed because title and intent review found no exact duplicate and authenticated Search Console query/backlink evidence was not available to justify destructive consolidation.
+
 ## Executive summary
 
 The site already had a useful SEO foundation: route-level metadata, canonical tags, JSON-LD helpers, segmented XML sitemaps, `llms.txt`, canonical host rules, and index controls for portal routes. The largest discoverability gap was rendering: important public React routes had accurate head metadata but an empty initial `#root` in fetched HTML, while only project and blog detail routes received crawlable build-time fallback content.
@@ -43,11 +60,11 @@ The production build now writes meaningful static HTML into each indexed route f
 Generated fallback coverage:
 
 - 8 primary index pages
-- 10 dedicated service pages
-- 14 published project/case-study pages
+- 12 dedicated service pages
+- 16 published project/case-study pages
 - 94 published editorial pages
 
-Each generated route contains a useful H1 and page-specific body content. A build validator confirmed that all 126 sitemap URLs have generated HTML and a non-empty H1.
+Each generated route contains a useful H1 and page-specific body content. The current build validator confirms that all 131 sitemap URLs have generated HTML and a non-empty H1.
 
 ### Canonical service routes
 
@@ -102,7 +119,7 @@ The sitemap index now references:
 - `sitemap-projects.xml`
 - `sitemap-blog.xml`
 
-All 126 URLs are unique, canonical, public, and represented by generated route HTML. No login, admin, client, developer, debug, or private API route is present. Meaningful content dates replace build-time-now timestamps where source dates are available.
+All 131 URLs are unique, canonical, public, and represented by generated route HTML. No login, admin, client, developer, debug, or private API route is present. Meaningful content dates replace build-time-now timestamps where source dates are available.
 
 The Vercel configuration adds exact redirects from the known legacy `capstone-frontend.vercel.app` host to the apex domain. This must be verified on the live alias after deployment because a local Vite preview cannot exercise Vercel host routing.
 
@@ -111,14 +128,20 @@ The Vercel configuration adds exact redirects from the known legacy `capstone-fr
 ### Automated checks
 
 - ESLint: passed
-- Node test suite: passed, 3 of 3 tests
+- Node test suite: passed, 11 of 11 tests
 - Production Vite build: passed
-- Static metadata generation: 134 route files
-- Indexable route generation: 126 canonical URLs
-- Sitemap validation: 126 total and 126 unique URLs
+- Static metadata generation: 139 route files
+- Indexable route generation: 131 canonical URLs
+- Sitemap validation: 131 total and 131 unique URLs
 - Generated HTML validation: no missing route files, H1 elements, metadata, or valid JSON-LD
-- Public organization handler simulation: 200 response, 10 services, 14 project URLs
+- Public organization handler simulation: 200 response, 12 services, 16 project URLs
 - `git diff --check`: required before commit and recorded in the release handoff
+
+### 2026-09-12 local Lighthouse baseline and result
+
+Before the focused changes, the live homepage scored 92 performance, 95 accessibility, 100 best practices, and 100 SEO on the mobile Lighthouse profile. Largest Contentful Paint was 3.1 seconds. The equivalent desktop audit scored 100 performance, 100 accessibility, 96 best practices, and 100 SEO; console errors came from obsolete Vercel-hosted project image URLs returned by the public API.
+
+After the focused implementation, the local production build scores 98 performance, 100 accessibility, 100 best practices, and 100 SEO on mobile, with 1.7-second First Contentful Paint, 2.3-second Largest Contentful Paint, 10-millisecond Total Blocking Time, and zero Cumulative Layout Shift. Desktop scores 100 in all four categories, with 0.4-second FCP, 0.7-second LCP, zero TBT, and zero CLS. These are repeatable lab measurements, not field Core Web Vitals guarantees; production is rechecked after deployment.
 
 The current shell uses Node 24 while `package.json` specifies Node 22.x. The build passes, and Vercel should continue using the declared Node 22 runtime. Browser compatibility data also reports that the installed reference datasets are old; update them in a separate dependency-maintenance change rather than mixing an unrelated lockfile change into this release.
 

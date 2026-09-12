@@ -1,6 +1,6 @@
 # MSPixelPulse SEO and AI query map
 
-Updated: 2026-08-25
+Updated: 2026-09-12
 
 This map connects high-intent customer questions to one canonical MSPixelPulse page. It is a planning and review aid, not a keyword-stuffing checklist. Page copy should answer the query directly, retain natural language, and stay within the agency's documented capabilities.
 
@@ -8,6 +8,9 @@ This map connects high-intent customer questions to one canonical MSPixelPulse p
 
 | Customer query or intent | Canonical page | Answer focus |
 | --- | --- | --- |
+| web design Brampton | `/web-design-brampton` | Brampton service-area hub connecting truthful local context to focused service, project, FAQ, and contact pages |
+| e-commerce website development Brampton / Toronto | `/services/ecommerce-development` | Store planning, product UX, mobile shopping, checkout, payments, search foundations, and launch QA |
+| website SEO services Brampton / Toronto | `/services/website-seo` | Technical SEO, local search foundations, content architecture, schema, AI discovery, and measurement |
 | web development agency Toronto | `/services/web-development` | Custom website and interface development for Toronto, GTA, Ontario, and Canadian organizations |
 | website design Toronto | `/services/website-design` | Responsive information architecture, visual hierarchy, accessible interaction, and conversion paths |
 | WordPress development Toronto | `/services/wordpress-development` | New WordPress websites, existing-site improvements, content workflows, and maintenance planning |
@@ -23,11 +26,13 @@ This map connects high-intent customer questions to one canonical MSPixelPulse p
 
 | Customer query or question | Canonical page | Supporting path |
 | --- | --- | --- |
-| What does MSPixelPulse do? | `/` | `/about` and `/services` |
+| What does MSPixelPulse do? | `/` | `/about`, `/services`, and `/web-design-brampton` |
 | Is MSPixelPulse a Toronto web agency? | `/about` | `/contact` |
 | WordPress or React for a business website? | `/blog/wordpress-vs-react-business-website` | `/services/wordpress-development` and `/services/react-development` |
 | What should a small-business website include? | `/blog/small-business-website-features` | `/services/small-business-websites` |
-| How does a professional website build local trust? | `/blog/professional-website-builds-local-trust` | `/services/website-design` |
+| How does a professional website build local trust? | `/blog/professional-website-builds-local-trust` | `/services/website-design` and `/web-design-brampton` |
+| How should a Canadian business choose an e-commerce platform? | `/blog/ecommerce-platform-choice-canada` | `/services/ecommerce-development` |
+| What can technical and local website SEO improve? | `/services/website-seo` | `/blog/local-seo-toronto-small-business-guide` |
 | How do mobile-friendly websites help local businesses? | `/blog/mobile-friendly-website-design-local-businesses` | `/services/ui-ux-design` |
 | How much does a website project cost? | `/pricing` | `/faq` and `/contact` |
 | What is included in website maintenance? | `/services/website-maintenance` | `/faq#maintenance` |
@@ -57,7 +62,8 @@ This map connects high-intent customer questions to one canonical MSPixelPulse p
 - Project pages should link to the service types demonstrated by that project.
 - Editorial pages should link to one primary relevant service and a next-step page.
 - FAQ answers may point to a canonical service page, but the visible answer must remain useful without following the link.
-- Avoid creating near-duplicate location pages. Toronto, the GTA, Ontario, and Canada should appear only where they accurately describe service coverage.
+- `/web-design-brampton` owns the broad Brampton website-design intent. Do not create thin Brampton service permutations; link this hub to the canonical service pages instead.
+- Toronto, the GTA, Ontario, and Canada should appear only where they accurately describe service coverage. The site must not imply a Brampton storefront or street address.
 
 ## Review cadence
 

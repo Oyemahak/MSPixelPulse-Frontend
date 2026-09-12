@@ -20,6 +20,8 @@ const serviceLinks = [
   ["Web development", "/services/web-development"],
   ["WordPress development", "/services/wordpress-development"],
   ["React development", "/services/react-development"],
+  ["E-commerce development", "/services/ecommerce-development"],
+  ["Website SEO", "/services/website-seo"],
   ["Moodle LMS development", "/services/moodle-lms-development"],
   ["Website maintenance", "/services/website-maintenance"],
 ];
@@ -45,7 +47,7 @@ export default function AppFooter() {
             </div>
             <p>
               Thoughtful web design, development, and client portal solutions for
-              small businesses in Toronto and across Canada.
+              businesses in Brampton, Toronto, the GTA, and across Canada.
             </p>
             <span className="agency-footer-location">{site.location}</span>
             <SocialContactLinks

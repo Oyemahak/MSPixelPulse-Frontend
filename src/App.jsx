@@ -166,6 +166,7 @@ export default function App() {
               <Route path="/services/:slug" element={<ServiceDetail />} />
               <Route path="/pricing" element={<Pricing />} />
               <Route path="/contact" element={<Contact />} />
+              <Route path="/free-demo" element={<Navigate to="/contact?request=free-demo" replace />} />
               <Route path="/blog" element={<Blog />} />
               <Route path="/blog/:slug" element={<BlogPost />} />
               <Route path="/about" element={<About />} />

@@ -37,6 +37,11 @@
       "has": [{ "type": "host", "value": "www.mspixelpulse.com" }],
       "destination": "https://mspixelpulse.com/:path*",
       "permanent": true
+    },
+    {
+      "source": "/free-demo",
+      "destination": "/contact?request=free-demo",
+      "permanent": false
     }
   ],
   "headers": [

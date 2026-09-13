@@ -8,6 +8,7 @@ import ContactActions from "@/components/ContactActions.jsx";
 import DemoOffer from "@/components/DemoOffer.jsx";
 import { projectSeo } from "@/data/seoPages.js";
 import { servicePathForLabel } from "@/data/servicePages.js";
+import { applyProjectImageFallback } from "@/lib/projectImageFallback.js";
 
 export default function ProjectDetail() {
   const { id } = useParams();
@@ -126,15 +127,13 @@ export default function ProjectDetail() {
             <img
               src={project.thumb}
               alt={project.imageAlt || `${project.title} website screenshot`}
-              className="aspect-[16/10] w-full object-cover"
-              width="1440"
-              height="900"
-              onError={(event) => {
-                if (!event.currentTarget.dataset.fallback) {
-                  event.currentTarget.dataset.fallback = "true";
-                  event.currentTarget.src = "/projects/project-fallback.svg";
-                }
-              }}
+              className="aspect-[16/10] w-full object-cover object-top"
+              decoding="async"
+              fetchPriority="high"
+              sizes="(min-width: 1024px) 46vw, 100vw"
+              width="1200"
+              height="750"
+              onError={(event) => applyProjectImageFallback(event, project.title)}
             />
           </div>
         </div>

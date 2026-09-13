@@ -27,6 +27,7 @@ import ContactActions from "@/components/ContactActions.jsx";
 import AgencyInterfacePreview from "@/components/AgencyInterfacePreview.jsx";
 import DemoOffer from "@/components/DemoOffer.jsx";
 import { seoPages } from "@/data/seoPages.js";
+import { applyProjectImageFallback } from "@/lib/projectImageFallback.js";
 
 const services = [
   {
@@ -406,12 +407,15 @@ function ProjectSection({ eyebrow, title, projects: items, dark }) {
                 </span>
                 <span className="project-preview-media">
                   <img
-                    className="aspect-[16/10] w-full object-cover transition duration-300 group-hover:scale-[1.03]"
+                    className="aspect-[16/10] w-full object-cover object-top transition duration-300 group-hover:scale-[1.03]"
                     src={project.thumb}
                     alt={project.imageAlt || project.title}
                     loading="lazy"
-                    width="1440"
-                    height="900"
+                    decoding="async"
+                    sizes="(min-width: 768px) 33vw, 100vw"
+                    width="1200"
+                    height="750"
+                    onError={(event) => applyProjectImageFallback(event, project.title)}
                   />
                 </span>
               </Link>

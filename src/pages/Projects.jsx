@@ -14,6 +14,7 @@ import {
   LuSparkles,
 } from "react-icons/lu";
 import { seoPages } from "@/data/seoPages.js";
+import { applyProjectImageFallback } from "@/lib/projectImageFallback.js";
 
 const allOption = "All";
 
@@ -57,16 +58,13 @@ function ProjectCard({ project, isDark }) {
           <img
             src={project.thumb}
             alt={project.imageAlt || `${project.title} website preview`}
-            className="h-full w-full object-cover transition duration-300 group-hover:scale-105"
+            className="h-full w-full object-cover object-top transition duration-300 group-hover:scale-105"
             loading="lazy"
-            width="1440"
-            height="900"
-            onError={(event) => {
-              if (!event.currentTarget.dataset.fallback) {
-                event.currentTarget.dataset.fallback = "true";
-                event.currentTarget.src = "/projects/project-fallback.svg";
-              }
-            }}
+            decoding="async"
+            sizes="(min-width: 1280px) 384px, (min-width: 768px) 50vw, 100vw"
+            width="1200"
+            height="750"
+            onError={(event) => applyProjectImageFallback(event, project.title)}
           />
         </div>
       </Link>

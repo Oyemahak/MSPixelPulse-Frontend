@@ -29,10 +29,10 @@ function labelFor(project) {
   return 'Agency Demo';
 }
 
-export function normalizePublicProject(project = {}) {
+export function normalizePublicProject(project = {}, curatedProject = null) {
   if (!project._id && project.classification) return project;
   const image = normalizePublicMediaUrl(project.thumbnail || project.mockupImages?.[0]?.url || '/projects/project-fallback.svg');
-  return {
+  const normalized = {
     ...project,
     id: project.slug || project._id,
     slug: project.slug || project._id,
@@ -48,10 +48,31 @@ export function normalizePublicProject(project = {}) {
     overview: project.projectOverview || project.fullDescription || project.summary || '',
     result: project.resultSummary || '',
   };
+
+  if (!curatedProject) return normalized;
+
+  return {
+    ...curatedProject,
+    ...normalized,
+    stack: normalized.stack.length ? normalized.stack : curatedProject.stack,
+    // Curated release-tested destinations win over stale API records.
+    live: curatedProject.live || normalized.live,
+    repo: normalized.repo || curatedProject.repo,
+    services: normalized.services.length ? normalized.services : curatedProject.services,
+    features: normalized.features.length ? normalized.features : curatedProject.features,
+    overview: normalized.overview || curatedProject.overview,
+    result: normalized.result || curatedProject.result,
+    // Curated local captures are release-tested and must not be replaced by stale API hosts.
+    thumb: curatedProject.thumb || image,
+    imageAlt: curatedProject.imageAlt || normalized.imageAlt,
+  };
 }
 
 export function normalizePublicProjects(items = []) {
-  const normalized = (Array.isArray(items) ? items : []).map(normalizePublicProject);
+  const curatedBySlug = new Map(fallbackPublicProjects.map((project) => [project.slug, project]));
+  const normalized = (Array.isArray(items) ? items : []).map((project) =>
+    normalizePublicProject(project, curatedBySlug.get(project.slug || project._id)),
+  );
   const publishedSlugs = new Set(normalized.map((project) => project.slug).filter(Boolean));
   const localOnlyProjects = fallbackPublicProjects.filter(
     (project) => !publishedSlugs.has(project.slug),

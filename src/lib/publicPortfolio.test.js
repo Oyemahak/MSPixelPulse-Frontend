@@ -42,7 +42,7 @@ test("normalizes API portfolio fields into the public case-study shape", () => {
   assert.equal(project.repo, "https://github.com/example/demo");
 });
 
-test("keeps API records authoritative while appending missing curated local demos", () => {
+test("keeps API content authoritative while preserving release-tested local captures", () => {
   const projects = normalizePublicProjects([{
     _id: "canstem-api",
     slug: "canstem-education",
@@ -54,6 +54,18 @@ test("keeps API records authoritative while appending missing curated local demo
   assert.equal(
     projects.find((project) => project.slug === "canstem-education")?.title,
     "CanSTEM from API",
+  );
+  assert.equal(
+    projects.find((project) => project.slug === "canstem-education")?.thumb,
+    "/projects/mockups/canstem-education.webp",
+  );
+  assert.equal(
+    normalizePublicProjects([{
+      _id: "nexus-api",
+      slug: "nexus-education-private-school",
+      liveUrl: "https://nexuseps.vercel.app/",
+    }]).find((project) => project.slug === "nexus-education-private-school")?.live,
+    "https://nexuseps.com/",
   );
   assert.equal(projects.filter((project) => project.slug === "canstem-education").length, 1);
   assert.equal(projects.find((project) => project.slug === "wedding-and-events")?.classification, "demo");

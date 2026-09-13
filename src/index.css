@@ -4460,6 +4460,1090 @@ html:not([data-theme="dark"]) .app-footer {
   color: #ffffff;
 }
 
+/* Production pricing system and custom plan builder. */
+.pricing-page {
+  overflow-x: clip;
+}
+
+.pricing-page :is(.pricing-section-block, .plan-builder, .pricing-factors, .pricing-faq, .pricing-terms, .pricing-final-cta) {
+  scroll-margin-top: calc(var(--header-h) + 1.5rem);
+}
+
+.pricing-hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+.pricing-hero-actions .btn,
+.pricing-final-cta .btn {
+  min-height: 2.75rem;
+  gap: 0.5rem;
+}
+
+.pricing-include-strip {
+  display: grid;
+  gap: 0.65rem;
+  margin-top: clamp(1.5rem, 4vw, 2.5rem);
+  border: 1px solid var(--borderSoft);
+  border-radius: 1.25rem;
+  padding: 1rem;
+  background: color-mix(in srgb, var(--surface) 88%, transparent);
+}
+
+.pricing-include-strip > span {
+  color: var(--textMain);
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.pricing-include-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--textSub);
+  font-size: 0.85rem;
+  font-weight: 650;
+}
+
+.pricing-include-item svg {
+  width: 1rem;
+  height: 1rem;
+  flex: 0 0 auto;
+  color: var(--primary);
+}
+
+.pricing-section-block,
+.pricing-factors,
+.pricing-faq {
+  margin-top: clamp(3rem, 7vw, 5rem);
+}
+
+.pricing-section-heading {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1.35rem;
+}
+
+.pricing-section-heading h2 {
+  margin-top: 0.25rem;
+  color: var(--textMain);
+  font-size: clamp(1.65rem, 4vw, 2.35rem);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 1.08;
+}
+
+.pricing-section-heading > p {
+  max-width: 40rem;
+  color: var(--textSub);
+  font-size: 0.95rem;
+  line-height: 1.65;
+}
+
+.pricing-core-grid,
+.pricing-specialized-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.pricing-core-card,
+.pricing-specialized-card,
+.plan-builder,
+.pricing-factors-grid article,
+.pricing-faq-list details,
+.pricing-terms,
+.pricing-final-cta,
+.contact-builder-summary {
+  border: 1px solid var(--borderSoft);
+  background: color-mix(in srgb, var(--surface) 92%, transparent);
+  box-shadow: 0 18px 50px color-mix(in srgb, #020617 12%, transparent);
+}
+
+.pricing-core-card {
+  position: relative;
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  border-radius: 1.35rem;
+  padding: clamp(1.1rem, 3vw, 1.45rem);
+}
+
+.pricing-core-card.is-featured {
+  border-color: color-mix(in srgb, var(--primary) 55%, var(--borderSoft));
+  background:
+    radial-gradient(circle at 100% 0%, color-mix(in srgb, var(--primary) 13%, transparent), transparent 44%),
+    color-mix(in srgb, var(--surface) 94%, transparent);
+}
+
+.pricing-card-topline {
+  display: flex;
+  min-height: 1.7rem;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  color: var(--textSub);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.pricing-card-topline strong,
+.pricing-specialized-copy > span {
+  border-radius: 999px;
+  padding: 0.3rem 0.55rem;
+  background: color-mix(in srgb, var(--primary) 14%, transparent);
+  color: color-mix(in srgb, var(--primary) 75%, var(--textMain));
+  font-size: 0.68rem;
+}
+
+.pricing-core-card h3,
+.pricing-specialized-card h3 {
+  margin-top: 0.9rem;
+  color: var(--textMain);
+  font-size: 1.2rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.pricing-plan-audience,
+.pricing-core-card > p:not(.pricing-card-price),
+.pricing-specialized-copy > p:not(.pricing-card-price) {
+  margin-top: 0.65rem;
+  color: var(--textSub);
+  font-size: 0.84rem;
+  line-height: 1.55;
+}
+
+.pricing-card-price {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.35rem;
+  margin-top: 1rem;
+}
+
+.pricing-card-price small,
+.pricing-card-price span {
+  color: var(--textSub);
+  font-size: 0.72rem;
+  font-style: normal;
+  font-weight: 700;
+}
+
+.pricing-card-price strong {
+  color: var(--textMain);
+  font-size: clamp(1.55rem, 4vw, 2rem);
+  font-weight: 850;
+  letter-spacing: -0.04em;
+}
+
+.pricing-core-card ul {
+  display: grid;
+  gap: 0.55rem;
+  margin: 1rem 0 1.25rem;
+  color: var(--textSub);
+  font-size: 0.8rem;
+}
+
+.pricing-core-card li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.pricing-core-card li svg {
+  width: 1rem;
+  height: 1rem;
+  flex: 0 0 auto;
+  margin-top: 0.08rem;
+  color: var(--primary);
+}
+
+.pricing-plan-button,
+.pricing-specialized-copy button {
+  display: inline-flex;
+  min-height: 2.75rem;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  margin-top: auto;
+  border: 1px solid color-mix(in srgb, var(--primary) 42%, var(--borderSoft));
+  border-radius: 0.85rem;
+  padding: 0.7rem 0.85rem;
+  background: color-mix(in srgb, var(--primary) 10%, transparent);
+  color: color-mix(in srgb, var(--primary) 65%, var(--textMain));
+  font-size: 0.82rem;
+  font-weight: 800;
+  transition: transform 160ms ease, background 160ms ease, border-color 160ms ease;
+}
+
+.pricing-plan-button:hover,
+.pricing-specialized-copy button:hover {
+  border-color: var(--primary);
+  background: color-mix(in srgb, var(--primary) 17%, transparent);
+  transform: translateY(-1px);
+}
+
+.pricing-specialized-grid {
+  grid-template-columns: 1fr;
+}
+
+.pricing-specialized-card {
+  display: grid;
+  min-width: 0;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: start;
+  gap: 0.9rem;
+  border-radius: 1.15rem;
+  padding: 1rem;
+}
+
+.pricing-specialized-icon {
+  display: grid;
+  width: 2.6rem;
+  height: 2.6rem;
+  place-items: center;
+  border-radius: 0.85rem;
+  background: color-mix(in srgb, var(--primary) 12%, transparent);
+  color: var(--primary);
+}
+
+.pricing-specialized-icon svg {
+  width: 1.2rem;
+  height: 1.2rem;
+}
+
+.pricing-specialized-copy {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+}
+
+.pricing-specialized-copy > span {
+  align-self: flex-start;
+  text-transform: uppercase;
+}
+
+.pricing-specialized-copy h3 {
+  margin-top: 0.65rem;
+}
+
+.pricing-specialized-copy .pricing-card-boundary {
+  border-left: 2px solid color-mix(in srgb, var(--primary) 55%, transparent);
+  padding-left: 0.65rem;
+  font-size: 0.75rem;
+}
+
+.pricing-specialized-copy button {
+  align-self: flex-start;
+  margin-top: 1rem;
+}
+
+.plan-builder {
+  overflow: hidden;
+  margin-top: clamp(3.5rem, 8vw, 6rem);
+  border-color: color-mix(in srgb, var(--primary) 38%, var(--borderSoft));
+  border-radius: clamp(1.25rem, 3vw, 2rem);
+}
+
+.plan-builder-header {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: clamp(1.15rem, 4vw, 2rem);
+  background:
+    radial-gradient(circle at 90% 5%, color-mix(in srgb, var(--primary) 18%, transparent), transparent 36%),
+    color-mix(in srgb, var(--surface) 92%, transparent);
+}
+
+.plan-builder-header h2 {
+  margin-top: 0.25rem;
+  color: var(--textMain);
+  font-size: clamp(1.65rem, 4vw, 2.35rem);
+  font-weight: 850;
+  letter-spacing: -0.04em;
+}
+
+.plan-builder-header p:not(.demo-eyebrow) {
+  max-width: 42rem;
+  margin-top: 0.5rem;
+  color: var(--textSub);
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.plan-builder-time {
+  align-self: flex-start;
+  border: 1px solid var(--borderSoft);
+  border-radius: 999px;
+  padding: 0.45rem 0.7rem;
+  color: var(--textSub);
+  font-size: 0.75rem;
+  font-weight: 750;
+}
+
+.plan-builder-progress {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border-block: 1px solid var(--borderSoft);
+  background: color-mix(in srgb, var(--surface) 84%, transparent);
+}
+
+.plan-builder-progress li {
+  position: relative;
+  display: flex;
+  min-width: 0;
+  min-height: 4.2rem;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  color: var(--textSub);
+}
+
+.plan-builder-progress li + li::before {
+  position: absolute;
+  left: 0;
+  width: 1px;
+  height: 1.7rem;
+  background: var(--borderSoft);
+  content: "";
+}
+
+.plan-builder-progress li > span {
+  display: grid;
+  width: 1.55rem;
+  height: 1.55rem;
+  place-items: center;
+  border: 1px solid var(--borderSoft);
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 850;
+}
+
+.plan-builder-progress li > span svg {
+  width: 0.9rem;
+  height: 0.9rem;
+}
+
+.plan-builder-progress li small {
+  overflow: hidden;
+  max-width: 100%;
+  font-size: 0.68rem;
+  font-weight: 750;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.plan-builder-progress li:is(.is-current, .is-complete) {
+  color: color-mix(in srgb, var(--primary) 65%, var(--textMain));
+}
+
+.plan-builder-progress li:is(.is-current, .is-complete) > span {
+  border-color: color-mix(in srgb, var(--primary) 55%, transparent);
+  background: color-mix(in srgb, var(--primary) 14%, transparent);
+}
+
+.plan-builder-stage {
+  padding: clamp(1.15rem, 4vw, 2rem);
+  animation: builder-stage-in 220ms ease both;
+}
+
+.plan-builder-stage:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--primary) 38%, transparent);
+  outline-offset: -3px;
+}
+
+@keyframes builder-stage-in {
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.builder-fieldset {
+  min-width: 0;
+}
+
+.builder-fieldset legend {
+  width: 100%;
+  color: var(--textMain);
+  font-size: clamp(1.15rem, 3vw, 1.45rem);
+  font-weight: 800;
+  letter-spacing: -0.025em;
+}
+
+.builder-hint {
+  margin-top: 0.4rem;
+  color: var(--textSub);
+  font-size: 0.82rem;
+  line-height: 1.55;
+}
+
+.builder-choice-grid,
+.builder-step-stack,
+.builder-maintenance-options {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.builder-choice-grid {
+  margin-top: 1.1rem;
+}
+
+.builder-choice,
+.builder-maintenance-option {
+  position: relative;
+  display: flex;
+  min-width: 0;
+  min-height: 4.8rem;
+  cursor: pointer;
+  align-items: flex-start;
+  gap: 0.75rem;
+  border: 1px solid var(--borderSoft);
+  border-radius: 1rem;
+  padding: 0.9rem;
+  background: color-mix(in srgb, var(--surface) 86%, transparent);
+  transition: border-color 160ms ease, background 160ms ease, transform 160ms ease;
+}
+
+.builder-choice:hover,
+.builder-maintenance-option:hover {
+  border-color: color-mix(in srgb, var(--primary) 45%, var(--borderSoft));
+}
+
+.builder-choice.is-selected,
+.builder-maintenance-option.is-selected {
+  border-color: color-mix(in srgb, var(--primary) 72%, var(--borderSoft));
+  background: color-mix(in srgb, var(--primary) 11%, var(--surface));
+}
+
+.builder-choice > input,
+.builder-maintenance-option > input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+.builder-choice:has(input:focus-visible),
+.builder-maintenance-option:has(input:focus-visible) {
+  outline: 3px solid color-mix(in srgb, var(--primary) 38%, transparent);
+  outline-offset: 2px;
+}
+
+.builder-choice > svg:not(.builder-choice-check) {
+  width: 1.15rem;
+  height: 1.15rem;
+  flex: 0 0 auto;
+  margin-top: 0.12rem;
+  color: var(--primary);
+}
+
+.builder-choice > span,
+.builder-maintenance-option > span {
+  display: grid;
+  min-width: 0;
+  gap: 0.3rem;
+  padding-right: 1.2rem;
+}
+
+.builder-choice strong,
+.builder-maintenance-option strong {
+  color: var(--textMain);
+  font-size: 0.86rem;
+  line-height: 1.25;
+}
+
+.builder-choice small,
+.builder-maintenance-option small {
+  color: var(--textSub);
+  font-size: 0.74rem;
+  line-height: 1.45;
+}
+
+.builder-choice em {
+  color: color-mix(in srgb, var(--primary) 65%, var(--textMain));
+  font-size: 0.7rem;
+  font-style: normal;
+  font-weight: 800;
+}
+
+.builder-choice-check {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  width: 1rem;
+  height: 1rem;
+  border-radius: 999px;
+  color: var(--primary);
+  opacity: 0;
+}
+
+.builder-choice.is-selected .builder-choice-check {
+  opacity: 1;
+}
+
+.builder-step-stack {
+  gap: 1.5rem;
+}
+
+.builder-scope-notice {
+  margin-top: 1rem;
+  border: 1px solid color-mix(in srgb, var(--primary) 34%, var(--borderSoft));
+  border-radius: 1rem;
+  padding: 1rem;
+  background: color-mix(in srgb, var(--primary) 8%, var(--surface));
+}
+
+.builder-scope-notice strong,
+.builder-summary-card h4 {
+  color: var(--textMain);
+  font-size: 0.86rem;
+  font-weight: 800;
+}
+
+.builder-scope-notice p {
+  margin-top: 0.35rem;
+  color: var(--textSub);
+  font-size: 0.78rem;
+  line-height: 1.55;
+}
+
+.builder-maintenance-fieldset {
+  border-top: 1px solid var(--borderSoft);
+  padding-top: 1.5rem;
+}
+
+.builder-maintenance-options {
+  margin-top: 1rem;
+}
+
+.builder-maintenance-option {
+  min-height: 4rem;
+}
+
+.builder-summary-layout {
+  display: grid;
+  gap: 1rem;
+}
+
+.builder-summary-card,
+.builder-notes-card {
+  border: 1px solid var(--borderSoft);
+  border-radius: 1.2rem;
+  padding: clamp(1rem, 3vw, 1.4rem);
+  background: color-mix(in srgb, var(--surface) 86%, transparent);
+}
+
+.builder-summary-icon {
+  display: grid;
+  width: 2.8rem;
+  height: 2.8rem;
+  place-items: center;
+  margin-bottom: 0.85rem;
+  border-radius: 0.9rem;
+  background: color-mix(in srgb, var(--primary) 15%, transparent);
+  color: var(--primary);
+}
+
+.builder-summary-icon svg {
+  width: 1.3rem;
+  height: 1.3rem;
+}
+
+.builder-summary-card h3 {
+  margin-top: 0.3rem;
+  color: var(--textMain);
+  font-size: clamp(1.6rem, 4vw, 2.15rem);
+  font-weight: 850;
+  letter-spacing: -0.04em;
+}
+
+.builder-estimate-note {
+  margin-top: 0.55rem;
+  color: var(--textSub);
+  font-size: 0.78rem;
+  line-height: 1.5;
+}
+
+.builder-summary-card h4 {
+  margin-top: 1.15rem;
+}
+
+.builder-summary-card .builder-estimate-breakdown {
+  gap: 0;
+  margin-top: 0.55rem;
+  overflow: hidden;
+  border: 1px solid var(--borderSoft);
+  border-radius: 0.85rem;
+}
+
+.builder-summary-card .builder-estimate-breakdown > div {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  border-top: 0;
+  padding: 0.62rem 0.75rem;
+}
+
+.builder-summary-card .builder-estimate-breakdown > div + div {
+  border-top: 1px solid var(--borderSoft);
+}
+
+.builder-summary-card .builder-estimate-breakdown dd {
+  text-align: right;
+}
+
+.builder-summary-card dl {
+  display: grid;
+  gap: 0.7rem;
+  margin-top: 1.15rem;
+}
+
+.builder-summary-card dl > div {
+  display: grid;
+  gap: 0.2rem;
+  border-top: 1px solid var(--borderSoft);
+  padding-top: 0.7rem;
+}
+
+.builder-summary-card dt {
+  color: var(--textSub);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.builder-summary-card dd {
+  color: var(--textMain);
+  font-size: 0.82rem;
+  font-weight: 700;
+  line-height: 1.45;
+}
+
+.builder-notes-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.builder-notes-card label {
+  color: var(--textMain);
+  font-size: 0.9rem;
+  font-weight: 800;
+}
+
+.builder-notes-card label small,
+.builder-notes-card > small {
+  color: var(--textSub);
+  font-weight: 600;
+}
+
+.builder-notes-card textarea {
+  width: 100%;
+  min-height: 8.5rem;
+  margin-top: 0.65rem;
+  resize: vertical;
+  border: 1px solid var(--borderSoft);
+  border-radius: 0.9rem;
+  padding: 0.85rem;
+  background: var(--inputBg);
+  color: var(--textMain);
+  font-size: 0.85rem;
+  line-height: 1.55;
+}
+
+.builder-notes-card > small {
+  align-self: flex-end;
+  margin-top: 0.35rem;
+  font-size: 0.68rem;
+}
+
+.builder-notes-card .btn {
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.builder-notes-card > p {
+  margin-top: 0.75rem;
+  color: var(--textSub);
+  font-size: 0.72rem;
+  line-height: 1.5;
+}
+
+.plan-builder-actions {
+  display: flex;
+  min-height: 4.8rem;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  border-top: 1px solid var(--borderSoft);
+  padding: 0.9rem clamp(1.15rem, 4vw, 2rem);
+  background: color-mix(in srgb, var(--surface) 84%, transparent);
+}
+
+.plan-builder-actions .btn,
+.builder-back {
+  min-height: 2.75rem;
+}
+
+.plan-builder-actions .btn {
+  gap: 0.45rem;
+}
+
+.builder-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--textSub);
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+.builder-back:hover {
+  color: var(--textMain);
+}
+
+.pricing-factors-grid {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.pricing-factors-grid article {
+  border-radius: 1rem;
+  padding: 1rem;
+}
+
+.pricing-factors-grid h3 {
+  color: var(--textMain);
+  font-size: 0.95rem;
+  font-weight: 800;
+}
+
+.pricing-factors-grid p {
+  margin-top: 0.45rem;
+  color: var(--textSub);
+  font-size: 0.8rem;
+  line-height: 1.55;
+}
+
+.pricing-factors-grid a,
+.pricing-related-links a {
+  color: color-mix(in srgb, var(--primary) 68%, var(--textMain));
+  font-weight: 750;
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--primary) 40%, transparent);
+  text-underline-offset: 0.18em;
+}
+
+.pricing-related-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem 1rem;
+  margin-top: 1rem;
+  font-size: 0.78rem;
+}
+
+.pricing-faq-list {
+  display: grid;
+  gap: 0.65rem;
+}
+
+.pricing-faq-list details {
+  overflow: hidden;
+  border-radius: 1rem;
+}
+
+.pricing-faq-list summary {
+  display: flex;
+  min-height: 3.6rem;
+  cursor: pointer;
+  list-style: none;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.9rem 1rem;
+  color: var(--textMain);
+  font-size: 0.88rem;
+  font-weight: 800;
+}
+
+.pricing-faq-list summary::-webkit-details-marker {
+  display: none;
+}
+
+.pricing-faq-list summary:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--primary) 35%, transparent);
+  outline-offset: -3px;
+}
+
+.pricing-faq-list summary span {
+  color: var(--primary);
+  font-size: 1.25rem;
+  transition: transform 160ms ease;
+}
+
+.pricing-faq-list details[open] summary span {
+  transform: rotate(45deg);
+}
+
+.pricing-faq-list details p {
+  border-top: 1px solid var(--borderSoft);
+  padding: 0.9rem 1rem 1rem;
+  color: var(--textSub);
+  font-size: 0.8rem;
+  line-height: 1.6;
+}
+
+.pricing-terms,
+.pricing-final-cta {
+  display: grid;
+  gap: 1rem;
+  margin-top: clamp(2.5rem, 6vw, 4rem);
+  border-radius: 1.25rem;
+  padding: clamp(1.15rem, 4vw, 1.7rem);
+}
+
+.pricing-terms h2,
+.pricing-final-cta h2 {
+  margin-top: 0.25rem;
+  color: var(--textMain);
+  font-size: clamp(1.3rem, 3vw, 1.75rem);
+  font-weight: 820;
+  letter-spacing: -0.03em;
+}
+
+.pricing-terms > p,
+.pricing-final-cta p:not(.demo-eyebrow) {
+  color: var(--textSub);
+  font-size: 0.8rem;
+  line-height: 1.65;
+}
+
+.pricing-final-cta {
+  align-items: center;
+  border-color: color-mix(in srgb, var(--primary) 38%, var(--borderSoft));
+  background:
+    radial-gradient(circle at 90% 0%, color-mix(in srgb, var(--primary) 15%, transparent), transparent 40%),
+    color-mix(in srgb, var(--surface) 92%, transparent);
+}
+
+.pricing-final-cta > div:last-child {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+}
+
+.contact-builder-summary {
+  display: grid;
+  max-width: 58rem;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.9rem;
+  margin-bottom: 1.25rem;
+  border-color: color-mix(in srgb, var(--primary) 40%, var(--borderSoft));
+  border-radius: 1.2rem;
+  padding: 1rem;
+}
+
+.contact-builder-summary > svg {
+  width: 1.4rem;
+  height: 1.4rem;
+  margin-top: 0.15rem;
+  color: var(--primary);
+}
+
+.contact-builder-summary h2 {
+  margin-top: 0.2rem;
+  color: var(--textMain);
+  font-size: 1.15rem;
+  font-weight: 800;
+}
+
+.contact-builder-summary dl {
+  display: grid;
+  gap: 0.55rem;
+  margin-top: 0.8rem;
+}
+
+.contact-builder-summary dl > div {
+  display: grid;
+  grid-template-columns: minmax(5.5rem, auto) minmax(0, 1fr);
+  gap: 0.6rem;
+}
+
+.contact-builder-summary dt {
+  color: var(--textSub);
+  font-size: 0.72rem;
+  font-weight: 800;
+}
+
+.contact-builder-summary dd,
+.contact-builder-summary p {
+  overflow-wrap: anywhere;
+  color: var(--textMain);
+  font-size: 0.76rem;
+  line-height: 1.5;
+}
+
+.contact-builder-summary p {
+  margin-top: 0.75rem;
+}
+
+.contact-builder-summary > div > small {
+  display: block;
+  margin-top: 0.75rem;
+  color: var(--textSub);
+  font-size: 0.7rem;
+  line-height: 1.5;
+}
+
+@media (min-width: 640px) {
+  .pricing-include-strip {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .pricing-include-strip > span {
+    grid-column: 1 / -1;
+  }
+
+  .builder-choice-grid,
+  .builder-maintenance-options,
+  .pricing-factors-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .builder-maintenance-options > :last-child {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (min-width: 768px) {
+  .pricing-section-heading,
+  .plan-builder-header,
+  .pricing-terms,
+  .pricing-final-cta {
+    grid-template-columns: minmax(0, 1fr) minmax(16rem, 0.7fr);
+    flex-direction: row;
+    align-items: end;
+    justify-content: space-between;
+  }
+
+  .pricing-include-strip {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .pricing-core-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .pricing-specialized-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .plan-builder-header {
+    display: flex;
+  }
+
+  .plan-builder-time {
+    align-self: center;
+  }
+
+  .builder-summary-layout {
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  }
+
+  .pricing-faq-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
+  }
+
+  .pricing-final-cta {
+    display: grid;
+  }
+
+  .pricing-final-cta > div:last-child {
+    justify-content: flex-end;
+  }
+}
+
+@media (min-width: 1024px) {
+  .builder-service-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .builder-service-grid > :last-child {
+    grid-column: 2;
+  }
+
+  .builder-scope-grid {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+
+  .builder-addon-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .builder-addon-grid > :last-child {
+    grid-column: 2;
+  }
+
+  .pricing-factors-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 479px) {
+  .pricing-hero-actions .btn,
+  .pricing-final-cta .btn,
+  .pricing-final-cta > div:last-child {
+    width: 100%;
+  }
+
+  .pricing-specialized-card {
+    grid-template-columns: 1fr;
+  }
+
+  .pricing-specialized-icon {
+    width: 2.4rem;
+    height: 2.4rem;
+  }
+
+  .plan-builder-progress li small {
+    font-size: 0.6rem;
+  }
+
+  .contact-builder-summary {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .plan-builder-stage {
+    animation: none;
+  }
+
+  .pricing-plan-button,
+  .pricing-specialized-copy button,
+  .pricing-faq-list summary span,
+  .builder-choice,
+  .builder-maintenance-option {
+    transition: none;
+  }
+
+  .pricing-plan-button:hover,
+  .pricing-specialized-copy button:hover {
+    transform: none;
+  }
+}
+
 .cookie-icon {
   display: grid;
   width: 2.4rem;
@@ -8977,4 +10061,35 @@ html:not([data-theme="dark"]) .public-header-shell img.brand-logo-mark,
 
 .admin-project-cover-controls .form-actions {
   margin-top: 0;
+}
+
+/* Keep the new pricing essentials strip authoritative over legacy page rules. */
+.pricing-page .pricing-include-strip {
+  display: grid;
+  justify-content: stretch;
+  gap: 0.65rem;
+  border-color: var(--borderSoft);
+  background: color-mix(in srgb, var(--surface) 88%, transparent);
+  color: var(--textMain);
+  box-shadow: 0 18px 50px color-mix(in srgb, #020617 10%, transparent);
+}
+
+.pricing-page .pricing-include-item {
+  color: var(--textSub);
+}
+
+@media (min-width: 640px) {
+  .pricing-page .pricing-include-strip {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .pricing-page .pricing-include-strip > span {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (min-width: 768px) {
+  .pricing-page .pricing-include-strip {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
 }

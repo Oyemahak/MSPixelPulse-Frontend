@@ -1,4 +1,5 @@
 import { site } from "./site.js";
+import { pricingFaqs } from "./plans.js";
 
 const absolute = (path = "/") => (path.startsWith("http") ? path : `${site.url}${path}`);
 export const organizationId = `${site.url}/#organization`;
@@ -119,9 +120,9 @@ export const seoPages = {
   },
   pricing: {
     path: "/pricing",
-    title: "Website Design Pricing Brampton & Toronto | MSPixelPulse",
+    title: "Website Design Pricing & Cost Calculator | MSPixelPulse",
     description:
-      "Compare MSPixelPulse website design starting prices in CAD for one-page, business, e-commerce, custom application, redesign, and maintenance work.",
+      "Compare website design pricing in CAD and build a plan for a new website, redesign, WordPress, e-commerce, Moodle LMS, custom development, or $25/hour maintenance.",
     canonical: "/pricing",
     component: "src/pages/Pricing.jsx",
     jsonLd: [
@@ -130,6 +131,19 @@ export const seoPages = {
         { name: "Home", path: "/" },
         { name: "Website pricing", path: "/pricing" },
       ]),
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "@id": `${absolute("/pricing")}#faq`,
+        mainEntity: pricingFaqs.map((item) => ({
+          "@type": "Question",
+          name: item.question,
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: item.answer,
+          },
+        })),
+      },
     ],
     lastModified: seoReleaseDate,
   },

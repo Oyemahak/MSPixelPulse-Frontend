@@ -5,7 +5,7 @@ import { publishedBlogPosts } from "../src/data/blogPosts.js";
 import { faqSeo, locationSeoEntries, serviceSeoEntries } from "../src/data/discoverabilitySeo.js";
 import { faqGroups } from "../src/data/faqs.js";
 import { locationPages } from "../src/data/locationPages.js";
-import { pricingPlans } from "../src/data/plans.js";
+import { pricingFaqs, pricingPlans } from "../src/data/plans.js";
 import { publishedProjects } from "../src/data/projects.js";
 import { servicePages, servicePath, servicePathForLabel } from "../src/data/servicePages.js";
 import {
@@ -111,12 +111,16 @@ function renderServiceSnapshot(service) {
 
 function renderPricingSnapshot() {
   const cad = new Intl.NumberFormat("en-CA", { style: "currency", currency: "CAD", maximumFractionDigits: 0 });
+  const priceLine = (plan) => [plan.pricePrefix, cad.format(plan.price), plan.priceSuffix].filter(Boolean).join(" ");
   return staticShell("pricing", `
     <nav aria-label="Breadcrumb"><a href="/">Home</a> / <span>Website pricing</span></nav>
-    <header><h1>Clear starting points for your business website.</h1><p>Compare practical starting prices for responsive small-business website design, e-commerce, custom applications, and ongoing website maintenance.</p></header>
-    <section><h2>Published starting prices</h2>${pricingPlans.map((plan) => `<article><h3>${escapeHtml(plan.name)}</h3><p>Starting at ${escapeHtml(cad.format(plan.price))} ${escapeHtml(plan.priceSuffix)}. ${escapeHtml(plan.summary)}</p><p><strong>Best for:</strong> ${escapeHtml(plan.bestFor)}</p></article>`).join("")}</section>
-    <section><h2>Your quote confirms the complete scope.</h2><p>Final pricing depends on page count, content, store products, custom features, third-party services, and launch support. Hosting, domain names, paid apps, and subscriptions are included only when they are written into the agreement.</p></section>
-    <p><a href="/services">Compare services</a> · <a href="/faq">Read pricing FAQs</a> · <a href="/contact">Request a quote</a></p>
+    <header><h1>Website Pricing Made Simple</h1><p>Choose a starting package or build your own custom website plan. Every final scope is reviewed and confirmed in writing before work begins.</p><p><a href="#plan-builder">Build My Plan</a> · <a href="/contact">Talk to MSPixelPulse</a></p></header>
+    <section><h2>Website plans and specialized services</h2>${pricingPlans.map((plan) => `<article><h3>${escapeHtml(plan.name)}</h3><p><strong>${escapeHtml(priceLine(plan))}</strong>. ${escapeHtml(plan.summary)}</p>${plan.bestFor ? `<p><strong>Best for:</strong> ${escapeHtml(plan.bestFor)}</p>` : ""}${plan.boundary ? `<p>${escapeHtml(plan.boundary)}</p>` : ""}</article>`).join("")}</section>
+    <section id="plan-builder"><h2>Build a practical website plan</h2><p>The four-step pricing builder helps visitors choose a service, page count, real add-ons, and a transparent estimate before carrying the summary into the contact form.</p><ol><li>Choose a service type</li><li>Select a page count</li><li>Add optional project work</li><li>Review the estimate and request a written quote</li></ol><p><a href="/contact?inquiry=builder">Start a website quote request</a></p></section>
+    <section><h2>What affects website pricing?</h2><p>Page count, content readiness, custom design, products, integrations, user roles, migration, accessibility requirements, and launch support can change the final scope.</p><p><a href="/services/website-redesign">Website redesign</a> · <a href="/services/wordpress-development">WordPress development</a> · <a href="/services/ecommerce-development">E-commerce development</a> · <a href="/services/moodle-lms-development">Moodle LMS development</a> · <a href="/services/website-maintenance">Website maintenance</a></p></section>
+    <section><h2>Website pricing questions</h2>${pricingFaqs.map((item) => `<h3>${escapeHtml(item.question)}</h3><p>${escapeHtml(item.answer)}</p>`).join("")}</section>
+    <section><h2>Your written quote confirms the complete scope</h2><p>All prices are in CAD and exclude applicable tax unless stated otherwise. Hosting, domains, paid tools, subscriptions, and third-party fees are separate unless specifically included. Maintenance is billed only for approved time.</p></section>
+    <p><a href="/services">Compare services</a> · <a href="/projects">Review website projects</a> · <a href="/contact">Request a quote</a></p>
   `);
 }
 

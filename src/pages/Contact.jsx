@@ -1,10 +1,10 @@
 import { useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import { LuCalendar, LuChevronDown, LuSend, LuSparkles } from "react-icons/lu";
+import { LuCalendar, LuChevronDown, LuClipboardCheck, LuSend, LuSparkles } from "react-icons/lu";
 import Container from "@/components/layout/Container.jsx";
 import { FloatingField, StandardField } from "@/components/ui/FormField.jsx";
 import Button from "@/components/ui/Button.jsx";
-import { FORMS_BASE } from "@/lib/forms.js";
+import { API_BASE } from "@/lib/api.js";
 import Meta from "@/components/Meta.jsx";
 import { seoPages } from "@/data/seoPages.js";
 import { servicePages } from "@/data/servicePages.js";
@@ -12,6 +12,14 @@ import ContactActions from "@/components/ContactActions.jsx";
 import SocialContactLinks from "@/components/SocialContactLinks.jsx";
 import { PageHero } from "@/components/public/PublicPageHeader.jsx";
 import { trackEvent } from "@/lib/analytics.js";
+import {
+  buildPlanSummary,
+  clearPlanDraft,
+  loadPlanDraft,
+  planSelectionKey,
+  readPlanSearchParams,
+  sanitizeBuilderSelection,
+} from "@/lib/planBuilder.js";
 
 const emptyForm = {
   name: "",
@@ -34,11 +42,30 @@ const emptyForm = {
 export default function Contact() {
   const [searchParams] = useSearchParams();
   const demoMode = searchParams.get("request") === "free-demo";
+  const builderMode = searchParams.get("inquiry") === "builder";
   const selectedPlan = searchParams.get("label") || "";
   const selectedService = searchParams.get("service") || "";
+  const builderSelection = useMemo(() => {
+    if (!builderMode) return null;
+    const querySelection = readPlanSearchParams(searchParams);
+    const savedSelection = loadPlanDraft();
+    const notes = planSelectionKey(querySelection) === planSelectionKey(savedSelection)
+      ? savedSelection.notes
+      : "";
+    return sanitizeBuilderSelection({
+      ...querySelection,
+      notes,
+    });
+  }, [builderMode, searchParams]);
+  const builderSummary = useMemo(
+    () => builderSelection ? buildPlanSummary(builderSelection) : null,
+    [builderSelection],
+  );
   const [form, setForm] = useState(() => ({
     ...emptyForm,
-    service: demoMode ? "Free website demo" : selectedPlan || selectedService,
+    service: demoMode
+      ? "Free website demo"
+      : builderSummary?.service.label || selectedPlan || selectedService,
   }));
   const [errors, setErrors] = useState({});
   const [submitting, setSubmitting] = useState(false);
@@ -97,10 +124,15 @@ export default function Contact() {
     setStatus({ type: "", message: "" });
     if (!validate()) return;
 
-    const inquiryType = demoMode ? "Free Demo Request" : "Website Project Inquiry";
+    const inquiryType = demoMode
+      ? "Free Demo Request"
+      : builderMode
+        ? "Website Plan Builder Quote Request"
+        : "Website Project Inquiry";
     const message = [
       `Inquiry type: ${inquiryType}`,
       `Selected plan: ${selectedPlan || "Not selected"}`,
+      ...(builderSummary ? ["", "Pricing builder summary:", ...builderSummary.lines, ""] : []),
       `Business type: ${form.industry || "Not specified"}`,
       `Service or request: ${form.service || "Not specified"}`,
       `Business description: ${form.businessDescription.trim()}`,
@@ -115,7 +147,7 @@ export default function Contact() {
 
     try {
       setSubmitting(true);
-      const response = await fetch(`${FORMS_BASE}/contact`, {
+      const response = await fetch(`${API_BASE}/contact`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -124,9 +156,9 @@ export default function Contact() {
           email: form.email.trim(),
           phone: form.phone.trim(),
           businessName: form.businessName.trim(),
-          service: form.service || selectedPlan,
-          source: demoMode ? "free-demo-request" : "contact-page",
-          sourceTitle: selectedPlan || inquiryType,
+          service: form.service || builderSummary?.service.label || selectedPlan,
+          source: demoMode ? "free-demo-request" : builderMode ? "pricing-plan-builder" : "contact-page",
+          sourceTitle: builderSummary?.service.label || selectedPlan || inquiryType,
           sourceSlug: searchParams.get("article") || "",
           sourceUrl: typeof window !== "undefined" ? window.location.href : "/contact",
           message,
@@ -145,15 +177,25 @@ export default function Contact() {
           ? "Thank you. We received your business idea and will review the information you shared. We will contact you about the next steps for your personalized website demo."
           : "Thank you. We received your project details and will contact you about the next step.",
       });
-      setForm({ ...emptyForm, service: demoMode ? "Free website demo" : selectedPlan || selectedService });
+      setForm({
+        ...emptyForm,
+        service: demoMode
+          ? "Free website demo"
+          : builderSummary?.service.label || selectedPlan || selectedService,
+      });
       setErrors({});
+      if (builderMode) clearPlanDraft();
       trackEvent("generate_lead", {
         lead_type: demoMode
           ? "free_demo"
-          : searchParams.get("inquiry") === "plan" || selectedPlan
+          : builderMode || searchParams.get("inquiry") === "plan" || selectedPlan
             ? "quote_request"
             : "project_inquiry",
-        form_source: demoMode ? "free_demo_request" : "contact_page",
+        form_source: demoMode
+          ? "free_demo_request"
+          : builderMode
+            ? "pricing_plan_builder"
+            : "contact_page",
       });
     } catch (error) {
       setStatus({
@@ -193,6 +235,24 @@ export default function Contact() {
               the final production website; final development, revisions, hosting,
               integrations, and ownership terms are discussed separately.
             </p>
+          </aside>
+        )}
+
+        {builderSummary && (
+          <aside className="contact-builder-summary" aria-labelledby="contact-builder-summary-title">
+            <LuClipboardCheck aria-hidden="true" />
+            <div>
+              <p className="demo-eyebrow">Plan attached</p>
+              <h2 id="contact-builder-summary-title">{builderSummary.service.label}</h2>
+              <dl>
+                <div><dt>Page size</dt><dd>{builderSummary.pageSize?.label || "Not sure yet"}</dd></div>
+                <div><dt>Estimate</dt><dd>{builderSummary.label}</dd></div>
+                <div><dt>Add-ons</dt><dd>{builderSummary.addons.length ? builderSummary.addons.map((addon) => addon.label).join(", ") : "None selected"}</dd></div>
+                <div><dt>Maintenance</dt><dd>{builderSummary.maintenance.label}</dd></div>
+              </dl>
+              {builderSummary.selection.notes && <p><strong>Notes:</strong> {builderSummary.selection.notes}</p>}
+              <small>This planning summary will be included with your inquiry. The written quote confirms the final scope and price.</small>
+            </div>
           </aside>
         )}
 
@@ -259,6 +319,9 @@ export default function Contact() {
                   onChange={(event) => setField("service", event.target.value)}
                 >
                   <option value="">What do you need? (optional)</option>
+                  {builderSummary?.service.label && (
+                    <option value={builderSummary.service.label}>{builderSummary.service.label}</option>
+                  )}
                   <option>Free website demo</option>
                   <option>One-page website</option>
                   <option>Business website</option>

@@ -536,7 +536,7 @@ export const servicePages = [
     faq: [
       { question: "What can website maintenance include?", answer: "Maintenance can include agreed content updates, small layout or image changes, form and link checks, routine website review, WordPress updates, and basic accessibility, performance, or search cleanup." },
       { question: "Are redesigns and new features included in maintenance?", answer: "Not automatically. Full redesigns, complex features, large page additions, e-commerce expansion, custom application work, hosting, and third-party subscriptions require an agreed scope." },
-      { question: "Does MSPixelPulse publish maintenance pricing?", answer: "The pricing page includes a monthly website-support starting point and its boundaries. Final eligibility and scope are confirmed before support begins." },
+      { question: "Does MSPixelPulse publish maintenance pricing?", answer: "Yes. Routine maintenance and small updates are billed at $25 CAD per hour for actual approved work. Larger development and third-party costs are scoped separately before work begins." },
     ],
   },
   {

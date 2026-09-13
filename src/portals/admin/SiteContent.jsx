@@ -49,11 +49,14 @@ function StructuredFields({ kind, payload, setPayloadField }) {
   if (kind === "pricing") {
     return (
       <>
+        <p id="pricing-config-note" className="form-hint content-field-wide">
+          Public prices, plan keys, and required service boundaries are release-managed in the pricing configuration. Editorial fields continue to update matching active cards; legacy keys remain stored but are not published.
+        </p>
         <label className="form-field"><span className="form-label">Plan name</span><input value={payload.name || ""} onChange={(event) => setPayloadField("name", event.target.value)} /></label>
         <label className="form-field"><span className="form-label">Short name</span><input value={payload.shortName || ""} onChange={(event) => setPayloadField("shortName", event.target.value)} /></label>
         <label className="form-field"><span className="form-label">Category</span><input value={payload.category || ""} onChange={(event) => setPayloadField("category", event.target.value)} /></label>
-        <label className="form-field"><span className="form-label">Price</span><input type="number" min="0" step="0.01" value={payload.price ?? ""} onChange={(event) => setPayloadField("price", event.target.value === "" ? "" : Number(event.target.value))} /></label>
-        <label className="form-field"><span className="form-label">Price suffix</span><input value={payload.priceSuffix || ""} onChange={(event) => setPayloadField("priceSuffix", event.target.value)} placeholder="CAD" /></label>
+        <label className="form-field"><span className="form-label">Stored price (release-managed)</span><input type="number" value={payload.price ?? ""} aria-describedby="pricing-config-note" disabled /></label>
+        <label className="form-field"><span className="form-label">Stored suffix (release-managed)</span><input value={payload.priceSuffix || ""} aria-describedby="pricing-config-note" disabled /></label>
         <label className="form-field"><span className="form-label">Badge</span><input value={payload.badge || ""} onChange={(event) => setPayloadField("badge", event.target.value)} /></label>
         <label className="form-field"><span className="form-label">Accent</span><select value={payload.accent || "blue"} onChange={(event) => setPayloadField("accent", event.target.value)}><option>blue</option><option>purple</option><option>amber</option><option>rose</option></select></label>
         <label className="portal-toggle-row content-feature-toggle"><input type="checkbox" checked={Boolean(payload.featured)} onChange={(event) => setPayloadField("featured", event.target.checked)} /><span>Featured plan</span></label>

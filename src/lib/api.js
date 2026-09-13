@@ -16,12 +16,10 @@ const configuredBase = import.meta.env?.VITE_API_BASE
   ?.trim()
   .replace(/\/+$/, "");
 
-if (!IS_DEV && !configuredBase) {
-  throw new Error("VITE_API_BASE is required in production");
-}
-
 export const API_BASE =
-  configuredBase || "http://localhost:4000/api";
+  configuredBase || (IS_DEV
+    ? "http://localhost:4000/api"
+    : "https://api.mspixelpulse.com/api");
 
 /* ---------------------------------------------------------
    Core helpers

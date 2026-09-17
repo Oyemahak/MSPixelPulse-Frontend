@@ -32,7 +32,7 @@ export default function AgencyInterfacePreview() {
 
         <div className="agency-collaboration-status">
           <span aria-hidden="true" />
-          Brampton + GTA web strategy
+          Toronto + GTA web strategy
         </div>
 
         <div className="agency-collaboration-story">

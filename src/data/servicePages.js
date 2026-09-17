@@ -11,11 +11,13 @@ export const servicePages = [
     catalogueDescription: "Responsive websites, custom interfaces, forms, portals, and API-connected workflows built for dependable launches.",
     tags: ["Custom interfaces", "API-ready", "Responsive"],
     keywords: ["frontend", "web applications", "portals", "integrations", "JavaScript"],
-    lastModified: "2026-08-27",
-    seoTitle: "Web Development Agency Toronto | MSPixelPulse",
+    lastModified: "2026-09-17",
+    primaryIntent: "web development Toronto",
+    seoTitle: "Web Development Toronto | Custom Websites | MSPixelPulse",
     metaDescription:
-      "Custom web development in Toronto and across Canada for responsive business websites, React interfaces, forms, portals, integrations, and maintainable launches.",
+      "Custom web development in Toronto for business websites, React interfaces, forms, portals, integrations, and maintainable launches across Canada.",
     eyebrow: "Web development",
+    headline: "Custom web development for Toronto businesses and organizations.",
     summary:
       "MSPixelPulse builds responsive websites and web interfaces for small businesses, schools, and organizations in Toronto, the GTA, Ontario, and across Canada.",
     intro:
@@ -65,11 +67,13 @@ export const servicePages = [
     catalogueDescription: "Clear page systems, content hierarchy, responsive layouts, and conversion paths designed around real customer decisions.",
     tags: ["Content hierarchy", "Responsive UI", "Design systems"],
     keywords: ["information architecture", "wireframes", "prototypes", "conversion", "website strategy"],
-    lastModified: "2026-08-27",
-    seoTitle: "Website Design Toronto | MSPixelPulse",
+    lastModified: "2026-09-17",
+    primaryIntent: "website design Toronto",
+    seoTitle: "Website Design Toronto for Small Businesses | MSPixelPulse",
     metaDescription:
-      "Custom website design for Toronto and Canadian businesses, with clear content hierarchy, responsive layouts, accessible interactions, and conversion-focused customer journeys.",
+      "Website design for Toronto businesses with clear content hierarchy, responsive layouts, accessible interactions, and conversion-focused customer journeys.",
     eyebrow: "Website design",
+    headline: "Website design for Toronto businesses that need a clearer customer journey.",
     summary:
       "MSPixelPulse designs clear, responsive websites that help people understand a business, evaluate its services, and take the next step without unnecessary friction.",
     intro:
@@ -119,11 +123,13 @@ export const servicePages = [
     catalogueDescription: "Flexible WordPress websites with maintainable content, responsive service pages, practical plugins, and launch support.",
     tags: ["Block editor", "Service pages", "SEO-ready"],
     keywords: ["CMS", "content management", "themes", "plugins", "PHP"],
-    lastModified: "2026-08-27",
-    seoTitle: "WordPress Development Toronto | MSPixelPulse",
+    lastModified: "2026-09-17",
+    primaryIntent: "WordPress developer Toronto",
+    seoTitle: "WordPress Developer Toronto | Website Design | MSPixelPulse",
     metaDescription:
-      "WordPress development for Toronto and Canadian businesses, including responsive service websites, content structure, redesigns, maintenance planning, and launch support.",
+      "WordPress website design and development in Toronto, including responsive service pages, content structure, redesigns, maintenance planning, and launch support.",
     eyebrow: "WordPress development",
+    headline: "WordPress development for Toronto businesses that need flexible content.",
     summary:
       "MSPixelPulse builds and improves WordPress websites for organizations that need flexible content editing, clear service pages, responsive layouts, and practical launch support.",
     intro:
@@ -173,11 +179,13 @@ export const servicePages = [
     catalogueDescription: "Reusable React and Vite interfaces for routed websites, custom interactions, portals, and application-style experiences.",
     tags: ["React Router", "Reusable UI", "API integration"],
     keywords: ["Vite", "single-page application", "frontend", "Framer Motion", "JavaScript"],
-    lastModified: "2026-08-27",
-    seoTitle: "React Web Development Agency Canada | MSPixelPulse",
+    lastModified: "2026-09-17",
+    primaryIntent: "React developer Toronto",
+    seoTitle: "React Developer Toronto | Custom Web Development | MSPixelPulse",
     metaDescription:
-      "React web development for Canadian businesses and organizations, including responsive Vite websites, reusable interfaces, portals, APIs, accessibility, and production QA.",
+      "React development in Toronto for responsive Vite websites, reusable interfaces, portals, API-connected workflows, accessibility, and production QA.",
     eyebrow: "React development",
+    headline: "React development for Toronto teams building custom web experiences.",
     summary:
       "MSPixelPulse develops reusable React interfaces for websites and web applications that need custom interactions, structured routes, API connections, or application-like workflows.",
     intro:
@@ -227,11 +235,13 @@ export const servicePages = [
     catalogueDescription: "Accessible user flows, navigation, forms, and interface systems made easier to understand across devices and input methods.",
     tags: ["Accessible UX", "User flows", "Interface systems"],
     keywords: ["WCAG", "usability", "prototyping", "interaction design", "accessibility"],
-    lastModified: "2026-08-27",
-    seoTitle: "UX/UI Design Toronto | MSPixelPulse",
+    lastModified: "2026-09-17",
+    primaryIntent: "UX UI design Toronto",
+    seoTitle: "UX/UI Design Toronto for Websites & Web Apps | MSPixelPulse",
     metaDescription:
-      "UX/UI design for Toronto and Canadian organizations, including information architecture, responsive interfaces, accessible flows, prototypes, forms, and design systems.",
+      "UX/UI design in Toronto for websites and web apps, including information architecture, responsive interfaces, accessible flows, forms, and design systems.",
     eyebrow: "UX/UI design",
+    headline: "UX/UI design for Toronto websites and web applications.",
     summary:
       "MSPixelPulse improves how website and application interfaces are organized, understood, and used across phones, tablets, desktops, keyboards, and assistive technology.",
     intro:
@@ -281,11 +291,13 @@ export const servicePages = [
     catalogueDescription: "Professional local-business websites that explain services, build trust, support search discovery, and create a direct inquiry path.",
     tags: ["Local discovery", "Lead generation", "Mobile-first"],
     keywords: ["small business", "local SEO", "service area", "contact forms", "Toronto"],
-    lastModified: "2026-08-27",
-    seoTitle: "Small Business Website Development Toronto | MSPixelPulse",
+    lastModified: "2026-09-17",
+    primaryIntent: "small business web design Toronto",
+    seoTitle: "Small Business Web Design Toronto | MSPixelPulse",
     metaDescription:
-      "Small-business website design and development for Toronto, Brampton, Mississauga, the GTA, Ontario, and remote clients across Canada.",
+      "Small business web design in Toronto and the GTA, with clear services, responsive pages, local search foundations, trust content, and direct inquiry paths.",
     eyebrow: "Small-business websites",
+    headline: "Small business web design for Toronto and GTA service companies.",
     summary:
       "MSPixelPulse builds practical small-business websites that explain services clearly, work well on mobile, support local trust, and provide a direct contact path.",
     intro:
@@ -335,11 +347,13 @@ export const servicePages = [
     catalogueDescription: "Focused redesigns that improve structure, mobile UX, accessibility, and performance while protecting useful content and URLs.",
     tags: ["SEO migration", "UX refresh", "Launch QA"],
     keywords: ["content audit", "responsive redesign", "performance", "accessibility", "redirects"],
-    lastModified: "2026-08-27",
-    seoTitle: "Website Redesign Agency Toronto | MSPixelPulse",
+    lastModified: "2026-09-17",
+    primaryIntent: "website redesign Toronto",
+    seoTitle: "Website Redesign Toronto | UX, SEO & Mobile | MSPixelPulse",
     metaDescription:
-      "Website redesign services for Toronto and Canadian organizations, including content structure, mobile UX, accessibility, performance, SEO migration, and launch QA.",
+      "Website redesign services in Toronto for clearer content, mobile UX, accessibility, performance, SEO preservation, redirects, and launch QA.",
     eyebrow: "Website redesign",
+    headline: "Website redesign for Toronto businesses with outdated or difficult sites.",
     summary:
       "MSPixelPulse redesigns websites that have become difficult to understand, use, update, or trust—while protecting valuable content, URLs, and working functionality.",
     intro:
@@ -389,11 +403,13 @@ export const servicePages = [
     catalogueDescription: "Moodle environments with structured courses, roles, enrolment, responsive learner UX, upgrades, and operational support.",
     tags: ["Course workflows", "Roles and enrolment", "LMS support"],
     keywords: ["learning management system", "plugins", "PHP", "MariaDB", "online learning"],
-    lastModified: "2026-08-27",
-    seoTitle: "Moodle LMS Development & Support Canada | MSPixelPulse",
+    lastModified: "2026-09-17",
+    primaryIntent: "Moodle developer Toronto",
+    seoTitle: "Moodle Developer Toronto | LMS Development | MSPixelPulse",
     metaDescription:
-      "Moodle LMS development and support for Canadian schools and training organizations, including setup, responsive UI, courses, roles, plugins, upgrades, hosting planning, and administration.",
+      "Moodle LMS development for Toronto and Canadian schools, including setup, responsive learner UX, courses, roles, plugins, upgrades, hosting, and support.",
     eyebrow: "Moodle LMS development",
+    headline: "Moodle LMS development for Toronto schools and training teams.",
     summary:
       "MSPixelPulse builds and supports Moodle learning environments for schools, training organizations, and education teams in Ontario and across Canada.",
     intro:
@@ -443,11 +459,13 @@ export const servicePages = [
     catalogueDescription: "Public school websites for programs, course discovery, admissions, policies, and clear connections to separate learning systems.",
     tags: ["Course catalogues", "Admissions UX", "LMS connection"],
     keywords: ["education website", "school", "programs", "courses", "accessible navigation"],
-    lastModified: "2026-08-27",
-    seoTitle: "School Website Development Ontario | MSPixelPulse",
+    lastModified: "2026-09-17",
+    primaryIntent: "education website development Ontario",
+    seoTitle: "Education Website Development Ontario | MSPixelPulse",
     metaDescription:
-      "School website design and development in Ontario and Canada, including responsive program pages, course discovery, admissions journeys, accessibility, WordPress, React, and Moodle connections.",
+      "Education website development in Ontario for responsive program pages, course discovery, admissions, accessibility, WordPress, React, and Moodle connections.",
     eyebrow: "School websites",
+    headline: "Education website development for Ontario schools and training organizations.",
     summary:
       "MSPixelPulse builds school websites that help families, learners, and staff find programs, courses, admissions information, policies, contact paths, and learning-platform access.",
     intro:
@@ -497,11 +515,13 @@ export const servicePages = [
     catalogueDescription: "Ongoing content updates, form and link checks, responsive fixes, health reviews, and agreed technical improvements.",
     tags: ["Content updates", "Form and link QA", "Health checks"],
     keywords: ["support", "updates", "backups", "monitoring", "plugin maintenance"],
-    lastModified: "2026-08-27",
-    seoTitle: "Website Maintenance & Support Toronto | MSPixelPulse",
+    lastModified: "2026-09-17",
+    primaryIntent: "website maintenance Toronto",
+    seoTitle: "Website Maintenance Toronto | Support & Updates | MSPixelPulse",
     metaDescription:
-      "Website maintenance and support for Toronto and Canadian businesses, including updates, content changes, form checks, backups, plugin review, responsive fixes, and launch support.",
+      "Website maintenance in Toronto for content updates, form and link checks, backups, WordPress plugin review, responsive fixes, and launch support.",
     eyebrow: "Website maintenance",
+    headline: "Website maintenance for Toronto businesses that need dependable support.",
     summary:
       "MSPixelPulse provides ongoing website support for routine content changes, health checks, responsive fixes, form and link verification, updates, and agreed technical improvements.",
     intro:
@@ -551,11 +571,13 @@ export const servicePages = [
     catalogueDescription: "Conversion-focused online stores with clear products, mobile checkout paths, payment integrations, and practical launch support.",
     tags: ["Online stores", "Product UX", "Checkout planning"],
     keywords: ["e-commerce", "online store", "WooCommerce", "shopping cart", "payments"],
-    lastModified: "2026-09-12",
-    seoTitle: "E-commerce Website Development Brampton & Toronto | MSPixelPulse",
+    lastModified: "2026-09-17",
+    primaryIntent: "ecommerce website development Toronto",
+    seoTitle: "E-commerce Website Development Toronto | MSPixelPulse",
     metaDescription:
-      "E-commerce website development for Brampton, Toronto, the GTA, and Canadian businesses, including product UX, mobile shopping, payments, SEO foundations, and launch QA.",
+      "E-commerce website development in Toronto and the GTA, including product UX, mobile shopping, payments, search foundations, and launch QA.",
     eyebrow: "E-commerce development",
+    headline: "E-commerce website development for Toronto and GTA retailers.",
     summary:
       "MSPixelPulse plans and builds responsive e-commerce websites for businesses serving Brampton, Toronto, the GTA, and customers across Canada.",
     intro:
@@ -605,11 +627,13 @@ export const servicePages = [
     catalogueDescription: "Technical SEO, local search foundations, content architecture, and AI discovery improvements tied to useful website pages.",
     tags: ["Technical SEO", "Local search", "AI discovery"],
     keywords: ["website SEO", "technical SEO", "local SEO", "search readiness", "structured data"],
-    lastModified: "2026-09-12",
-    seoTitle: "Website SEO Services Brampton & Toronto | MSPixelPulse",
+    lastModified: "2026-09-17",
+    primaryIntent: "website SEO Toronto",
+    seoTitle: "Website SEO Toronto | Technical & Local SEO | MSPixelPulse",
     metaDescription:
-      "Website SEO services for Brampton, Toronto, the GTA, and Canadian businesses: technical audits, local search foundations, content architecture, schema, and AI discovery.",
+      "Website SEO in Toronto for technical audits, local search foundations, content architecture, schema, internal links, indexability, and AI discovery.",
     eyebrow: "Website SEO and search readiness",
+    headline: "Website SEO for Toronto businesses that need stronger search foundations.",
     summary:
       "MSPixelPulse improves the technical and content foundations that help search engines and people understand a website, with Brampton as a primary local focus and the GTA and Canada as broader service areas.",
     intro:
@@ -675,4 +699,24 @@ const labelRoutes = [
 export function servicePathForLabel(label = "") {
   const match = labelRoutes.find(([pattern]) => pattern.test(label));
   return match ? servicePath(match[1]) : "/services";
+}
+
+const editorialPillarRoutes = new Map([
+  ["AI & Search", "website-seo"],
+  ["Local SEO", "website-seo"],
+  ["Performance & Care", "website-maintenance"],
+  ["Design & UX", "ui-ux-design"],
+  ["Content & Brand", "website-design"],
+  ["Planning", "small-business-websites"],
+  ["Platforms & Growth", "web-development"],
+]);
+
+export function servicePathForEditorialTopic(post = {}) {
+  const topicalLabel = [post.category, ...(post.tags || [])].filter(Boolean).join(" ");
+  const specificPath = servicePathForLabel(topicalLabel);
+
+  if (specificPath !== "/services") return specificPath;
+
+  const fallbackSlug = editorialPillarRoutes.get(post.pillar);
+  return fallbackSlug ? servicePath(fallbackSlug) : "/services";
 }

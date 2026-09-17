@@ -15,7 +15,7 @@ import Container from "@/components/layout/Container.jsx";
 import { publishedBlogPosts } from "@/data/blogPosts.js";
 import { publishedProjects } from "@/data/projects.js";
 import { blogPostSeo } from "@/data/seoPages.js";
-import { servicePathForLabel } from "@/data/servicePages.js";
+import { servicePathForEditorialTopic, servicePathForLabel } from "@/data/servicePages.js";
 
 function sectionId(heading) {
   return heading
@@ -63,9 +63,7 @@ export default function BlogPost() {
     .filter((item) => item.slug !== post.slug && item.pillar === post.pillar)
     .sort((a, b) => (a.popularRank || 99) - (b.popularRank || 99))
     .slice(0, 3);
-  const relatedServicePath = servicePathForLabel(
-    [post.pillar, post.category, ...(post.tags || [])].join(" "),
-  );
+  const relatedServicePath = servicePathForEditorialTopic(post);
   const relatedProject = publishedProjects.find((project) =>
     project.services?.some((service) => servicePathForLabel(service) === relatedServicePath),
   ) || publishedProjects.find((project) => project.classification === "live");

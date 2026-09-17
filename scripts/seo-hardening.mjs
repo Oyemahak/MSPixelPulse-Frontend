@@ -7,7 +7,12 @@ import { faqGroups } from "../src/data/faqs.js";
 import { locationPages } from "../src/data/locationPages.js";
 import { pricingFaqs, pricingPlans } from "../src/data/plans.js";
 import { publishedProjects } from "../src/data/projects.js";
-import { servicePages, servicePath, servicePathForLabel } from "../src/data/servicePages.js";
+import {
+  servicePages,
+  servicePath,
+  servicePathForEditorialTopic,
+  servicePathForLabel,
+} from "../src/data/servicePages.js";
 import {
   blogPostSeo,
   projectSeo,
@@ -57,7 +62,7 @@ function staticShell(kind, content) {
 
 function renderHomeSnapshot() {
   return staticShell("home", `
-    <header><p>Website agency serving Brampton and the GTA</p><h1>MSPixelPulse builds clearer websites for local businesses.</h1><p>Custom website design, WordPress, React, e-commerce, UX/UI, SEO foundations, school website, and Moodle LMS solutions for businesses in Brampton, Toronto, the GTA, and across Canada.</p><p><a href="/contact">Start a project</a> · <a href="/projects">View website projects</a> · <a href="/web-design-brampton">Web design for Brampton businesses</a></p></header>
+    <header><p>Toronto web design and development agency</p><h1>Web design and development for Toronto businesses and organizations.</h1><p>MSPixelPulse helps small businesses, organizations, and education teams plan, build, redesign, and maintain responsive websites across Toronto, the GTA, and Canada.</p><p><a href="/contact">Start a project</a> · <a href="/projects">View website projects</a> · <a href="/services/small-business-websites">Small-business web design</a> · <a href="/web-design-brampton">Web design for Brampton businesses</a></p></header>
     <section><h2>Website services</h2><ul>${servicePages.map((service) => `<li><a href="${servicePath(service.slug)}">${escapeHtml(service.name)}</a> — ${escapeHtml(service.summary)}</li>`).join("")}</ul></section>
     <section><h2>How MSPixelPulse works</h2><p>Projects begin with the audience, service, content, required actions, and technical boundaries. The agreed solution is designed responsively, built with reusable components or templates, and checked before launch.</p></section>
     <p><a href="/about">About MSPixelPulse</a> · <a href="/faq">Website development FAQs</a> · <a href="/pricing">Website pricing</a></p>
@@ -77,7 +82,7 @@ function renderAboutSnapshot() {
 function renderServicesSnapshot() {
   return staticShell("services", `
     <nav aria-label="Breadcrumb"><a href="/">Home</a> / <span>Services</span></nav>
-    <header><h1>Web design and development that supports a real business.</h1><p>Web design for Brampton, Toronto, and Canadian businesses, including WordPress, React, e-commerce, SEO, UX/UI, redesigns, maintenance, school websites, Moodle LMS work, and custom interfaces.</p><p><a href="/web-design-brampton">Explore web design for Brampton businesses</a></p></header>
+    <header><h1>Web design and development that supports a real business.</h1><p>Web design for Toronto, Brampton, and Canadian businesses, including WordPress, React, e-commerce, SEO, UX/UI, redesigns, maintenance, school websites, Moodle LMS work, and custom interfaces.</p><p><a href="/web-design-brampton">Explore web design for Brampton businesses</a></p></header>
     <section><h2>Dedicated service pages</h2>${servicePages.map((service) => `<article><h3><a href="${servicePath(service.slug)}">${escapeHtml(service.name)}</a></h3><p>${escapeHtml(service.summary)}</p></article>`).join("")}</section>
     <p><a href="/projects">View related projects</a> · <a href="/faq">Read service FAQs</a> · <a href="/contact">Discuss a project</a></p>
   `);
@@ -99,7 +104,7 @@ function renderLocationSnapshot(location) {
 function renderServiceSnapshot(service) {
   return staticShell("service", `
     <nav aria-label="Breadcrumb"><a href="/">Home</a> / <a href="/services">Services</a> / <span>${escapeHtml(service.name)}</span></nav>
-    <article><header><h1>${escapeHtml(service.name)} for clear, dependable digital experiences.</h1><p>${escapeHtml(service.summary)}</p><p>${escapeHtml(service.intro)}</p></header>
+    <article><header><h1>${escapeHtml(service.headline)}</h1><p>${escapeHtml(service.summary)}</p><p>${escapeHtml(service.intro)}</p></header>
     <section><h2>Who this service is for</h2><ul>${service.audience.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul></section>
     <section><h2>Problems this work can address</h2><ul>${service.problems.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul></section>
     <section><h2>What an agreed project can include</h2><ul>${service.deliverables.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul></section>
@@ -145,7 +150,7 @@ function renderFaqSnapshot() {
 
 function renderBlogPostSnapshot(post) {
   const related = publishedBlogPosts.filter((item) => item.slug !== post.slug && item.pillar === post.pillar).sort((a, b) => (a.popularRank || 99) - (b.popularRank || 99)).slice(0, 4);
-  const relatedService = servicePathForLabel([post.pillar, post.category, ...(post.tags || [])].join(" "));
+  const relatedService = servicePathForEditorialTopic(post);
   const relatedProject = publishedProjects.find((project) => project.services?.some((service) => servicePathForLabel(service) === relatedService)) || publishedProjects.find((project) => project.classification === "live");
   return staticShell("blog-post", `
     <nav aria-label="Breadcrumb"><a href="/">Home</a> / <a href="/blog">Blog</a> / <span>${escapeHtml(post.title)}</span></nav>
@@ -173,11 +178,16 @@ function renderProjectsSnapshot() {
 }
 
 function renderProjectSnapshot(project) {
+  const requirements = project.requirements?.length
+    ? `<section><h2>Project requirements</h2><ul>${project.requirements.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul></section>`
+    : "";
+  const solutionItems = project.solution?.length ? project.solution : project.features || [];
   return staticShell("project", `
     <nav aria-label="Breadcrumb"><a href="/">Home</a> / <a href="/projects">Projects</a> / <span>${escapeHtml(project.title)}</span></nav>
     <article><header><p>${escapeHtml(project.label)} · ${escapeHtml(project.industry)} · ${escapeHtml(project.websiteType)}</p><h1>${escapeHtml(project.title)}</h1><p>${escapeHtml(project.shortDescription || project.summary || "")}</p></header>
-    <section><h2>Project context</h2><p>${escapeHtml(project.overview || "")}</p></section>
-    <section><h2>Solution and UX decisions</h2><ul>${(project.features || []).map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul></section>
+    <section><h2>Problem and project context</h2><p>${escapeHtml(project.overview || "")}</p></section>
+    ${requirements}
+    <section><h2>Solution and UX/development work</h2><ul>${solutionItems.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul></section>
     <section><h2>Services connected to this project</h2><ul>${(project.services || []).map((item) => `<li><a href="${servicePathForLabel(item)}">${escapeHtml(item)}</a></li>`).join("")}</ul></section>
     <section><h2>Technology</h2><p>${escapeHtml([project.platform, ...(project.stack || [])].filter(Boolean).join(" · "))}</p></section>
     <section><h2>Published outcome</h2><p>${escapeHtml(project.result || "")}</p></section>

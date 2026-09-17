@@ -5,7 +5,7 @@ const absolute = (path = "/") => (path.startsWith("http") ? path : `${site.url}$
 export const organizationId = `${site.url}/#organization`;
 const websiteId = `${site.url}/#website`;
 const founderId = `${site.url}/about#mahak-patel`;
-export const seoReleaseDate = "2026-09-12";
+export const seoReleaseDate = "2026-09-17";
 
 export const organizationJsonLd = {
   "@context": "https://schema.org",
@@ -23,10 +23,21 @@ export const organizationJsonLd = {
     caption: site.name,
   },
   description: site.description,
+  knowsAbout: [
+    "Website design",
+    "Web development",
+    "WordPress development",
+    "React development",
+    "E-commerce development",
+    "Moodle LMS development",
+    "UX/UI design",
+    "Technical SEO",
+    "Website maintenance",
+  ],
   founder: { "@id": founderId },
   areaServed: [
-    { "@type": "City", name: "Brampton, Ontario, Canada" },
     { "@type": "City", name: "Toronto, Ontario, Canada" },
+    { "@type": "City", name: "Brampton, Ontario, Canada" },
     { "@type": "City", name: "Mississauga, Ontario, Canada" },
     { "@type": "AdministrativeArea", name: "Greater Toronto Area, Ontario, Canada" },
     { "@type": "Country", name: "Canada" },
@@ -68,9 +79,9 @@ export const founderJsonLd = {
 export const seoPages = {
   home: {
     path: "/",
-    title: "MSPixelPulse | Website Agency Serving Brampton & Canada",
+    title: "Web Design & Development Toronto | MSPixelPulse",
     description:
-      "MSPixelPulse serves Brampton, Toronto, the GTA, and Canada with website design, development, e-commerce, SEO foundations, redesigns, and ongoing support.",
+      "Web design and development for Toronto small businesses, organizations, and education teams, including WordPress, React, e-commerce, Moodle, SEO, and support.",
     canonical: "/",
     image: "/hero/mspixelpulse-web-design-collaboration.webp",
     component: "src/pages/Home.jsx",
@@ -96,9 +107,9 @@ export const seoPages = {
   },
   services: {
     path: "/services",
-    title: "Web Design & Development Services | MSPixelPulse",
+    title: "Website Services Toronto | Design, Development & SEO",
     description:
-      "Web design and development for Brampton, Toronto, and Canadian businesses: WordPress, React, e-commerce, SEO, redesign, maintenance, Moodle LMS, and portals.",
+      "Explore Toronto website services for design, development, WordPress, React, e-commerce, SEO, redesigns, maintenance, Moodle LMS, and education platforms.",
     canonical: "/services",
     component: "src/pages/Services.jsx",
     jsonLd: [
@@ -256,8 +267,10 @@ export function projectSeo(project) {
   const projectId = `${absolute(path)}#project`;
   return {
     path,
-    title: `${project.title} | MSPixelPulse Portfolio`,
-    description: project.shortDescription || project.summary,
+    title: project.seoTitle || `${project.title} | MSPixelPulse Portfolio`,
+    description:
+      project.metaDescription ||
+      `${project.shortDescription || project.summary} See the context, solution, technology, and outcome.`,
     canonical: path,
     image: project.thumb,
     component: "src/pages/ProjectDetail.jsx",

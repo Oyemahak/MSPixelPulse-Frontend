@@ -47,7 +47,7 @@ export default function AppFooter() {
             </div>
             <p>
               Thoughtful web design, development, and client portal solutions for
-              businesses in Brampton, Toronto, the GTA, and across Canada.
+              businesses in Toronto, Brampton, the GTA, and across Canada.
             </p>
             <span className="agency-footer-location">{site.location}</span>
             <SocialContactLinks

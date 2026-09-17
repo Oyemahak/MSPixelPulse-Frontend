@@ -62,6 +62,13 @@ export function normalizePublicProject(project = {}, curatedProject = null) {
     features: normalized.features.length ? normalized.features : curatedProject.features,
     overview: normalized.overview || curatedProject.overview,
     result: normalized.result || curatedProject.result,
+    // Editorial case-study fields are release-managed. API requirement records use a
+    // different contract and must not overwrite these public arrays.
+    requirements: Array.isArray(curatedProject.requirements) ? curatedProject.requirements : [],
+    solution: Array.isArray(curatedProject.solution) ? curatedProject.solution : [],
+    seoTitle: curatedProject.seoTitle,
+    metaDescription: curatedProject.metaDescription,
+    lastModified: curatedProject.lastModified,
     // Curated local captures are release-tested and must not be replaced by stale API hosts.
     thumb: curatedProject.thumb || image,
     imageAlt: curatedProject.imageAlt || normalized.imageAlt,

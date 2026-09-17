@@ -1,6 +1,6 @@
 # MSPixelPulse SEO and AI query map
 
-Updated: 2026-09-12
+Updated: 2026-09-17
 
 This map connects high-intent customer questions to one canonical MSPixelPulse page. It is a planning and review aid, not a keyword-stuffing checklist. Page copy should answer the query directly, retain natural language, and stay within the agency's documented capabilities.
 
@@ -8,19 +8,20 @@ This map connects high-intent customer questions to one canonical MSPixelPulse p
 
 | Customer query or intent | Canonical page | Answer focus |
 | --- | --- | --- |
+| web design and development Toronto | `/` | Broad agency overview for small businesses, organizations, and education teams, with direct paths to focused commercial pages |
 | web design Brampton | `/web-design-brampton` | Brampton service-area hub connecting truthful local context to focused service, project, FAQ, and contact pages |
-| e-commerce website development Brampton / Toronto | `/services/ecommerce-development` | Store planning, product UX, mobile shopping, checkout, payments, search foundations, and launch QA |
-| website SEO services Brampton / Toronto | `/services/website-seo` | Technical SEO, local search foundations, content architecture, schema, AI discovery, and measurement |
-| web development agency Toronto | `/services/web-development` | Custom website and interface development for Toronto, GTA, Ontario, and Canadian organizations |
+| ecommerce website development Toronto | `/services/ecommerce-development` | Store planning, product UX, mobile shopping, checkout, payments, search foundations, and launch QA |
+| website SEO Toronto | `/services/website-seo` | Technical SEO, local search foundations, content architecture, schema, AI discovery, and measurement |
+| web development Toronto | `/services/web-development` | Custom website and interface development for Toronto, GTA, Ontario, and Canadian organizations |
 | website design Toronto | `/services/website-design` | Responsive information architecture, visual hierarchy, accessible interaction, and conversion paths |
-| WordPress development Toronto | `/services/wordpress-development` | New WordPress websites, existing-site improvements, content workflows, and maintenance planning |
-| React web development agency Canada | `/services/react-development` | Reusable React/Vite interfaces, routes, application states, APIs, accessibility, and release QA |
+| WordPress developer Toronto | `/services/wordpress-development` | New WordPress websites, existing-site improvements, content workflows, and maintenance planning |
+| React developer Toronto | `/services/react-development` | Reusable React/Vite interfaces, routes, application states, APIs, accessibility, and release QA |
 | UX/UI design Toronto | `/services/ui-ux-design` | Information architecture, responsive UI systems, task flows, forms, and accessibility review |
-| small business website development GTA | `/services/small-business-websites` | Practical local-business websites with clear services, mobile UX, trust content, and contact paths |
-| website redesign services Toronto | `/services/website-redesign` | Content, hierarchy, responsive behaviour, accessibility, SEO preservation, and redirect planning |
-| Moodle LMS development Canada | `/services/moodle-lms-development` | Moodle setup, course structure, enrolment and learner workflows, theming, integrations, and handoff |
-| school website design Ontario | `/services/school-websites` | Public school information, program discovery, admissions paths, responsive access, and LMS separation |
-| website maintenance services Canada | `/services/website-maintenance` | Agreed updates, backups, dependency and content checks, monitoring, and incident responsibilities |
+| small business web design Toronto | `/services/small-business-websites` | Practical local-business websites with clear services, mobile UX, trust content, and contact paths |
+| website redesign Toronto | `/services/website-redesign` | Content, hierarchy, responsive behaviour, accessibility, SEO preservation, and redirect planning |
+| Moodle developer Toronto / LMS development | `/services/moodle-lms-development` | Moodle setup, course structure, enrolment and learner workflows, theming, integrations, and handoff |
+| education website development Ontario | `/services/school-websites` | Public school information, program discovery, admissions paths, responsive access, and LMS separation |
+| website maintenance Toronto | `/services/website-maintenance` | Agreed updates, backups, dependency and content checks, monitoring, and incident responsibilities |
 
 ## Supporting research and comparison queries
 

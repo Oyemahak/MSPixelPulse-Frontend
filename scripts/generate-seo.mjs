@@ -169,7 +169,17 @@ async function generateStaticHeads() {
 }
 
 async function submitIndexNow() {
-  const urls = indexableEntries().map((entry) => absolute(entry.path));
+  const requestedPaths = process.argv.slice(3);
+  const indexableByPath = new Map(indexableEntries().map((entry) => [entry.path, entry]));
+  const selectedEntries = requestedPaths.length > 0
+    ? requestedPaths.map((requestedPath) => {
+        const normalizedPath = new URL(requestedPath, site.url).pathname.replace(/\/$/, "") || "/";
+        const entry = indexableByPath.get(normalizedPath);
+        if (!entry) throw new Error(`IndexNow path is not a canonical indexable route: ${requestedPath}`);
+        return entry;
+      })
+    : indexableEntries();
+  const urls = [...new Set(selectedEntries.map((entry) => absolute(entry.path)))];
   const payload = {
     host: new URL(site.url).host,
     key: indexNowKey,
@@ -188,7 +198,7 @@ async function submitIndexNow() {
       console.warn(`IndexNow returned HTTP ${response.status}; deployment will continue.`);
       return;
     }
-    console.log(`Submitted ${urls.length} canonical URLs to IndexNow.`);
+    console.log(`Submitted ${urls.length} canonical URL${urls.length === 1 ? "" : "s"} to IndexNow.`);
   } catch (error) {
     console.warn(`IndexNow submission skipped: ${error.message}`);
   }

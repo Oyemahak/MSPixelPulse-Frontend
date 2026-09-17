@@ -74,7 +74,7 @@ export default function ServiceDetail() {
         <header className="grid gap-7 lg:grid-cols-[1fr_.72fr] lg:items-center">
           <div>
             <p className="public-page-eyebrow"><LuSparkles aria-hidden="true" /><span>{service.eyebrow}</span></p>
-            <h1 className="public-page-title">{service.name} for clear, dependable digital experiences.</h1>
+            <h1 className="public-page-title">{service.headline}</h1>
             <p className="public-page-description">{service.summary}</p>
             <div className="public-page-actions">
               <Link
@@ -103,7 +103,7 @@ export default function ServiceDetail() {
               </span>
               <div>
                 <strong className="block">Service area</strong>
-                <span className={`text-sm ${muted}`}>Brampton, Toronto, Mississauga, the GTA, Ontario, and remote clients across Canada</span>
+                <span className={`text-sm ${muted}`}>Toronto, Brampton, Mississauga, the GTA, Ontario, and remote clients across Canada</span>
               </div>
             </div>
             <p className={`mt-5 leading-7 ${muted}`}>{service.intro}</p>

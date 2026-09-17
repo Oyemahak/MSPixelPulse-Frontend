@@ -175,16 +175,16 @@ export default function Home() {
           <div className="grid min-w-0 gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
             <div className="min-w-0">
               <p className="mb-4 inline-flex rounded-full bg-blue-600/10 px-3 py-1 text-xs font-black uppercase tracking-wide text-blue-500">
-                Website agency serving Brampton and the GTA
+                Toronto web design and development agency
               </p>
               <h1 className={isDark ? "max-w-3xl break-words text-[2.35rem] font-extrabold leading-[1.08] md:text-[3.5rem]" : "max-w-3xl break-words text-[2.35rem] font-extrabold leading-[1.08] text-slate-950 md:text-[3.5rem]"}>
-                MSPixelPulse builds clearer websites for local businesses.
+                Web design and development for Toronto businesses and organizations.
               </h1>
               <p className={`mt-5 max-w-2xl text-lg leading-8 ${muted}`}>
-                Custom website design, WordPress, React, e-commerce, UX/UI, SEO foundations, school website, and Moodle LMS solutions for businesses in Brampton, Toronto, the GTA, and across Canada.
+                MSPixelPulse helps small businesses, organizations, and education teams plan, build, redesign, and maintain responsive websites across Toronto, the GTA, and Canada.
               </p>
               <p className={`mt-3 text-sm leading-6 ${muted}`}>
-                Looking for a local starting point? <Link className="font-black text-blue-500 hover:underline" to="/web-design-brampton">Explore web design for Brampton businesses.</Link>
+                Need a focused starting point? <Link className="font-black text-blue-500 hover:underline" to="/services/small-business-websites">Explore small-business web design</Link> or <Link className="font-black text-blue-500 hover:underline" to="/web-design-brampton">web design for Brampton businesses</Link>.
               </p>
               <div className="home-hero-actions mt-8 flex flex-wrap gap-3">
                 <Link
@@ -262,7 +262,7 @@ export default function Home() {
                 Why we are different
               </p>
               <h2 className={isDark ? "text-3xl font-black leading-tight md:text-4xl" : "text-3xl font-black leading-tight text-slate-950 md:text-4xl"}>
-                Affordable website help that stays close to your business.
+                Practical website support built around your business.
               </h2>
               <p className={`mt-4 max-w-xl leading-7 ${muted}`}>
                 You do not only get a few pages and a goodbye. We make MSPixelPulse a practical part of your business with clear planning, useful updates, mobile-first checks, and honest launch notes.

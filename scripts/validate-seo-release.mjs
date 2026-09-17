@@ -1,6 +1,7 @@
 import { access, readFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { servicePages, servicePath } from "../src/data/servicePages.js";
 import { site } from "../src/data/site.js";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -64,6 +65,7 @@ assert(!routes.some((route) => /^\/(?:admin|client|dev|login|register|debug|api)
 
 const titles = new Map();
 const descriptions = new Map();
+const headings = new Map();
 const brokenLinks = [];
 const missingImages = [];
 let schemaBlocks = 0;
@@ -77,17 +79,28 @@ for (const route of routes) {
   const canonical = linkHref(html, "canonical");
   const robots = metaContent(html, "robots").toLowerCase();
   const h1 = elementContent(html, "h1");
+  const h1Count = [...html.matchAll(/<h1(?:\s[^>]*)?>/gi)].length;
 
   assert(title, `Missing title on ${route}.`);
   assert(description, `Missing description on ${route}.`);
+  assert(title.length >= 25 && title.length <= 72, `Title length outside the release range on ${route}: ${title.length}`);
+  assert(description.length >= 70 && description.length <= 190, `Description length outside the release range on ${route}: ${description.length}`);
   assert(canonical === `${site.url}${route}`, `Canonical mismatch on ${route}: ${canonical}`);
   assert(!robots.includes("noindex"), `Indexable route is noindex: ${route}`);
   assert(h1, `Missing crawlable H1 on ${route}.`);
+  assert(h1Count === 1, `Expected one crawlable H1 on ${route}, found ${h1Count}.`);
+  assert(metaContent(html, "og:title") === title, `Open Graph title mismatch on ${route}.`);
+  assert(metaContent(html, "og:description") === description, `Open Graph description mismatch on ${route}.`);
+  assert(metaContent(html, "og:url") === canonical, `Open Graph URL mismatch on ${route}.`);
+  assert(metaContent(html, "twitter:title") === title, `Twitter title mismatch on ${route}.`);
+  assert(metaContent(html, "twitter:description") === description, `Twitter description mismatch on ${route}.`);
 
   if (titles.has(title)) throw new Error(`Duplicate title on ${route} and ${titles.get(title)}: ${title}`);
   if (descriptions.has(description)) throw new Error(`Duplicate description on ${route} and ${descriptions.get(description)}.`);
+  if (headings.has(h1)) throw new Error(`Duplicate H1 on ${route} and ${headings.get(h1)}: ${h1}`);
   titles.set(title, route);
   descriptions.set(description, route);
+  headings.set(h1, route);
 
   for (const match of html.matchAll(/<script[^>]+type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi)) {
     JSON.parse(match[1]);
@@ -114,6 +127,17 @@ assert(schemaBlocks >= routes.length, `Expected schema coverage across routes, f
 assert(brokenLinks.length === 0, `Broken internal links:\n${brokenLinks.join("\n")}`);
 assert(missingImages.length === 0, `Missing local images:\n${missingImages.join("\n")}`);
 
+const serviceIntents = new Set();
+for (const service of servicePages) {
+  assert(service.primaryIntent, `Missing primary search intent for ${service.slug}.`);
+  assert(service.headline, `Missing service H1 for ${service.slug}.`);
+  assert(!serviceIntents.has(service.primaryIntent), `Duplicate service intent: ${service.primaryIntent}`);
+  serviceIntents.add(service.primaryIntent);
+  assert(routes.includes(servicePath(service.slug)), `Service route missing from sitemaps: ${service.slug}`);
+}
+
+assert(!elementContent(await readFile(routeFile("/"), "utf8"), "title").startsWith("MSPixelPulse"), "Homepage title must lead with non-branded intent.");
+
 const robots = await readFile(path.join(distDir, "robots.txt"), "utf8");
 assert(robots.includes(`Sitemap: ${site.url}/sitemap.xml`), "robots.txt does not point to the canonical sitemap.");
 assert(robots.includes("Disallow: /admin"), "robots.txt does not protect admin routes.");
@@ -127,4 +151,4 @@ const vercel = JSON.parse(await readFile(path.join(rootDir, "vercel.json"), "utf
 assert(vercel.cleanUrls === true, "Vercel cleanUrls must remain enabled.");
 assert(vercel.trailingSlash === false, "Vercel trailingSlash must enforce non-trailing canonical paths.");
 
-console.log(`SEO validation passed: ${routes.length} unique canonical routes, ${schemaBlocks} JSON-LD blocks, 0 broken internal links, 0 missing local images.`);
+console.log(`SEO validation passed: ${routes.length} unique canonical routes, ${serviceIntents.size} unique service intents, ${schemaBlocks} JSON-LD blocks, one H1 per route, 0 duplicate titles/descriptions/H1s, 0 broken internal links, 0 missing local images.`);

@@ -18,7 +18,7 @@ export const site = {
   emailHref: `mailto:${runtimeEnv.VITE_SUPPORT_EMAIL || "info@mspixelpulse.com"}`,
   url: publicSiteUrl,
   description:
-    "Website design and development agency serving Brampton, Toronto, the GTA, and Canada with WordPress, React, e-commerce, SEO foundations, redesigns, and support.",
+    "Web design and development agency serving Toronto, Brampton, the GTA, and Canada with WordPress, React, e-commerce, SEO, redesigns, and support.",
 };
 
 export function supportsNativeMessages() {

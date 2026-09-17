@@ -49,6 +49,7 @@ test("keeps API content authoritative while preserving release-tested local capt
     title: "CanSTEM from API",
     projectClassification: "live",
     technologies: ["WordPress"],
+    requirements: "backend project requirements summary",
   }]);
 
   assert.equal(
@@ -59,6 +60,8 @@ test("keeps API content authoritative while preserving release-tested local capt
     projects.find((project) => project.slug === "canstem-education")?.thumb,
     "/projects/mockups/canstem-education.webp",
   );
+  assert.ok(Array.isArray(projects.find((project) => project.slug === "canstem-education")?.requirements));
+  assert.equal(projects.find((project) => project.slug === "canstem-education")?.requirements.length, 3);
   assert.equal(
     normalizePublicProjects([{
       _id: "nexus-api",

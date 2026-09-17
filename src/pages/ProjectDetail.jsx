@@ -43,6 +43,10 @@ export default function ProjectDetail() {
 
   const isLive = project.classification === "live";
   const projectMeta = projectSeo(project);
+  const caseStudyRequirements = Array.isArray(project.requirements) ? project.requirements : [];
+  const caseStudySolution = Array.isArray(project.solution) ? project.solution : [];
+  const projectFeatures = Array.isArray(project.features) ? project.features : [];
+  const hasDetailedCaseStudy = caseStudyRequirements.length > 0 || caseStudySolution.length > 0;
   const classificationClass = isLive
     ? isDark
       ? "border-emerald-300/20 bg-emerald-500/15 text-emerald-200"
@@ -138,23 +142,34 @@ export default function ProjectDetail() {
           </div>
         </div>
 
-        <div className="mt-12 grid gap-6 lg:grid-cols-3">
-          {[
-            ["Project context", project.overview],
-            ["Published outcome", project.result],
-            ["Technology", [project.platform, ...(project.stack || [])].filter(Boolean).join(" · ")],
-          ].map(([title, value]) => (
-            <div key={title} className={isDark ? "card-surface p-6" : "rounded-2xl border border-slate-200 bg-white p-6 shadow-sm"}>
-              <h2 className={isDark ? "font-black" : "font-black text-slate-950"}>{title}</h2>
-              <p className={isDark ? "mt-2 text-sm leading-6 text-textSub" : "mt-2 text-sm leading-6 text-slate-600"}>{value}</p>
+        {hasDetailedCaseStudy ? (
+          <>
+            <div className="mt-12 grid gap-6 lg:grid-cols-2">
+              <CopyPanel title="Problem and project context" value={project.overview} isDark={isDark} />
+              <ListPanel title="Project requirements" items={caseStudyRequirements} isDark={isDark} />
             </div>
-          ))}
-        </div>
-
-        <div className="mt-6 grid gap-6 lg:grid-cols-2">
-          <ListPanel title="Solution and UX decisions" items={project.features} isDark={isDark} />
-          <ServiceLinks title="Services connected to this project" items={project.services} isDark={isDark} />
-        </div>
+            <div className="mt-6 grid gap-6 lg:grid-cols-2">
+              <ListPanel title="Solution and UX/development work" items={caseStudySolution.length > 0 ? caseStudySolution : projectFeatures} isDark={isDark} />
+              <CopyPanel title="Technology" value={[project.platform, ...(project.stack || [])].filter(Boolean).join(" · ")} isDark={isDark} />
+            </div>
+            <div className="mt-6 grid gap-6 lg:grid-cols-[1fr_.8fr]">
+              <CopyPanel title="Published outcome" value={project.result} isDark={isDark} />
+              <ServiceLinks title="Services connected to this project" items={project.services} isDark={isDark} />
+            </div>
+          </>
+        ) : (
+          <>
+            <div className="mt-12 grid gap-6 lg:grid-cols-3">
+              <CopyPanel title="Project context" value={project.overview} isDark={isDark} />
+              <CopyPanel title="Published outcome" value={project.result} isDark={isDark} />
+              <CopyPanel title="Technology" value={[project.platform, ...(project.stack || [])].filter(Boolean).join(" · ")} isDark={isDark} />
+            </div>
+            <div className="mt-6 grid gap-6 lg:grid-cols-2">
+              <ListPanel title="Solution and UX decisions" items={projectFeatures} isDark={isDark} />
+              <ServiceLinks title="Services connected to this project" items={project.services} isDark={isDark} />
+            </div>
+          </>
+        )}
 
         {!isLive && (
           <div className={isDark ? "mt-8 rounded-2xl border border-primary/20 bg-primary/10 p-6" : "mt-8 rounded-2xl border border-blue-100 bg-blue-50 p-6"}>
@@ -168,6 +183,15 @@ export default function ProjectDetail() {
         <DemoOffer compact className="mt-8" />
       </Container>
     </section>
+  );
+}
+
+function CopyPanel({ title, value, isDark }) {
+  return (
+    <article className={isDark ? "card-surface p-6" : "rounded-2xl border border-slate-200 bg-white p-6 shadow-sm"}>
+      <h2 className={isDark ? "font-black" : "font-black text-slate-950"}>{title}</h2>
+      <p className={isDark ? "mt-2 text-sm leading-6 text-textSub" : "mt-2 text-sm leading-6 text-slate-600"}>{value}</p>
+    </article>
   );
 }
 

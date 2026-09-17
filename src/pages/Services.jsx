@@ -106,7 +106,7 @@ export default function Services() {
           align="center"
           eyebrow="Services"
           title="Web design and development that supports a real business."
-          description="Explore focused services for Brampton, Toronto, and Canadian businesses, including new websites, e-commerce, SEO, redesigns, WordPress, React, UX/UI, education platforms, and ongoing support."
+          description="Explore focused services for Toronto, Brampton, and Canadian businesses, including new websites, e-commerce, SEO, redesigns, WordPress, React, UX/UI, education platforms, and ongoing support."
           contentClassName="max-w-5xl"
         />
 

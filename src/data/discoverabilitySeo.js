@@ -54,10 +54,11 @@ export function servicePageSeo(service) {
     serviceType: service.name,
     url: absolute(path),
     description: service.summary,
+    keywords: [service.primaryIntent, ...(service.keywords || [])].filter(Boolean).join(", "),
     provider: { "@id": organizationId },
     areaServed: [
-      { "@type": "City", name: "Brampton, Ontario, Canada" },
       { "@type": "City", name: "Toronto, Ontario, Canada" },
+      { "@type": "City", name: "Brampton, Ontario, Canada" },
       { "@type": "City", name: "Mississauga, Ontario, Canada" },
       { "@type": "AdministrativeArea", name: "Greater Toronto Area, Ontario, Canada" },
       { "@type": "Country", name: "Canada" },

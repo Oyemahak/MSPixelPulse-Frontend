@@ -13,12 +13,13 @@ export default function ContactActions({
   showMessage = false,
   className = "",
   analyticsPlacement = "contact_actions",
+  children,
 }) {
   const secondaryClass = "btn btn-glass";
   const whatsappClass = "btn btn-secondary";
 
   return (
-    <div className={`flex flex-wrap gap-3 ${className}`}>
+    <div className={`contact-actions flex flex-wrap gap-3 ${className}`}>
       <a
         className={whatsappClass}
         href={whatsappUrl(message)}
@@ -52,6 +53,7 @@ export default function ContactActions({
           Text / iMessage
         </a>
       )}
+      {children}
     </div>
   );
 }

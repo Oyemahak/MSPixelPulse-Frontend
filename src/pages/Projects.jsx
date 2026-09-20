@@ -5,6 +5,7 @@ import SearchField from "../components/ui/SearchField.jsx";
 import DemoOffer from "@/components/DemoOffer.jsx";
 import Container from "@/components/layout/Container.jsx";
 import { PageHero } from "@/components/public/PublicPageHeader.jsx";
+import { ButtonAnchor, ButtonLink } from "@/components/ui/Button.jsx";
 import { usePublicPortfolio } from "@/hooks/usePublicPortfolio.js";
 import { useTheme } from "@/lib/theme.js";
 import {
@@ -98,25 +99,29 @@ function ProjectCard({ project, isDark }) {
         </div>
 
         <div className="project-card-actions mt-5 flex flex-wrap gap-3">
-          <Link
+          <ButtonLink
             to={`/projects/${project.slug}`}
-            className={isDark ? "btn btn-primary h-10 px-4" : "inline-flex h-10 items-center rounded-xl bg-[#2563ff] px-4 text-sm font-bold text-white"}
+            variant="card"
+            size="compact"
+            className="project-case-study"
             data-analytics-cta={`view_case_study_${project.slug}`}
             data-analytics-placement="projects_card"
           >
-            View case study <LuArrowRight className="ml-2 h-4 w-4" />
-          </Link>
+            View case study <LuArrowRight className="h-4 w-4" aria-hidden="true" />
+          </ButtonLink>
           {project.live && (
-            <a
+            <ButtonAnchor
               href={project.live}
               target="_blank"
-              rel="noreferrer"
-              className={isDark ? "btn btn-outline h-10 px-4" : "project-live-site inline-flex h-10 items-center rounded-xl border border-[#2563eb] bg-[#2563eb] px-4 text-sm font-bold text-[#0f172a] shadow-sm hover:border-[#1d4ed8] hover:bg-[#1d4ed8] hover:text-[#0f172a]"}
+              rel="noopener noreferrer"
+              variant="primary"
+              size="compact"
+              className="project-live-site"
               data-analytics-cta={`visit_live_project_${project.slug}`}
               data-analytics-placement="projects_card"
             >
-              Live site <LuExternalLink className="ml-2 h-4 w-4" />
-            </a>
+              Live site <LuExternalLink className="h-4 w-4" aria-hidden="true" />
+            </ButtonAnchor>
           )}
         </div>
       </div>

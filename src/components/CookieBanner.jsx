@@ -43,7 +43,7 @@ export default function CookieBanner() {
       <div className="cookie-icon" aria-hidden="true">
         <LuCookie className="h-5 w-5" />
       </div>
-      <div className="min-w-0">
+      <div className="cookie-content min-w-0">
         <h2 className="cookie-title">Analytics preferences</h2>
         <p className="cookie-copy">
           Essential storage keeps the site and portal working. With your permission,

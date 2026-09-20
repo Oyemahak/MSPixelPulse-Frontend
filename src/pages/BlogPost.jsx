@@ -12,6 +12,7 @@ import {
 } from "react-icons/lu";
 import Meta from "@/components/Meta.jsx";
 import Container from "@/components/layout/Container.jsx";
+import { ButtonLink } from "@/components/ui/Button.jsx";
 import { publishedBlogPosts } from "@/data/blogPosts.js";
 import { publishedProjects } from "@/data/projects.js";
 import { blogPostSeo } from "@/data/seoPages.js";
@@ -234,10 +235,10 @@ export default function BlogPost() {
                     {section.links?.length > 0 ? (
                       <div className="article-internal-links">
                         {section.links.map((link) => (
-                          <Link key={`${link.to}-${link.label}`} to={link.to}>
+                          <ButtonLink key={`${link.to}-${link.label}`} variant="card" size="compact" to={link.to}>
                             {link.label}
                             <LuArrowRight aria-hidden="true" />
-                          </Link>
+                          </ButtonLink>
                         ))}
                       </div>
                     ) : null}
@@ -301,15 +302,15 @@ export default function BlogPost() {
               </div>
 
               <p className="article-internal-links">
-                <Link to={relatedServicePath}>
+                <ButtonLink variant="card" size="compact" to={relatedServicePath}>
                   Explore the related MSPixelPulse service
                   <LuArrowRight aria-hidden="true" />
-                </Link>
+                </ButtonLink>
                 {relatedProject ? (
-                  <Link to={`/projects/${relatedProject.slug}`}>
+                  <ButtonLink variant="card" size="compact" to={`/projects/${relatedProject.slug}`}>
                     Review the {relatedProject.title} case study
                     <LuArrowRight aria-hidden="true" />
-                  </Link>
+                  </ButtonLink>
                 ) : null}
               </p>
 

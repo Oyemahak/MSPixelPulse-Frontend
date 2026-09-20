@@ -170,6 +170,7 @@ export default function About() {
               </p>
             </div>
             <ContactActions
+              className="cta-panel-actions"
               dark={isDark}
               whatsappLabel="Chat on WhatsApp"
               message="Hi MSPixelPulse, I would like to discuss a website project."

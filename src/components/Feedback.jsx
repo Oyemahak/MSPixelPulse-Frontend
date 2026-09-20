@@ -230,7 +230,7 @@ export default function Feedback() {
           </div>
 
           {/* Dots */}
-          <div className="mt-6 flex justify-center gap-2">
+          <div className="feedback-pagination mt-6 flex justify-center gap-2">
             {items.map((_, i) => {
               const isActive = i === idx;
               return (

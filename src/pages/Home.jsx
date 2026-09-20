@@ -26,6 +26,7 @@ import Meta from "@/components/Meta.jsx";
 import ContactActions from "@/components/ContactActions.jsx";
 import AgencyInterfacePreview from "@/components/AgencyInterfacePreview.jsx";
 import DemoOffer from "@/components/DemoOffer.jsx";
+import { ButtonLink } from "@/components/ui/Button.jsx";
 import { seoPages } from "@/data/seoPages.js";
 import { applyProjectImageFallback } from "@/lib/projectImageFallback.js";
 
@@ -242,9 +243,9 @@ export default function Home() {
                   <h2 className="mt-4 text-lg font-black">{service.title}</h2>
                   <p className={`mt-2 text-sm leading-6 ${muted}`}>{service.body}</p>
                   <p className="home-service-deliverable">{service.deliverable}</p>
-                  <Link className="home-service-link" to={service.path}>
+                  <ButtonLink className="home-service-link" variant="card" size="compact" to={service.path}>
                     Explore {service.title.toLowerCase()} <LuArrowRight className="h-4 w-4" aria-hidden="true" />
-                  </Link>
+                  </ButtonLink>
                 </article>
               );
             })}
@@ -339,10 +340,10 @@ export default function Home() {
               <p className={`mt-3 leading-7 ${muted}`}>
                 Website work usually continues after the first launch. MSPixelPulse can help with page updates, practical SEO cleanup, form checks, mobile fixes, and content changes.
               </p>
-              <Link className="mt-5 inline-flex items-center gap-2 font-black text-blue-500 hover:underline" to="/services">
+              <ButtonLink className="mt-5" variant="card" size="compact" to="/services">
                 Review services
                 <LuArrowRight className="h-4 w-4" aria-hidden="true" />
-              </Link>
+              </ButtonLink>
             </div>
 
             <div className={`rounded-2xl border p-6 ${surface}`}>
@@ -377,6 +378,7 @@ export default function Home() {
                 </p>
               </div>
               <ContactActions
+                className="cta-panel-actions"
                 dark={isDark}
                 whatsappLabel="Chat on WhatsApp"
                 message="Hi MSPixelPulse, I would like to discuss a website project."
@@ -433,9 +435,9 @@ function ProjectSection({ eyebrow, title, projects: items, dark }) {
                   <p className={`mt-2 text-sm leading-6 ${muted}`}>
                     {project.shortDescription || project.summary}
                   </p>
-                  <Link className="project-showcase-link" to={`/projects/${project.id}`}>
+                  <ButtonLink className="project-showcase-link" variant="card" size="compact" to={`/projects/${project.id}`}>
                     View {project.title} case study <LuArrowRight className="h-4 w-4" aria-hidden="true" />
-                  </Link>
+                  </ButtonLink>
                 </div>
             </article>
           ))}

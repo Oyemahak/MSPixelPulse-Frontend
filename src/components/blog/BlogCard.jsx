@@ -5,6 +5,7 @@ import {
   LuExternalLink,
   LuMapPin,
 } from "react-icons/lu";
+import { ButtonLink } from "@/components/ui/Button.jsx";
 
 export default function BlogCard({ post, rank, featured = false }) {
   return (
@@ -54,10 +55,10 @@ export default function BlogCard({ post, rank, featured = false }) {
         <p>{post.excerpt}</p>
 
         <div className="blog-card-footer">
-          <Link className="blog-card-read" to={`/blog/${post.slug}`}>
+          <ButtonLink className="blog-card-read" variant="card" size="compact" to={`/blog/${post.slug}`}>
             Read guide
             <LuArrowUpRight aria-hidden="true" />
-          </Link>
+          </ButtonLink>
           {post.coverCredit ? (
             <a
               className="blog-photo-credit"

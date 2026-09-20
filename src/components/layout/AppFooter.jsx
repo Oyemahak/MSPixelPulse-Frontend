@@ -39,7 +39,7 @@ export default function AppFooter() {
                 src="/icon.svg?v=black-mark-v10"
                 alt=""
                 aria-hidden="true"
-                className="brand-logo-mark"
+                className="agency-footer-logo-mark brand-logo-mark"
                 width="32"
                 height="32"
               />
@@ -82,7 +82,7 @@ export default function AppFooter() {
 
         <div className="agency-footer-bottom">
           <span>© {year} MSPixelPulse. All rights reserved.</span>
-          <nav aria-label="Legal links">
+          <nav className="agency-footer-legal" aria-label="Legal links">
             <Link to="/privacy">Privacy</Link>
             <Link to="/terms">Terms</Link>
             <Link to="/cookies">Cookies</Link>

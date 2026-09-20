@@ -184,7 +184,7 @@ export default function Services() {
 
         <DemoOffer compact className="mt-12" />
 
-        <div className={isDark ? "mt-12 card-surface grid gap-5 rounded-2xl p-6 md:grid-cols-[1fr_auto_auto] md:items-center md:p-8" : "mt-12 grid gap-5 rounded-2xl border border-blue-100 bg-white/90 p-6 shadow-[0_22px_70px_rgba(37,99,255,0.10)] md:grid-cols-[1fr_auto_auto] md:items-center md:p-8"}>
+        <div className={isDark ? "mt-12 card-surface grid gap-5 rounded-2xl p-6 md:grid-cols-[1fr_auto] md:items-center md:p-8" : "mt-12 grid gap-5 rounded-2xl border border-blue-100 bg-white/90 p-6 shadow-[0_22px_70px_rgba(37,99,255,0.10)] md:grid-cols-[1fr_auto] md:items-center md:p-8"}>
           <div>
             <h2 className={isDark ? "text-2xl font-black text-white" : "text-2xl font-black text-slate-950"}>
               Need help choosing a service?
@@ -195,23 +195,24 @@ export default function Services() {
           </div>
 
           <ContactActions
+            className="cta-panel-actions"
             dark={isDark}
             showPhone={false}
             analyticsPlacement="services_final_cta"
             whatsappLabel="Discuss your project"
             message="Hi MSPixelPulse, I would like help choosing the right website service for my business."
-          />
-
-          <a
-            className="btn btn-glass"
-            href="https://calendly.com/mspixelpulse/30min"
-            target="_blank"
-            rel="noreferrer"
-            data-analytics-placement="services_final_cta"
           >
-            <LuCalendar className="h-5 w-5" aria-hidden="true" />
-            Book appointment
-          </a>
+            <a
+              className="btn btn-glass"
+              href="https://calendly.com/mspixelpulse/30min"
+              target="_blank"
+              rel="noreferrer"
+              data-analytics-placement="services_final_cta"
+            >
+              <LuCalendar className="h-5 w-5" aria-hidden="true" />
+              Book appointment
+            </a>
+          </ContactActions>
         </div>
       </Container>
     </section>
@@ -256,7 +257,7 @@ function ServiceCard({ service }) {
             {service.tags.map((tag) => <li key={tag}>{tag}</li>)}
           </ul>
 
-          <span className="service-catalogue-cta">
+          <span className="card-action-control service-catalogue-cta">
             Explore service
             <LuArrowRight aria-hidden="true" />
           </span>

@@ -302,13 +302,13 @@ export default function BlogPost() {
               </div>
 
               <p className="article-internal-links">
-                <ButtonLink variant="card" size="compact" to={relatedServicePath}>
-                  Explore the related MSPixelPulse service
+                <ButtonLink variant="card" size="compact" to={relatedServicePath} aria-label="View the related MSPixelPulse service">
+                  View related service
                   <LuArrowRight aria-hidden="true" />
                 </ButtonLink>
                 {relatedProject ? (
-                  <ButtonLink variant="card" size="compact" to={`/projects/${relatedProject.slug}`}>
-                    Review the {relatedProject.title} case study
+                  <ButtonLink variant="card" size="compact" to={`/projects/${relatedProject.slug}`} aria-label={`View ${relatedProject.title} case study`}>
+                    View case study
                     <LuArrowRight aria-hidden="true" />
                   </ButtonLink>
                 ) : null}

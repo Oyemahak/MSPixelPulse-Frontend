@@ -16,6 +16,7 @@ import { getLocationPage } from "@/data/locationPages.js";
 import { publishedProjects } from "@/data/projects.js";
 import { servicePath } from "@/data/servicePages.js";
 import { useTheme } from "@/lib/theme.js";
+import { ButtonLink } from "@/components/ui/Button.jsx";
 
 export default function LocationPage() {
   const { slug = "web-design-brampton" } = useParams();
@@ -115,9 +116,9 @@ export default function LocationPage() {
               <article key={service.slug} className={`${surface} p-6`}>
                 <h3 className="text-xl font-black">{service.title}</h3>
                 <p className={`mt-2 leading-7 ${muted}`}>{service.body}</p>
-                <Link className="mt-4 inline-flex items-center gap-2 font-bold text-primary hover:underline" to={servicePath(service.slug)}>
-                  Explore {service.title.toLowerCase()} <LuArrowRight aria-hidden="true" />
-                </Link>
+                <ButtonLink className="mt-5" variant="card" size="compact" to={servicePath(service.slug)} aria-label={`View ${service.title} service`}>
+                  View service <LuArrowRight aria-hidden="true" />
+                </ButtonLink>
               </article>
             ))}
           </div>
@@ -155,9 +156,9 @@ export default function LocationPage() {
                   <span className={isDark ? "badge" : "rounded-full bg-slate-100 px-3 py-1 text-xs font-bold text-slate-700"}>{project.label}</span>
                   <h3 className="mt-4 font-black">{project.title}</h3>
                   <p className={`mt-2 text-sm leading-6 ${muted}`}>{project.shortDescription || project.summary}</p>
-                  <Link className="mt-4 inline-flex items-center gap-2 font-bold text-primary hover:underline" to={`/projects/${project.slug}`}>
+                  <ButtonLink className="mt-5" variant="card" size="compact" to={`/projects/${project.slug}`} aria-label={`View ${project.title} case study`}>
                     View case study <LuArrowRight aria-hidden="true" />
-                  </Link>
+                  </ButtonLink>
                 </div>
               </article>
             ))}

@@ -343,3 +343,652 @@ html:not([data-theme="dark"]) .app-footer .agency-footer-logo-mark {
     transform: none;
   }
 }
+
+.project-video {
+  margin: 0;
+}
+
+.project-video-frame {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 16 / 9;
+  border: 1px solid var(--borderSoft);
+  border-radius: var(--radius-lg, 1.25rem);
+  background: #0c1424;
+  box-shadow: 0 20px 48px rgba(5, 12, 28, 0.18);
+}
+
+.project-video-frame iframe,
+.project-video-play,
+.project-video-play img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.project-video-frame iframe {
+  border: 0;
+}
+
+.project-video-play {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  padding: 0;
+  border: 0;
+  cursor: pointer;
+  background: #0c1424;
+}
+
+.project-video-play img {
+  object-fit: cover;
+  transition: transform 240ms ease, opacity 240ms ease;
+}
+
+.project-video-play:hover img {
+  transform: scale(1.025);
+  opacity: 0.82;
+}
+
+.project-video-play-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: grid;
+  width: 4.5rem;
+  height: 4.5rem;
+  place-items: center;
+  transform: translate(-50%, -50%);
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  border-radius: 50%;
+  background: rgba(37, 99, 235, 0.94);
+  color: #fff;
+  box-shadow: 0 10px 30px rgba(4, 12, 35, 0.3);
+  font-size: 1.6rem;
+}
+
+.project-video-play:focus-visible {
+  outline: 3px solid #93c5fd;
+  outline-offset: -4px;
+}
+
+.project-video figcaption {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+  color: var(--textMain);
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.project-video figcaption span {
+  color: var(--textSub);
+  font-weight: 500;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .project-video-play img {
+    transition: none;
+  }
+
+  .project-video-play:hover img {
+    transform: none;
+  }
+}
+
+/* Site-wide editorial rhythm and action hierarchy. Keep these rules in the
+   public layer so portal controls retain their own interaction contract. */
+.public-main {
+  --studio-blue: #2563eb;
+  --studio-violet: #6d5efc;
+}
+
+.public-main .public-page-description {
+  max-width: 65ch;
+  font-size: clamp(1rem, 1.25vw, 1.1rem);
+  line-height: 1.7;
+}
+
+.public-main .public-page-hero--center .public-page-description {
+  margin-inline: auto;
+}
+
+.public-main :is(.btn, .card-action-control):active {
+  transform: translateY(1px) scale(0.99);
+}
+
+.public-main :is(.btn, .card-action-control):focus-visible,
+.app-footer .social-contact-link:focus-visible,
+.blog-topic-paths a:focus-visible {
+  outline: 3px solid rgba(96, 165, 250, 0.8);
+  outline-offset: 3px;
+}
+
+.public-main :is(.btn, .card-action-control):disabled,
+.public-main :is(.btn, .card-action-control)[aria-disabled="true"] {
+  cursor: not-allowed;
+  opacity: 0.52;
+  box-shadow: none;
+  transform: none;
+}
+
+/* A stat strip instead of a panel containing four more panels. */
+.home-proof-section {
+  position: relative;
+}
+
+.home-proof-grid {
+  padding-block: 1.25rem;
+  border-block: 1px solid color-mix(in srgb, var(--primary) 18%, var(--borderSoft));
+}
+
+.home-proof-grid .home-proof-stat {
+  display: flex;
+  min-height: 7.5rem;
+  flex-direction: column;
+  justify-content: center;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  padding: 1rem clamp(0.75rem, 2vw, 1.5rem);
+}
+
+.home-proof-grid .home-proof-stat strong {
+  width: fit-content;
+  background: linear-gradient(125deg, #1d4ed8, #6457de);
+  background-clip: text;
+  color: transparent;
+  font-size: clamp(2.75rem, 5vw, 4.4rem);
+  letter-spacing: -0.07em;
+}
+
+[data-theme="dark"] .home-proof-grid .home-proof-stat strong {
+  background-image: linear-gradient(125deg, #93c5fd, #c4b5fd);
+}
+
+.home-proof-grid .home-proof-stat span {
+  margin-top: 0.4rem;
+  font-size: 0.96rem;
+  font-weight: 750;
+  line-height: 1.4;
+}
+
+/* Service cards use varied, restrained light to break up repeated dark boxes. */
+.home-service-card {
+  isolation: isolate;
+  background: radial-gradient(circle at 95% 0%, rgba(37, 99, 235, 0.1), transparent 45%), linear-gradient(145deg, #ffffff, #f6f9ff);
+}
+
+.home-service-card:nth-child(3n + 2) {
+  background: radial-gradient(circle at 95% 0%, rgba(109, 94, 252, 0.12), transparent 45%), linear-gradient(145deg, #ffffff, #f9f7ff);
+}
+
+[data-theme="dark"] .home-service-card {
+  background: radial-gradient(circle at 95% 0%, rgba(59, 130, 246, 0.14), transparent 50%), linear-gradient(145deg, rgba(22, 29, 43, 0.94), rgba(9, 13, 22, 0.97));
+}
+
+[data-theme="dark"] .home-service-card:nth-child(3n + 2) {
+  background: radial-gradient(circle at 95% 0%, rgba(109, 94, 252, 0.17), transparent 50%), linear-gradient(145deg, rgba(25, 25, 42, 0.94), rgba(10, 12, 22, 0.97));
+}
+
+.home-service-card::after {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.home-service-card:hover .home-service-icon {
+  transform: translateY(-2px) rotate(-3deg);
+  box-shadow: 0 10px 22px rgba(37, 99, 235, 0.17);
+}
+
+.home-service-icon {
+  transition: transform 220ms ease, box-shadow 220ms ease;
+}
+
+.home-service-description {
+  margin-bottom: 1.5rem;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.home-service-card .home-service-link.btn-card {
+  align-self: flex-start;
+}
+
+.project-showcase-copy > p,
+.service-catalogue-description,
+.blog-card-content > p,
+.about-value-card p {
+  font-size: 0.98rem;
+  line-height: 1.62;
+}
+
+.project-showcase-copy > p {
+  margin-bottom: 1.3rem;
+}
+
+.service-catalogue-copy {
+  padding: clamp(1.2rem, 2vw, 1.5rem);
+}
+
+.service-catalogue-description {
+  margin-top: 0.9rem;
+}
+
+.service-catalogue-tags {
+  min-height: 0;
+  margin: 0.95rem 0 1.3rem;
+}
+
+.service-catalogue-card-link {
+  background: radial-gradient(circle at 85% 0%, rgba(83, 102, 225, 0.12), transparent 45%), linear-gradient(145deg, rgba(22, 28, 43, 0.96), rgba(8, 12, 20, 0.98));
+}
+
+.service-catalogue-card:nth-child(3n + 2) .service-catalogue-card-link {
+  background: radial-gradient(circle at 85% 0%, rgba(109, 94, 252, 0.16), transparent 45%), linear-gradient(145deg, rgba(24, 24, 42, 0.96), rgba(10, 11, 21, 0.98));
+}
+
+html:not([data-theme="dark"]) .service-catalogue-card-link,
+html:not([data-theme="dark"]) .service-catalogue-card:nth-child(3n + 2) .service-catalogue-card-link {
+  background: var(--liquid-glass-fill);
+}
+
+.service-detail-visual {
+  background: var(--surface);
+}
+
+.service-detail-image {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+}
+
+.service-detail-visual-copy {
+  padding: clamp(1.25rem, 2.2vw, 1.75rem);
+}
+
+/* About uses a process, a real project preview, and quiet principles. */
+.about-approach-intro {
+  max-width: 42rem;
+}
+
+.about-approach-intro h2,
+.about-work-copy h2 {
+  color: var(--textMain);
+  font-size: clamp(1.9rem, 3vw, 2.75rem);
+  font-weight: 800;
+  line-height: 1.17;
+  letter-spacing: -0.035em;
+  text-wrap: balance;
+}
+
+.about-approach-intro > p:last-child,
+.about-work-copy > p:not(.public-page-eyebrow) {
+  margin-top: 1rem;
+  color: var(--textSub);
+  font-size: 1.04rem;
+  line-height: 1.7;
+}
+
+.about-approach-grid {
+  display: grid;
+  gap: clamp(2rem, 4vw, 4.5rem);
+  margin-top: 2rem;
+}
+
+.about-approach-grid h3,
+.about-handoff h3 {
+  color: var(--textMain);
+  font-size: 1.25rem;
+  font-weight: 800;
+}
+
+.about-audience,
+.about-process {
+  border-top: 2px solid color-mix(in srgb, var(--primary) 48%, var(--borderSoft));
+  padding-top: 1.25rem;
+}
+
+.about-audience ul,
+.about-process ol {
+  display: grid;
+  gap: 0.9rem;
+  margin: 1.25rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.about-audience li,
+.about-process li {
+  display: flex;
+  gap: 0.85rem;
+  color: var(--textSub);
+  font-size: 1rem;
+  line-height: 1.55;
+}
+
+.about-audience li svg,
+.about-process li span {
+  width: 1.35rem;
+  flex: 0 0 1.35rem;
+  color: #3b82f6;
+}
+
+.about-process li span {
+  font-variant-numeric: tabular-nums;
+  font-size: 0.85rem;
+  font-weight: 850;
+}
+
+.about-handoff {
+  display: grid;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 2.25rem;
+  border: 1px solid color-mix(in srgb, var(--primary) 25%, var(--borderSoft));
+  border-radius: 1.25rem;
+  background: linear-gradient(120deg, rgba(37, 99, 235, 0.09), rgba(109, 94, 252, 0.055));
+  padding: clamp(1.25rem, 2.5vw, 2rem);
+}
+
+.about-handoff > svg {
+  width: 2rem;
+  height: 2rem;
+  color: #3b82f6;
+}
+
+.about-handoff p {
+  margin-top: 0.4rem;
+  color: var(--textSub);
+  line-height: 1.6;
+}
+
+.about-handoff .btn {
+  justify-self: start;
+}
+
+.about-work-spotlight {
+  display: grid;
+  overflow: hidden;
+  align-items: center;
+  border: 1px solid var(--borderSoft);
+  border-radius: 1.5rem;
+  background: color-mix(in srgb, var(--surface) 88%, transparent);
+}
+
+.about-work-image {
+  display: block;
+  overflow: hidden;
+  aspect-ratio: 16 / 10;
+  background: #101a2b;
+}
+
+.about-work-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 280ms ease;
+}
+
+.about-work-image:hover img {
+  transform: scale(1.025);
+}
+
+.about-work-copy {
+  padding: clamp(1.5rem, 3vw, 3rem);
+}
+
+.about-work-copy .btn {
+  margin-top: 1.5rem;
+}
+
+.about-values {
+  border-block: 1px solid var(--borderSoft);
+  padding-block: 1.25rem;
+}
+
+.about-values .about-value-card,
+[data-theme="dark"] .about-values .about-value-card {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  padding: 1.1rem;
+}
+
+/* Blog topics become visible paths back into the article library. */
+.blog-remaining-count {
+  display: block;
+  margin-top: 0.65rem;
+  color: var(--blog-muted);
+  font-size: 0.92rem;
+  text-align: center;
+}
+
+.blog-next-steps {
+  display: grid;
+  gap: 2rem;
+  margin-top: 3rem;
+  border-top: 1px solid var(--blog-border);
+  padding-top: 2.5rem;
+}
+
+.blog-next-steps h2 {
+  color: var(--blog-ink);
+  font-size: clamp(1.6rem, 2.4vw, 2.2rem);
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.blog-next-steps > div > p:not(.blog-library-kicker) {
+  max-width: 35rem;
+  margin-top: 0.75rem;
+  color: var(--blog-muted);
+  font-size: 1rem;
+  line-height: 1.65;
+}
+
+.blog-next-steps-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.5rem;
+  margin-top: 1.25rem;
+}
+
+.blog-next-steps-links a,
+.blog-topic-paths a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--blog-accent);
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.blog-topic-paths {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.blog-topic-paths a {
+  justify-content: space-between;
+  min-height: 2.75rem;
+  border-bottom: 1px solid var(--blog-border);
+  padding: 0.45rem 0.15rem;
+  color: var(--blog-ink);
+}
+
+.blog-topic-paths a:hover,
+.blog-next-steps-links a:hover {
+  color: var(--blog-accent);
+}
+
+.blog-topic-paths small {
+  color: var(--blog-muted);
+  font-size: 0.8rem;
+  white-space: nowrap;
+}
+
+.blog-editorial-note {
+  max-width: none;
+  margin: 2rem 0 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  padding: 0;
+  color: var(--blog-muted);
+  font-size: 0.88rem;
+  line-height: 1.6;
+}
+
+/* Footer depth is focused in the background and contact controls. */
+.app-footer {
+  position: relative;
+  overflow: hidden;
+  border-top-color: rgba(96, 165, 250, 0.25);
+  background: radial-gradient(ellipse at 15% 0%, rgba(37, 99, 235, 0.17), transparent 42%), radial-gradient(ellipse at 93% 18%, rgba(109, 94, 252, 0.09), transparent 35%), linear-gradient(145deg, #080d17, #070a12 65%, #0b101e) !important;
+}
+
+.app-footer::before {
+  position: absolute;
+  inset: 0 0 auto;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(96, 165, 250, 0.65), transparent);
+  content: "";
+  pointer-events: none;
+}
+
+html:not([data-theme="dark"]) .app-footer {
+  background: radial-gradient(ellipse at 15% 0%, rgba(37, 99, 235, 0.09), transparent 42%), linear-gradient(145deg, #f7faff, #eef3fb) !important;
+}
+
+.app-footer .agency-footer-main {
+  gap: clamp(1.5rem, 3vw, 3rem);
+}
+
+.app-footer .agency-footer-column h2 {
+  color: #a8c6ff;
+  font-size: 0.78rem;
+}
+
+html:not([data-theme="dark"]) .app-footer .agency-footer-column h2 {
+  color: #1d4ed8;
+}
+
+.app-footer .agency-footer-column > a {
+  display: inline-flex;
+  min-height: 2.5rem;
+  align-items: center;
+  transition: color 180ms ease, transform 180ms ease;
+}
+
+.app-footer .agency-footer-column > a:hover {
+  color: #93c5fd;
+  transform: translateX(2px);
+}
+
+html:not([data-theme="dark"]) .app-footer .agency-footer-column > a:hover {
+  color: #1d4ed8;
+}
+
+.app-footer .social-contact-link {
+  border-color: rgba(148, 163, 184, 0.2);
+  background: rgba(255, 255, 255, 0.055);
+  color: #e8f1ff;
+}
+
+.app-footer .social-contact-link:hover {
+  border-color: rgba(96, 165, 250, 0.5);
+  background: rgba(59, 130, 246, 0.15);
+}
+
+html:not([data-theme="dark"]) .app-footer .social-contact-link {
+  border-color: rgba(71, 85, 105, 0.18);
+  background: rgba(255, 255, 255, 0.68);
+  color: #1e3a5f;
+}
+
+.app-footer .social-contact-link svg {
+  color: #93c5fd;
+}
+
+html:not([data-theme="dark"]) .app-footer .social-contact-link svg {
+  color: #1d4ed8;
+}
+
+@media (min-width: 768px) {
+  .about-approach-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .about-handoff {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+  }
+
+  .about-work-spotlight {
+    grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
+  }
+
+  .about-work-image {
+    height: 100%;
+  }
+
+  .about-values .about-value-card + .about-value-card {
+    border-left: 1px solid var(--borderSoft);
+  }
+
+  .blog-next-steps {
+    grid-template-columns: minmax(0, 1fr) minmax(14rem, 0.75fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .home-proof-grid .home-proof-stat + .home-proof-stat {
+    border-left: 1px solid var(--borderSoft);
+  }
+}
+
+@media (max-width: 767px) {
+  .home-proof-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0;
+  }
+
+  .home-proof-grid .home-proof-stat {
+    min-height: 6.5rem;
+    padding: 0.9rem 0.65rem;
+  }
+
+  .home-proof-grid .home-proof-stat:nth-child(n + 3) {
+    border-top: 1px solid var(--borderSoft);
+  }
+
+  .home-proof-grid .home-proof-stat strong {
+    font-size: clamp(2.5rem, 11vw, 3.5rem);
+  }
+
+  .home-proof-grid .home-proof-stat:nth-child(even) {
+    border-left: 1px solid var(--borderSoft);
+  }
+
+  .about-handoff .btn {
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-service-icon,
+  .about-work-image img,
+  .app-footer .agency-footer-column > a {
+    transition-duration: 0.01ms;
+  }
+
+  .home-service-card:hover .home-service-icon,
+  .about-work-image:hover img,
+  .app-footer .agency-footer-column > a:hover {
+    transform: none;
+  }
+}

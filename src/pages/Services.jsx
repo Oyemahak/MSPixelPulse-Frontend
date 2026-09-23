@@ -258,7 +258,7 @@ function ServiceCard({ service }) {
           </ul>
 
           <span className="card-action-control service-catalogue-cta">
-            Explore service
+            View service
             <LuArrowRight aria-hidden="true" />
           </span>
         </div>

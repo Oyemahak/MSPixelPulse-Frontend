@@ -19,6 +19,7 @@ import {
   servicePath,
 } from "@/data/servicePages.js";
 import { useTheme } from "@/lib/theme.js";
+import { ButtonLink } from "@/components/ui/Button.jsx";
 
 export default function ServiceDetail() {
   const { slug } = useParams();
@@ -96,7 +97,9 @@ export default function ServiceDetail() {
             </div>
           </div>
 
-          <aside className={`${surface} p-6 md:p-7`} aria-label={`${service.name} overview`}>
+          <aside className={`${surface} service-detail-visual overflow-hidden`} aria-label={`${service.name} overview`}>
+            <img className="service-detail-image" src={service.image} alt={service.imageAlt} width="900" height="620" decoding="async" fetchPriority="high" />
+            <div className="service-detail-visual-copy">
             <div className="flex items-center gap-3">
               <span className="grid h-11 w-11 place-items-center rounded-xl bg-primary/15 text-primary">
                 <LuMapPin className="h-5 w-5" aria-hidden="true" />
@@ -107,6 +110,7 @@ export default function ServiceDetail() {
               </div>
             </div>
             <p className={`mt-5 leading-7 ${muted}`}>{service.intro}</p>
+            </div>
           </aside>
         </header>
 
@@ -168,9 +172,9 @@ export default function ServiceDetail() {
                     <span className={isDark ? "badge" : "rounded-full bg-slate-100 px-3 py-1 text-xs font-bold text-slate-700"}>{project.label}</span>
                     <h3 className="mt-4 font-black">{project.title}</h3>
                     <p className={`mt-2 text-sm leading-6 ${muted}`}>{project.shortDescription || project.summary}</p>
-                    <Link className="mt-4 inline-flex items-center gap-2 font-bold text-primary hover:underline" to={`/projects/${project.slug}`}>
+                    <ButtonLink className="mt-5" variant="card" size="compact" to={`/projects/${project.slug}`}>
                       View case study <LuArrowRight aria-hidden="true" />
-                    </Link>
+                    </ButtonLink>
                   </div>
                 </article>
               ))}
@@ -218,7 +222,7 @@ export default function ServiceDetail() {
             <h2 className="text-2xl font-black">Ready to discuss {service.shortName.toLowerCase()}?</h2>
             <p className={`mt-2 max-w-2xl leading-7 ${muted}`}>Share the current situation, the audience, and the most important action the website or platform needs to support.</p>
           </div>
-          <ContactActions dark={isDark} showPhone={false} whatsappLabel="Discuss your project" message={`Hi MSPixelPulse, I would like to discuss ${service.shortName.toLowerCase()}.`} />
+          <ContactActions className="cta-panel-actions" dark={isDark} showPhone={false} whatsappLabel="Discuss your project" message={`Hi MSPixelPulse, I would like to discuss ${service.shortName.toLowerCase()}.`} />
         </section>
       </Container>
     </section>

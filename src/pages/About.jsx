@@ -1,4 +1,5 @@
 import {
+  LuArrowRight,
   LuArrowUpRight,
   LuBadgeCheck,
   LuCircleCheck,
@@ -16,6 +17,7 @@ import { site } from "@/data/site.js";
 import { useTheme } from "@/lib/theme.js";
 import { seoPages } from "@/data/seoPages.js";
 import { PageHero } from "@/components/public/PublicPageHeader.jsx";
+import { ButtonAnchor, ButtonLink } from "@/components/ui/Button.jsx";
 
 const principles = [
   "Clear website structure before decoration",
@@ -59,8 +61,8 @@ export default function About() {
               >
                 Start a project
               </Link>
-              <a
-                className={isDark ? "btn btn-outline" : "inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-5 font-bold text-slate-900 shadow-sm hover:bg-slate-50"}
+              <ButtonAnchor
+                variant="outline"
                 href={site.portfolio}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -69,7 +71,7 @@ export default function About() {
               >
                 Founder portfolio
                 <LuArrowUpRight className="h-4 w-4" aria-hidden="true" />
-              </a>
+              </ButtonAnchor>
             </>
           }
           visual={
@@ -104,33 +106,49 @@ export default function About() {
           }
         />
 
-        <section className="mt-12 grid gap-5 lg:grid-cols-3">
-          <InfoCard
-            dark={isDark}
-            icon={<LuHeartHandshake className="h-6 w-6 text-blue-500" aria-hidden="true" />}
-            title="Friendly strategy"
-            items={helps}
-          />
-          <InfoCard
-            dark={isDark}
-            icon={<LuCircleCheck className="h-6 w-6 text-blue-500" aria-hidden="true" />}
-            title="How we work"
-            items={principles}
-          />
-          <InfoCard
-            dark={isDark}
-            icon={<LuMessagesSquare className="h-6 w-6 text-blue-500" aria-hidden="true" />}
-            title="Portal-backed handoff"
-            items={[
-              "Private portal access when the project needs it",
-              "Files, notes, messages, and approvals kept together",
-              "SEO-ready structure and practical page planning",
-              "Maintenance and content updates without inflated claims",
-            ]}
-          />
+        <section className="about-approach mt-14" aria-labelledby="about-approach-heading">
+          <div className="about-approach-intro">
+            <p className="public-page-eyebrow"><LuHeartHandshake aria-hidden="true" /><span>Friendly strategy</span></p>
+            <h2 id="about-approach-heading">A useful website starts with the people using it.</h2>
+            <p>We start with the audience, the offer, and the next action. The design follows that structure.</p>
+          </div>
+          <div className="about-approach-grid">
+            <div className="about-audience">
+              <h3>Who we help</h3>
+              <ul>
+                {helps.map((item) => <li key={item}><LuCircleCheck aria-hidden="true" />{item}</li>)}
+              </ul>
+            </div>
+            <div className="about-process">
+              <h3>How we work</h3>
+              <ol>
+                {principles.map((item, index) => <li key={item}><span>{String(index + 1).padStart(2, "0")}</span>{item}</li>)}
+              </ol>
+            </div>
+          </div>
+          <div className="about-handoff">
+            <LuMessagesSquare aria-hidden="true" />
+            <div>
+              <h3>Portal-backed handoff, when the project needs it</h3>
+              <p>Files, notes, messages, and approvals can stay together in a private client workspace. Page planning, search readiness, and ongoing updates remain part of the agreed scope.</p>
+            </div>
+            <ButtonLink to="/services/web-development" variant="card" size="compact">See the approach <LuArrowRight aria-hidden="true" /></ButtonLink>
+          </div>
         </section>
 
-        <section className={`mt-12 rounded-2xl border p-6 md:p-8 ${surface}`}>
+        <section className="about-work-spotlight mt-14" aria-labelledby="about-work-heading">
+          <Link to="/projects/canstem-education" className="about-work-image" aria-label="View the CanSTEM Education case study">
+            <img src="/projects/mockups/canstem-education.webp" alt="CanSTEM Education website shown in desktop and mobile mockup frames" loading="lazy" decoding="async" width="1440" height="900" />
+          </Link>
+          <div className="about-work-copy">
+            <p className="public-page-eyebrow"><LuSparkles aria-hidden="true" /><span>What the work looks like</span></p>
+            <h2 id="about-work-heading">Clear structure made visible.</h2>
+            <p>See a published education website example with program-focused pages, admissions paths, and responsive layouts. The case study shows the work without promising outcomes that were not measured.</p>
+            <ButtonLink to="/projects/canstem-education" variant="card" size="compact">View case study <LuArrowRight aria-hidden="true" /></ButtonLink>
+          </div>
+        </section>
+
+        <section className="about-values mt-14" aria-label="Our design principles">
           <div className="grid gap-5 md:grid-cols-3">
             {[
               {
@@ -166,7 +184,7 @@ export default function About() {
             <div>
               <h2 className="text-2xl font-black">Need a cleaner business website?</h2>
               <p className={`mt-2 max-w-2xl leading-7 ${muted}`}>
-                Send a short note about your service, current website, and what needs to work better on mobile. Let’s make MSPixelPulse a useful part of your business.
+                Tell us what your website needs to explain or do better. We’ll suggest a focused next step.
               </p>
             </div>
             <ContactActions
@@ -179,27 +197,5 @@ export default function About() {
         </section>
       </Container>
     </section>
-  );
-}
-
-function InfoCard({ dark, icon, title, items }) {
-  const cardClass = dark
-    ? "border-white/10 bg-white/[0.045] text-white"
-    : "border-slate-200 bg-white text-slate-950 shadow-sm";
-  const muted = dark ? "text-white/65" : "text-slate-600";
-
-  return (
-    <article className={`rounded-2xl border p-5 ${cardClass}`}>
-      {icon}
-      <h2 className="mt-4 text-xl font-black">{title}</h2>
-      <ul className={`mt-4 space-y-3 text-sm leading-6 ${muted}`}>
-        {items.map((item) => (
-          <li key={item} className="flex gap-2">
-            <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-blue-500" />
-            <span>{item}</span>
-          </li>
-        ))}
-      </ul>
-    </article>
   );
 }

@@ -34,57 +34,57 @@ const services = [
   {
     icon: LuSparkles,
     title: "Website planning and design",
-    body: "Clear pages, thoughtful interactions, and a strong visual hierarchy built around the questions your customers need answered.",
-    deliverable: "Planning, page layouts, and polished design",
+    body: "Clear pages and responsive layouts shaped around your customers’ questions.",
+    action: "View design service",
     path: "/services/website-design",
   },
   {
     icon: LuMonitorSmartphone,
     title: "Custom websites and online tools",
-    body: "Custom website experiences, dashboards, forms, and online tools built around how your business needs to work.",
-    deliverable: "Custom pages, forms, and business tools",
+    body: "Useful websites, forms, and online tools built around your workflow.",
+    action: "See development",
     path: "/services/web-development",
   },
   {
     icon: LuBriefcaseBusiness,
     title: "WordPress development",
-    body: "Professional WordPress websites that keep service content, updates, and local search structure manageable.",
-    deliverable: "Flexible content and launch support",
+    body: "Flexible websites with content your team can keep up to date.",
+    action: "View WordPress",
     path: "/services/wordpress-development",
   },
   {
     icon: LuShieldCheck,
     title: "Private client workspaces",
-    body: "A secure place for project updates, files, conversations, billing, approvals, and launch planning.",
-    deliverable: "Organized client and admin workflows",
+    body: "A secure place to keep project updates, files, and approvals together.",
+    action: "See portal approach",
     path: "/services/web-development",
   },
   {
     icon: LuSmartphone,
     title: "Responsive redesigns",
-    body: "Cleaner mobile layouts, navigation, spacing, accessibility, speed, and forms for websites that feel hard to use.",
-    deliverable: "Mobile-first interface improvements",
+    body: "Better mobile journeys for websites that feel hard to use.",
+    action: "See redesigns",
     path: "/services/website-redesign",
   },
   {
     icon: LuLifeBuoy,
     title: "Website maintenance",
-    body: "Content updates, practical SEO checks, launch fixes, and ongoing digital agency support when needed.",
-    deliverable: "Care, updates and release checks",
+    body: "Content updates, launch fixes, and practical ongoing care.",
+    action: "View support",
     path: "/services/website-maintenance",
   },
   {
     icon: LuShoppingCart,
     title: "E-commerce websites",
-    body: "Responsive online stores with clearer product discovery, mobile shopping, checkout planning, and launch testing.",
-    deliverable: "Product, cart, checkout, and store foundations",
+    body: "Online stores planned for product discovery and mobile shopping.",
+    action: "Explore stores",
     path: "/services/ecommerce-development",
   },
   {
     icon: LuSearchCheck,
     title: "Website SEO and search readiness",
-    body: "Technical SEO, local search foundations, content architecture, structured data, and AI discovery improvements.",
-    deliverable: "Search intent, indexability, and measurement",
+    body: "Search-ready structure, useful content, and local discovery basics.",
+    action: "Explore SEO",
     path: "/services/website-seo",
   },
 ];
@@ -126,22 +126,18 @@ export default function Home() {
     {
       value: `${totalProjectCount}`,
       label: "portfolio examples",
-      note: "live work and concept builds listed for review",
     },
     {
       value: `${liveProjectCount}`,
       label: "live website entries",
-      note: "published business website entries tracked in the portfolio",
     },
     {
       value: `${conceptProjectCount}`,
       label: "industry concepts",
-      note: "demo-safe sales assets for local business categories",
     },
     {
       value: "1",
-      label: "portal workflow",
-      note: "project updates, files, messages, and handoff in one place",
+      label: "private client portal",
     },
   ];
   const differenceCards = [
@@ -214,24 +210,22 @@ export default function Home() {
         </Container>
       </section>
 
-      <section className="section py-8 md:py-10">
+      <section className="section home-proof-section py-8 md:py-10" aria-label="MSPixelPulse work at a glance">
         <Container>
-          <div className={isDark ? "home-proof-panel home-proof-panel-dark" : "home-proof-panel"}>
-            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-              {proofStats.map((stat) => (
-                <article key={stat.label} className="home-proof-stat">
-                  <strong>{stat.value}</strong>
-                  <span>{stat.label}</span>
-                  <p>{stat.note}</p>
-                </article>
-              ))}
-            </div>
+          <div className="home-proof-grid grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            {proofStats.map((stat) => (
+              <article key={stat.label} className="home-proof-stat">
+                <strong>{stat.value}</strong>
+                <span>{stat.label}</span>
+              </article>
+            ))}
           </div>
         </Container>
       </section>
 
       <section className="section py-8">
         <Container>
+          <SectionTitle eyebrow="Services" title="A clearer way to build and improve your website." centered />
           <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
             {services.map((service) => {
               const Icon = service.icon;
@@ -240,11 +234,10 @@ export default function Home() {
                   <span className="home-service-icon" aria-hidden="true">
                     <Icon className="h-6 w-6" />
                   </span>
-                  <h2 className="mt-4 text-lg font-black">{service.title}</h2>
-                  <p className={`mt-2 text-sm leading-6 ${muted}`}>{service.body}</p>
-                  <p className="home-service-deliverable">{service.deliverable}</p>
-                  <ButtonLink className="home-service-link" variant="card" size="compact" to={service.path}>
-                    Explore {service.title.toLowerCase()} <LuArrowRight className="h-4 w-4" aria-hidden="true" />
+                  <h3 className="mt-4 text-lg font-black">{service.title}</h3>
+                  <p className={`home-service-description mt-3 ${muted}`}>{service.body}</p>
+                  <ButtonLink className="home-service-link" variant="card" size="compact" to={service.path} aria-label={`${service.action}: ${service.title}`}>
+                    {service.action} <LuArrowRight className="h-4 w-4" aria-hidden="true" />
                   </ButtonLink>
                 </article>
               );
@@ -435,8 +428,8 @@ function ProjectSection({ eyebrow, title, projects: items, dark }) {
                   <p className={`mt-2 text-sm leading-6 ${muted}`}>
                     {project.shortDescription || project.summary}
                   </p>
-                  <ButtonLink className="project-showcase-link" variant="card" size="compact" to={`/projects/${project.id}`}>
-                    View {project.title} case study <LuArrowRight className="h-4 w-4" aria-hidden="true" />
+                  <ButtonLink className="project-showcase-link" variant="card" size="compact" to={`/projects/${project.id}`} aria-label={`View ${project.title} case study`}>
+                    View case study <LuArrowRight className="h-4 w-4" aria-hidden="true" />
                   </ButtonLink>
                 </div>
             </article>

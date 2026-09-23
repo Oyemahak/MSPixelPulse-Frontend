@@ -341,23 +341,32 @@ export default function Blog() {
                 onClick={() => setVisibleCount((count) => count + LOAD_INCREMENT)}
               >
                 View more guides
-                <span>{remainingCount} remaining</span>
                 <LuChevronDown aria-hidden="true" />
               </button>
+              <span className="blog-remaining-count">{remainingCount} guides remaining</span>
             </div>
           ) : null}
 
-          <div className="blog-editorial-note">
-            <LuSparkles aria-hidden="true" />
+          <section className="blog-next-steps" aria-labelledby="blog-next-steps-title">
             <div>
-              <strong>Six focused topic clusters, built around real customer decisions.</strong>
-              <p>
-                Every guide has a distinct intent, official reference links where
-                appropriate, transparent AI-assistance disclosure, and a practical path
-                from the question to relevant MSPixelPulse services.
-              </p>
+              <p className="blog-library-kicker"><LuSparkles aria-hidden="true" /> Keep exploring</p>
+              <h2 id="blog-next-steps-title">Find a guide for your next decision.</h2>
+              <p>Browse a topic below, or see how a guide connects to real website work.</p>
+              <nav className="blog-next-steps-links" aria-label="Related website resources">
+                <Link to="/services">Browse services <LuArrowRight aria-hidden="true" /></Link>
+                <Link to="/projects">View projects <LuArrowRight aria-hidden="true" /></Link>
+              </nav>
             </div>
-          </div>
+            <nav className="blog-topic-paths" aria-label="Browse guide topics">
+              {pillars.filter((pillar) => pillar !== "All").map((pillar) => (
+                <a key={pillar} href="#article-library" onClick={() => setActivePillar(pillar)}>
+                  <span>{pillar}</span>
+                  <small>{publishedBlogPosts.filter((post) => post.pillar === pillar).length} guides</small>
+                </a>
+              ))}
+            </nav>
+          </section>
+          <p className="blog-editorial-note">Guides are organized around distinct customer questions, with sources and AI-assistance disclosures where applicable.</p>
         </Container>
       </section>
     </div>

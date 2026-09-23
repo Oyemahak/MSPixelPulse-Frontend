@@ -12,23 +12,23 @@ import { ButtonLink } from "@/components/ui/Button.jsx";
 const steps = [
   {
     icon: LuMessagesSquare,
-    title: "Tell Us About Your Business",
-    body: "Share your services, audience, goals, colours, logo, or basic idea.",
+    title: "Tell us your idea",
+    body: "Share your business and goals.",
   },
   {
     icon: LuLayoutTemplate,
-    title: "We Prepare a Personalized Demo",
-    body: "We create a visual website direction based on the information you provide.",
+    title: "See a visual demo",
+    body: "We prepare a direction for you.",
   },
   {
     icon: LuMousePointerClick,
-    title: "You Review the Idea",
-    body: "See how your content, pages, and features could work together.",
+    title: "Review the idea",
+    body: "Explore pages and key features.",
   },
   {
     icon: LuLightbulb,
-    title: "Choose Your Next Step",
-    body: "Request changes, select a website plan, or keep the ideas for later.",
+    title: "Choose your next step",
+    body: "Refine it or discuss a plan.",
   },
 ];
 
@@ -65,12 +65,7 @@ export default function DemoOffer({ compact = false, className = "" }) {
             <div>
               <p className="demo-eyebrow">A clearer way to start</p>
               <h2 id="demo-offer-title">See Your Website Idea Before You Pay</h2>
-              <p className="demo-offer-lead">
-                Tell us about your business, and we’ll create a personalized website demo for you to review. Seeing your idea on screen can help you understand what pages, content, and features you may need before choosing a website plan.
-              </p>
-              <p className="demo-offer-secondary">
-                You do not need to know everything before contacting us. Share your business idea, services, colours, logo, or even a simple description. We will use that information to prepare a visual direction that makes the next steps easier to understand.
-              </p>
+              <p className="demo-offer-lead">Share your idea. We’ll prepare a personalized website preview so you can see a direction before choosing a plan.</p>
               <div className="demo-offer-actions">
                 <ButtonLink
                   size="lg"
@@ -78,7 +73,7 @@ export default function DemoOffer({ compact = false, className = "" }) {
                   data-analytics-cta="request_free_demo"
                   data-analytics-placement="demo_offer"
                 >
-                  Request My Free Demo
+                  Request Free Demo
                   <LuArrowRight aria-hidden="true" />
                 </ButtonLink>
                 <ButtonLink
@@ -87,7 +82,7 @@ export default function DemoOffer({ compact = false, className = "" }) {
                   data-analytics-cta="learn_free_demo"
                   data-analytics-placement="demo_offer"
                 >
-                  See How It Works
+                  How It Works
                 </ButtonLink>
               </div>
             </div>
@@ -133,7 +128,7 @@ export default function DemoOffer({ compact = false, className = "" }) {
           </ol>
 
           <p className="demo-clarification">
-            The free demo is a planning preview, not a finished production website. It may use temporary text or images. Final development, revisions, integrations, hosting, domain setup, timeline, and ownership are confirmed separately before production work begins.
+            Planning preview only; not a finished website. Scope, revisions, hosting, timeline, and ownership are confirmed before production work.
           </p>
         </div>
       </Container>

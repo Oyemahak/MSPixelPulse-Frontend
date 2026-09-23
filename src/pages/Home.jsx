@@ -4,7 +4,6 @@ import {
   LuBadgeCheck,
   LuBookOpen,
   LuBriefcaseBusiness,
-  LuCircleCheck,
   LuHandshake,
   LuLifeBuoy,
   LuMessagesSquare,
@@ -256,7 +255,7 @@ export default function Home() {
                 Practical website support built around your business.
               </h2>
               <p className={`mt-4 max-w-xl leading-7 ${muted}`}>
-                You do not only get a few pages and a goodbye. We make MSPixelPulse a practical part of your business with clear planning, useful updates, mobile-first checks, and honest launch notes.
+                Clear planning, useful updates, mobile-first checks, and honest launch notes — support that continues beyond a page handoff.
               </p>
               <Link className="mt-6 inline-flex items-center gap-2 font-black text-blue-500 hover:underline" to="/about">
                 Meet the agency
@@ -301,8 +300,12 @@ export default function Home() {
             <div>
               <SectionTitle eyebrow="Process" title="A simple delivery flow" align="left" />
               <p className={`max-w-xl leading-7 ${muted}`}>
-                The goal is not to make the biggest website possible. It is to make the most useful version of the website first, then improve it with evidence from real use.
+                Start with the most useful version, then improve it with evidence from real use.
               </p>
+              <Link to="/projects/canstem-education" className="home-process-preview" aria-label="View the CanSTEM Education website case study">
+                <img src="/projects/mockups/canstem-education.webp" alt="CanSTEM Education website in desktop and mobile preview frames" loading="lazy" decoding="async" width="1200" height="750" />
+                <span>From plan to published website <LuArrowRight aria-hidden="true" /></span>
+              </Link>
             </div>
             <div className="grid gap-3">
               {process.map((item, index) => (
@@ -310,10 +313,7 @@ export default function Home() {
                   <span className="inline-grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-blue-600 text-sm font-black text-white">
                     {index + 1}
                   </span>
-                  <div className="flex items-center gap-2 font-bold">
-                    <LuCircleCheck className="h-5 w-5 text-blue-500" aria-hidden="true" />
-                    {item}
-                  </div>
+                  <div className="flex items-center font-bold">{item}</div>
                 </div>
               ))}
             </div>

@@ -27,8 +27,6 @@ const serviceLinks = [
 ];
 
 export default function AppFooter() {
-  const year = new Date().getFullYear();
-
   return (
     <footer className="app-footer">
       <Container>
@@ -81,7 +79,7 @@ export default function AppFooter() {
         </div>
 
         <div className="agency-footer-bottom">
-          <span>© {year} MSPixelPulse. All rights reserved.</span>
+          <span>© 2026 MSPixelPulse. All rights reserved.</span>
           <nav className="agency-footer-legal" aria-label="Legal links">
             <Link to="/privacy">Privacy</Link>
             <Link to="/terms">Terms</Link>

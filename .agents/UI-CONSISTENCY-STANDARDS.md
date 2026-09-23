@@ -34,7 +34,8 @@ These rules apply to every public page, authentication route, error state, and r
 
 ## Responsive And Visual Evidence
 
-- Review at 1440x900, 1280x800, 1024x768, 768x1024, 430x932, 390x844, and 360x800, plus one mobile landscape size when the layout is complex.
+- For every UI change, visually review both light and dark themes at 1440px or wider, 1024px, 768px, 430px, 390px, and 375px. Add 1280px, 360px, and mobile landscape when the layout warrants it.
+- Inspect typography, contrast, spacing, alignment, imagery, cards, buttons, navigation, footer, wrapping, hover/focus states, clipping, and layout shift in the changed public areas.
 - Verify no page-level horizontal overflow, usable forms and drawers, readable headings, non-overlapping sticky elements, and safe keyboard focus.
 - Minimum public shell routes are `/`, `/login`, `/register`, and an invalid URL. Minimum portal coverage is one representative admin, developer, and client route.
 - Record route, theme, viewport, and interaction state in the QA handoff rather than reporting only that the page looks good.

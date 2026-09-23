@@ -20,18 +20,18 @@ import { PageHero } from "@/components/public/PublicPageHeader.jsx";
 import { ButtonAnchor, ButtonLink } from "@/components/ui/Button.jsx";
 
 const principles = [
-  "Clear website structure before decoration",
-  "Responsive layouts that work on real phones",
-  "Flexible technology choices for the project need",
-  "Accessible forms, navigation, contrast, and content",
-  "Straightforward communication during launch and maintenance",
+  "Plan structure before decoration",
+  "Test layouts on real phones",
+  "Choose technology that fits",
+  "Make forms and navigation accessible",
+  "Communicate clearly through launch",
 ];
 
 const helps = [
-  "Small businesses planning a first professional website",
-  "Owners who need a cleaner redesign or stronger mobile experience",
-  "Service businesses that want portfolio, pricing, blog, and contact flows",
-  "Clients who need a secure workspace for files, messages, and launch updates",
+  "Small businesses building a first professional site",
+  "Owners improving a confusing or mobile-unfriendly site",
+  "Service teams needing clear work, pricing, and contact paths",
+  "Clients needing a private workspace for project updates",
 ];
 
 export default function About() {

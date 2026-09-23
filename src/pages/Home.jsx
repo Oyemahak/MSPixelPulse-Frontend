@@ -115,29 +115,26 @@ export default function Home() {
   const { projects: portfolioProjects } = usePublicPortfolio();
   const liveProjects = portfolioProjects.filter((project) => project.classification === "live" && project.live).slice(0, 3);
   const conceptProjects = portfolioProjects.filter((project) => project.classification !== "live").slice(0, 3);
-  const liveProjectCount = portfolioProjects.filter((project) => project.classification === "live" && project.live).length;
-  const conceptProjectCount = portfolioProjects.filter((project) => project.classification !== "live").length;
-  const totalProjectCount = portfolioProjects.length;
   const muted = isDark ? "text-textSub" : "text-slate-600";
   const surface = isDark
     ? "dark-neutral-surface border-white/10 text-white"
     : "liquid-glass-surface border-white/70 text-slate-950";
   const proofStats = [
     {
-      value: `${totalProjectCount}`,
-      label: "portfolio examples",
+      value: "15+",
+      label: "Website examples",
     },
     {
-      value: `${liveProjectCount}`,
-      label: "live website entries",
+      value: "20+",
+      label: "Live websites",
     },
     {
-      value: `${conceptProjectCount}`,
-      label: "industry concepts",
+      value: "11+",
+      label: "Industry concepts",
     },
     {
-      value: "1",
-      label: "private client portal",
+      value: "2+",
+      label: "Private client portals",
     },
   ];
   const differenceCards = [

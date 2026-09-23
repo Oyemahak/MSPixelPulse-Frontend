@@ -500,8 +500,12 @@ html:not([data-theme="dark"]) .app-footer .agency-footer-logo-mark {
   background: linear-gradient(125deg, #1d4ed8, #6457de);
   background-clip: text;
   color: transparent;
-  font-size: clamp(2.75rem, 5vw, 4.4rem);
-  letter-spacing: -0.07em;
+  font-size: clamp(2.5rem, 4.35vw, 3.75rem);
+  font-variant-numeric: lining-nums tabular-nums;
+  font-weight: 900;
+  letter-spacing: -0.045em;
+  line-height: 1;
+  white-space: nowrap;
 }
 
 [data-theme="dark"] .home-proof-grid .home-proof-stat strong {
@@ -959,6 +963,7 @@ html:not([data-theme="dark"]) .app-footer .social-contact-link svg {
 
   .home-proof-grid .home-proof-stat {
     min-height: 6.5rem;
+    justify-content: flex-start;
     padding: 0.9rem 0.65rem;
   }
 
@@ -967,7 +972,7 @@ html:not([data-theme="dark"]) .app-footer .social-contact-link svg {
   }
 
   .home-proof-grid .home-proof-stat strong {
-    font-size: clamp(2.5rem, 11vw, 3.5rem);
+    font-size: clamp(2.2rem, 9.5vw, 3rem);
   }
 
   .home-proof-grid .home-proof-stat:nth-child(even) {

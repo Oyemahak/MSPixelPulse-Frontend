@@ -81,14 +81,12 @@ export default function About() {
                 <img
                   className="about-founder-photo"
                   src="/about/mahak-patel.webp"
-                  srcSet="/about/mahak-patel-216.webp 216w, /about/mahak-patel.webp 432w"
-                  sizes="(max-width: 640px) 90px, 108px"
                   alt="Mahak Patel, founder of MSPixelPulse"
                   loading="eager"
                   fetchPriority="high"
                   decoding="async"
-                  width="432"
-                  height="480"
+                  width="1100"
+                  height="1100"
                 />
               </div>
               <div className="min-w-0">

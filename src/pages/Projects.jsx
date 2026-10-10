@@ -1,3 +1,4 @@
+import { openCleanExternal } from "../lib/cleanExternalLink";
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import Meta from "../components/Meta.jsx";
@@ -11,7 +12,6 @@ import { useTheme } from "@/lib/theme.js";
 import {
   LuArrowRight,
   LuExternalLink,
-  LuGithub,
   LuSlidersHorizontal,
   LuSparkles,
 } from "react-icons/lu";
@@ -120,6 +120,7 @@ function ProjectCard({ project, isDark }) {
               href={project.live}
               target="_blank"
               rel="noopener noreferrer"
+              onClick={openCleanExternal}
               variant="primary"
               size="compact"
               className="project-live-site"
@@ -127,20 +128,6 @@ function ProjectCard({ project, isDark }) {
               data-analytics-placement="projects_card"
             >
               Live site <LuExternalLink className="h-4 w-4" aria-hidden="true" />
-            </ButtonAnchor>
-          )}
-          {project.businessDemo && project.repo && (
-            <ButtonAnchor
-              href={project.repo}
-              target="_blank"
-              rel="noopener noreferrer"
-              variant="card"
-              size="compact"
-              aria-label={`View ${project.title} GitHub repository`}
-              data-analytics-cta={`view_project_repository_${project.slug}`}
-              data-analytics-placement="projects_card"
-            >
-              GitHub <LuGithub className="h-4 w-4" aria-hidden="true" />
             </ButtonAnchor>
           )}
         </div>

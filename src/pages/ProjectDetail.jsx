@@ -1,3 +1,4 @@
+import { openCleanExternal } from "../lib/cleanExternalLink";
 import { Link, useParams } from "react-router-dom";
 import Container from "../components/layout/Container.jsx";
 import Meta from "../components/Meta.jsx";
@@ -103,6 +104,7 @@ export default function ProjectDetail() {
                   className="btn btn-primary"
                   data-analytics-cta={`visit_live_project_${project.slug}`}
                   data-analytics-placement="project_detail"
+                  onClick={openCleanExternal}
                 >
                   Visit live site <LuExternalLink className="ml-2 h-4 w-4" />
                 </a>

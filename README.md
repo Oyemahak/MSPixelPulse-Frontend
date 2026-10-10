@@ -20,25 +20,27 @@ records and retains locally prepared entries when the API does not yet contain
 them. This is the existing public portfolio architecture; it does not create a
 second CMS or write production project data.
 
-The approved twelve-business inventory is maintained separately in the agency's
-operations documentation as `business-website-registry.json` and
-`phase2-business-registry.json`. The corresponding public records retain stable
+The approved eleven-demo inventory is maintained separately in the agency's
+operations handoff as `2026-10-10-vercel-pro-handoff/WEBSITE_REGISTRY.json`.
+The older twelve-business audit is historical and includes excluded client work. The corresponding public records retain stable
 GitHub repository and Vercel project identifiers, existing/verified live URLs,
 planned category subdomains, and publication state. See
 [the integration handoff](docs/business-demo-integration.md) for maintenance and QA.
 
 Category domains follow `<category>.mspixelpulse.com`: dental, homecare,
-healthcare, wedding, restaurant, flower, realestate, autism, petgrooming, salon,
+wedding, restaurant, flower, realestate, autism, petgrooming, salon,
 homeservices, and wellness. These are planned names. A live action may use a
 category hostname only after the deployment, DNS, HTTPS, and business identity
 have been verified. Until then, keep the verified original production URL.
-Preserve the primary domain of real client work. Projects with no verified URL,
+Unity & Hope is excluded from this release; preserve its existing portfolio
+record and client domain without remapping. Projects with no verified URL,
 including LUMINA, show an accurate preview-pending state and no Live Site action.
 
 Before any release, run lint, tests, build, SEO validation, and responsive/theme
 QA; confirm the connected repository, exact commit, owning project, and hosting
 eligibility. A push can trigger Vercel automatically, so prepare local changes
-without pushing while commercial hosting is blocked. Do not change billing,
+without pushing until the final execution is authorized. The existing team was
+verified as Pro on 2026-10-10; recheck actual project ownership before release. Do not change billing,
 client domains, or provider settings as part of metadata maintenance. After an
 authorized eligible deployment, verify the actual production URL and preserve
 a rollback deployment. Private demo management remains an internal workflow

@@ -76,7 +76,7 @@ test("keeps API content authoritative while preserving release-tested local capt
   assert.equal(projects.length, fallbackPublicProjects.length);
 });
 
-test("keeps all 12 approved businesses while protecting verified destinations and pending Lumina", () => {
+test("keeps all 11 approved demos while preserving production Unity content and pending Lumina", () => {
   const projects = normalizePublicProjects([
     {
       _id: "lumina-api",
@@ -96,18 +96,20 @@ test("keeps all 12 approved businesses while protecting verified destinations an
   ]);
   const businesses = projects.filter((project) => project.businessDemo);
   const lumina = businesses.find((project) => project.slug === "lumina-dental-studio");
-  const unity = businesses.find((project) => project.slug === "unity-and-hope-home-care");
+  const unity = projects.find((project) => project.slug === "unity-and-hope-home-care");
 
-  assert.equal(businesses.length, 12);
-  assert.equal(new Set(businesses.map((project) => project.githubRepository)).size, 12);
+  assert.equal(businesses.length, 11);
+  assert.equal(new Set(businesses.map((project) => project.githubRepository)).size, 11);
   assert.equal(lumina.live, "");
   assert.equal(lumina.verifiedLiveUrl, null);
   assert.equal(lumina.deploymentStatus, "BLOCKED_HOSTING_PLAN");
   assert.equal(lumina.classification, "demo");
   assert.equal(lumina.platform, "Next.js");
   assert.equal(lumina.previewStatus, "Preview pending");
-  assert.equal(unity.repo, "https://github.com/MSPixelPulseAgency/unity-hope-home-care");
-  assert.equal(unity.live, "https://uhhomehealth.com");
+  assert.equal(unity.businessDemo, undefined);
+  assert.equal(unity.plannedCategorySubdomain, undefined);
+  assert.equal(unity.repo, "https://github.com/MSPixelPulseAgency/unity-and-hope-home-care");
+  assert.equal(unity.live, "https://uhhomehealth.com/");
   assert.equal(projects.filter((project) => project.slug === lumina.slug).length, 1);
   for (const project of businesses) {
     assert.notEqual(project.live, project.plannedCategorySubdomain);

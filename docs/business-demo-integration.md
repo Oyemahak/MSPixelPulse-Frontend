@@ -18,8 +18,8 @@ as working links while unverified.
 LUMINA uses Next.js, React, TypeScript, Tailwind CSS, Motion, and Lucide. Its
 preview is the actual completed local homepage capture copied byte-for-byte
 from the dental project's `public/brand/project-preview.webp` (1200 × 750).
-It remains a clearly labeled agency demo with `Preview pending`, an available
-case study and GitHub link, and no live action. Do not replace it with an invented
+It is a clearly labeled agency demo, published at https://dental.mspixelpulse.com
+(verified 2026-10-10), with a case study and GitHub link. Do not replace it with an invented
 design or link it to the failed original deployment.
 
 ## URL policy

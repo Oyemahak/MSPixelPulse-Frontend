@@ -100,19 +100,20 @@ test("keeps all 11 approved demos while preserving production Unity content and 
 
   assert.equal(businesses.length, 11);
   assert.equal(new Set(businesses.map((project) => project.githubRepository)).size, 11);
-  assert.equal(lumina.live, "");
-  assert.equal(lumina.verifiedLiveUrl, null);
-  assert.equal(lumina.deploymentStatus, "BLOCKED_HOSTING_PLAN");
+  assert.equal(lumina.live, "https://dental.mspixelpulse.com");
+  assert.equal(lumina.verifiedLiveUrl, "https://dental.mspixelpulse.com");
+  assert.equal(lumina.deploymentStatus, "READY");
   assert.equal(lumina.classification, "demo");
   assert.equal(lumina.platform, "Next.js");
-  assert.equal(lumina.previewStatus, "Preview pending");
+  assert.equal(lumina.previewStatus, undefined);
   assert.equal(unity.businessDemo, undefined);
   assert.equal(unity.plannedCategorySubdomain, undefined);
   assert.equal(unity.repo, "https://github.com/MSPixelPulseAgency/unity-and-hope-home-care");
   assert.equal(unity.live, "https://uhhomehealth.com/");
   assert.equal(projects.filter((project) => project.slug === lumina.slug).length, 1);
   for (const project of businesses) {
-    assert.notEqual(project.live, project.plannedCategorySubdomain);
-    assert.equal(project.live, project.verifiedLiveUrl || "");
+    assert.equal(project.domainStatus, "VERIFIED");
+    assert.equal(project.live, project.plannedCategorySubdomain);
+    assert.equal(project.live, project.verifiedLiveUrl);
   }
 });

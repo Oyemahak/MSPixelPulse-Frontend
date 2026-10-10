@@ -30,7 +30,7 @@ function labelFor(project) {
 }
 
 export function normalizePublicProject(project = {}, curatedProject = null) {
-  if (!project._id && project.classification) return project;
+  if (!project._id && project.classification && !curatedProject?.businessDemo) return project;
   const image = normalizePublicMediaUrl(project.thumbnail || project.mockupImages?.[0]?.url || '/projects/project-fallback.svg');
   const normalized = {
     ...project,
@@ -51,7 +51,7 @@ export function normalizePublicProject(project = {}, curatedProject = null) {
 
   if (!curatedProject) return normalized;
 
-  return {
+  const merged = {
     ...curatedProject,
     ...normalized,
     stack: normalized.stack.length ? normalized.stack : curatedProject.stack,
@@ -72,6 +72,35 @@ export function normalizePublicProject(project = {}, curatedProject = null) {
     // Curated local captures are release-tested and must not be replaced by stale API hosts.
     thumb: curatedProject.thumb || image,
     imageAlt: curatedProject.imageAlt || normalized.imageAlt,
+  };
+
+  if (!curatedProject.businessDemo) return merged;
+
+  // Approved business metadata is release-managed alongside its capture. A stale
+  // API URL must never publish a planned hostname or resurrect a failed preview.
+  return {
+    ...merged,
+    businessDemo: true,
+    title: curatedProject.title,
+    classification: curatedProject.classification,
+    label: curatedProject.label,
+    industry: curatedProject.industry,
+    platform: curatedProject.platform,
+    stack: curatedProject.stack,
+    repo: curatedProject.repo,
+    live: curatedProject.verifiedLiveUrl || '',
+    existingLiveUrl: curatedProject.existingLiveUrl,
+    plannedCategorySubdomain: curatedProject.plannedCategorySubdomain,
+    verifiedLiveUrl: curatedProject.verifiedLiveUrl,
+    githubRepository: curatedProject.githubRepository,
+    vercelProjectId: curatedProject.vercelProjectId,
+    domainStatus: curatedProject.domainStatus,
+    deploymentStatus: curatedProject.deploymentStatus,
+    portfolioStatus: curatedProject.portfolioStatus,
+    demoCategory: curatedProject.demoCategory,
+    demoSubcategories: curatedProject.demoSubcategories,
+    aurelionStatus: curatedProject.aurelionStatus,
+    previewStatus: curatedProject.previewStatus,
   };
 }
 

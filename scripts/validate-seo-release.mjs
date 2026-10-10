@@ -58,7 +58,8 @@ for (const sitemapFile of sitemapFiles) {
   }
 }
 
-assert(routes.length === 131, `Expected 131 indexable routes, found ${routes.length}.`);
+assert(routes.length === 132, `Expected 132 indexable routes, found ${routes.length}.`);
+requiredRoutes.add("/projects/lumina-dental-studio");
 assert(new Set(routes).size === routes.length, "Duplicate URLs were found across sitemap files.");
 for (const route of requiredRoutes) assert(routes.includes(route), `Missing required route ${route}.`);
 assert(!routes.some((route) => /^\/(?:admin|client|dev|login|register|debug|api)(?:\/|$)/.test(route)), "A private route entered a sitemap.");

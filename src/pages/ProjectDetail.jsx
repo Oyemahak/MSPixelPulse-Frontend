@@ -46,6 +46,7 @@ export default function ProjectDetail() {
   const caseStudyRequirements = Array.isArray(project.requirements) ? project.requirements : [];
   const caseStudySolution = Array.isArray(project.solution) ? project.solution : [];
   const projectFeatures = Array.isArray(project.features) ? project.features : [];
+  const projectTechnology = [...new Set([project.platform, ...(project.stack || [])].filter(Boolean))].join(" · ");
   const hasDetailedCaseStudy = caseStudyRequirements.length > 0 || caseStudySolution.length > 0;
   const classificationClass = isLive
     ? isDark
@@ -79,6 +80,11 @@ export default function ProjectDetail() {
               <span className={isDark ? "badge" : "rounded-full bg-slate-100 px-3 py-1 text-xs font-bold text-slate-600"}>
                 {project.websiteType}
               </span>
+              {project.previewStatus && (
+                <span className={isDark ? "badge" : "rounded-full bg-slate-100 px-3 py-1 text-xs font-bold text-slate-600"}>
+                  {project.previewStatus}
+                </span>
+              )}
             </div>
 
             <h1 className={isDark ? "text-4xl font-black leading-tight md:text-5xl" : "text-4xl font-black leading-tight text-slate-950 md:text-5xl"}>
@@ -150,7 +156,7 @@ export default function ProjectDetail() {
             </div>
             <div className="mt-6 grid gap-6 lg:grid-cols-2">
               <ListPanel title="Solution and UX/development work" items={caseStudySolution.length > 0 ? caseStudySolution : projectFeatures} isDark={isDark} />
-              <CopyPanel title="Technology" value={[project.platform, ...(project.stack || [])].filter(Boolean).join(" · ")} isDark={isDark} />
+              <CopyPanel title="Technology" value={projectTechnology} isDark={isDark} />
             </div>
             <div className="mt-6 grid gap-6 lg:grid-cols-[1fr_.8fr]">
               <CopyPanel title="Published outcome" value={project.result} isDark={isDark} />
@@ -162,7 +168,7 @@ export default function ProjectDetail() {
             <div className="mt-12 grid gap-6 lg:grid-cols-3">
               <CopyPanel title="Project context" value={project.overview} isDark={isDark} />
               <CopyPanel title="Published outcome" value={project.result} isDark={isDark} />
-              <CopyPanel title="Technology" value={[project.platform, ...(project.stack || [])].filter(Boolean).join(" · ")} isDark={isDark} />
+              <CopyPanel title="Technology" value={projectTechnology} isDark={isDark} />
             </div>
             <div className="mt-6 grid gap-6 lg:grid-cols-2">
               <ListPanel title="Solution and UX decisions" items={projectFeatures} isDark={isDark} />

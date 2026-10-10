@@ -11,6 +11,7 @@ import { useTheme } from "@/lib/theme.js";
 import {
   LuArrowRight,
   LuExternalLink,
+  LuGithub,
   LuSlidersHorizontal,
   LuSparkles,
 } from "react-icons/lu";
@@ -78,6 +79,11 @@ function ProjectCard({ project, isDark }) {
           <span className={isDark ? "badge" : "rounded-full bg-slate-100 px-3 py-1 text-xs font-bold text-slate-600"}>
             {project.industry}
           </span>
+          {project.previewStatus && (
+            <span className={isDark ? "badge" : "rounded-full bg-slate-100 px-3 py-1 text-xs font-bold text-slate-600"}>
+              {project.previewStatus}
+            </span>
+          )}
         </div>
 
         <h3 className={isDark ? "text-lg font-black" : "text-lg font-black text-slate-950"}>
@@ -121,6 +127,20 @@ function ProjectCard({ project, isDark }) {
               data-analytics-placement="projects_card"
             >
               Live site <LuExternalLink className="h-4 w-4" aria-hidden="true" />
+            </ButtonAnchor>
+          )}
+          {project.businessDemo && project.repo && (
+            <ButtonAnchor
+              href={project.repo}
+              target="_blank"
+              rel="noopener noreferrer"
+              variant="card"
+              size="compact"
+              aria-label={`View ${project.title} GitHub repository`}
+              data-analytics-cta={`view_project_repository_${project.slug}`}
+              data-analytics-placement="projects_card"
+            >
+              GitHub <LuGithub className="h-4 w-4" aria-hidden="true" />
             </ButtonAnchor>
           )}
         </div>

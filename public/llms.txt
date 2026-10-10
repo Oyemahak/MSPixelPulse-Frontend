@@ -34,11 +34,12 @@ Public organization data: https://mspixelpulse.com/api/public/organization
 
 ## Case Studies
 
+- [LUMINA Dental Studio](https://mspixelpulse.com/projects/lumina-dental-studio): Agency Demo; Dental. An editorial dental studio concept with 24 pages, responsive layouts, service discovery, and a demo appointment flow.
 - [CanSTEM Education Private School](https://mspixelpulse.com/projects/canstem-education): Live Website Work; Education. A public school website focused on programs, admissions, and parent trust.
 - [Aimze Studio Salon & Spa](https://mspixelpulse.com/projects/aimze-salon): Live Website Work; Beauty & Salon. A beauty service website for salon discovery, services, and client booking intent.
 - [Dazzling Smile Dental Clinic](https://mspixelpulse.com/projects/dazzling-smile-dental): Live Website Work; Dental. A calm dental clinic presence for services, trust, and local discovery.
 - [Bloom by Maryam Flower Boutique](https://mspixelpulse.com/projects/bloom-by-maryam-flower-boutique): Industry Concept; Flowers & Gifts. A polished e-commerce concept for flowers, occasions, and event florals.
-- [Stephy Pet Grooming Studio](https://mspixelpulse.com/projects/stephy-pet-grooming-studio): Concept Website; Beauty & Salon. A warm grooming concept with services, packages, gallery-style sections, and booking CTAs.
+- [Stephy Pet Grooming Studio](https://mspixelpulse.com/projects/stephy-pet-grooming-studio): Concept Website; Pet Services. A warm grooming concept with services, packages, gallery-style sections, and booking CTAs.
 - [NorthStar Home Services](https://mspixelpulse.com/projects/northstar-home-services): Industry Concept; Home Services. A conversion-focused local service concept with trust sections and quote CTAs.
 - [MS PixelPulse Realty Group](https://mspixelpulse.com/projects/ms-pixelpulse-realty-group): Concept Website; Real Estate. A luxury real estate concept with listing-style sections and buyer/seller CTAs.
 - [MS PixelPulse Wellness Studio](https://mspixelpulse.com/projects/ms-pixelpulse-wellness-studio): Concept Website; Wellness. A calm wellness concept for services, appointment intent, and brand credibility.

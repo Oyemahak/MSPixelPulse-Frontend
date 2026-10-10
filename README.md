@@ -10,6 +10,42 @@ https://mspixelpulse.com
 
 `https://www.mspixelpulse.com` and the legacy Vercel production hostname redirect permanently to the equivalent path on the apex domain.
 
+Projects: https://mspixelpulse.com/projects
+
+## Business Demo Integration
+
+The public Projects page reuses the API portfolio with the existing curated
+records in `src/data/projects.js`. `src/lib/publicPortfolio.js` merges those
+records and retains locally prepared entries when the API does not yet contain
+them. This is the existing public portfolio architecture; it does not create a
+second CMS or write production project data.
+
+The approved eleven-demo inventory is maintained separately in the agency's
+operations handoff as `2026-10-10-vercel-pro-handoff/WEBSITE_REGISTRY.json`.
+The older twelve-business audit is historical and includes excluded client work. The corresponding public records retain stable
+GitHub repository and Vercel project identifiers, existing/verified live URLs,
+planned category subdomains, and publication state. See
+[the integration handoff](docs/business-demo-integration.md) for maintenance and QA.
+
+Category domains follow `<category>.mspixelpulse.com`: dental, homecare,
+wedding, restaurant, flower, realestate, autism, petgrooming, salon,
+homeservices, and wellness. These are planned names. A live action may use a
+category hostname only after the deployment, DNS, HTTPS, and business identity
+have been verified. Until then, keep the verified original production URL.
+Unity & Hope is excluded from this release; preserve its existing portfolio
+record and client domain without remapping. Projects with no verified URL,
+including LUMINA, show an accurate preview-pending state and no Live Site action.
+
+Before any release, run lint, tests, build, SEO validation, and responsive/theme
+QA; confirm the connected repository, exact commit, owning project, and hosting
+eligibility. A push can trigger Vercel automatically, so prepare local changes
+without pushing until the final execution is authorized. The existing team was
+verified as Pro on 2026-10-10; recheck actual project ownership before release. Do not change billing,
+client domains, or provider settings as part of metadata maintenance. After an
+authorized eligible deployment, verify the actual production URL and preserve
+a rollback deployment. Private demo management remains an internal workflow
+and is not a customer-facing demo destination.
+
 ## Architecture
 
 - Vercel hosts the React frontend.

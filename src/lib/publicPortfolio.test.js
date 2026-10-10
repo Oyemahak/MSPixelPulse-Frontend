@@ -75,3 +75,45 @@ test("keeps API content authoritative while preserving release-tested local capt
   assert.equal(projects.find((project) => project.slug === "aurelia-restaurant-bar")?.classification, "demo");
   assert.equal(projects.length, fallbackPublicProjects.length);
 });
+
+test("keeps all 11 approved demos while preserving production Unity content and pending Lumina", () => {
+  const projects = normalizePublicProjects([
+    {
+      _id: "lumina-api",
+      slug: "lumina-dental-studio",
+      projectClassification: "live",
+      liveUrl: "https://demo-lumina-dental.vercel.app",
+      verifiedLiveUrl: "https://dental.mspixelpulse.com",
+      deploymentStatus: "READY",
+      technologies: ["Vite"],
+    },
+    {
+      _id: "unity-api",
+      slug: "unity-and-hope-home-care",
+      repositoryUrl: "https://github.com/MSPixelPulseAgency/unity-and-hope-home-care",
+      liveUrl: "https://healthcare.mspixelpulse.com",
+    },
+  ]);
+  const businesses = projects.filter((project) => project.businessDemo);
+  const lumina = businesses.find((project) => project.slug === "lumina-dental-studio");
+  const unity = projects.find((project) => project.slug === "unity-and-hope-home-care");
+
+  assert.equal(businesses.length, 11);
+  assert.equal(new Set(businesses.map((project) => project.githubRepository)).size, 11);
+  assert.equal(lumina.live, "https://dental.mspixelpulse.com");
+  assert.equal(lumina.verifiedLiveUrl, "https://dental.mspixelpulse.com");
+  assert.equal(lumina.deploymentStatus, "READY");
+  assert.equal(lumina.classification, "demo");
+  assert.equal(lumina.platform, "Next.js");
+  assert.equal(lumina.previewStatus, undefined);
+  assert.equal(unity.businessDemo, undefined);
+  assert.equal(unity.plannedCategorySubdomain, undefined);
+  assert.equal(unity.repo, "https://github.com/MSPixelPulseAgency/unity-and-hope-home-care");
+  assert.equal(unity.live, "https://uhhomehealth.com/");
+  assert.equal(projects.filter((project) => project.slug === lumina.slug).length, 1);
+  for (const project of businesses) {
+    assert.equal(project.domainStatus, "VERIFIED");
+    assert.equal(project.live, project.plannedCategorySubdomain);
+    assert.equal(project.live, project.verifiedLiveUrl);
+  }
+});

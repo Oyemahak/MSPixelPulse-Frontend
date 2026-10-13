@@ -1,4 +1,5 @@
 import test from "node:test";
+import { projects as curatedProjects } from "../data/projects.js";
 import assert from "node:assert/strict";
 import {
   fallbackPublicProjects,
@@ -76,7 +77,7 @@ test("keeps API content authoritative while preserving release-tested local capt
   assert.equal(projects.length, fallbackPublicProjects.length);
 });
 
-test("keeps all 11 approved demos while preserving production Unity content and pending Lumina", () => {
+test("keeps all 12 approved demos while preserving production Unity content and verified Lumina", () => {
   const projects = normalizePublicProjects([
     {
       _id: "lumina-api",
@@ -98,8 +99,8 @@ test("keeps all 11 approved demos while preserving production Unity content and 
   const lumina = businesses.find((project) => project.slug === "lumina-dental-studio");
   const unity = projects.find((project) => project.slug === "unity-and-hope-home-care");
 
-  assert.equal(businesses.length, 11);
-  assert.equal(new Set(businesses.map((project) => project.githubRepository)).size, 11);
+  assert.equal(businesses.length, 12);
+  assert.equal(new Set(businesses.map((project) => project.githubRepository)).size, 12);
   assert.equal(lumina.live, "https://dental.mspixelpulse.com");
   assert.equal(lumina.verifiedLiveUrl, "https://dental.mspixelpulse.com");
   assert.equal(lumina.deploymentStatus, "READY");
@@ -116,4 +117,27 @@ test("keeps all 11 approved demos while preserving production Unity content and 
     assert.equal(project.live, project.plannedCategorySubdomain);
     assert.equal(project.live, project.verifiedLiveUrl);
   }
+});
+
+test("publishes AUREL FRAME with the verified branded destination and preserves it against stale API data", () => {
+  const prepared = curatedProjects.find((project) => project.slug === "aurel-frame");
+  assert.equal(prepared.title, "AUREL FRAME — Wedding & Event Photography");
+  assert.equal(prepared.industry, "Photography & Videography");
+  assert.equal(prepared.repo, "https://github.com/MSPixelPulseAgency/mspixelpulse-demo-photographer");
+  assert.equal(prepared.published, true);
+  assert.equal(prepared.live, "https://photographer.mspixelpulse.com");
+  assert.equal(prepared.verifiedLiveUrl, prepared.live);
+  assert.ok(fallbackPublicProjects.some((project) => project.slug === prepared.slug));
+  assert.ok(prepared.requirements.length > 0);
+  assert.ok(prepared.solution.length > 0);
+  assert.match(prepared.result, /illustrative/);
+  const merged = normalizePublicProjects([{
+    _id: "aurel-frame-api", slug: "aurel-frame", projectClassification: "live",
+    liveUrl: "https://stale-preview.example.com", title: "Stale API name", technologies: ["Vite"],
+  }]).find((project) => project.slug === prepared.slug);
+  assert.equal(merged.title, prepared.title);
+  assert.equal(merged.live, prepared.live);
+  assert.equal(merged.classification, "demo");
+  assert.equal(merged.repo, prepared.repo);
+  assert.deepEqual(merged.stack, prepared.stack);
 });

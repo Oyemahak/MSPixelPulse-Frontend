@@ -34,6 +34,7 @@ Public organization data: https://mspixelpulse.com/api/public/organization
 
 ## Case Studies
 
+- [AUREL FRAME — Wedding & Event Photography](https://mspixelpulse.com/projects/aurel-frame): Agency Demo; Photography & Videography. A cinematic wedding, event and portrait photography concept with immersive galleries, service discovery and honest demo inquiries.
 - [LUMINA Dental Studio](https://mspixelpulse.com/projects/lumina-dental-studio): Agency Demo; Dental. An editorial dental studio concept with 24 pages, responsive layouts, service discovery, and a demo appointment flow.
 - [CanSTEM Education Private School](https://mspixelpulse.com/projects/canstem-education): Live Website Work; Education. A public school website focused on programs, admissions, and parent trust.
 - [Aimze Studio Salon & Spa](https://mspixelpulse.com/projects/aimze-salon): Live Website Work; Beauty & Salon. A beauty service website for salon discovery, services, and client booking intent.

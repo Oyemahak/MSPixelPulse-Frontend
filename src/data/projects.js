@@ -25,6 +25,8 @@ export const projects = [
       "Wedding, event, portrait and cinematography service discovery",
       "Illustrative CAD and USD photography collections",
       "Editorial journal, photography experience and accessible demo inquiry flow",
+      "Five locally hosted licensed film studies with user-initiated playback",
+      "Bodoni Moda, DM Sans, original camera identity and refined glass controls",
       "Route-specific metadata and locally optimized photography assets",
     ],
     requirements: [
@@ -39,7 +41,7 @@ export const projects = [
       "The demonstration inquiry validates input and confirms that nothing is sent, stored or booked.",
     ],
     overview: "AUREL FRAME is a fictional photography studio concept for weddings, events, portraits and film. MSPixelPulse created an editorial visual direction that balances immersive imagery with practical service discovery and a clear inquiry journey.",
-    result: "Verified public agency demo at photographer.mspixelpulse.com. Photography collections are licensed-stock mood boards; studio stories, testimonials and prices are illustrative.",
+    result: "Verified public agency demo at photographer.mspixelpulse.com. Photography collections are licensed-stock mood boards; studio stories and prices are illustrative. Film studies use licensed stock footage.",
     lastModified: "2026-10-13",
     published: true,
     businessDemo: true,

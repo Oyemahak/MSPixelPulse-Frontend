@@ -141,3 +141,15 @@ test("publishes AUREL FRAME with the verified branded destination and preserves 
   assert.equal(merged.repo, prepared.repo);
   assert.deepEqual(merged.stack, prepared.stack);
 });
+
+
+test("unverified restaurant platform drafts stay out of the public portfolio", () => {
+  for (const slug of ["savora-kitchen-table", "savora-restaurant-operations"]) {
+    const draft = curatedProjects.find((project) => project.slug === slug);
+    assert.ok(draft);
+    assert.equal(draft.published, false);
+    assert.equal(draft.verifiedLiveUrl, "");
+    assert.equal(draft.domainStatus, "PLANNED");
+    assert.equal(fallbackPublicProjects.some((project) => project.slug === slug), false);
+  }
+});

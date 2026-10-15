@@ -1,4 +1,7 @@
+import { restaurantPlatformProjects } from "./restaurantPlatform.js";
+
 export const projects = [
+  ...restaurantPlatformProjects,
   {
     id: "aurel-frame",
     slug: "aurel-frame",

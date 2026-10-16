@@ -58,11 +58,11 @@ for (const sitemapFile of sitemapFiles) {
   }
 }
 
-assert(routes.length === 135, `Expected 135 indexable routes, found ${routes.length}.`);
+assert(routes.length === 134, `Expected 134 indexable routes, found ${routes.length}.`);
 requiredRoutes.add("/projects/lumina-dental-studio");
 requiredRoutes.add("/projects/aurel-frame");
 requiredRoutes.add("/projects/savora-kitchen-table");
-requiredRoutes.add("/projects/savora-restaurant-operations");
+assert(!routes.includes("/projects/savora-restaurant-operations"), "Retired operations presentation must not appear in the sitemap.");
 requiredRoutes.add("/projects/aurelia-restaurant-bar");
 assert(new Set(routes).size === routes.length, "Duplicate URLs were found across sitemap files.");
 for (const route of requiredRoutes) assert(routes.includes(route), `Missing required route ${route}.`);

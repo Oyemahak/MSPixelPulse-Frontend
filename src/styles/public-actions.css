@@ -1333,3 +1333,10 @@ html:not([data-theme="dark"]) body .public-site-header .public-mobile-menu {
     backdrop-filter: none;
   }
 }
+
+/* Keep project-page actions AA-readable in the existing dark blue identity. */
+[data-theme="dark"] :is(.projects-page, .project-detail-page) .btn-primary,
+[data-theme="dark"] .projects-page .project-type-switch button.is-active {
+  background: #2563eb;
+  color: #ffffff;
+}

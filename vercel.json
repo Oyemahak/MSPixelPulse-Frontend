@@ -3,6 +3,11 @@
   "trailingSlash": false,
   "redirects": [
     {
+      "source": "/projects/savora-restaurant-operations",
+      "destination": "/projects/savora-kitchen-table",
+      "permanent": true
+    },
+    {
       "source": "/",
       "has": [{ "type": "host", "value": "capstone-frontend.vercel.app" }],
       "destination": "https://mspixelpulse.com/",

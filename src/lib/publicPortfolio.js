@@ -1,3 +1,4 @@
+import { retiredRestaurantProjectSlug } from '../data/restaurantPlatform.js';
 import { publishedProjects } from '../data/projects.js';
 
 export const fallbackPublicProjects = publishedProjects;
@@ -82,6 +83,19 @@ export function normalizePublicProject(project = {}, curatedProject = null) {
     ...merged,
     businessDemo: true,
     title: curatedProject.title,
+    ...(curatedProject.operationsUrl ? {
+      summary: curatedProject.summary,
+      shortDescription: curatedProject.shortDescription,
+      overview: curatedProject.overview,
+      features: curatedProject.features,
+      result: curatedProject.result,
+      websiteType: curatedProject.websiteType,
+      operationsUrl: curatedProject.operationsUrl,
+      operationsRepo: curatedProject.operationsRepo,
+      customerExperience: curatedProject.customerExperience,
+      operationsExperience: curatedProject.operationsExperience,
+      screenshots: curatedProject.screenshots,
+    } : {}),
     classification: curatedProject.classification,
     label: curatedProject.label,
     industry: curatedProject.industry,
@@ -106,7 +120,15 @@ export function normalizePublicProject(project = {}, curatedProject = null) {
 
 export function normalizePublicProjects(items = []) {
   const curatedBySlug = new Map(fallbackPublicProjects.map((project) => [project.slug, project]));
-  const normalized = (Array.isArray(items) ? items : []).map((project) =>
+  let hasCanonicalRestaurant = false;
+  const normalized = (Array.isArray(items) ? items : []).filter((project) =>
+    (project.slug || project._id) !== retiredRestaurantProjectSlug,
+  ).filter((project) => {
+    if ((project.slug || project._id) !== 'savora-kitchen-table') return true;
+    if (hasCanonicalRestaurant) return false;
+    hasCanonicalRestaurant = true;
+    return true;
+  }).map((project) =>
     normalizePublicProject(project, curatedBySlug.get(project.slug || project._id)),
   );
   const publishedSlugs = new Set(normalized.map((project) => project.slug).filter(Boolean));

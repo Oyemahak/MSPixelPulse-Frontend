@@ -77,7 +77,7 @@ test("keeps API content authoritative while preserving release-tested local capt
   assert.equal(projects.length, fallbackPublicProjects.length);
 });
 
-test("keeps all 14 approved demos while preserving production Unity content and verified Lumina", () => {
+test("keeps all 13 approved demos after combining SAVORA while preserving production Unity content and verified Lumina", () => {
   const projects = normalizePublicProjects([
     {
       _id: "lumina-api",
@@ -99,8 +99,8 @@ test("keeps all 14 approved demos while preserving production Unity content and 
   const lumina = businesses.find((project) => project.slug === "lumina-dental-studio");
   const unity = projects.find((project) => project.slug === "unity-and-hope-home-care");
 
-  assert.equal(businesses.length, 14);
-  assert.equal(new Set(businesses.map((project) => project.githubRepository)).size, 14);
+  assert.equal(businesses.length, 13);
+  assert.equal(new Set(businesses.map((project) => project.githubRepository)).size, 13);
   assert.equal(lumina.live, "https://dental.mspixelpulse.com");
   assert.equal(lumina.verifiedLiveUrl, "https://dental.mspixelpulse.com");
   assert.equal(lumina.deploymentStatus, "READY");
@@ -143,21 +143,23 @@ test("publishes AUREL FRAME with the verified branded destination and preserves 
 });
 
 
-test("verified SAVORA restaurant platform entries are published with their production URLs", () => {
-  const expected = {
-    "savora-kitchen-table": "https://restaurant.mspixelpulse.com",
-    "savora-restaurant-operations": "https://orders.restaurant.mspixelpulse.com",
-  };
-  for (const [slug, url] of Object.entries(expected)) {
-    const entry = curatedProjects.find((project) => project.slug === slug);
-    assert.ok(entry);
-    assert.equal(entry.published, true);
-    assert.equal(entry.live, url);
-    assert.equal(entry.verifiedLiveUrl, url);
-    assert.equal(entry.domainStatus, "VERIFIED");
-    assert.ok(entry.thumb.startsWith("/projects/mockups/"));
-    assert.equal(fallbackPublicProjects.some((project) => project.slug === slug), true);
-  }
-  const aurelia = curatedProjects.find((project) => project.slug === "aurelia-restaurant-bar");
-  assert.equal(aurelia.live, "https://bar.mspixelpulse.com");
+test("SAVORA is one canonical platform even when stale API operations entries arrive", () => {
+  const canonical = curatedProjects.find((project) => project.slug === "savora-kitchen-table");
+  assert.equal(canonical.operationsUrl, "https://orders.restaurant.mspixelpulse.com");
+  assert.equal(canonical.live, "https://restaurant.mspixelpulse.com");
+  assert.equal(canonical.title, "SAVORA — Restaurant Platform");
+  const entries = normalizePublicProjects([
+    {_id: "saved-storefront", slug: "savora-kitchen-table", title: "Old storefront", shortDescription: "Outdated copy", projectOverview: "Outdated overview"},
+    {_id: "duplicate-storefront", slug: "savora-kitchen-table", title: "Duplicate storefront"},
+    {_id: "saved-ops", slug: "savora-restaurant-operations", title: "SAVORA — Restaurant Operations"},
+    {_id: "unrelated", slug: "independent-client", title: "Owner-managed project", technologies: ["Custom"]},
+  ]);
+  assert.equal(entries.filter((p) => p.slug.startsWith("savora-")).length, 1);
+  const merged = entries.find((p) => p.slug === canonical.slug);
+  assert.equal(merged.shortDescription, canonical.shortDescription);
+  assert.equal(merged.overview, canonical.overview);
+  assert.equal(merged.operationsUrl, canonical.operationsUrl);
+  assert.equal(merged.screenshots.length, 4);
+  assert.equal(entries.find((p) => p.slug === "independent-client").title, "Owner-managed project");
+  assert.equal(curatedProjects.find((p) => p.slug === "aurelia-restaurant-bar").live, "https://bar.mspixelpulse.com");
 });

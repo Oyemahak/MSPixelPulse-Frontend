@@ -186,6 +186,7 @@ function renderProjectSnapshot(project) {
     <nav aria-label="Breadcrumb"><a href="/">Home</a> / <a href="/projects">Projects</a> / <span>${escapeHtml(project.title)}</span></nav>
     <article><header><p>${escapeHtml(project.label)} · ${escapeHtml(project.industry)} · ${escapeHtml(project.websiteType)}</p><h1>${escapeHtml(project.title)}</h1><p>${escapeHtml(project.shortDescription || project.summary || "")}</p></header>
     <section><h2>Problem and project context</h2><p>${escapeHtml(project.overview || "")}</p></section>
+    ${project.operationsUrl ? `<section><h2>Customer experience</h2><ul>${project.customerExperience.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul></section><section><h2>Operations experience</h2><ul>${project.operationsExperience.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul><p><a href="${escapeHtml(project.live)}">Restaurant Demo</a> · <a href="${escapeHtml(project.operationsUrl)}">Operations Dashboard</a></p><p>Owner-protected dashboard. Public demo access uses an isolated workspace. No real payments or food delivery.</p></section>` : ""}
     ${requirements}
     <section><h2>Solution and UX/development work</h2><ul>${solutionItems.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul></section>
     <section><h2>Services connected to this project</h2><ul>${(project.services || []).map((item) => `<li><a href="${servicePathForLabel(item)}">${escapeHtml(item)}</a></li>`).join("")}</ul></section>

@@ -1,0 +1,59 @@
+{
+  "captures": [
+    {
+      "name": "savora-storefront",
+      "url": "https://restaurant.mspixelpulse.com",
+      "width": 1440,
+      "height": 1000,
+      "capturedAt": "2026-10-16T19:04:02.916Z",
+      "sha256": "64527bd79678e404c25d47e9011161341b09e495fc330071c076266de35b8ed4",
+      "access": "Public production homepage, current chef-hat release"
+    },
+    {
+      "name": "savora-storefront",
+      "url": "https://restaurant.mspixelpulse.com",
+      "width": 390,
+      "height": 844,
+      "capturedAt": "2026-10-16T19:04:05.298Z",
+      "sha256": "41a6e2e5111e89c07fe93bb4f239550592e47a7839d958b275f46d695fd0b82e",
+      "access": "Public production homepage, current chef-hat release"
+    },
+    {
+      "name": "savora-operations",
+      "url": "https://orders.restaurant.mspixelpulse.com",
+      "width": 1440,
+      "height": 1000,
+      "capturedAt": "2026-10-16T19:04:09.096Z",
+      "sha256": "c82586b965986c882efdd9a56ff3be37865f252f4029a8830034715ba6889f0e",
+      "access": "Supported Explore the live demo button; isolated Demo operator workspace; no owner sign-in"
+    },
+    {
+      "name": "savora-operations",
+      "url": "https://orders.restaurant.mspixelpulse.com",
+      "width": 390,
+      "height": 844,
+      "capturedAt": "2026-10-16T19:04:11.192Z",
+      "sha256": "a3a56e51ec5d63247a05ad5472407dc9afcbb5855f645628b0d8f8b0f555508a",
+      "access": "Supported Explore the live demo button; isolated Demo operator workspace; no owner sign-in"
+    },
+    {
+      "name": "aurelia",
+      "url": "https://bar.mspixelpulse.com",
+      "width": 1440,
+      "height": 1000,
+      "capturedAt": "2026-10-16T19:04:14.134Z",
+      "sha256": "b37020e9ac996fc7414b3573c75a9c7d528f955cf141379a72b8b1c81317a52e",
+      "access": "Public production homepage"
+    },
+    {
+      "name": "aurelia",
+      "url": "https://bar.mspixelpulse.com",
+      "width": 390,
+      "height": 844,
+      "capturedAt": "2026-10-16T19:05:16.378Z",
+      "sha256": "142b1e4bccc2516d2eaa7327bf566a8b6c90629120c0a41d4a0f9ef6d218685d",
+      "access": "Public production homepage"
+    }
+  ],
+  "notes": "Actual production screenshots. Agency mockups frame these screenshots without fabricating interfaces. Public operations starter orders contain fictional demo data only."
+}

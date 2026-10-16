@@ -127,7 +127,7 @@ function ProjectCard({ project, isDark }) {
               data-analytics-cta={`visit_live_project_${project.slug}`}
               data-analytics-placement="projects_card"
             >
-              Live site <LuExternalLink className="h-4 w-4" aria-hidden="true" />
+              {project.operationsUrl ? "Restaurant Demo" : "Live site"} <LuExternalLink className="h-4 w-4" aria-hidden="true" />
             </ButtonAnchor>
           )}
         </div>
@@ -205,7 +205,7 @@ export default function Projects() {
   }
 
   return (
-    <section className="section overflow-x-hidden">
+    <section className="projects-page section overflow-x-hidden">
       <Meta {...seoPages.projects} />
 
       <Container>

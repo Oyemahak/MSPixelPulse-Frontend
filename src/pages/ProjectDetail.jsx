@@ -1,5 +1,5 @@
 import { openCleanExternal } from "../lib/cleanExternalLink";
-import { Link, useParams } from "react-router-dom";
+import { Link, Navigate, useParams } from "react-router-dom";
 import Container from "../components/layout/Container.jsx";
 import Meta from "../components/Meta.jsx";
 import { usePublicPortfolio } from "@/hooks/usePublicPortfolio.js";
@@ -17,6 +17,8 @@ export default function ProjectDetail() {
   const isDark = theme === "dark";
   const { projects: publishedProjects, loading } = usePublicPortfolio();
   const project = publishedProjects.find((item) => item.slug === id || item.id === id);
+
+  if (id === "savora-restaurant-operations") return <Navigate to="/projects/savora-kitchen-table" replace />;
 
   if (!project && loading) {
     return <section className="section"><Container><div className="card-surface p-8" role="status">Loading project…</div></Container></section>;
@@ -57,7 +59,7 @@ export default function ProjectDetail() {
       ? "border-primary/30 bg-primary/15 text-blue-100"
       : "border-blue-200 bg-blue-50 text-blue-700";
   return (
-    <section className="section">
+    <section className="project-detail-page section">
       <Meta {...projectMeta} />
 
       <Container>
@@ -106,7 +108,12 @@ export default function ProjectDetail() {
                   data-analytics-placement="project_detail"
                   onClick={openCleanExternal}
                 >
-                  Visit live site <LuExternalLink className="ml-2 h-4 w-4" />
+                  {project.operationsUrl ? "Restaurant Demo" : "Visit live site"} <LuExternalLink className="ml-2 h-4 w-4" />
+                </a>
+              )}
+              {project.operationsUrl && (
+                <a href={project.operationsUrl} target="_blank" rel="noopener noreferrer" className="btn btn-glass" onClick={openCleanExternal}>
+                  Operations Dashboard <LuExternalLink className="ml-2 h-4 w-4" aria-hidden="true" />
                 </a>
               )}
               {project.repo && (
@@ -129,6 +136,7 @@ export default function ProjectDetail() {
                 message={`Hi MSPixelPulse, I want to build a website like ${project.title}.`}
               />
             </div>
+            {project.operationsUrl && <p className="mt-4 text-sm leading-6">Owner-protected operations. Use “Explore the live demo” for an isolated demo workspace; owner access requires authorization. No real payments or food delivery.</p>}
           </div>
 
           <div className={isDark ? "project-detail-preview overflow-hidden rounded-2xl border border-white/10 bg-white/[0.045]" : "project-detail-preview overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm"}>
@@ -149,6 +157,25 @@ export default function ProjectDetail() {
             />
           </div>
         </div>
+
+        {project.operationsUrl && (
+          <>
+            <div className="mt-12 grid gap-6 lg:grid-cols-2">
+              <ListPanel title="Customer experience" items={project.customerExperience} isDark={isDark} />
+              <ListPanel title="Operations experience" items={project.operationsExperience} isDark={isDark} />
+            </div>
+            <section className="mt-10" aria-labelledby="platform-screenshots">
+              <h2 id="platform-screenshots" className="text-2xl font-bold">One platform, two connected experiences</h2>
+              <p className="mt-3 leading-7">Current production captures. Operations images show the supported isolated public demo, not a private owner account.</p>
+              <div className="mt-6 grid items-start gap-6 md:grid-cols-2">
+                {(project.screenshots || []).map((image) => <figure key={image.src} className={isDark ? "overflow-hidden rounded-2xl border border-white/10 bg-white/5" : "overflow-hidden rounded-2xl border border-slate-200 bg-white"}>
+                  <div className={image.width === 390 ? "flex h-[360px] justify-center overflow-hidden bg-black/5 sm:h-[420px]" : "aspect-[36/25] overflow-hidden bg-black/5"}><img src={image.src} alt={image.alt} width={image.width} height={image.height} loading="lazy" decoding="async" className="h-full max-w-full object-contain object-top" /></div>
+                  <figcaption className="p-4 text-sm leading-6">{image.caption} · {image.width === 390 ? "Mobile" : "Desktop"}</figcaption>
+                </figure>)}
+              </div>
+            </section>
+          </>
+        )}
 
         {hasDetailedCaseStudy ? (
           <>

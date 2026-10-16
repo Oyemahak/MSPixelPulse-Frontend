@@ -40,8 +40,7 @@ MSPixelPulse plans, designs, develops, improves, and supports responsive website
 
 ## Published Project and Case-Study Directory
 
-- [SAVORA — Kitchen & Table](https://mspixelpulse.com/projects/savora-kitchen-table): Agency Demo; Restaurant / Hospitality. An original Canadian restaurant concept with an orderable menu, customization, guest checkout and order tracking.
-- [SAVORA — Restaurant Operations](https://mspixelpulse.com/projects/savora-restaurant-operations): Agency Demo; Restaurant / Hospitality. Owner-authenticated order management, kitchen tickets, menu administration and operational reporting.
+- [SAVORA — Restaurant Platform](https://mspixelpulse.com/projects/savora-kitchen-table): Agency Demo; Restaurant / Hospitality. Premium restaurant website, interactive food ordering, demo checkout, live order tracking and connected kitchen management.
 - [AUREL FRAME — Wedding & Event Photography](https://mspixelpulse.com/projects/aurel-frame): Agency Demo; Photography & Videography. A cinematic wedding, event and portrait photography concept with immersive galleries, service discovery and honest demo inquiries.
 - [LUMINA Dental Studio](https://mspixelpulse.com/projects/lumina-dental-studio): Agency Demo; Dental. An editorial dental studio concept with 24 pages, responsive layouts, service discovery, and a demo appointment flow.
 - [CanSTEM Education Private School](https://mspixelpulse.com/projects/canstem-education): Live Website Work; Education. A public school website focused on programs, admissions, and parent trust.

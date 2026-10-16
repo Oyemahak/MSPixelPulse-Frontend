@@ -77,7 +77,7 @@ test("keeps API content authoritative while preserving release-tested local capt
   assert.equal(projects.length, fallbackPublicProjects.length);
 });
 
-test("keeps all 12 approved demos while preserving production Unity content and verified Lumina", () => {
+test("keeps all 14 approved demos while preserving production Unity content and verified Lumina", () => {
   const projects = normalizePublicProjects([
     {
       _id: "lumina-api",
@@ -99,8 +99,8 @@ test("keeps all 12 approved demos while preserving production Unity content and 
   const lumina = businesses.find((project) => project.slug === "lumina-dental-studio");
   const unity = projects.find((project) => project.slug === "unity-and-hope-home-care");
 
-  assert.equal(businesses.length, 12);
-  assert.equal(new Set(businesses.map((project) => project.githubRepository)).size, 12);
+  assert.equal(businesses.length, 14);
+  assert.equal(new Set(businesses.map((project) => project.githubRepository)).size, 14);
   assert.equal(lumina.live, "https://dental.mspixelpulse.com");
   assert.equal(lumina.verifiedLiveUrl, "https://dental.mspixelpulse.com");
   assert.equal(lumina.deploymentStatus, "READY");
@@ -143,13 +143,21 @@ test("publishes AUREL FRAME with the verified branded destination and preserves 
 });
 
 
-test("unverified restaurant platform drafts stay out of the public portfolio", () => {
-  for (const slug of ["savora-kitchen-table", "savora-restaurant-operations"]) {
-    const draft = curatedProjects.find((project) => project.slug === slug);
-    assert.ok(draft);
-    assert.equal(draft.published, false);
-    assert.equal(draft.verifiedLiveUrl, "");
-    assert.equal(draft.domainStatus, "PLANNED");
-    assert.equal(fallbackPublicProjects.some((project) => project.slug === slug), false);
+test("verified SAVORA restaurant platform entries are published with their production URLs", () => {
+  const expected = {
+    "savora-kitchen-table": "https://restaurant.mspixelpulse.com",
+    "savora-restaurant-operations": "https://orders.restaurant.mspixelpulse.com",
+  };
+  for (const [slug, url] of Object.entries(expected)) {
+    const entry = curatedProjects.find((project) => project.slug === slug);
+    assert.ok(entry);
+    assert.equal(entry.published, true);
+    assert.equal(entry.live, url);
+    assert.equal(entry.verifiedLiveUrl, url);
+    assert.equal(entry.domainStatus, "VERIFIED");
+    assert.ok(entry.thumb.startsWith("/projects/mockups/"));
+    assert.equal(fallbackPublicProjects.some((project) => project.slug === slug), true);
   }
+  const aurelia = curatedProjects.find((project) => project.slug === "aurelia-restaurant-bar");
+  assert.equal(aurelia.live, "https://bar.mspixelpulse.com");
 });

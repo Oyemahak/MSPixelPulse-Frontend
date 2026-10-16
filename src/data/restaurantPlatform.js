@@ -1,4 +1,4 @@
-// Release drafts: keep unpublished until live domain and workflow verification.
+// SAVORA restaurant platform: published after production domain and workflow verification (2026-10-16).
 export const restaurantPlatformProjects = [
   {
     "id": "savora-kitchen-table",
@@ -20,10 +20,10 @@ export const restaurantPlatformProjects = [
     ],
     "live": "https://restaurant.mspixelpulse.com",
     "repo": "https://github.com/MSPixelPulseAgency/mspixelpulse-demo-restaurant",
-    "thumb": "/projects/savora-preview.svg",
-    "imageAlt": "SAVORA original wordmark; application screenshot pending release verification",
+    "thumb": "/projects/mockups/savora-kitchen-table.webp",
+    "imageAlt": "SAVORA restaurant ordering storefront shown in desktop and mobile layouts",
     "featured": false,
-    "published": false,
+    "published": true,
     "services": [
       "UX/UI design",
       "Full-stack development",
@@ -35,15 +35,15 @@ export const restaurantPlatformProjects = [
       "Server-priced persisted orders",
       "Order tracking and reorder"
     ],
-    "overview": "A connected restaurant platform implemented as two applications sharing one authoritative ordering API and database. This catalog draft stays unpublished until the production domain and ordering workflows pass verification.",
-    "result": "Implementation prepared. Production verification and publication are pending. No real payments or fulfillment.",
-    "lastModified": "2026-10-15",
+    "overview": "A connected restaurant platform implemented as two applications sharing one authoritative ordering API and PostgreSQL database. Orders placed on the storefront appear in the operations workspace, move through the kitchen workflow and update customer tracking.",
+    "result": "Verified on production: guest checkout, server-side pricing, duplicate-order protection, private order tracking and the connected kitchen workflow. Demo only: no real payments or food fulfillment.",
+    "lastModified": "2026-10-16",
     "businessDemo": true,
     "existingLiveUrl": "",
     "plannedCategorySubdomain": "https://restaurant.mspixelpulse.com",
-    "verifiedLiveUrl": "",
-    "domainStatus": "PLANNED",
-    "deploymentStatus": "PENDING",
+    "verifiedLiveUrl": "https://restaurant.mspixelpulse.com",
+    "domainStatus": "VERIFIED",
+    "deploymentStatus": "READY",
     "githubRepository": "MSPixelPulseAgency/mspixelpulse-demo-restaurant",
     "vercelProjectId": "prj_en3GPVlvCiLWosYvCGuyQzCVofYn",
     "demoCategory": "restaurant",
@@ -52,7 +52,7 @@ export const restaurantPlatformProjects = [
       "Takeout",
       "Catering"
     ],
-    "portfolioStatus": "DRAFT",
+    "portfolioStatus": "PUBLISHED",
     "aurelionStatus": "REVIEW"
   },
   {
@@ -75,10 +75,10 @@ export const restaurantPlatformProjects = [
     ],
     "live": "https://orders.restaurant.mspixelpulse.com",
     "repo": "https://github.com/MSPixelPulseAgency/mspixelpulse-restaurant-orders",
-    "thumb": "/projects/savora-preview.svg",
-    "imageAlt": "SAVORA original wordmark; application screenshot pending release verification",
+    "thumb": "/projects/mockups/savora-restaurant-operations.webp",
+    "imageAlt": "SAVORA restaurant operations workspace shown in desktop and mobile layouts",
     "featured": false,
-    "published": false,
+    "published": true,
     "services": [
       "UX/UI design",
       "Full-stack development",
@@ -90,15 +90,15 @@ export const restaurantPlatformProjects = [
       "Shared persistent order dataset",
       "Demo-only payment and fulfillment"
     ],
-    "overview": "A connected restaurant platform implemented as two applications sharing one authoritative ordering API and database. This catalog draft stays unpublished until the production domain and ordering workflows pass verification.",
-    "result": "Implementation prepared. Production verification and publication are pending. No real payments or fulfillment.",
-    "lastModified": "2026-10-15",
+    "overview": "A connected restaurant platform implemented as two applications sharing one authoritative ordering API and PostgreSQL database. Orders placed on the storefront appear in the operations workspace, move through the kitchen workflow and update customer tracking.",
+    "result": "Verified on production: guest checkout, server-side pricing, duplicate-order protection, private order tracking and the connected kitchen workflow. Demo only: no real payments or food fulfillment.",
+    "lastModified": "2026-10-16",
     "businessDemo": true,
     "existingLiveUrl": "",
     "plannedCategorySubdomain": "https://orders.restaurant.mspixelpulse.com",
-    "verifiedLiveUrl": "",
-    "domainStatus": "PLANNED",
-    "deploymentStatus": "PENDING",
+    "verifiedLiveUrl": "https://orders.restaurant.mspixelpulse.com",
+    "domainStatus": "VERIFIED",
+    "deploymentStatus": "READY",
     "githubRepository": "MSPixelPulseAgency/mspixelpulse-restaurant-orders",
     "vercelProjectId": "prj_c4UsxpMH72xT9B4vipLWN4nrszvA",
     "demoCategory": "restaurant",
@@ -107,7 +107,7 @@ export const restaurantPlatformProjects = [
       "Takeout",
       "Catering"
     ],
-    "portfolioStatus": "DRAFT",
+    "portfolioStatus": "PUBLISHED",
     "aurelionStatus": "REVIEW"
   }
 ];

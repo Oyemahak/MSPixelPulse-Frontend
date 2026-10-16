@@ -23,6 +23,8 @@ const projects = [
   ["brightpath-autism-child-development", "https://mspixelpulse-demo-autism-child-deve.vercel.app"],
   ["wedding-and-events", "https://wedding-and-events.vercel.app"],
   ["aurelia-restaurant-bar", "https://aurelia-restaurant-bar.vercel.app"],
+  ["savora-kitchen-table", "https://restaurant.mspixelpulse.com"],
+  ["savora-restaurant-operations", "https://orders.restaurant.mspixelpulse.com"],
 ];
 
 const fallbackProject = "dazzling-smile-dental";

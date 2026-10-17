@@ -8,6 +8,8 @@ import {
   normalizePublicProjects,
 } from "./publicPortfolio.js";
 
+const publishedWellness = { _id: "wellness-api", slug: "ms-pixelpulse-wellness-studio", projectClassification: "demo", liveUrl: "https://wellness.mspixelpulse.com" };
+
 test("rewrites legacy same-site project media to canonical local paths", () => {
   assert.equal(
     normalizePublicMediaUrl("https://mspixelpulse.vercel.app/projects/mockups/canstem-education.webp"),
@@ -44,7 +46,7 @@ test("normalizes API portfolio fields into the public case-study shape", () => {
 });
 
 test("keeps API content authoritative while preserving release-tested local captures", () => {
-  const projects = normalizePublicProjects([{
+  const projects = normalizePublicProjects([publishedWellness, {
     _id: "canstem-api",
     slug: "canstem-education",
     title: "CanSTEM from API",
@@ -79,6 +81,7 @@ test("keeps API content authoritative while preserving release-tested local capt
 
 test("keeps all 13 approved demos after combining SAVORA while preserving production Unity content and verified Lumina", () => {
   const projects = normalizePublicProjects([
+    publishedWellness,
     {
       _id: "lumina-api",
       slug: "lumina-dental-studio",
@@ -162,4 +165,25 @@ test("SAVORA is one canonical platform even when stale API operations entries ar
   assert.equal(merged.screenshots.length, 4);
   assert.equal(entries.find((p) => p.slug === "independent-client").title, "Owner-managed project");
   assert.equal(curatedProjects.find((p) => p.slug === "aurelia-restaurant-bar").live, "https://bar.mspixelpulse.com");
+});
+
+
+test("Wellness uses one existing CMS identity and its current media, metadata and previews", () => {
+  const input = { _id: "existing-wellness", slug: "ms-pixelpulse-wellness-studio", title: "Wellness V4 from Admin", projectClassification: "demo", industry: "Wellness", platform: "React", technologies: ["React", "Vite"], thumbnail: "https://mspixelpulse.com/projects/wellness-v4/cover.webp", liveUrl: "https://wellness.mspixelpulse.com", keyFeatures: ["36 treatments", "Email delivery NOT CONFIGURED"], mockupImages: [{url:"/projects/wellness-v4/desktop.webp", alt:"V4 desktop", caption:"Desktop"}, {url:"/projects/wellness-v4/mobile.webp", alt:"V4 mobile", caption:"Mobile"}] };
+  const result = normalizePublicProjects([input]);
+  const entry = result.find(p => p.slug === input.slug);
+  assert.equal(result.filter(p => p.slug === input.slug).length, 1);
+  assert.equal(entry._id, input._id);
+  assert.equal(entry.title, input.title);
+  assert.equal(entry.thumb, input.thumbnail);
+  assert.deepEqual(entry.features, input.keyFeatures);
+  assert.deepEqual(entry.stack, input.technologies);
+  assert.deepEqual(entry.screenshots.map(p => p.width), [1440,390]);
+  assert.equal(entry.live, input.liveUrl);
+});
+
+
+test("A successful CMS response cannot resurrect an unpublished Wellness record from fallback data", () => {
+  assert.ok(fallbackPublicProjects.some(p => p.slug === "ms-pixelpulse-wellness-studio"));
+  assert.equal(normalizePublicProjects([]).some(p => p.slug === "ms-pixelpulse-wellness-studio"), false);
 });

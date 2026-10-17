@@ -149,7 +149,7 @@ export default function App() {
   return (
     <ThemeProvider>
       <AccountThemeSync />
-      <div className="app-shell min-h-screen flex flex-col bg-transparent">
+      <div className="app-shell min-h-screen flex flex-col bg-transparent" data-wellness-project-sync={pathname === "/projects" || pathname === "/projects/ms-pixelpulse-wellness-studio" || pathname === "/admin/projects" ? "true" : undefined}>
         <AnalyticsManager />
         <a className="skip-link" href="#main-content">Skip to main content</a>
         {!hidePublicChrome && <AppHeader />}

@@ -177,6 +177,23 @@ export default function ProjectDetail() {
           </>
         )}
 
+        {project.slug === "ms-pixelpulse-wellness-studio" && project.screenshots?.length > 0 && (
+          <section className="mt-10" aria-labelledby="wellness-responsive-previews">
+            <h2 id="wellness-responsive-previews" className="text-2xl font-bold">The experience, across screens</h2>
+            <p className="mt-3 leading-7">Actual captures of the deployed V4 homepage. Email delivery and private feedback storage are not configured.</p>
+            <div className="mt-6 grid items-start gap-6 md:grid-cols-2">
+              {project.screenshots.map(image => (
+                <figure key={image.src} className={isDark ? "overflow-hidden rounded-2xl border border-white/10 bg-white/5" : "overflow-hidden rounded-2xl border border-slate-200 bg-white"}>
+                  <div className={image.width === 390 ? "flex h-[480px] justify-center overflow-hidden bg-black/5" : "aspect-[36/25] overflow-hidden bg-black/5"}>
+                    <img src={image.src} alt={image.alt} width={image.width} height={image.height} loading="lazy" decoding="async" className="h-full max-w-full object-contain object-top" />
+                  </div>
+                  <figcaption className="p-4 text-sm leading-6">{image.caption}</figcaption>
+                </figure>
+              ))}
+            </div>
+          </section>
+        )}
+
         {hasDetailedCaseStudy ? (
           <>
             <div className="mt-12 grid gap-6 lg:grid-cols-2">

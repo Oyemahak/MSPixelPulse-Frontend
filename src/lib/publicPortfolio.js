@@ -75,6 +75,30 @@ export function normalizePublicProject(project = {}, curatedProject = null) {
     imageAlt: curatedProject.imageAlt || normalized.imageAlt,
   };
 
+  // Wellness is maintained in Admin. Keep the durable CMS record authoritative;
+  // release captures below are fallbacks only when the API is unavailable.
+  if (project._id && project.slug === 'ms-pixelpulse-wellness-studio') {
+    return {
+      ...merged,
+      thumb: image,
+      imageAlt: normalized.imageAlt,
+      live: normalized.live,
+      repo: normalized.repo,
+      industry: project.industry,
+      platform: project.platform,
+      stack: normalized.stack,
+      classification: normalized.classification,
+      label: normalized.label,
+      screenshots: (project.mockupImages || []).filter(item => item.url).map(item => ({
+        src: normalizePublicMediaUrl(item.url), alt: item.alt, caption: item.caption,
+        width: /mobile/i.test(item.caption || item.alt || '') ? 390 : 1440,
+        height: 1000,
+      })),
+      seoTitle: project.seoTitle || curatedProject.seoTitle,
+      metaDescription: project.seoDescription || curatedProject.metaDescription,
+    };
+  }
+
   if (!curatedProject.businessDemo) return merged;
 
   // Approved business metadata is release-managed alongside its capture. A stale
@@ -133,7 +157,7 @@ export function normalizePublicProjects(items = []) {
   );
   const publishedSlugs = new Set(normalized.map((project) => project.slug).filter(Boolean));
   const localOnlyProjects = fallbackPublicProjects.filter(
-    (project) => !publishedSlugs.has(project.slug),
+    (project) => !publishedSlugs.has(project.slug) && project.slug !== "ms-pixelpulse-wellness-studio",
   );
 
   return [...normalized, ...localOnlyProjects];

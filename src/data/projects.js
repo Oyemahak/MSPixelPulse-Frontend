@@ -1,6 +1,9 @@
 import { restaurantPlatformProjects } from "./restaurantPlatform.js";
 
+import { aurelImmigrationProject } from "./aurelImmigration.js";
+
 export const projects = [
+  aurelImmigrationProject,
   ...restaurantPlatformProjects,
   {
     id: "aurel-frame",

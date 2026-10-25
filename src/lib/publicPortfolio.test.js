@@ -79,7 +79,7 @@ test("keeps API content authoritative while preserving release-tested local capt
   assert.equal(projects.length, fallbackPublicProjects.length);
 });
 
-test("keeps all 13 approved demos after combining SAVORA while preserving production Unity content and verified Lumina", () => {
+test("keeps all 14 approved demos after combining SAVORA while preserving production Unity content and verified Lumina", () => {
   const projects = normalizePublicProjects([
     publishedWellness,
     {
@@ -102,8 +102,8 @@ test("keeps all 13 approved demos after combining SAVORA while preserving produc
   const lumina = businesses.find((project) => project.slug === "lumina-dental-studio");
   const unity = projects.find((project) => project.slug === "unity-and-hope-home-care");
 
-  assert.equal(businesses.length, 13);
-  assert.equal(new Set(businesses.map((project) => project.githubRepository)).size, 13);
+  assert.equal(businesses.length, 14);
+  assert.equal(new Set(businesses.map((project) => project.githubRepository)).size, 14);
   assert.equal(lumina.live, "https://dental.mspixelpulse.com");
   assert.equal(lumina.verifiedLiveUrl, "https://dental.mspixelpulse.com");
   assert.equal(lumina.deploymentStatus, "READY");

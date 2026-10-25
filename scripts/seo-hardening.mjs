@@ -7,6 +7,7 @@ import { faqGroups } from "../src/data/faqs.js";
 import { locationPages } from "../src/data/locationPages.js";
 import { pricingFaqs, pricingPlans } from "../src/data/plans.js";
 import { publishedProjects } from "../src/data/projects.js";
+import { projectCardSummary } from "../src/lib/projectCardSummary.js";
 import {
   servicePages,
   servicePath,
@@ -174,7 +175,7 @@ function renderBlogIndexSnapshot() {
 }
 
 function renderProjectsSnapshot() {
-  return staticShell("projects-index", `<h1>Web design work and demos for small businesses.</h1><p>${escapeHtml(seoPages.projects.description)}</p><ul>${publishedProjects.map((project) => `<li><a href="/projects/${escapeHtml(project.slug)}">${escapeHtml(project.title)}</a> — ${escapeHtml(project.shortDescription || project.summary)}</li>`).join("")}</ul><p><a href="/services">Explore services</a> · <a href="/contact">Discuss a project</a></p>`);
+  return staticShell("projects-index", `<h1>Web design work and demos for small businesses.</h1><p>${escapeHtml(seoPages.projects.description)}</p><ul>${publishedProjects.map((project) => `<li><a href="/projects/${escapeHtml(project.slug)}">${escapeHtml(project.title)}</a> — ${escapeHtml(projectCardSummary(project))}</li>`).join("")}</ul><p><a href="/services">Explore services</a> · <a href="/contact">Discuss a project</a></p>`);
 }
 
 function renderProjectSnapshot(project) {

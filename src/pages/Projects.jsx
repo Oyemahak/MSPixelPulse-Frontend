@@ -17,6 +17,7 @@ import {
 } from "react-icons/lu";
 import { seoPages } from "@/data/seoPages.js";
 import { applyProjectImageFallback } from "@/lib/projectImageFallback.js";
+import { projectCardSummary } from "@/lib/projectCardSummary.js";
 
 const allOption = "All";
 
@@ -32,8 +33,15 @@ function projectGroup(project) {
   return project.classification === "live" ? "live" : "demo";
 }
 
+const MAX_VISIBLE_TAGS = 3;
+
 function ProjectCard({ project, isDark }) {
   const isLive = projectGroup(project) === "live";
+  const caseStudyPath = `/projects/${project.slug}`;
+  const summary = projectCardSummary(project);
+  const stack = (Array.isArray(project.stack) ? project.stack : []).filter(Boolean);
+  const visibleTags = stack.slice(0, MAX_VISIBLE_TAGS);
+  const hiddenTags = stack.slice(MAX_VISIBLE_TAGS);
   const badgeClass =
     isLive
       ? isDark
@@ -42,21 +50,25 @@ function ProjectCard({ project, isDark }) {
       : isDark
         ? "bg-primary/15 text-blue-100 border-primary/30"
         : "bg-blue-50 text-blue-700 border-blue-200";
+  const neutralBadgeClass = isDark
+    ? "border-white/10 bg-white/10 text-textSub"
+    : "border-slate-200 bg-slate-100 text-slate-600";
+  const tagClass = isDark ? "bg-white/10 text-textSub" : "bg-slate-100 text-slate-700";
 
   return (
     <article
-      className={`project-showcase-card ${
+      className={`project-showcase-card project-catalog-card group ${
         isDark
-          ? "group overflow-hidden rounded-2xl border border-white/10 bg-white/[0.045]"
-          : "group overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm"
+          ? "overflow-hidden rounded-2xl border border-white/10 bg-white/[0.045]"
+          : "overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm"
       }`}
     >
-      <Link to={`/projects/${project.slug}`} className="block focus:outline-none focus-visible:ring-2 focus-visible:ring-primary">
+      <Link to={caseStudyPath} className="project-catalog-media focus:outline-none focus-visible:ring-2 focus-visible:ring-primary">
         <div className="browser-toolbar" aria-hidden="true">
           <span /><span /><span />
           <span className="browser-address">mspixelpulse.com / work</span>
         </div>
-        <div className="aspect-[16/10] overflow-hidden bg-black/20">
+        <div className="project-catalog-thumb">
           <img
             src={project.thumb}
             alt={project.imageAlt || `${project.title} website preview`}
@@ -71,66 +83,72 @@ function ProjectCard({ project, isDark }) {
         </div>
       </Link>
 
-      <div className="project-showcase-copy p-5">
-        <div className="mb-3 flex flex-wrap items-center gap-2">
-          <span className={`inline-flex rounded-full border px-3 py-1 text-xs font-bold ${badgeClass}`}>
-            {isLive ? "Live Website" : "Demo Project"}
-          </span>
-          <span className={isDark ? "badge" : "rounded-full bg-slate-100 px-3 py-1 text-xs font-bold text-slate-600"}>
+      <div className="project-catalog-badges project-card-badges">
+        <span className={`project-catalog-badge ${badgeClass}`}>
+          {isLive ? "Live Website" : "Demo Project"}
+        </span>
+        {project.industry && (
+          <span className={`project-catalog-badge ${neutralBadgeClass}`} title={project.industry}>
             {project.industry}
           </span>
-          {project.previewStatus && (
-            <span className={isDark ? "badge" : "rounded-full bg-slate-100 px-3 py-1 text-xs font-bold text-slate-600"}>
-              {project.previewStatus}
-            </span>
-          )}
-        </div>
+        )}
+        {project.previewStatus && (
+          <span className={`project-catalog-badge ${neutralBadgeClass}`}>{project.previewStatus}</span>
+        )}
+      </div>
 
-        <h3 className={isDark ? "text-lg font-black" : "text-lg font-black text-slate-950"}>
-          {project.title}
-        </h3>
-        <p className={isDark ? "mt-2 text-sm leading-6 text-textSub" : "mt-2 text-sm leading-6 text-slate-600"}>
-          {project.shortDescription || project.summary}
-        </p>
+      <h3 className={`project-catalog-title ${isDark ? "text-white" : "text-slate-950"}`}>{project.title}</h3>
 
-        <div className="mt-4 flex flex-wrap gap-2">
-          {project.stack.slice(0, 3).map((item) => (
-            <span
-              key={item}
-              className={isDark ? "badge" : "rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-700"}
-            >
-              {item}
-            </span>
-          ))}
-        </div>
+      <p className={`project-catalog-summary project-card-description ${isDark ? "text-textSub" : "text-slate-600"}`}>
+        {summary}
+      </p>
 
-        <div className="project-card-actions mt-5 flex flex-wrap gap-3">
-          <ButtonLink
-            to={`/projects/${project.slug}`}
-            variant="card"
+      <div className="project-catalog-tags">
+        {stack.length > 0 && (
+          <ul className="project-card-tags" aria-label={`${project.title} technologies`}>
+            {visibleTags.map((item) => (
+              <li key={item}>
+                <span className={`project-catalog-tag ${tagClass}`}>{item}</span>
+              </li>
+            ))}
+            {hiddenTags.length > 0 && (
+              <li>
+                <span className={`project-catalog-tag is-more ${tagClass}`} title={hiddenTags.join(", ")}>
+                  <span aria-hidden="true">+{hiddenTags.length}</span>
+                  <span className="sr-only">{hiddenTags.length} more: {hiddenTags.join(", ")}</span>
+                </span>
+              </li>
+            )}
+          </ul>
+        )}
+      </div>
+
+      <div className="project-card-actions project-catalog-actions">
+        <ButtonLink
+          to={caseStudyPath}
+          variant="card"
+          size="compact"
+          className="project-case-study"
+          data-analytics-cta={`view_case_study_${project.slug}`}
+          data-analytics-placement="projects_card"
+        >
+          View Case Study <LuArrowRight className="h-4 w-4" aria-hidden="true" />
+        </ButtonLink>
+        {project.live && (
+          <ButtonAnchor
+            href={project.live}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={openCleanExternal}
+            variant="primary"
             size="compact"
-            className="project-case-study"
-            data-analytics-cta={`view_case_study_${project.slug}`}
+            className="project-live-site"
+            data-analytics-cta={`visit_live_project_${project.slug}`}
             data-analytics-placement="projects_card"
           >
-            View case study <LuArrowRight className="h-4 w-4" aria-hidden="true" />
-          </ButtonLink>
-          {project.live && (
-            <ButtonAnchor
-              href={project.live}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={openCleanExternal}
-              variant="primary"
-              size="compact"
-              className="project-live-site"
-              data-analytics-cta={`visit_live_project_${project.slug}`}
-              data-analytics-placement="projects_card"
-            >
-              {project.operationsUrl ? "Restaurant Demo" : "Live site"} <LuExternalLink className="h-4 w-4" aria-hidden="true" />
-            </ButtonAnchor>
-          )}
-        </div>
+            {project.operationsUrl ? "Restaurant Demo" : "Live Site"} <LuExternalLink className="h-4 w-4" aria-hidden="true" />
+          </ButtonAnchor>
+        )}
       </div>
     </article>
   );
@@ -150,7 +168,7 @@ function ProjectSection({ title, description, projects, isDark }) {
           {projects.length} project{projects.length === 1 ? "" : "s"}
         </div>
       </div>
-      <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+      <div className="project-catalog-grid grid gap-6 md:grid-cols-2 xl:grid-cols-3">
         {projects.map((project) => (
           <ProjectCard key={project.slug} project={project} isDark={isDark} />
         ))}
@@ -178,6 +196,7 @@ export default function Projects() {
         project.title,
         project.summary,
         project.shortDescription,
+        project.cardSummary,
         project.industry,
         project.websiteType,
         project.platform,

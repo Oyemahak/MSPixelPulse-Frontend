@@ -6,7 +6,7 @@ export const aurelImmigrationProject = {
   classification: 'demo', label: 'Agency Demo', industry: 'Immigration / Professional Services', websiteType: 'Immigration Consultancy Website', platform: 'React + Vite',
   stack: ['React', 'TypeScript', 'Vite', 'React Router', 'Lucide'],
   live: 'https://immigration.mspixelpulse.com', repo: 'https://github.com/MSPixelPulseAgency/mspixelpulse-demo-immigration',
-  thumb: 'https://immigration.mspixelpulse.com/project-preview.webp', imageAlt: 'Actual AUREL Immigration & Legal homepage with floating navigation and Toronto skyline',
+  thumb: '/projects/mockups/aurel-immigration-legal.webp', imageAlt: 'Actual AUREL Immigration & Legal homepage with floating navigation and Toronto skyline',
   featured: false, published: true, businessDemo: true,
   plannedCategorySubdomain: 'https://immigration.mspixelpulse.com', verifiedLiveUrl: 'https://immigration.mspixelpulse.com', domainStatus: 'VERIFIED', deploymentStatus: 'READY', vercelProjectId: 'prj_JDmgj0qp1B5jdWVkm7BUSGCmMKgm',
   services: ['Website design', 'Frontend development', 'Responsive design', 'Educational content architecture'],

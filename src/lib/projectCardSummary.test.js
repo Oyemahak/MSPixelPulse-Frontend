@@ -26,7 +26,7 @@ test("every published curated project has a card summary", () => {
   }
 });
 
-test("uses the required Wellness and AUREL card summaries", () => {
+test("uses the required Wellness and Northstead Immigration card summaries", () => {
   assert.equal(
     projectCardSummaries["ms-pixelpulse-wellness-studio"],
     "An elegant wellness studio website featuring treatment discovery, immersive visuals, and an interactive booking experience.",
@@ -89,7 +89,7 @@ test("normalized cards keep full descriptions while exposing a short card summar
   assert.equal(wellness.overview, wellnessLong);
 });
 
-test("AUREL renders once with its local capture, category, demo label, summary and live site", () => {
+test("Northstead Immigration renders once under its existing slug with its local capture, category, demo label, summary and live site", () => {
   const projects = normalizePublicProjects([
     {
       _id: "13ad72b6-097a-4c8d-af70-87a0595e50a0",
@@ -103,12 +103,15 @@ test("AUREL renders once with its local capture, category, demo label, summary a
       thumbnail: "https://immigration.mspixelpulse.com/project-preview.webp",
     },
   ]);
-  const aurel = projects.filter((project) => project.slug === "aurel-immigration-legal");
-  assert.equal(aurel.length, 1);
-  assert.equal(aurel[0].thumb, "/projects/mockups/aurel-immigration-legal.webp");
-  assert.equal(aurel[0].classification, "demo");
-  assert.equal(aurel[0].industry, "Immigration / Professional Services");
-  assert.equal(aurel[0].live, "https://immigration.mspixelpulse.com");
-  assert.equal(aurel[0].stack.length, 5);
-  assert.equal(projectCardSummary(aurel[0]), projectCardSummaries["aurel-immigration-legal"]);
+  const northstead = projects.filter((project) => project.slug === "aurel-immigration-legal");
+  assert.equal(northstead.length, 1);
+  assert.equal(northstead[0].thumb, "/projects/mockups/aurel-immigration-legal.webp");
+  assert.equal(northstead[0].classification, "demo");
+  // The release-managed business-demo title wins until the Admin record is renamed.
+  assert.equal(northstead[0].title, "Northstead Immigration");
+  assert.ok(!/AUREL/.test([northstead[0].title, northstead[0].imageAlt, northstead[0].seoTitle, northstead[0].metaDescription].join(" ")));
+  assert.equal(northstead[0].industry, "Immigration / Professional Services");
+  assert.equal(northstead[0].live, "https://immigration.mspixelpulse.com");
+  assert.equal(northstead[0].stack.length, 5);
+  assert.equal(projectCardSummary(northstead[0]), projectCardSummaries["aurel-immigration-legal"]);
 });

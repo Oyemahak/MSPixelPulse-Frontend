@@ -1346,3 +1346,141 @@ html:not([data-theme="dark"]) body .public-site-header .public-mobile-menu {
 .app-shell[data-wellness-project-sync="true"] .public-site-header .public-header-shell { max-width: 1200px; }
 .app-shell[data-wellness-project-sync="true"] .portal-frame { --portal-content-max: 1200px; }
 .app-shell[data-wellness-project-sync="true"] .portal-topbar { max-width: 1200px; margin-inline: auto; width: 100%; }
+
+/* Projects catalog cards.
+ * Each card is a six-row subgrid (preview, badges, title, summary, tags,
+ * actions) so every row lines up across the cards of one grid row and the
+ * actions sit on a shared baseline. Browsers without subgrid fall back to a
+ * flex column with the actions pushed to the bottom. */
+.project-catalog-grid {
+  --project-card-pad: 1rem;
+  align-items: stretch;
+}
+
+@media (min-width: 768px) {
+  .project-catalog-grid {
+    gap: 1.25rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  .project-catalog-grid {
+    --project-card-pad: 1.05rem;
+  }
+}
+
+.project-catalog-grid > .project-catalog-card {
+  display: flex;
+  height: auto;
+  min-width: 0;
+  flex-direction: column;
+}
+
+.project-catalog-card > :not(.project-catalog-media) {
+  min-width: 0;
+  margin-inline: var(--project-card-pad);
+}
+
+@supports (grid-template-rows: subgrid) {
+  .project-catalog-grid > .project-catalog-card {
+    display: grid;
+    grid-row: span 6;
+    grid-template-rows: subgrid;
+    row-gap: 0;
+  }
+}
+
+.project-catalog-media {
+  display: block;
+}
+
+.project-catalog-thumb {
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background: rgba(15, 23, 42, 0.18);
+}
+
+.project-catalog-badges {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  align-items: flex-start;
+  gap: 0.45rem;
+  margin-top: var(--project-card-pad);
+  margin-bottom: 0.9rem;
+}
+
+.project-catalog-badge {
+  display: inline-flex;
+  max-width: 100%;
+  align-items: center;
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 999px;
+  padding: 0.26rem 0.62rem;
+  font-size: 0.72rem;
+  font-weight: 800;
+  line-height: 1.3;
+}
+
+.project-catalog-title {
+  display: -webkit-box;
+  overflow: hidden;
+  margin-bottom: 0.5rem;
+  font-size: 1.125rem;
+  font-weight: 900;
+  line-height: 1.32;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+}
+
+.project-catalog-summary {
+  display: -webkit-box;
+  overflow: hidden;
+  margin-bottom: 1rem;
+  font-size: 0.875rem;
+  line-height: 1.6;
+  text-wrap: pretty;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+}
+
+.project-catalog-tags {
+  margin-bottom: 1.15rem;
+}
+
+.project-catalog-tags > ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.project-catalog-tag {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 0.24rem 0.65rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  line-height: 1.35;
+  white-space: nowrap;
+}
+
+.project-catalog-tag.is-more {
+  font-variant-numeric: tabular-nums;
+  cursor: help;
+}
+
+.project-catalog-card > .project-catalog-actions {
+  width: auto;
+  align-self: end;
+  margin-top: auto;
+  margin-bottom: var(--project-card-pad);
+}

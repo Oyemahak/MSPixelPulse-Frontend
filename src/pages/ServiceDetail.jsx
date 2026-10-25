@@ -20,6 +20,7 @@ import {
 } from "@/data/servicePages.js";
 import { useTheme } from "@/lib/theme.js";
 import { ButtonLink } from "@/components/ui/Button.jsx";
+import { projectCardSummary } from "@/lib/projectCardSummary.js";
 
 export default function ServiceDetail() {
   const { slug } = useParams();
@@ -171,7 +172,7 @@ export default function ServiceDetail() {
                   <div className="p-5">
                     <span className={isDark ? "badge" : "rounded-full bg-slate-100 px-3 py-1 text-xs font-bold text-slate-700"}>{project.label}</span>
                     <h3 className="mt-4 font-black">{project.title}</h3>
-                    <p className={`mt-2 text-sm leading-6 ${muted}`}>{project.shortDescription || project.summary}</p>
+                    <p className={`mt-2 text-sm leading-6 ${muted}`}>{projectCardSummary(project)}</p>
                     <ButtonLink className="mt-5" variant="card" size="compact" to={`/projects/${project.slug}`}>
                       View case study <LuArrowRight aria-hidden="true" />
                     </ButtonLink>

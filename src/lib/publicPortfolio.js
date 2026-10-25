@@ -1,11 +1,17 @@
 import { retiredRestaurantProjectSlug } from '../data/restaurantPlatform.js';
 import { publishedProjects } from '../data/projects.js';
+import { resolveStoredCardSummary } from './projectCardSummary.js';
 
 export const fallbackPublicProjects = publishedProjects;
 
+// Same-site hosts whose /projects/ media ships with this frontend. Serving those
+// paths relatively keeps previews and local builds on their own copy instead of a
+// cross-origin request to production.
 const legacyMediaHosts = new Set([
   'mspixelpulse.vercel.app',
   'capstone-frontend.vercel.app',
+  'mspixelpulse.com',
+  'www.mspixelpulse.com',
 ]);
 
 export function normalizePublicMediaUrl(value = '') {
@@ -48,6 +54,8 @@ export function normalizePublicProject(project = {}, curatedProject = null) {
     features: Array.isArray(project.keyFeatures) ? project.keyFeatures : [],
     overview: project.projectOverview || project.fullDescription || project.summary || '',
     result: project.resultSummary || '',
+    // Short, consistent card copy; full descriptions stay on the record and detail page.
+    cardSummary: resolveStoredCardSummary(project),
   };
 
   if (!curatedProject) return normalized;

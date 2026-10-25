@@ -20,6 +20,14 @@ test("rewrites legacy same-site project media to canonical local paths", () => {
     "/projects/mockups/aimze-studio.webp?v=2",
   );
   assert.equal(
+    normalizePublicMediaUrl("https://mspixelpulse.com/projects/wellness-v4/cover.webp"),
+    "/projects/wellness-v4/cover.webp",
+  );
+  assert.equal(
+    normalizePublicMediaUrl("https://immigration.mspixelpulse.com/project-preview.webp"),
+    "https://immigration.mspixelpulse.com/project-preview.webp",
+  );
+  assert.equal(
     normalizePublicMediaUrl("https://images.example.com/projects/preview.webp"),
     "https://images.example.com/projects/preview.webp",
   );
@@ -175,7 +183,9 @@ test("Wellness uses one existing CMS identity and its current media, metadata an
   assert.equal(result.filter(p => p.slug === input.slug).length, 1);
   assert.equal(entry._id, input._id);
   assert.equal(entry.title, input.title);
-  assert.equal(entry.thumb, input.thumbnail);
+  // CMS media stays authoritative; same-site URLs are served from this deployment.
+  assert.equal(entry.thumb, normalizePublicMediaUrl(input.thumbnail));
+  assert.equal(entry.thumb, "/projects/wellness-v4/cover.webp");
   assert.deepEqual(entry.features, input.keyFeatures);
   assert.deepEqual(entry.stack, input.technologies);
   assert.deepEqual(entry.screenshots.map(p => p.width), [1440,390]);

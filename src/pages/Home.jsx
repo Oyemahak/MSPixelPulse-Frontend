@@ -28,6 +28,7 @@ import DemoOffer from "@/components/DemoOffer.jsx";
 import { ButtonLink } from "@/components/ui/Button.jsx";
 import { seoPages } from "@/data/seoPages.js";
 import { applyProjectImageFallback } from "@/lib/projectImageFallback.js";
+import { projectCardSummary } from "@/lib/projectCardSummary.js";
 
 const services = [
   {
@@ -423,7 +424,7 @@ function ProjectSection({ eyebrow, title, projects: items, dark }) {
                     {project.title}
                   </h3>
                   <p className={`mt-2 text-sm leading-6 ${muted}`}>
-                    {project.shortDescription || project.summary}
+                    {projectCardSummary(project)}
                   </p>
                   <ButtonLink className="project-showcase-link" variant="card" size="compact" to={`/projects/${project.id}`} aria-label={`View ${project.title} case study`}>
                     View case study <LuArrowRight className="h-4 w-4" aria-hidden="true" />

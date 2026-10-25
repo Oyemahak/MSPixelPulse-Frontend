@@ -58,7 +58,7 @@ for (const sitemapFile of sitemapFiles) {
   }
 }
 
-assert(routes.length === 134, `Expected 134 indexable routes, found ${routes.length}.`);
+assert(routes.length === 135, `Expected 135 indexable routes, found ${routes.length}.`);
 requiredRoutes.add("/projects/lumina-dental-studio");
 requiredRoutes.add("/projects/aurel-frame");
 requiredRoutes.add("/projects/savora-kitchen-table");

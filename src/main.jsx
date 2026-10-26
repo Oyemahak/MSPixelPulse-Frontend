@@ -10,6 +10,7 @@ import "./index.css";
 import "./styles/blog-mobile.css";
 import "./styles/public-system.css";
 import "./styles/public-actions.css";
+import "./styles/premium-refinement.css";
 
 import { AuthProvider } from "@/context/AuthContext.jsx";
 import { installApiReliability } from "./lib/apiReliability.js";

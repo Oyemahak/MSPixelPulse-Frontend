@@ -46,7 +46,7 @@ export default function ContactActions({
         <a
           className={secondaryClass}
           href={site.messagesHref}
-          aria-label="Send an iMessage or text message to MSPixelPulse"
+          aria-label="Text / iMessage MSPixelPulse"
           data-analytics-placement={analyticsPlacement}
         >
           <LuMessageCircle className="h-5 w-5" aria-hidden="true" />

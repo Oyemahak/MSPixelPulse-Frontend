@@ -307,8 +307,8 @@ export default function BlogPost() {
                   <LuArrowRight aria-hidden="true" />
                 </ButtonLink>
                 {relatedProject ? (
-                  <ButtonLink variant="card" size="compact" to={`/projects/${relatedProject.slug}`} aria-label={`View ${relatedProject.title} case study`}>
-                    View case study
+                  <ButtonLink variant="card" size="compact" to={`/projects/${relatedProject.slug}`} aria-label={`Case study: ${relatedProject.title}`}>
+                    Case Study
                     <LuArrowRight aria-hidden="true" />
                   </ButtonLink>
                 ) : null}

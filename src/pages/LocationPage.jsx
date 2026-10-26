@@ -157,8 +157,8 @@ export default function LocationPage() {
                   <span className={isDark ? "badge" : "rounded-full bg-slate-100 px-3 py-1 text-xs font-bold text-slate-700"}>{project.label}</span>
                   <h3 className="mt-4 font-black">{project.title}</h3>
                   <p className={`mt-2 text-sm leading-6 ${muted}`}>{projectCardSummary(project)}</p>
-                  <ButtonLink className="mt-5" variant="card" size="compact" to={`/projects/${project.slug}`} aria-label={`View ${project.title} case study`}>
-                    View case study <LuArrowRight aria-hidden="true" />
+                  <ButtonLink className="mt-5" variant="card" size="compact" to={`/projects/${project.slug}`} aria-label={`Case study: ${project.title}`}>
+                    Case Study <LuArrowRight aria-hidden="true" />
                   </ButtonLink>
                 </div>
               </article>

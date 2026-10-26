@@ -1,5 +1,6 @@
 // src/lib/theme.js
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
+import { flushSync } from "react-dom";
 
 const ThemeContext = createContext({
   theme: "light",
@@ -46,6 +47,26 @@ export function clearPendingAccountTheme(userId, theme) {
   window.localStorage.removeItem(PENDING_ACCOUNT_THEME_KEY);
 }
 
+// Crossfades the page between themes where the View Transitions API exists.
+// The attribute and React state are both committed inside the transition so
+// the "after" snapshot already shows the new palette. Without support, with
+// reduced motion, or in a background tab, the theme switches instantly.
+function crossfadeTheme(next, commit) {
+  const root = document.documentElement;
+  const reduceMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+
+  if (typeof document.startViewTransition !== "function" || reduceMotion || document.hidden) {
+    commit();
+    return;
+  }
+
+  document.startViewTransition(() => {
+    root.setAttribute("data-theme", next);
+    root.style.colorScheme = next;
+    flushSync(commit);
+  });
+}
+
 function getInitialTheme() {
   if (typeof window === "undefined") return "light";
 
@@ -76,11 +97,16 @@ export function ThemeProvider({ children }) {
 
   const setTheme = useCallback((value) => {
     if (!validTheme(value)) return;
-    setThemeState(value);
+    if (value === document.documentElement.getAttribute("data-theme")) {
+      setThemeState(value);
+      return;
+    }
+    crossfadeTheme(value, () => setThemeState(value));
   }, []);
 
   const toggleTheme = useCallback(() => {
-    setThemeState((prev) => (prev === "dark" ? "light" : "dark"));
+    const next = document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark";
+    crossfadeTheme(next, () => setThemeState(next));
   }, []);
 
   const value = useMemo(() => ({ theme, setTheme, toggleTheme }), [setTheme, theme, toggleTheme]);

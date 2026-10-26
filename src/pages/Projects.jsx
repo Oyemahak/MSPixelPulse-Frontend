@@ -54,6 +54,7 @@ function ProjectCard({ project, isDark }) {
     ? "border-white/10 bg-white/10 text-textSub"
     : "border-slate-200 bg-slate-100 text-slate-600";
   const tagClass = isDark ? "bg-white/10 text-textSub" : "bg-slate-100 text-slate-700";
+  const siteKind = project.operationsUrl ? "restaurant demo website" : isLive ? "live website" : "demo website";
 
   return (
     <article
@@ -72,7 +73,7 @@ function ProjectCard({ project, isDark }) {
           <img
             src={project.thumb}
             alt={project.imageAlt || `${project.title} website preview`}
-            className="h-full w-full object-cover object-top transition duration-300 group-hover:scale-105"
+            className="project-catalog-image h-full w-full object-cover object-top"
             loading="lazy"
             decoding="async"
             sizes="(min-width: 1280px) 384px, (min-width: 768px) 50vw, 100vw"
@@ -123,16 +124,17 @@ function ProjectCard({ project, isDark }) {
         )}
       </div>
 
-      <div className="project-card-actions project-catalog-actions">
+      <div className={`project-card-actions project-catalog-actions${project.live ? " has-two" : ""}`}>
         <ButtonLink
           to={caseStudyPath}
           variant="card"
           size="compact"
           className="project-case-study"
+          aria-label={`Case study: ${project.title}`}
           data-analytics-cta={`view_case_study_${project.slug}`}
           data-analytics-placement="projects_card"
         >
-          View Case Study <LuArrowRight className="h-4 w-4" aria-hidden="true" />
+          Case Study <LuArrowRight className="h-4 w-4" aria-hidden="true" />
         </ButtonLink>
         {project.live && (
           <ButtonAnchor
@@ -143,10 +145,11 @@ function ProjectCard({ project, isDark }) {
             variant="primary"
             size="compact"
             className="project-live-site"
+            aria-label={`Visit site: ${project.title} ${siteKind} (opens in a new tab)`}
             data-analytics-cta={`visit_live_project_${project.slug}`}
             data-analytics-placement="projects_card"
           >
-            {project.operationsUrl ? "Restaurant Demo" : "Live Site"} <LuExternalLink className="h-4 w-4" aria-hidden="true" />
+            Visit Site <LuExternalLink className="h-4 w-4" aria-hidden="true" />
           </ButtonAnchor>
         )}
       </div>

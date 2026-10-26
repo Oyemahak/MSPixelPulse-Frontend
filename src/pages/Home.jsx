@@ -220,7 +220,7 @@ export default function Home() {
         </Container>
       </section>
 
-      <section className="section py-8">
+      <section className="section section-band py-8 md:py-12">
         <Container>
           <SectionTitle eyebrow="Services" title="A clearer way to build and improve your website." centered />
           <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
@@ -286,6 +286,7 @@ export default function Home() {
         eyebrow="Portfolio"
         projects={liveProjects}
         dark={isDark}
+        band
       />
 
       <ProjectSection
@@ -295,7 +296,7 @@ export default function Home() {
         dark={isDark}
       />
 
-      <section className="section py-10 md:py-14">
+      <section className="section section-band py-10 md:py-14">
         <Container>
           <div className="grid gap-6 lg:grid-cols-[0.85fr_1.15fr] lg:items-start">
             <div>
@@ -303,7 +304,7 @@ export default function Home() {
               <p className={`max-w-xl leading-7 ${muted}`}>
                 Start with the most useful version, then improve it with evidence from real use.
               </p>
-              <Link to="/projects/canstem-education" className="home-process-preview" aria-label="View the CanSTEM Education website case study">
+              <Link to="/projects/canstem-education" className="home-process-preview" aria-label="From plan to published website: CanSTEM Education case study">
                 <img src="/projects/mockups/canstem-education.webp" alt="CanSTEM Education website in desktop and mobile preview frames" loading="lazy" decoding="async" width="1200" height="750" />
                 <span>From plan to published website <LuArrowRight aria-hidden="true" /></span>
               </Link>
@@ -384,10 +385,10 @@ export default function Home() {
   );
 }
 
-function ProjectSection({ eyebrow, title, projects: items, dark }) {
+function ProjectSection({ eyebrow, title, projects: items, dark, band = false }) {
   const muted = dark ? "text-textSub" : "text-slate-600";
   return (
-    <section className="section py-10 md:py-14">
+    <section className={`section py-10 md:py-14${band ? " section-band" : ""}`}>
       <Container>
         <SectionTitle eyebrow={eyebrow} title={title} centered />
         <div className="grid gap-5 md:grid-cols-3">
@@ -426,8 +427,8 @@ function ProjectSection({ eyebrow, title, projects: items, dark }) {
                   <p className={`mt-2 text-sm leading-6 ${muted}`}>
                     {projectCardSummary(project)}
                   </p>
-                  <ButtonLink className="project-showcase-link" variant="card" size="compact" to={`/projects/${project.id}`} aria-label={`View ${project.title} case study`}>
-                    View case study <LuArrowRight className="h-4 w-4" aria-hidden="true" />
+                  <ButtonLink className="project-showcase-link" variant="card" size="compact" to={`/projects/${project.id}`} aria-label={`Case study: ${project.title}`}>
+                    Case Study <LuArrowRight className="h-4 w-4" aria-hidden="true" />
                   </ButtonLink>
                 </div>
             </article>

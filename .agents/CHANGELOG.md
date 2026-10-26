@@ -1,5 +1,11 @@
 # Agent System Changelog
 
+## 2026-10-25
+- Fixed the floating header changing width on `/projects` (a route-scoped 1200 px rule from the Wellness sync) and moved header and content onto one shared frame token that does not depend on the scrollbar.
+- Added `src/styles/premium-refinement.css` as the final public layer: liquid-glass header with scroll state, blue active navigation, scoped public button system, layered light theme, consistent project cards ("Case Study" / "Visit Site"), platform-coloured footer socials, and reduced-motion-aware route, scroll, reveal and theme transitions. Portals are unaffected.
+- Restored Safari glass in production CSS with `build.cssTarget`; the minifier had been stripping `-webkit-backdrop-filter`.
+- Raised public accessibility to Lighthouse 100 on key routes (contrast and label-in-name fixes). Details and QA evidence: `docs/premium-ui-refinement-2026-10-25.md`.
+
 ## 2026-09-12
 - Added one truthful Brampton web-design service-area hub plus dedicated e-commerce and website-SEO service pages, while preserving Toronto as the published business location and avoiding city-service doorway permutations.
 - Audited all 94 published articles, materially expanded eight cornerstone guides, documented one-page-per-intent ownership, and retained all current canonicals because no exact duplicate justified destructive consolidation.

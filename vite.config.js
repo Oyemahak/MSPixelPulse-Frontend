@@ -32,6 +32,10 @@ export default defineConfig(({ mode }) => ({
     outDir: "dist",
     manifest: true,
     target: "es2020",
+    // CSS needs real browser targets: with only "es2020" the minifier assumes
+    // every browser supports unprefixed properties and strips the
+    // -webkit-backdrop-filter that Safari before 18 needs for the glass UI.
+    cssTarget: ["chrome107", "edge107", "firefox104", "safari15", "ios15"],
     sourcemap: mode !== "production",
     assetsInlineLimit: 0,
   },

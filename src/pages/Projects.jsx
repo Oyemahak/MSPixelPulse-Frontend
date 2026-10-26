@@ -130,7 +130,7 @@ function ProjectCard({ project, isDark }) {
           variant="card"
           size="compact"
           className="project-case-study"
-          aria-label={`View ${project.title} case study`}
+          aria-label={`Case study: ${project.title}`}
           data-analytics-cta={`view_case_study_${project.slug}`}
           data-analytics-placement="projects_card"
         >
@@ -145,7 +145,7 @@ function ProjectCard({ project, isDark }) {
             variant="primary"
             size="compact"
             className="project-live-site"
-            aria-label={`Visit ${project.title} ${siteKind} (opens in a new tab)`}
+            aria-label={`Visit site: ${project.title} ${siteKind} (opens in a new tab)`}
             data-analytics-cta={`visit_live_project_${project.slug}`}
             data-analytics-placement="projects_card"
           >

@@ -102,6 +102,22 @@ html:has(.public-main) {
   outline: none;
 }
 
+/* scroll-padding-top above already clears the header for every anchor and
+   scrollIntoView call; these older per-section margins would double it. */
+html[data-theme] body .public-main :is(
+  .blog-library-section,
+  .blog-article-prose > section,
+  .blog-resource-card,
+  .pricing-section-block,
+  .plan-builder,
+  .pricing-factors,
+  .pricing-faq,
+  .pricing-terms,
+  .pricing-final-cta
+) {
+  scroll-margin-top: 0;
+}
+
 /* ── Floating liquid-glass header ──────────────────────────────────────── */
 
 html[data-theme] body .public-site-header {
@@ -420,6 +436,13 @@ html[data-theme] body .public-site-header .site-menu-button {
   transition: background-color var(--motion) var(--ease-out);
 }
 
+/* The trigger is mobile-only; its display rule above must not beat xl:hidden. */
+@media (min-width: 1280px) {
+  html[data-theme] body .public-site-header .site-menu-button {
+    display: none;
+  }
+}
+
 html[data-theme] body .public-site-header .site-menu-button svg {
   width: 1.25rem;
   height: 1.25rem;
@@ -497,6 +520,27 @@ html[data-theme="light"] body .public-main {
   --textSub: #475569;
   --borderSoft: rgba(15, 23, 42, 0.1);
   background: transparent;
+}
+
+/* AA text contrast on light surfaces: the bright Tailwind accents used for
+   eyebrows and inline links (3.2-3.7:1 and ~2:1) get darker shades. */
+html[data-theme="light"] body .public-main .text-blue-500 {
+  color: #1d4ed8;
+}
+
+html[data-theme="light"] body .public-main .text-amber-500 {
+  color: #b45309;
+}
+
+/* Decorative demo chip and blog rank badges: white text needs a deeper fill. */
+html[data-theme] body .public-main .demo-browser-copy .demo-browser-action {
+  background: #2563eb;
+}
+
+html[data-theme="dark"] body .public-main :is(.blog-popular-rank strong, .blog-category-switch button.is-active) {
+  border-color: #6d28d9;
+  background: #6d28d9;
+  color: #ffffff;
 }
 
 /* Tinted full-bleed bands that fade in and out of the canvas. */
@@ -586,7 +630,7 @@ html[data-theme="light"] body .public-main .demo-offer-shell :is(h2, h3) {
   color: #ffffff;
 }
 
-html[data-theme="light"] body .public-main .demo-offer-shell .demo-steps small {
+html[data-theme="light"] body .public-main .demo-offer-shell :is(.demo-eyebrow, .demo-steps small) {
   color: #93c5fd;
 }
 

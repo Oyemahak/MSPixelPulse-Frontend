@@ -49,7 +49,7 @@ export default function SocialContactLinks({
       key: "portfolio",
       label: "Founder portfolio",
       href: site.portfolio,
-      ariaLabel: "View Mahak Patel's portfolio",
+      ariaLabel: "Founder portfolio: Mahak Patel's website",
       icon: LuGlobe,
       external: true,
     },

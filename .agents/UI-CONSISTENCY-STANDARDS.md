@@ -9,6 +9,12 @@ These rules apply to every public page, authentication route, error state, and r
 - Admin, developer, and client routes use `PortalShell`. Portal pages must not copy the public shell or create role-specific shell variants.
 - A valid 404 fallback is required and must look like the current public website in both themes.
 
+## Public Frame And Final Style Layer
+
+- The floating header and `.container-edge` share one frame (`--site-frame`, `--site-gutter`). Never size the header per route or with `100vw`; it must be identical on every public route.
+- `src/styles/premium-refinement.css` loads last and owns the public header, button system, light-theme depth, project cards, footer socials and motion. Scope its rules to `.public-site-header`, `.public-main` or `.app-footer` so portals stay untouched.
+- Accessible names must begin with the visible label (WCAG 2.5.3), for example `Visit site: <project> live website`.
+
 ## Theme Parity
 
 - Every UI change must be reviewed in light and dark themes. A one-theme fix is incomplete.

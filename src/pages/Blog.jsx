@@ -101,7 +101,7 @@ export default function Blog() {
               <a href="#article-library">All guides</a>
               <Link
                 to="/contact?request=free-demo"
-                aria-label="Request a free personalized website demo"
+                aria-label="Free demo: request a personalized website preview"
                 data-analytics-cta="request_free_demo"
                 data-analytics-placement="blog_navigation"
               >

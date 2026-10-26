@@ -304,7 +304,7 @@ export default function Home() {
               <p className={`max-w-xl leading-7 ${muted}`}>
                 Start with the most useful version, then improve it with evidence from real use.
               </p>
-              <Link to="/projects/canstem-education" className="home-process-preview" aria-label="View the CanSTEM Education website case study">
+              <Link to="/projects/canstem-education" className="home-process-preview" aria-label="From plan to published website: CanSTEM Education case study">
                 <img src="/projects/mockups/canstem-education.webp" alt="CanSTEM Education website in desktop and mobile preview frames" loading="lazy" decoding="async" width="1200" height="750" />
                 <span>From plan to published website <LuArrowRight aria-hidden="true" /></span>
               </Link>
@@ -427,7 +427,7 @@ function ProjectSection({ eyebrow, title, projects: items, dark, band = false })
                   <p className={`mt-2 text-sm leading-6 ${muted}`}>
                     {projectCardSummary(project)}
                   </p>
-                  <ButtonLink className="project-showcase-link" variant="card" size="compact" to={`/projects/${project.id}`} aria-label={`View ${project.title} case study`}>
+                  <ButtonLink className="project-showcase-link" variant="card" size="compact" to={`/projects/${project.id}`} aria-label={`Case study: ${project.title}`}>
                     Case Study <LuArrowRight className="h-4 w-4" aria-hidden="true" />
                   </ButtonLink>
                 </div>

@@ -1,0 +1,10 @@
+import { createRequire } from "module";
+const require = createRequire(import.meta.url);
+const { chromium } = require("/Users/mahak/.npm/_npx/e41f203b7505f1fb/node_modules/playwright");
+const b = await chromium.launch(); const c = await b.newContext({ viewport: { width: 1440, height: 900 } }); const p = await c.newPage();
+await p.goto("https://immigration.mspixelpulse.com", { waitUntil: "networkidle" }); await p.waitForTimeout(1200);
+await p.screenshot({ path: process.argv[2] + "/ref-top.png" });
+await p.mouse.wheel(0, 1400); await p.waitForTimeout(1200);
+await p.screenshot({ path: process.argv[2] + "/ref-scrolled.png" });
+const info = await p.evaluate(() => { const h = document.querySelector("header"); const s = h && [...h.querySelectorAll("*")].find(e => getComputedStyle(e).backdropFilter !== "none") || h; const cs = getComputedStyle(s); return { tag: s.className, bg: cs.backgroundColor, bgi: cs.backgroundImage, bf: cs.backdropFilter, border: cs.border, shadow: cs.boxShadow, radius: cs.borderRadius, w: s.getBoundingClientRect().width, font: getComputedStyle(document.body).fontFamily, trans: cs.transition }; });
+console.log(JSON.stringify(info, null, 1)); await b.close();

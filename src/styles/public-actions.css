@@ -1341,9 +1341,9 @@ html:not([data-theme="dark"]) body .public-site-header .public-mobile-menu {
   color: #ffffff;
 }
 
-/* Keep the requested portfolio and Admin project surfaces within one 1200px frame. */
-.app-shell[data-wellness-project-sync="true"] .container-edge,
-.app-shell[data-wellness-project-sync="true"] .public-site-header .public-header-shell { max-width: 1200px; }
+/* Keep the Admin project surfaces within one 1200px frame. Public routes use
+   the shared site frame (premium-refinement.css) so the floating header and
+   page container never change width between routes. */
 .app-shell[data-wellness-project-sync="true"] .portal-frame { --portal-content-max: 1200px; }
 .app-shell[data-wellness-project-sync="true"] .portal-topbar { max-width: 1200px; margin-inline: auto; width: 100%; }
 

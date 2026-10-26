@@ -1,9 +1,10 @@
 // src/App.jsx
 // src/App.jsx
-import React, { Suspense, lazy, useEffect, useRef } from "react";
+import React, { Suspense, lazy, useEffect, useRef, useState } from "react";
 import { Routes, Route, Navigate, useLocation, Outlet } from "react-router-dom";
 import AppHeader from "./components/layout/AppHeader.jsx";
 import AppFooter from "./components/layout/AppFooter.jsx";
+import BackToTop from "./components/layout/BackToTop.jsx";
 import Home from "./pages/Home.jsx";
 import CookieBanner from "@/components/CookieBanner.jsx";
 import AnalyticsManager from "@/components/AnalyticsManager.jsx";
@@ -41,11 +42,41 @@ const DebugConnection = import.meta.env.DEV
   ? lazy(() => import("./pages/DebugConnection.jsx"))
   : null;
 
-function ScrollToTop() {
-  const { pathname } = useLocation();
+function prefersReducedMotion() {
+  return window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+}
+
+// New routes start at the top instantly (the CSS smooth-scroll setting must not
+// animate a page change). Links with a hash scroll smoothly to their target once
+// the lazy route has rendered; CSS scroll-padding keeps it clear of the header.
+function ScrollManager() {
+  const { pathname, hash } = useLocation();
+
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "auto" });
-  }, [pathname]);
+    if (hash) {
+      let frame = 0;
+      let attempts = 0;
+      const id = decodeURIComponent(hash.slice(1));
+      const scrollToTarget = () => {
+        const target = document.getElementById(id);
+        if (target) {
+          target.scrollIntoView({ behavior: prefersReducedMotion() ? "auto" : "smooth", block: "start" });
+          return;
+        }
+        if (attempts++ < 60) frame = window.requestAnimationFrame(scrollToTarget);
+      };
+      scrollToTarget();
+      return () => window.cancelAnimationFrame(frame);
+    }
+
+    const root = document.documentElement;
+    const previous = root.style.scrollBehavior;
+    root.style.scrollBehavior = "auto";
+    window.scrollTo(0, 0);
+    root.style.scrollBehavior = previous;
+    return undefined;
+  }, [pathname, hash]);
+
   return null;
 }
 
@@ -145,6 +176,10 @@ export default function App() {
     pathname.startsWith("/dev");
   const hidePublicChrome = isPortalRoute;
   const ContentRoot = hidePublicChrome ? "div" : "main";
+  // The entry fade runs only after in-app navigation, never on the first load.
+  const [landingPath] = useState(pathname);
+  const [hasNavigated, setHasNavigated] = useState(false);
+  if (!hasNavigated && pathname !== landingPath) setHasNavigated(true);
 
   return (
     <ThemeProvider>
@@ -154,8 +189,16 @@ export default function App() {
         <a className="skip-link" href="#main-content">Skip to main content</a>
         {!hidePublicChrome && <AppHeader />}
 
-        <ContentRoot id="main-content" className={hidePublicChrome ? "flex-1" : "public-main flex-1 pt-20 md:pt-24"}>
-          <ScrollToTop />
+        {/* Public pages fade in on navigation (the key replays the entry
+            animation); portals keep one stable key so their internal
+            navigation never remounts the workspace. */}
+        <ContentRoot
+          key={hidePublicChrome ? "portal" : pathname}
+          id="main-content"
+          tabIndex={hidePublicChrome ? undefined : -1}
+          className={hidePublicChrome ? "flex-1" : `public-main${hasNavigated ? " route-stage" : ""} flex-1 pt-20 md:pt-24`}
+        >
+          <ScrollManager />
           <Suspense fallback={<PageFallback />}>
             <Routes>
               {/* Public */}
@@ -223,6 +266,7 @@ export default function App() {
         </ContentRoot>
 
         {!hidePublicChrome && <AppFooter />}
+        {!hidePublicChrome && <BackToTop />}
         {!hidePublicChrome && <CookieBanner />}
       </div>
     </ThemeProvider>

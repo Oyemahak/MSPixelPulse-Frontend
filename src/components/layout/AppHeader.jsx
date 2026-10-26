@@ -24,6 +24,7 @@ import {
   LuHandshake,
 } from "react-icons/lu";
 import SocialContactLinks from "@/components/SocialContactLinks.jsx";
+import { useScrollThreshold } from "@/hooks/useScrollThreshold.js";
 
 /* Helper: initials for avatar fallback */
 function initials(name = "", email = "") {
@@ -40,6 +41,7 @@ export default function AppHeader() {
   const actualIsDark = theme === "dark";
   const isDark = actualIsDark;
   const nav = useNavigate();
+  const scrolled = useScrollThreshold(12);
 
   const [open, setOpen] = useState(false); // mobile nav
   const [menuOpen, setMenuOpen] = useState(false); // profile dropdown
@@ -137,36 +139,23 @@ export default function AppHeader() {
 
   const closeMobile = useCallback(() => setOpen(false), []);
 
-  // nav link style (desktop)
-  const linkClass = ({ isActive }) => {
-    const base =
-      "h-10 whitespace-nowrap px-3 rounded-xl text-sm font-semibold transition-colors inline-flex items-center gap-2 [&>svg]:h-4 [&>svg]:w-4 [&>svg]:shrink-0";
-    if (isDark) {
-      return isActive
-        ? `${base} bg-white/10 text-white`
-        : `${base} text-white/75 hover:bg-white/5`;
-    }
-    // light
-    return isActive
-      ? `${base} bg-slate-100 text-slate-900`
-      : `${base} text-slate-600 hover:bg-slate-100`;
-  };
+  // Desktop nav links share one geometry in every state (same padding, border
+  // width and font weight), so the active pill never changes an item's width.
+  const linkClass = ({ isActive }) =>
+    `site-nav-link${isActive ? " is-active" : ""}`;
 
-  // header bg
-  const headerClass = "public-site-header fixed inset-x-0 top-3 z-50 px-3 sm:px-4 pointer-events-none";
+  const headerClass = `public-site-header fixed inset-x-0 z-50 pointer-events-none${scrolled ? " is-scrolled" : ""}`;
 
-  // desktop login btn
-  const loginBtnClass =
-    "public-header-cta h-10 min-w-max whitespace-nowrap px-4 rounded-xl font-bold inline-flex items-center gap-2";
+  const loginBtnClass = "public-header-cta site-header-button site-header-button--primary";
 
   return (
     <header className={headerClass}>
-      <div className="public-header-shell relative mx-auto flex h-16 items-center justify-between gap-3 px-4 sm:px-5 pointer-events-auto">
+      <div className="public-header-shell site-glass-header relative mx-auto flex items-center justify-between gap-3 pointer-events-auto">
         {/* Brand */}
         <Link
           to="/"
           aria-label="MSPixelPulse home"
-          className="flex shrink-0 items-center gap-2.5 whitespace-nowrap font-black tracking-tight"
+          className="site-brand flex shrink-0 items-center gap-2.5 whitespace-nowrap font-black tracking-tight"
           onClick={closeMobile}
         >
           <img
@@ -179,7 +168,7 @@ export default function AppHeader() {
             style={isDark ? { filter: "brightness(0) invert(1)" } : undefined}
             onError={(e) => (e.currentTarget.style.display = "none")}
           />
-          <span className={`${isDark ? "text-white" : "text-slate-900"} hidden xl:inline`}>
+          <span className="site-brand-name hidden xl:inline">
             MSPixelPulse
           </span>
         </Link>
@@ -188,32 +177,32 @@ export default function AppHeader() {
         <Link
           to="/"
           onClick={closeMobile}
-          className={`absolute left-1/2 -translate-x-1/2 whitespace-nowrap font-black tracking-tight xl:hidden ${
-            isDark ? "text-white" : "text-slate-900"
-          }`}
+          className="site-brand-name site-brand-centered absolute left-1/2 -translate-x-1/2 whitespace-nowrap font-black tracking-tight xl:hidden"
+          tabIndex={-1}
+          aria-hidden="true"
         >
           MSPixelPulse
         </Link>
 
         {/* Desktop nav */}
-        <nav className="hidden xl:flex min-w-0 flex-1 items-center justify-center gap-1">
+        <nav className="site-nav hidden xl:flex min-w-0 flex-1 items-center justify-center" aria-label="Main navigation">
           <NavLink to="/" className={linkClass} end>
-            <LuLayoutGrid className="h-4 w-4" /> Home
+            <LuLayoutGrid aria-hidden="true" /> Home
           </NavLink>
           <NavLink to="/projects" className={linkClass}>
-            <LuFolderOpen className="h-4 w-4" /> Projects
+            <LuFolderOpen aria-hidden="true" /> Projects
           </NavLink>
           <NavLink to="/about" className={linkClass}>
-            <LuHandshake className="h-4 w-4" /> About
+            <LuHandshake aria-hidden="true" /> About
           </NavLink>
           <NavLink to="/services" className={linkClass}>
-            <LuWrench className="h-4 w-4" /> Services
+            <LuWrench aria-hidden="true" /> Services
           </NavLink>
           <NavLink to="/pricing" className={linkClass}>
-            <LuTags className="h-4 w-4" /> Pricing
+            <LuTags aria-hidden="true" /> Pricing
           </NavLink>
           <NavLink to="/blog" className={linkClass}>
-            <LuBookOpen className="h-4 w-4" /> Blog
+            <LuBookOpen aria-hidden="true" /> Blog
           </NavLink>
           <NavLink
             to="/contact"
@@ -221,56 +210,42 @@ export default function AppHeader() {
             data-analytics-cta="contact_navigation"
             data-analytics-placement="header_desktop"
           >
-            <LuMail className="h-4 w-4" /> Contact
+            <LuMail aria-hidden="true" /> Contact
           </NavLink>
         </nav>
 
         {/* Right actions (desktop) */}
         <div className="hidden xl:flex shrink-0 items-center gap-2">
           {/* 2-icon desktop switch */}
-          <div
-            className={
-              isDark
-                ? "flex h-[3.25rem] items-center gap-1 rounded-full border border-white/10 bg-white/5 p-1"
-                : "flex h-[3.25rem] items-center gap-1 rounded-full border border-slate-200 bg-slate-100 p-1"
-            }
-          >
+          <div className="site-theme-switch" role="group" aria-label="Color theme">
             {/* Dark button */}
             <button
               type="button"
               onClick={() => setTheme("dark")}
-              className={
-                actualIsDark
-                  ? "h-11 w-11 rounded-full bg-slate-950 text-white inline-grid place-items-center shadow-sm"
-                  : "h-11 w-11 rounded-full text-slate-500 inline-grid place-items-center hover:bg-slate-200/70 hover:text-slate-800"
-              }
+              className={`site-theme-option${actualIsDark ? " is-active" : ""}`}
               aria-pressed={actualIsDark}
               aria-label="Dark mode"
               title="Use dark mode"
             >
-              <LuMoon className="h-4 w-4" />
+              <LuMoon aria-hidden="true" />
             </button>
 
             {/* Light button */}
             <button
               type="button"
               onClick={() => setTheme("light")}
-              className={
-                !actualIsDark
-                  ? "h-11 w-11 rounded-full bg-white text-slate-900 inline-grid place-items-center shadow-sm"
-                  : "h-11 w-11 rounded-full text-white/70 inline-grid place-items-center hover:bg-white/10"
-              }
+              className={`site-theme-option${!actualIsDark ? " is-active" : ""}`}
               aria-pressed={!actualIsDark}
               aria-label="Light mode"
               title="Use light mode"
             >
-              <LuSun className="h-4 w-4" />
+              <LuSun aria-hidden="true" />
             </button>
           </div>
 
           {!isAuthed ? (
             <NavLink to="/login" className={loginBtnClass} reloadDocument>
-              <LuLogIn className="h-4 w-4" /> Portal login
+              <LuLogIn aria-hidden="true" /> Portal login
             </NavLink>
           ) : (
             <>
@@ -278,13 +253,9 @@ export default function AppHeader() {
               <Link
                 to={portalPath}
                 reloadDocument
-                className={
-                  isDark
-                    ? "h-10 min-w-max whitespace-nowrap inline-flex items-center gap-2.5 rounded-xl border border-white/10 px-4 text-sm font-bold text-white/90 hover:bg-white/5"
-                    : "h-10 min-w-max whitespace-nowrap inline-flex items-center gap-2.5 rounded-xl border border-slate-200 bg-white px-4 text-sm font-bold text-slate-800 hover:bg-slate-50"
-                }
+                className="site-header-button site-header-button--glass"
               >
-                <LuLayoutDashboard className="h-4 w-4" /> Portal
+                <LuLayoutDashboard aria-hidden="true" /> Portal
               </Link>
 
               {/* Profile */}
@@ -396,24 +367,14 @@ export default function AppHeader() {
         {/* Mobile hamburger */}
         <button
           ref={mobileButtonRef}
-          className={
-            isDark
-              ? "xl:hidden inline-grid place-items-center h-11 w-11 rounded-xl hover:bg-white/10"
-              : "xl:hidden inline-grid place-items-center h-11 w-11 rounded-xl hover:bg-slate-100 text-slate-800"
-          }
+          className="site-menu-button xl:hidden"
           aria-label={open ? "Close menu" : "Open menu"}
           title={open ? "Close website menu" : "Open website menu"}
           aria-expanded={open}
           aria-controls="public-mobile-navigation"
           onClick={() => setOpen((v) => !v)}
         >
-          {open ? (
-            <LuX className={isDark ? "h-5 w-5 text-white/90" : "h-5 w-5 text-slate-700"} />
-          ) : (
-            <LuMenu
-              className={isDark ? "h-5 w-5 text-white/90" : "h-5 w-5 text-slate-700"}
-            />
-          )}
+          {open ? <LuX aria-hidden="true" /> : <LuMenu aria-hidden="true" />}
         </button>
       </div>
 
@@ -427,7 +388,7 @@ export default function AppHeader() {
           open ? "max-h-[calc(100dvh-5.5rem)] opacity-100" : "max-h-0 opacity-0",
         ].join(" ")}
       >
-        <div className="container-edge pt-2 pb-3">
+        <div className="site-mobile-sheet pt-2 pb-3">
           <div
             ref={mobilePanelRef}
             role="dialog"
@@ -581,6 +542,8 @@ function MenuLink({ to, onClick, children, dark }) {
 }
 
 /* Mobile helpers */
+const isActiveClass = (isActive) => (isActive ? "is-active" : "");
+
 function MobileLink({ to, end, onClick, children, dark, ...props }) {
   return (
     <NavLink
@@ -590,7 +553,8 @@ function MobileLink({ to, end, onClick, children, dark, ...props }) {
       {...props}
       className={({ isActive }) =>
         [
-          "block w-full px-3 py-2.5 rounded-xl font-semibold transition-colors inline-flex items-center",
+          "site-mobile-link block w-full px-3 py-2.5 rounded-xl font-semibold transition-colors inline-flex items-center",
+          isActiveClass(isActive),
           dark
             ? isActive
               ? "bg-white/10 text-white"

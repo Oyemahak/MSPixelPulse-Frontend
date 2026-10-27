@@ -304,9 +304,9 @@ export default function Home() {
               <p className={`max-w-xl leading-7 ${muted}`}>
                 Start with the most useful version, then improve it with evidence from real use.
               </p>
-              <Link to="/projects/canstem-education" className="home-process-preview" aria-label="From plan to published website: CanSTEM Education case study">
+              <Link to="/projects/canstem-education" className="home-process-preview" aria-label="From plan to published website, founder's in-house work: CanSTEM Education case study">
                 <img src="/projects/mockups/canstem-education.webp" alt="CanSTEM Education website in desktop and mobile preview frames" loading="lazy" decoding="async" width="1200" height="750" />
-                <span>From plan to published website <LuArrowRight aria-hidden="true" /></span>
+                <span>From plan to published website, founder's in-house work <LuArrowRight aria-hidden="true" /></span>
               </Link>
             </div>
             <div className="grid gap-3">

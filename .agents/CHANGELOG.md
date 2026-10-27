@@ -1,5 +1,8 @@
 # Agent System Changelog
 
+## 2026-10-26
+- Corrected founder career facts: CanSTEM Education is labeled "Founder's in-house work" (employer work, not an MSPixelPulse client engagement) with a visible disclosure across the project page, cards, proof note, SEO shell, JSON-LD and LLM files; the private repository link was removed. The founder title is now "Founder, Web Developer & UX Designer". See `docs/entity-consistency-audit.md`.
+
 ## 2026-10-25
 - Fixed the floating header changing width on `/projects` (a route-scoped 1200 px rule from the Wellness sync) and moved header and content onto one shared frame token that does not depend on the scrollbar.
 - Added `src/styles/premium-refinement.css` as the final public layer: liquid-glass header with scroll state, blue active navigation, scoped public button system, layered light theme, consistent project cards ("Case Study" / "Visit Site"), platform-coloured footer socials, and reduced-motion-aware route, scroll, reveal and theme transitions. Portals are unaffected.

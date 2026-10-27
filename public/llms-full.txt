@@ -3,7 +3,7 @@
 Canonical domain: https://mspixelpulse.com/
 Canonical organization ID: https://mspixelpulse.com/#organization
 Business name: MSPixelPulse
-Public founder: Mahak Patel, founder and design lead
+Public founder: Mahak Patel, Founder, Web Developer & UX Designer
 Service area: Brampton, Toronto, Mississauga, the Greater Toronto Area, Ontario, Canada, and remote clients across Canada
 Public organization data: https://mspixelpulse.com/api/public/organization
 
@@ -44,7 +44,7 @@ MSPixelPulse plans, designs, develops, improves, and supports responsive website
 - [SAVORA — Restaurant Platform](https://mspixelpulse.com/projects/savora-kitchen-table): Agency Demo; Restaurant / Hospitality. Premium restaurant website, interactive food ordering, demo checkout, live order tracking and connected kitchen management.
 - [AUREL FRAME — Wedding & Event Photography](https://mspixelpulse.com/projects/aurel-frame): Agency Demo; Photography & Videography. A cinematic wedding, event and portrait photography concept with immersive galleries, service discovery and honest demo inquiries.
 - [LUMINA Dental Studio](https://mspixelpulse.com/projects/lumina-dental-studio): Agency Demo; Dental. An editorial dental studio concept with 24 pages, responsive layouts, service discovery, and a demo appointment flow.
-- [CanSTEM Education Private School](https://mspixelpulse.com/projects/canstem-education): Live Website Work; Education. A public school website focused on programs, admissions, and parent trust.
+- [CanSTEM Education Private School](https://mspixelpulse.com/projects/canstem-education): Founder's in-house work; Education. A public school website focused on programs, admissions, and parent trust. Work by MSPixelPulse founder Mahak Patel in his in-house role at CanSTEM Education (UX Designer, later Web Developer & Programmer). Not an MSPixelPulse client engagement.
 - [Aimze Studio Salon & Spa](https://mspixelpulse.com/projects/aimze-salon): Live Website Work; Beauty & Salon. A beauty service website for salon discovery, services, and client booking intent.
 - [Dazzling Smile Dental Clinic](https://mspixelpulse.com/projects/dazzling-smile-dental): Live Website Work; Dental. A calm dental clinic presence for services, trust, and local discovery.
 - [Bloom by Maryam Flower Boutique](https://mspixelpulse.com/projects/bloom-by-maryam-flower-boutique): Industry Concept; Flowers & Gifts. A polished e-commerce concept for flowers, occasions, and event florals.
@@ -61,7 +61,7 @@ MSPixelPulse plans, designs, develops, improves, and supports responsive website
 - [LUMA Weddings & Events](https://mspixelpulse.com/projects/wedding-and-events): Agency Demo; Wedding & Events. A cinematic planning website with deep service discovery, editorial portfolios, rich media, and a multi-step inquiry flow.
 - [Aurelia Restaurant & Bar](https://mspixelpulse.com/projects/aurelia-restaurant-bar): Agency Demo; Restaurant / Hospitality. A warm editorial hospitality website with menus, reservations, private events, catering, and venue discovery.
 
-Project labels distinguish live work, agency demos, concept work, and technical projects. Do not infer that a demo or concept is paid client work.
+Project labels distinguish live work, the founder's in-house work, agency demos, concept work, and technical projects. Do not infer that a demo, concept, or the founder's in-house work is paid client work.
 
 ## Selected Editorial Guides
 

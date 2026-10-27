@@ -9,7 +9,7 @@
 // changed here; they stay on the project records and detail pages.
 export const projectCardSummaries = {
   "canstem-education":
-    "A WordPress school website organizing programs, credit courses, admissions, and resources for students and families.",
+    "Founder's in-house work: a WordPress school website organizing programs, credit courses, admissions, and resources for students and families.",
   "aimze-salon":
     "A WordPress salon and spa website featuring service-led navigation, clear branding, and booking-focused contact paths.",
   "dazzling-smile-dental":

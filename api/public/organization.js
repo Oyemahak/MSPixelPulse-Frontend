@@ -44,6 +44,7 @@ export default function handler(req, res) {
       url: absolute(`/projects/${project.slug}`),
       classification: project.classification,
       industry: project.industry,
+      ...(project.disclosure ? { relationship: project.relationship, disclosure: project.disclosure } : {}),
     })),
     primaryPages: {
       about: absolute("/about"),

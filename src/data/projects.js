@@ -109,13 +109,19 @@ export const projects = [
     seoTitle: "WordPress School Website Case Study | CanSTEM",
     metaDescription: "See how a content-rich WordPress school website organizes programs, courses, admissions, forms, student resources, and ongoing technical support.",
     classification: "live",
-    label: "Live Website Work",
+    // CanSTEM is the founder's employer, not an MSPixelPulse client. This
+    // relationship keeps the label, disclosure and services heading release-managed
+    // even when the portfolio API returns an older client-style record.
+    relationship: "founder-in-house",
+    label: "Founder's in-house work",
+    disclosure:
+      "Work by MSPixelPulse founder Mahak Patel in his in-house role at CanSTEM Education (UX Designer, later Web Developer & Programmer). Not an MSPixelPulse client engagement.",
+    servicesHeading: "Related MSPixelPulse services",
     industry: "Education",
     websiteType: "Business Website",
     platform: "WordPress",
     stack: ["WordPress", "SEO", "Responsive Design"],
     live: "https://canstemeducation.com/",
-    repo: "https://github.com/Oyemahak/canstem-webpage-elements",
     thumb: "/projects/mockups/canstem-education.webp",
     imageAlt: "CanSTEM Education website shown in desktop and mobile mockup frames",
     featured: true,
@@ -133,7 +139,7 @@ export const projects = [
     ],
     overview: "A school website presence for program discovery and admissions research.",
     result: "Public website link listed for review.",
-    lastModified: "2026-09-17",
+    lastModified: "2026-10-26",
   },
   {
     id: "aimze-salon",

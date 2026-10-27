@@ -197,3 +197,23 @@ test("A successful CMS response cannot resurrect an unpublished Wellness record 
   assert.ok(fallbackPublicProjects.some(p => p.slug === "ms-pixelpulse-wellness-studio"));
   assert.equal(normalizePublicProjects([]).some(p => p.slug === "ms-pixelpulse-wellness-studio"), false);
 });
+
+test("CanSTEM stays labeled as the founder's in-house work even when the API record says otherwise", () => {
+  const [entry] = normalizePublicProjects([{
+    _id: "canstem-api",
+    slug: "canstem-education",
+    title: "CanSTEM Education Private School",
+    projectClassification: "live",
+    liveUrl: "https://canstemeducation.com/",
+    repositoryUrl: "https://github.com/Oyemahak/canstem-webpage-elements",
+    servicesProvided: ["Website maintenance", "Content structure", "SEO support"],
+  }]);
+
+  assert.equal(entry.slug, "canstem-education");
+  assert.equal(entry.classification, "live");
+  assert.equal(entry.label, "Founder's in-house work");
+  assert.equal(entry.relationship, "founder-in-house");
+  assert.match(entry.disclosure, /Not an MSPixelPulse client engagement\./);
+  assert.equal(entry.servicesHeading, "Related MSPixelPulse services");
+  assert.equal(entry.repo, "");
+});

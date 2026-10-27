@@ -86,7 +86,7 @@ function ProjectCard({ project, isDark }) {
 
       <div className="project-catalog-badges project-card-badges">
         <span className={`project-catalog-badge ${badgeClass}`}>
-          {isLive ? "Live Website" : "Demo Project"}
+          {project.relationship === "founder-in-house" ? project.label : isLive ? "Live Website" : "Demo Project"}
         </span>
         {project.industry && (
           <span className={`project-catalog-badge ${neutralBadgeClass}`} title={project.industry}>

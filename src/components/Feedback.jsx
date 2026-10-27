@@ -4,14 +4,15 @@ import Container from "@/components/layout/Container.jsx";
 import SectionTitle from "@/components/SectionTitle.jsx";
 import { FORMS_BASE } from "@/lib/forms.js";
 import { useTheme } from "@/lib/theme.js";
-import { proofNotes } from "@/data/proofNotes.js";
+import { applyProofNoteCorrections, proofNotes } from "@/data/proofNotes.js";
 import { usePublicContent } from "@/hooks/usePublicContent.js";
 
 export default function Feedback() {
   const { theme } = useTheme();
   const isDark = theme === "dark";
 
-  const { items } = usePublicContent('proof', proofNotes);
+  const { items: storedItems } = usePublicContent('proof', proofNotes);
+  const items = useMemo(() => applyProofNoteCorrections(storedItems), [storedItems]);
   const [idx, setIdx] = useState(0);
 
   // manual prev/next only (no autoplay)

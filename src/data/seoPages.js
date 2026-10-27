@@ -71,7 +71,7 @@ export const founderJsonLd = {
   "@id": founderId,
   name: "Mahak Patel",
   url: absolute("/about"),
-  jobTitle: "Founder and design lead",
+  jobTitle: "Founder, Web Developer & UX Designer",
   worksFor: { "@id": organizationId },
   sameAs: [site.portfolio, site.linkedin],
 };
@@ -282,11 +282,12 @@ export function projectSeo(project) {
         "@id": projectId,
         name: project.title,
         url: absolute(path),
-        description: project.shortDescription || project.summary,
+        description: [project.shortDescription || project.summary, project.disclosure].filter(Boolean).join(" "),
         image: absolute(project.thumb),
         genre: project.websiteType,
         about: project.industry,
-        creator: { "@id": organizationId },
+        // Founder in-house (employer) work is credited to the founder, not the agency.
+        creator: { "@id": project.relationship === "founder-in-house" ? founderId : organizationId },
         keywords: [...(project.stack || []), ...(project.services || [])].join(", "),
       },
       {

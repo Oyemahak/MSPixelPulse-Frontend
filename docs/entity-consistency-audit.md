@@ -26,6 +26,7 @@ Updated: 2026-09-12
 - The agency is described as serving Brampton, Toronto, the GTA, Ontario, and remote clients across Canada. Toronto remains the published location; `/web-design-brampton` explicitly describes a service area and does not claim a Brampton storefront or address.
 - No founding date, employee count, award, certification, rating, review total, client total, or unsupported performance statistic is asserted.
 - Published projects retain their existing evidence labels. Live, demo, concept, and technical work must not be blended into a single claim of completed client work.
+- CanSTEM Education is the founder's employer, not an MSPixelPulse client (2026-10-26). Its project is labeled "Founder's in-house work" with a visible disclosure, credits the founder in `CreativeWork.creator`, and publishes no repository link. The label is release-managed in `src/lib/publicPortfolio.js` so an older API record cannot restore client wording. The founder's public title is "Founder, Web Developer & UX Designer".
 - The existing Moodle service URL, `/services/moodle-lms-development`, remains canonical to preserve the established route and avoid creating a reversed-slug duplicate.
 - `Organization`, `WebSite`, `Person`, service, article, project, FAQ, and breadcrumb entities reuse the canonical organization ID rather than creating disconnected MSPixelPulse identities.
 - The public JSON endpoint is deliberately read-only and contains public business facts only. It does not expose portal data, private configuration, provider credentials, or internal APIs.

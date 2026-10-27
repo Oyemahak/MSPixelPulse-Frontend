@@ -107,6 +107,21 @@ export function normalizePublicProject(project = {}, curatedProject = null) {
     };
   }
 
+  // The founder's in-house (employer) work is never an agency client project. Its
+  // label, relationship and disclosure are release-managed, and no repository link
+  // is published, so an older API record cannot restore client-style wording.
+  if (curatedProject.relationship === 'founder-in-house') {
+    return {
+      ...merged,
+      classification: curatedProject.classification,
+      label: curatedProject.label,
+      relationship: curatedProject.relationship,
+      disclosure: curatedProject.disclosure,
+      servicesHeading: curatedProject.servicesHeading,
+      repo: curatedProject.repo || '',
+    };
+  }
+
   if (!curatedProject.businessDemo) return merged;
 
   // Approved business metadata is release-managed alongside its capture. A stale

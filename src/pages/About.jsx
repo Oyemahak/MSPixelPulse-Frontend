@@ -90,7 +90,7 @@ export default function About() {
                 />
               </div>
               <div className="min-w-0">
-                <p className="about-founder-kicker">Founder &amp; design lead</p>
+                <p className="about-founder-kicker">Founder · Web Developer &amp; UX Designer</p>
                 <h2 className="about-founder-name">Mahak Patel</h2>
                 <p className={`about-founder-role ${muted}`}>MSPixelPulse · Toronto</p>
               </div>
@@ -137,13 +137,13 @@ export default function About() {
         </section>
 
         <section className="about-work-spotlight mt-14" aria-labelledby="about-work-heading">
-          <Link to="/projects/canstem-education" className="about-work-image" aria-label="View the CanSTEM Education case study">
+          <Link to="/projects/canstem-education" className="about-work-image" aria-label="View the CanSTEM Education case study, the founder's in-house work">
             <img src="/projects/mockups/canstem-education.webp" alt="CanSTEM Education website shown in desktop and mobile mockup frames" loading="lazy" decoding="async" width="1440" height="900" />
           </Link>
           <div className="about-work-copy">
             <p className="public-page-eyebrow"><LuSparkles aria-hidden="true" /><span>What the work looks like</span></p>
             <h2 id="about-work-heading">Clear structure made visible.</h2>
-            <p>See a published education website example with program-focused pages, admissions paths, and responsive layouts. The case study shows the work without promising outcomes that were not measured.</p>
+            <p>See a published education website from the founder's in-house work at CanSTEM Education, with program-focused pages, admissions paths, and responsive layouts. It is not an MSPixelPulse client engagement, and the case study shows the work without promising outcomes that were not measured.</p>
             <ButtonLink to="/projects/canstem-education" variant="card" size="compact">View case study <LuArrowRight aria-hidden="true" /></ButtonLink>
           </div>
         </section>

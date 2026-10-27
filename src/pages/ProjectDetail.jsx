@@ -96,6 +96,11 @@ export default function ProjectDetail() {
             <p className={isDark ? "mt-5 text-lg leading-8 text-textSub" : "mt-5 text-lg leading-8 text-slate-600"}>
               {project.shortDescription || project.summary}
             </p>
+            {project.disclosure && (
+              <p className={isDark ? "mt-4 text-sm font-semibold leading-6 text-white/80" : "mt-4 text-sm font-semibold leading-6 text-slate-700"}>
+                {project.disclosure}
+              </p>
+            )}
 
             <div className="mt-6 flex flex-wrap gap-3">
               {project.live && (
@@ -206,7 +211,7 @@ export default function ProjectDetail() {
             </div>
             <div className="mt-6 grid gap-6 lg:grid-cols-[1fr_.8fr]">
               <CopyPanel title="Published outcome" value={project.result} isDark={isDark} />
-              <ServiceLinks title="Services connected to this project" items={project.services} isDark={isDark} />
+              <ServiceLinks title={project.servicesHeading || "Services connected to this project"} items={project.services} isDark={isDark} />
             </div>
           </>
         ) : (
@@ -218,7 +223,7 @@ export default function ProjectDetail() {
             </div>
             <div className="mt-6 grid gap-6 lg:grid-cols-2">
               <ListPanel title="Solution and UX decisions" items={projectFeatures} isDark={isDark} />
-              <ServiceLinks title="Services connected to this project" items={project.services} isDark={isDark} />
+              <ServiceLinks title={project.servicesHeading || "Services connected to this project"} items={project.services} isDark={isDark} />
             </div>
           </>
         )}
